@@ -1,10 +1,10 @@
 <?php
 // Variables
 return [
-  "creatorName" => "Pixinvent",
+  "creatorName" => "baseanalyzer",
   "creatorUrl" => "https://pixinvent.com",
-  "templateName" => "LyZer Tech",
-  "templateSuffix" => "Bootstrap Admin Template",
+  "templateName" => "LyZer",
+  "templateSuffix" => "Tech",
   "templateVersion" => "2.0.0",
   "templateFree" => false,
   "templateDescription" => "Start your development with a Dashboard for Bootstrap 5",

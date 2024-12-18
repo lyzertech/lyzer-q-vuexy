@@ -1,6 +1,85 @@
 {
   "menu": [
     {
+      "name": "Digitize",
+      "icon": "menu-icon tf-icons ti ti-smart-home",
+      "slug": "digitize",
+      "submenu": [
+        {
+          "url": "account",
+          "name": "Account",
+          "icon": "menu-icon tf-icons ti ti-currency-dollar",
+          "slug": "account"
+        },
+        {
+          "url": "belanja",
+          "name": "Belanja",
+          "icon": "menu-icon tf-icons ti ti-shopping-cart",
+          "slug": "belanja"
+        },
+        {
+          "url": "CRM",
+          "name": "CRM",
+          "icon": "menu-icon tf-icons ti ti-home-dollar",
+          "slug": "CRM"
+        },
+        {
+          "url": "daily",
+          "name": "Daily",
+          "icon": "menu-icon tf-icons ti ti-ruler",
+          "slug": "daily"
+        },
+        {
+          "url": "HSE",
+          "name": "HSE",
+          "icon": "menu-icon tf-icons ti ti-shield-check",
+          "slug": "HSE"
+        },
+        {
+          "url": "Labs",
+          "name": "Labs",
+          "icon": "menu-icon tf-icons ti ti-user-check",
+          "slug": "Labs"
+        },
+        {
+          "url": "monitoring",
+          "name": "Monitoring",
+          "icon": "menu-icon tf-icons ti ti-heart-rate-monitor",
+          "slug": "monitoring"
+        },
+        {
+          "url": "motor",
+          "name": "Motor",
+          "icon": "menu-icon tf-icons ti ti-recycle",
+          "slug": "motor"
+        },
+        {
+          "url": "product",
+          "name": "Product",
+          "icon": "menu-icon tf-icons ti ti-barcode",
+          "slug": "product"
+        },
+        {
+          "url": "users",
+          "name": "Users",
+          "icon": "menu-icon tf-icons ti ti-user",
+          "slug": "users"
+        },
+        {
+          "url": "quickpin",
+          "name": "QuickPin",
+          "icon": "menu-icon tf-icons ti ti-focus-2",
+          "slug": "quickpin"
+        },
+        {
+          "url": "zerotest",
+          "name": "Zerotest",
+          "icon": "menu-icon tf-icons ti ti-test-pipe",
+          "slug": "zerotest"
+        }
+      ]
+    },
+    {
       "name": "Dashboards",
       "icon": "menu-icon tf-icons ti ti-smart-home",
       "slug": "dashboard",

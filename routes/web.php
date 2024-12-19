@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\laravel_example\UserManagement;
 
 use App\Http\Controllers\account\Account;
+use App\Http\Controllers\crm\Crm;
+
 use App\Http\Controllers\dashboard\Analytics;
-use App\Http\Controllers\dashboard\Crm;
+use App\Http\Controllers\dashboard\CrmOri;
 use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\layouts\CollapsedMenu;
 use App\Http\Controllers\layouts\ContentNavbar;
@@ -164,12 +166,14 @@ use App\Http\Controllers\maps\Leaflet;
 
 // Digitize
 Route::get('/account', [Account::class, 'index'])->name('account');
+Route::get('/crm/dashboard', [Crm::class, 'dashboard'])->name('crm-dashboard');
+Route::get('/crm/customer', [Crm::class, 'customer'])->name('crm-customer');
 
 
 // Main Page Route
 Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
 Route::get('/dashboard/analytics', [Analytics::class, 'index'])->name('dashboard-analytics');
-Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
+Route::get('/dashboard/crm', [CrmOri::class, 'index'])->name('dashboard-crm');
 // locale
 Route::get('/lang/{locale}', [LanguageController::class, 'swap']);
 

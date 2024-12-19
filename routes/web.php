@@ -169,6 +169,7 @@ use App\Http\Controllers\crm\CrmCustomer;
 Route::get('/account', [Account::class, 'index'])->name('account');
 Route::get('/crm/dashboard', [CrmDashboard::class, 'index'])->name('crm-dashboard');
 Route::get('/crm/customer', [CrmCustomer::class, 'index'])->name('crm-customer');
+Route::get('/crm/customer/create', [CrmCustomer::class, 'create'])->name('crm-customer-create');
 Route::get('/crm/customer/data', [CrmCustomer::class, 'customer_data'])->name('crm-customer-data');
 Route::get('/crm/customer/view', [CrmCustomer::class, 'customer_view'])->name('crm-customer-view');
 Route::get('/crm/customer/edit', [CrmCustomer::class, 'customer_edit'])->name('crm-customer-edit');

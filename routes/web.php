@@ -2,10 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\laravel_example\UserManagement;
-
-use App\Http\Controllers\account\Account;
-use App\Http\Controllers\crm\Crm;
-
 use App\Http\Controllers\dashboard\Analytics;
 use App\Http\Controllers\dashboard\CrmOri;
 use App\Http\Controllers\language\LanguageController;
@@ -164,10 +160,27 @@ use App\Http\Controllers\charts\ApexCharts;
 use App\Http\Controllers\charts\ChartJs;
 use App\Http\Controllers\maps\Leaflet;
 
+use App\Http\Controllers\account\Account;
+use App\Http\Controllers\crm\CrmDashboard;
+use App\Http\Controllers\crm\CrmCustomer;
+
+
 // Digitize
 Route::get('/account', [Account::class, 'index'])->name('account');
-Route::get('/crm/dashboard', [Crm::class, 'dashboard'])->name('crm-dashboard');
-Route::get('/crm/customer', [Crm::class, 'customer'])->name('crm-customer');
+Route::get('/crm/dashboard', [CrmDashboard::class, 'index'])->name('crm-dashboard');
+Route::get('/crm/customer', [CrmCustomer::class, 'index'])->name('crm-customer');
+Route::get('/crm/customer/data', [CrmCustomer::class, 'customer_data'])->name('crm-customer-data');
+Route::get('/crm/customer/view', [CrmCustomer::class, 'customer_view'])->name('crm-customer-view');
+Route::get('/crm/customer/edit', [CrmCustomer::class, 'customer_edit'])->name('crm-customer-edit');
+Route::get('/crm/customer/destroy', [CrmCustomer::class, 'customer_destroy'])->name('crm-customer-destroy');
+
+// Route::get('/CRM', [CRMController::class, 'index']);
+// Route::get('/customers/{id_user}/show', [CRMController::class, 'customers_show'])->name('Customers.show');
+// Route::post('/customers.store', [CRMController::class, 'customers_store'])->name('Customers.create');
+// Route::post('/quot.store', [CRMController::class, 'quot_store'])->name('quot.create');
+// Route::get('/customers/{id_user}/edit', [CRMController::class, 'edit'])->name('Customers.edit');
+// Route::delete('/customers/{id_user}', [CRMController::class, 'destroy'])->name('Customers.destroy');
+// Route::get('/customers/{id_user}/suspend', [CRMController::class, 'suspend'])->name('Customers.suspend');
 
 
 // Main Page Route

@@ -72,8 +72,8 @@ export default defineConfig({
     html(),
     libsWindowAssignment()
   ],
-  server: {
-    host: '192.168.2.249', // Accept connections from any IP
-    port: 3000 // Optional: Change the default port (optional)
-  }
+  // server: {
+  //   host: '192.168.2.249', // Accept connections from any IP
+  //   port: 3000 // Optional: Change the default port (optional)
+  // }
 });

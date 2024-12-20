@@ -56,6 +56,79 @@
 
     {{-- Export --}}
 
+    <div class="row g-6">
+
+        <!-- Customer Tracker -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="card-title mb-0">
+                        <h5 class="mb-1">Customer Tracker</h5>
+                        <p class="card-subtitle">Last 30 Days</p>
+                    </div>
+                </div>
+                <div class="card-body row">
+                    <div class="col-12 col-sm-4 col-md-12 col-lg-4">
+                        <div class="mt-lg-4 mt-lg-2 mb-lg-6 mb-2">
+                            <h2 class="mb-0">{{ $total_customers }}</h2>
+                            <p class="mb-0">Total Customers</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-8 col-md-12 col-lg-8">
+                        <ul class="p-0 m-0">
+                            <li class="d-flex gap-4 align-items-center mb-lg-3 pb-1">
+                                <div class="badge rounded bg-label-primary p-1_5"><i class="ti ti-ticket ti-md"></i></div>
+                                <div>
+                                    <h6 class="mb-0 text-nowrap">New Customers</h6>
+                                    <small class="text-muted">{{ $new_customers }}</small>
+                                </div>
+                            </li>
+                            <li class="d-flex gap-4 align-items-center mb-lg-3 pb-1">
+                                <div class="badge rounded bg-label-info p-1_5"><i class="ti ti-circle-check ti-md"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 text-nowrap">Open Tickets</h6>
+                                    <small class="text-muted">0</small>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ Customer Tracker -->
+
+        <!-- Customer Distribution -->
+        <div class="col-md-8">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="card-title mb-0">
+                        <h5 class="mb-1">Customer Distribution</h5>
+                        {{-- <p class="card-subtitle">Last 30 Days</p> --}}
+                    </div>
+                </div>
+                <div class="card-body row">
+                    @foreach ($sales_distribution as $distribution)
+                        <div class="col-4 col-sm-4 col-md-4 col-lg-4">
+                            <ul class="p-0 m-0">
+                                <li class="d-flex gap-4 align-items-center mb-lg-3 pb-1">
+                                    <div class="badge rounded bg-label-success p-1_5"><i class="ti ti-user-check ti-md"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 text-nowrap">{{ $distribution->sales }}</h6>
+                                        <small class="text-muted">{{ $distribution->total_customers }}</small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <!--/ Customer Distribution -->
+
+    </div>
+
     <!-- DataTable with Buttons -->
     <div class="card mt-4">
         <div class="card-datatable table-responsive pt-0">
@@ -67,42 +140,42 @@
 
                     <div class="dt-action-buttons text-end pt-6 pt-md-0">
                         <div class="dt-buttons btn-group flex-wrap">
-                        <div class="btn-group">
-                        <button type="button"
-                            class="btn btn-label-primary dropdown-toggle me-4 waves-effect waves-light border-none"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <span><i class="ti ti-file-export ti-xs me-sm-1"></i>
-                                <span class="d-none d-sm-inline-block">Export</span>
-                            </span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="#" id="exportPrint">
-                                    <i class="ti ti-printer me-1"></i>Print
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" id="exportCsv">
-                                    <i class="ti ti-file-text me-1"></i>Csv
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" id="exportExcel">
-                                    <i class="ti ti-file-spreadsheet me-1"></i>Excel
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" id="exportPdf">
-                                    <i class="ti ti-file-description me-1"></i>Pdf
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" id="exportCopy">
-                                    <i class="ti ti-copy me-1"></i>Copy
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                            <div class="btn-group">
+                                <button type="button"
+                                    class="btn btn-label-primary dropdown-toggle me-4 waves-effect waves-light border-none"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span><i class="ti ti-file-export ti-xs me-sm-1"></i>
+                                        <span class="d-none d-sm-inline-block">Export</span>
+                                    </span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="#" id="exportPrint">
+                                            <i class="ti ti-printer me-1"></i>Print
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#" id="exportCsv">
+                                            <i class="ti ti-file-text me-1"></i>Csv
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#" id="exportExcel">
+                                            <i class="ti ti-file-spreadsheet me-1"></i>Excel
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#" id="exportPdf">
+                                            <i class="ti ti-file-description me-1"></i>Pdf
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#" id="exportCopy">
+                                            <i class="ti ti-copy me-1"></i>Copy
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
 
                             <button class="btn btn-secondary create-new btn-primary waves-effect waves-light" type="button"
                                 data-bs-toggle="offcanvas" data-bs-target="#AddNewCustomer" aria-controls="AddNewCustomer">
@@ -120,12 +193,13 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Sales</th>
                                     <th>Area</th>
-                                    <th>Phone Number</th>
-                                    <th>Mobile Phone</th>
+                                    {{-- <th>Phone Number</th> --}}
+                                    {{-- <th>Mobile Phone</th> --}}
                                     <th>Company</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    {{-- <th>Status</th> --}}
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                         </table>
@@ -134,26 +208,6 @@
             </div>
         </div>
     </div>
-
-    <!-- <div class="card mt-4">
-        <div class="card-datatable table-responsive pt-0">
-            <table class="datatables-customer table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th>id</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Date</th>
-                        <th>Salary</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div> -->
 
     <!-- Modal to add new record -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="AddNewCustomer" aria-labelledby="AddNewCustomerLabel">
@@ -168,8 +222,8 @@
                 @method('POST')
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-fullname">Full Name</label>
-                    <input type="text" class="form-control" id="add-user-fullname" placeholder="John Doe" name="name"
-                        aria-label="John Doe">
+                    <input type="text" class="form-control" id="add-user-fullname" placeholder="John Doe"
+                        name="name" aria-label="John Doe">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
                 </div>
@@ -179,6 +233,15 @@
                         aria-label="john.doe@example.com" name="email">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
+                </div>
+                <div class="mb-4">
+                    <label for="add-user-sales" class="form-label">Sales</label>
+                    <select id="add-user-sales" class="form-select" name="sales">
+                        <option>Choose Sales</option>
+                        <option value="David">David</option>
+                        <option value="Heri">Heri</option>
+                        <option value="Dika">Dika</option>
+                    </select>
                 </div>
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-area">Area</label>
@@ -210,8 +273,8 @@
                 </div>
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-company">Company</label>
-                    <input type="text" class="form-control" id="add-user-company" placeholder="PT. Amptron Instrumindo"
-                        name="company" aria-label="LyZer Tech">
+                    <input type="text" class="form-control" id="add-user-company"
+                        placeholder="PT. Amptron Instrumindo" name="company" aria-label="LyZer Tech">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
                 </div>
@@ -243,8 +306,7 @@
             $('#customer-table').DataTable({
                 serverSide: true,
                 ajax: '{{ route('crm-customer-data') }}',
-                columns: [
-                    {
+                columns: [{
                         data: 'name',
                         name: 'name',
                         render: function(data, type, row) {
@@ -252,11 +314,12 @@
                                 <div class="d-flex justify-content-start align-items-center user-name">
                                     <div class="avatar-wrapper">
                                         <div class="avatar me-2">
-                                            <img src="http://192.168.2.249:8000/assets/img/avatars/9.png" alt="Avatar" class="rounded-circle">
+                                            <img src="/assets/img/avatars/9.png" alt="Avatar" class="rounded-circle">
                                         </div>
                                     </div>
                                     <div class="d-flex flex-column">
                                         <span class="emp_name text-truncate">${data}</span>
+                                        <hr hidden>
                                         <small class="emp_post text-truncate text-muted">${row.position}</small>
                                     </div>
                                 </div>
@@ -268,6 +331,10 @@
                         name: 'email'
                     },
                     {
+                        data: 'sales',
+                        name: 'sales'
+                    },
+                    {
                         data: 'area',
                         name: 'area',
                         render: function(data, type, row) {
@@ -275,61 +342,69 @@
                                 <div class="d-flex justify-content-start align-items-center user-name">
                                     <div class="d-flex flex-column">
                                         <span class="emp_name text-truncate">${data}</span>
+                                        <hr hidden>
                                         <small class="emp_post text-truncate text-muted">${row.address}</small>
                                     </div>
                                 </div>
                             `;
                         }
                     },
-                    {
-                        data: 'phonenumber',
-                        name: 'phonenumber'
-                    },
-                    {
-                        data: 'mobilephone',
-                        name: 'mobilephone'
-                    },
+                    // {
+                    //     data: 'phonenumber',
+                    //     name: 'phonenumber'
+                    // },
+                    // {
+                    //     data: 'mobilephone',
+                    //     name: 'mobilephone'
+                    // },
                     {
                         data: 'company',
                         name: 'company'
                     },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        render: function(data, type, row) {
-                            return (data === 1 || data === "1") ? 'Active' : 'Inactive';
-                        }
-                    },
+                    // {
+                    //     data: 'status',
+                    //     name: 'status',
+                    //     render: function(data, type, row) {
+                    //         return (data === 1 || data === "1") ? 'Active' : 'Inactive';
+                    //     }
+                    // },
                     {
                         data: 'action',
                         name: 'action',
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        width: '100px', // Set fixed width directly in JavaScript
+                        render: function(data, type, row) {
+                            return `
+                                <div style="text-align: center;">
+                                    ${data}
+                                </div>
+                            `;
+                        }
                     }
                 ],
                 displayLength: 7,
                 lengthMenu: [7, 10, 25, 50, 75, 100],
                 // dom: 'Bfrtip',  // Define placement for buttons
-                buttons: [
-                    {
+                buttons: [{
                         extend: 'print',
                         text: 'Print',
                         exportOptions: {
-                            columns: ':visible'  // Print only visible columns
+                            columns: ':visible' // Print only visible columns
                         }
                     },
                     {
                         extend: 'csv',
                         text: 'CSV',
                         exportOptions: {
-                            columns: ':visible'  // Export only visible columns
+                            columns: ':visible' // Export only visible columns
                         }
                     },
                     {
                         extend: 'excel',
                         text: 'Excel',
                         exportOptions: {
-                            columns: ':visible'  // Export only visible columns
+                            columns: ':visible' // Export only visible columns
                         }
                     },
                     {
@@ -343,48 +418,50 @@
                             var table = doc.content[1].table;
 
                             // Set the table widths to fit the page
-                            table.widths = Array(table.body[0].length).fill('*');  // This ensures that columns take equal width
+                            table.widths = Array(table.body[0].length).fill(
+                                '*'); // This ensures that columns take equal width
 
                             // Optional: Adjust the margins and font size for better fit
-                            doc.pageMargins = [10, 10, 10, 10];  // Set small margins
-                            doc.styles.tableHeader.fontSize = 10;  // Reduce font size in header
-                            doc.styles.tableBodyOdd.fontSize = 8;  // Reduce font size in body
-                            doc.styles.tableBodyEven.fontSize = 8;  // Reduce font size in body
+                            doc.pageMargins = [10, 10, 10, 15]; // Set small margins
+                            doc.styles.tableHeader.fontSize = 10; // Reduce font size in header
+                            doc.styles.tableBodyOdd.fontSize = 8; // Reduce font size in body
+                            doc.styles.tableBodyEven.fontSize = 8; // Reduce font size in body
 
                             // Ensure that the table fits well in the page
-                            table.layout = 'lightHorizontalLines';  // This adds light lines between rows
+                            table.layout =
+                                'lightHorizontalLines'; // This adds light lines between rows
                         },
                         exportOptions: {
-                            columns: ':visible',  // Export only visible columns
-                            columns: [0, 1, 2, 3, 4, 5, 6]
+                            columns: ':visible', // Export only visible columns
+                            columns: [0, 1, 2, 3, 4]
                         }
                     },
                     {
                         extend: 'copy',
                         text: 'Copy',
                         exportOptions: {
-                            columns: ':visible'  // Copy only visible columns
+                            columns: ':visible' // Copy only visible columns
                         }
                     }
                 ]
             });
 
-                // Optional: Bind the dropdown buttons to DataTable buttons (if you want more control)
-                $('#exportPrint').click(function() {
-                    $('#customer-table').DataTable().button('.buttons-print').trigger();
-                });
-                $('#exportCsv').click(function() {
-                    $('#customer-table').DataTable().button('.buttons-csv').trigger();
-                });
-                $('#exportExcel').click(function() {
-                    $('#customer-table').DataTable().button('.buttons-excel').trigger();
-                });
-                $('#exportPdf').click(function() {
-                    $('#customer-table').DataTable().button('.buttons-pdf').trigger();
-                });
-                $('#exportCopy').click(function() {
-                    $('#customer-table').DataTable().button('.buttons-copy').trigger();
-                });
+            // Optional: Bind the dropdown buttons to DataTable buttons (if you want more control)
+            $('#exportPrint').click(function() {
+                $('#customer-table').DataTable().button('.buttons-print').trigger();
+            });
+            $('#exportCsv').click(function() {
+                $('#customer-table').DataTable().button('.buttons-csv').trigger();
+            });
+            $('#exportExcel').click(function() {
+                $('#customer-table').DataTable().button('.buttons-excel').trigger();
+            });
+            $('#exportPdf').click(function() {
+                $('#customer-table').DataTable().button('.buttons-pdf').trigger();
+            });
+            $('#exportCopy').click(function() {
+                $('#customer-table').DataTable().button('.buttons-copy').trigger();
+            });
         });
     </script>
 

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_customer');
             $table->string('name');
             $table->string('email')->unique();;
+            $table->string('sales');
             $table->string('area');
             $table->string('address');
             $table->string('phonenumber');

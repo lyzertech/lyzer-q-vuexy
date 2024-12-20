@@ -14,7 +14,13 @@ class CrmCustomer extends Controller
 {
   public function index()
   {
-    return view('content.digitize.crm-customer');
+    $total_customers = crm_customer::count();
+    $new_customers = crm_customer::where('created_at', '>=', now()->subMonth())->count();
+    $sales_distribution = crm_customer::select('sales', DB::raw('count(*) as total_customers'))
+      ->groupBy('sales')
+      ->get();
+
+    return view('content.digitize.crm-customer', compact('total_customers', 'new_customers', 'sales_distribution'));
   }
   public function customer_data()
   {
@@ -31,7 +37,7 @@ class CrmCustomer extends Controller
         $showUrl = route('crm-customer-view', $customer->id_customer);
         $editUrl = route('crm-customer-edit', $customer->id_customer);
         $deleteUrl = route('crm-customer-destroy', $customer->id_customer);
-        
+
         // Return the action buttons HTML
         return '
               <div class="d-inline-block">
@@ -58,51 +64,53 @@ class CrmCustomer extends Controller
   {
     // dd($request->all());
 
-        // Handle form submission logic here
-        $validatedData = $request->validate([
-          'name' => 'required|string|max:255',
-          'email' => 'required|email|max:255',
-          // 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the allowed file types and size as needed
-          'area' => 'required|max:255',
-          'address' => 'required|max:255',
-          'phonenumber' => 'required|max:255',
-          'mobilephone' => 'required|max:255',
-          'company' => 'required|max:255',
-          'position' => 'required|max:255',
-      ]);
+    // Handle form submission logic here
+    $validatedData = $request->validate([
+      'name' => 'required|string|max:255',
+      'email' => 'required|email|max:255',
+      'sales' => 'required|string|max:255',
+      // 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the allowed file types and size as needed
+      'area' => 'required|max:255',
+      'address' => 'required|max:255',
+      'phonenumber' => 'required|max:255',
+      'mobilephone' => 'required|max:255',
+      'company' => 'required|max:255',
+      'position' => 'required|max:255',
+    ]);
 
-      $yearOfJoin = Carbon::now()->year;
-      $validatedData['id_customer'] = $yearOfJoin . 1234;
+    $yearOfJoin = Carbon::now()->year;
+    $validatedData['id_customer'] = $yearOfJoin . 1234;
 
-      // $validatedData['company'] = $request->input('company', "PT. LyZer-Tech");
-      $validatedData['status'] = $request->input('status', 1);
+    // $validatedData['company'] = $request->input('company', "PT. LyZer-Tech");
+    $validatedData['status'] = $request->input('status', 1);
 
-      // Handle file upload
-      // if ($request->hasFile('image')) {
-      //     $imagePath = $request->file('image')->store('images', 'public');
-      //     $validatedData['image'] = $imagePath;
-      // } else {
-      //     return redirect()->back()->withErrors(['image' => 'Image upload failed'])->withInput();
-      // }
+    // Handle file upload
+    // if ($request->hasFile('image')) {
+    //     $imagePath = $request->file('image')->store('images', 'public');
+    //     $validatedData['image'] = $imagePath;
+    // } else {
+    //     return redirect()->back()->withErrors(['image' => 'Image upload failed'])->withInput();
+    // }
 
-      // Create a new Customer instance
-      $customer = new crm_customer([
-          'id_customer' => $validatedData['id_customer'],
-          'name' => $validatedData['name'],
-          'email' => $validatedData['email'],
-          // 'image' => $validatedData['image'],
-          'area' => $validatedData['area'],
-          'address' => $validatedData['address'],
-          'phonenumber' => $validatedData['phonenumber'],
-          'mobilephone' => $validatedData['mobilephone'],
-          'company' => $validatedData['company'],
-          'position' => $validatedData['position'],
-          'status' => $validatedData['status'],
-      ]);
+    // Create a new Customer instance
+    $customer = new crm_customer([
+      'id_customer' => $validatedData['id_customer'],
+      'name' => $validatedData['name'],
+      'email' => $validatedData['email'],
+      'sales' => $validatedData['sales'],
+      // 'image' => $validatedData['image'],
+      'area' => $validatedData['area'],
+      'address' => $validatedData['address'],
+      'phonenumber' => $validatedData['phonenumber'],
+      'mobilephone' => $validatedData['mobilephone'],
+      'company' => $validatedData['company'],
+      'position' => $validatedData['position'],
+      'status' => $validatedData['status'],
+    ]);
 
-      $customer->save();
+    $customer->save();
 
-      return redirect('/crm/customer')->with('success', 'Form submitted successfully!');
+    return redirect('/crm/customer')->with('success', 'Form submitted successfully!');
   }
   public function view()
   {

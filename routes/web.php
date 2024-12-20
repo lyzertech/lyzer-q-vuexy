@@ -163,6 +163,7 @@ use App\Http\Controllers\maps\Leaflet;
 use App\Http\Controllers\account\Account;
 use App\Http\Controllers\crm\CrmDashboard;
 use App\Http\Controllers\crm\CrmCustomer;
+use App\Http\Controllers\crm\CrmVisitReport;
 
 
 // Digitize
@@ -174,6 +175,7 @@ Route::get('/crm/customer/data', [CrmCustomer::class, 'customer_data'])->name('c
 Route::get('/crm/customer/view', [CrmCustomer::class, 'customer_view'])->name('crm-customer-view');
 Route::get('/crm/customer/edit', [CrmCustomer::class, 'customer_edit'])->name('crm-customer-edit');
 Route::get('/crm/customer/destroy', [CrmCustomer::class, 'customer_destroy'])->name('crm-customer-destroy');
+Route::get('/crm/visit-report', [CrmVisitReport::class, 'index'])->name('crm-visit-report');
 
 // Route::get('/CRM', [CRMController::class, 'index']);
 // Route::get('/customers/{id_user}/show', [CRMController::class, 'customers_show'])->name('Customers.show');

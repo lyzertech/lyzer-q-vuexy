@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'Academy Course Details - Apps')
+@section('title', 'CRM Visit Report View')
 
 @section('vendor-style')
     @vite('resources/assets/vendor/libs/plyr/plyr.scss')
@@ -26,58 +26,61 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center flex-wrap mb-6 gap-2">
                         <div class="me-1">
-                            <h5 class="mb-0">UI/UX Basic Fundamentals</h5>
-                            <p class="mb-0">Prof. <span class="fw-medium text-heading"> Devonne Wallbridge </span></p>
+                            <h5 class="mb-0">{{ $crm_visit_report->customer_name }}</h5>
+                            <p class="mb-0">Mr./Mrs <span class="fw-medium text-heading">
+                                    {{ $crm_visit_report->contact_person }} </span></p>
                         </div>
                         <div class="d-flex align-items-center">
-                            <span class="badge bg-label-danger">UI/UX</span>
+                            @php
+                                $badgeClasses = [
+                                    'Planned' => 'bg-label-warning',
+                                    'Rescheduled' => 'bg-label-info',
+                                    'In Progress' => 'bg-label-info',
+                                    'Completed' => 'bg-label-primary',
+                                    'Approved' => 'bg-label-success',
+                                    'Cancelled' => 'bg-label-danger',
+                                ];
+
+                                $status = $crm_visit_report->status ?? 'Unknown';
+                                $badgeClass = $badgeClasses[$status] ?? 'bg-label-secondary';
+                            @endphp
+
+                            <span class="badge {{ $badgeClass }}">{{ $status }}</span>
+
                             <i class='ti ti-share ti-lg mx-4'></i>
                             <i class='ti ti-bookmarks ti-lg'></i>
                         </div>
                     </div>
                     <div class="card academy-content shadow-none border">
-                        <div class="p-2">
-                            <div class="cursor-pointer"><video class="w-100"
-                                    poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
-                                    id="plyr-video-player" playsinline controls>
-                                    <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-                                        type="video/mp4" />
-                                </video>
-                            </div>
-                        </div>
                         <div class="card-body pt-4">
-                            <h5>About this course</h5>
+                            {{-- <h5>About this course</h5>
                             <p class="mb-0">Learn web design in 1 hour with 25+ simple-to-use rules and guidelines — tons
-                                of amazing web design resources included!</p>
-                            <hr class="my-6">
-                            <h5>By the numbers</h5>
+                                of amazing web design resources included!</p> --}}
+                            {{-- <hr class="my-6"> --}}
+                            <h5>Detail Visit</h5>
                             <div class="d-flex flex-wrap row-gap-2">
                                 <div class="me-12">
-                                    <p class="text-nowrap mb-2"><i class='ti ti-check me-2 align-bottom'></i>Skill level:
-                                        All Levels</p>
-                                    <p class="text-nowrap mb-2"><i class='ti ti-users me-2 align-top'></i>Students: 38,815
+                                    {{-- <p class="text-nowrap mb-2"><i class='ti ti-check me-2 align-bottom'></i>Skill level:
+                                        All Levels</p> --}}
+                                    <p class="text-nowrap mb-2"><i class='ti ti-users me-2 align-top'></i>Sales:
+                                        {{ $crm_visit_report->notes }}
                                     </p>
-                                    <p class="text-nowrap mb-2"><i class='ti ti-world me-2 align-bottom'></i>Languages:
-                                        English</p>
-                                    <p class="text-nowrap mb-0"><i class='ti ti-file me-2 align-bottom'></i>Captions: Yes
-                                    </p>
+                                    <p class="text-nowrap mb-2"><i class='ti ti-world me-2 align-bottom'></i>Location:
+                                        {{ $crm_visit_report->location }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-nowrap mb-2"><i class='ti ti-video me-2 align-top ms-50'></i>Lectures: 19
+                                    <p class="text-nowrap mb-2"><i class='ti ti-calendar me-2 align-top'></i>Date:
+                                        {{ $crm_visit_report->visit_date }}
                                     </p>
-                                    <p class="text-nowrap mb-0"><i class='ti ti-clock me-2 align-top'></i>Video: 1.5 total
-                                        hours</p>
+                                    <p class="text-nowrap mb-0"><i class='ti ti-clock me-2 align-top'></i>Time:
+                                        {{ $crm_visit_report->visit_time }}
+                                    </p>
                                 </div>
                                 <hr class="my-6">
                             </div>
-                            <h5>Description</h5>
+                            <h5>Notes</h5>
                             <p class="mb-6">
-                                The material of this course is also covered in my other course about web design and
-                                development
-                                with HTML5 & CSS3. Scroll to the bottom of this page to check out that course, too!
-                                If you're already taking my other course, you already have all it takes to start designing
-                                beautiful
-                                websites today!
+                                {{ $crm_visit_report->notes }}
                             </p>
                             <p class="mb-6">
                                 "Best web design course: If you're interested in web design, but want more than
@@ -89,7 +92,7 @@
                                 impactful techniques for making websites more beautiful and engaging." — Susan Darlene Cain
                             </p>
                             <hr class="my-6">
-                            <h5>Instructor</h5>
+                            <h5>Approval</h5>
                             <div class="d-flex justify-content-start align-items-center user-name">
                                 <div class="avatar-wrapper">
                                     <div class="avatar me-4"><img src="{{ asset('assets/img/avatars/11.png') }}"
@@ -105,7 +108,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
+        {{-- <div class="col-lg-4">
             <div class="accordion stick-top accordion-custom-button" id="courseContent">
                 <div class="accordion-item active mb-0">
                     <div class="accordion-header" id="headingOne">
@@ -295,7 +298,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
 @endsection

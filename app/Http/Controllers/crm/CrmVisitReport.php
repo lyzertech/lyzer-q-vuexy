@@ -4,33 +4,39 @@ namespace App\Http\Controllers\crm;
 
 use App\Http\Controllers\Controller;
 use App\Models\crm\crm_customer;
+use App\Models\crm\crm_visit_report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Yajra\DataTables\Facades\DataTables;
 
 class CrmVisitReport extends Controller
 {
+  use SoftDeletes;
+
   public function index()
-  {
-    return view('content.digitize.crm-visit-report');
-  }
-  public function customer_data()
   {
     $customer = crm_customer::all();
 
-    // dd($customer);
+    return view('content.digitize.crm-visit-report', compact('customer'));
+  }
+  public function visit_report_data()
+  {
+    $visit_report = crm_visit_report::all();
 
-    return DataTables::of($customer)
-      ->editColumn('created_at', function ($customer) {
-        return $customer->created_at->format('Y-m-d H:i');
+    // dd($visit_report);
+
+    return DataTables::of($visit_report)
+      ->editColumn('created_at', function ($visit_report) {
+        return $visit_report->created_at->format('Y-m-d H:i');
       })
-      ->addColumn('action', function ($customer) {
+      ->addColumn('action', function ($visit_report) {
         // Define the action URLs for View, Edit, and Delete
-        $showUrl = route('crm-customer-view', $customer->id_customer);
-        $editUrl = route('crm-customer-edit', $customer->id_customer);
-        $deleteUrl = route('crm-customer-destroy', $customer->id_customer);
+        $showUrl = route('crm-visit-report-view', $visit_report->id_visit_report);
+        $editUrl = route('crm-visit-report-edit', $visit_report->id_visit_report);
+        $deleteUrl = route('crm-visit-report-destroy', $visit_report->id_visit_report);
 
         // Return the action buttons HTML
         return '
@@ -42,7 +48,12 @@ class CrmVisitReport extends Controller
                       <li><a href="' . $showUrl . '" class="dropdown-item">Details</a></li>
                       <div class="dropdown-divider"></div>
                       <li>
-                      <a href="' . $deleteUrl . '" class="dropdown-item text-danger delete-record">Delete</a>
+                          <a href="javascript:;" 
+                            data-url="' . $deleteUrl . '" 
+                            class="dropdown-item text-danger delete-record"
+                            data-csrf-token="' . csrf_token() . '">
+                            Delete
+                          </a>
                       </li>
                   </ul>
               </div>
@@ -56,64 +67,43 @@ class CrmVisitReport extends Controller
   }
   public function create(Request $request)
   {
-    // dd($request->all());
+    // $request['status'] = $request->input('status', 'Planned');
+    $request['contact_number'] = $request->input('password', '12345');
 
-        // Handle form submission logic here
-        $validatedData = $request->validate([
-          'name' => 'required|string|max:255',
-          'email' => 'required|email|max:255',
-          // 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the allowed file types and size as needed
-          'area' => 'required|max:255',
-          'address' => 'required|max:255',
-          'phonenumber' => 'required|max:255',
-          'mobilephone' => 'required|max:255',
-          'company' => 'required|max:255',
-          'position' => 'required|max:255',
-      ]);
+    crm_visit_report::create($request->only([
+      'customer_name',
+      'location',
+      'contact_person',
+      'contact_number',
+      'visit_date',
+      'visit_time',
+      'purpose',
+    ]));
 
-      $yearOfJoin = Carbon::now()->year;
-      $validatedData['id_customer'] = $yearOfJoin . 1234;
-
-      // $validatedData['company'] = $request->input('company', "PT. LyZer-Tech");
-      $validatedData['status'] = $request->input('status', 1);
-
-      // Handle file upload
-      // if ($request->hasFile('image')) {
-      //     $imagePath = $request->file('image')->store('images', 'public');
-      //     $validatedData['image'] = $imagePath;
-      // } else {
-      //     return redirect()->back()->withErrors(['image' => 'Image upload failed'])->withInput();
-      // }
-
-      // Create a new Customer instance
-      $customer = new crm_customer([
-          'id_customer' => $validatedData['id_customer'],
-          'name' => $validatedData['name'],
-          'email' => $validatedData['email'],
-          // 'image' => $validatedData['image'],
-          'area' => $validatedData['area'],
-          'address' => $validatedData['address'],
-          'phonenumber' => $validatedData['phonenumber'],
-          'mobilephone' => $validatedData['mobilephone'],
-          'company' => $validatedData['company'],
-          'position' => $validatedData['position'],
-          'status' => $validatedData['status'],
-      ]);
-
-      $customer->save();
-
-      return redirect('/crm/customer')->with('success', 'Form submitted successfully!');
+    return back()->with('success', 'CRMVisit added successfully!');
   }
-  public function view()
+  public function visit_report_view($crm_visit_report)
   {
-    //
+    // dd($crm_visit_report);
+    $crm_visit_report = crm_visit_report::findOrFail($crm_visit_report);
+
+    // dd($crm_visit_report);
+    return view('content.digitize.crm-visit-report-view', compact('crm_visit_report'));
   }
   public function edit()
   {
     //
   }
-  public function destroy()
+  public function visit_report_destroy($id_visit_report)
   {
-    //
+    $delete = crm_visit_report::find($id_visit_report);
+    dd($id_visit_report);
+
+    if ($delete) {
+      $delete->delete();
+      return redirect()->back()->with('success', 'User deleted successfully.');
+    }
+
+    return redirect()->back()->with('error', 'User not found.');
   }
 }

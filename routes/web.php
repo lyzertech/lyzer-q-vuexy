@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\laravel_example\UserManagement;
 use App\Http\Controllers\dashboard\Analytics;
 use App\Http\Controllers\dashboard\CrmOri;
@@ -160,31 +160,42 @@ use App\Http\Controllers\charts\ApexCharts;
 use App\Http\Controllers\charts\ChartJs;
 use App\Http\Controllers\maps\Leaflet;
 
-use App\Http\Controllers\account\Account;
+
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\crm\CrmDashboard;
 use App\Http\Controllers\crm\CrmCustomer;
 use App\Http\Controllers\crm\CrmVisitReport;
 
 
-// Digitize
-Route::get('/account', [Account::class, 'index'])->name('account');
+// Login form
+Route::view('/login', 'auth.login')->name('login');
+// Handle auth
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/crm/dashboard', [CrmDashboard::class, 'index'])->name('crm-dashboard');
 
-Route::get('/crm/customer', [CrmCustomer::class, 'index'])->name('crm-customer');
-Route::post('/crm/customer/create', [CrmCustomer::class, 'create'])->name('crm-customer-create');
-Route::get('/crm/customer/data', [CrmCustomer::class, 'customer_data'])->name('crm-customer-data');
-Route::get('/crm/customer/view', [CrmCustomer::class, 'customer_view'])->name('crm-customer-view');
-Route::get('/crm/customer/edit', [CrmCustomer::class, 'customer_edit'])->name('crm-customer-edit');
-Route::get('/crm/customer/destroy', [CrmCustomer::class, 'customer_destroy'])->name('crm-customer-destroy');
+Route::middleware(['auth'])->group(function () {
+    // Digitize
+    Route::get('/crm/dashboard', [CrmDashboard::class, 'index'])->name('crm-dashboard');
 
-Route::get('/crm/visit-report', [CrmVisitReport::class, 'index'])->name('crm-visit-report');
-Route::post('/crm/visit-report/create', [CrmVisitReport::class, 'create'])->name('crm-visit-report-create');
-Route::get('/crm/visit-report/data', [CrmVisitReport::class, 'visit_report_data'])->name('crm-visit-report-data');
-Route::get('/crm/visit-report/view/{id_visit_report}', [CrmVisitReport::class, 'visit_report_view'])->name('crm-visit-report-view');
-Route::get('/crm/visit-report/edit', [CrmVisitReport::class, 'visit_report_edit'])->name('crm-visit-report-edit');
-Route::delete('/crm/visit-report/destroy/{id_visit_report}', [CrmVisitReport::class, 'visit_report_destroy'])->name('crm-visit-report-destroy');
+    Route::get('/crm/customer', [CrmCustomer::class, 'index'])->name('crm-customer');
+    Route::post('/crm/customer/create', [CrmCustomer::class, 'create'])->name('crm-customer-create');
+    Route::get('/crm/customer/data', [CrmCustomer::class, 'customer_data'])->name('crm-customer-data');
+    Route::get('/crm/customer/view', [CrmCustomer::class, 'customer_view'])->name('crm-customer-view');
+    Route::get('/crm/customer/edit', [CrmCustomer::class, 'customer_edit'])->name('crm-customer-edit');
+    Route::get('/crm/customer/destroy', [CrmCustomer::class, 'customer_destroy'])->name('crm-customer-destroy');
 
+    Route::get('/crm/visit-report', [CrmVisitReport::class, 'index'])->name('crm-visit-report');
+    Route::post('/crm/visit-report/create', [CrmVisitReport::class, 'create'])->name('crm-visit-report-create');
+    Route::get('/crm/visit-report/data', [CrmVisitReport::class, 'visit_report_data'])->name('crm-visit-report-data');
+    Route::get('/crm/visit-report/view/{id_visit_report}', [CrmVisitReport::class, 'visit_report_view'])->name('crm-visit-report-view');
+    Route::get('/crm/visit-report/edit', [CrmVisitReport::class, 'visit_report_edit'])->name('crm-visit-report-edit');
+    Route::delete('/crm/visit-report/destroy/{id_visit_report}', [CrmVisitReport::class, 'visit_report_destroy'])->name('crm-visit-report-destroy');
+});
 // Route::get('/CRM', [CRMController::class, 'index']);
 // Route::get('/customers/{id_user}/show', [CRMController::class, 'customers_show'])->name('Customers.show');
 // Route::post('/customers.store', [CRMController::class, 'customers_store'])->name('Customers.create');

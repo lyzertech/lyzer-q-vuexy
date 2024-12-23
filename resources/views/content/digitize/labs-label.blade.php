@@ -117,6 +117,7 @@
         </div>
     </div>
 
+    <!-- Modal to add new label -->
     <div class="modal fade" id="AddNewLabel" tabindex="-1" aria-modal="true" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -199,6 +200,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- label-table -->
     <script type="text/javascript">

@@ -12,28 +12,27 @@ use Yajra\DataTables\Facades\DataTables;
 
 class LabsLabel extends Controller
 {
-  public function index()
-  {
-      return view('content.digitize.labs-label');
-  }
-  public function label_data()
-  {
-      $customer = labs_label::all();
+    public function index()
+    {
+        return view('content.digitize.labs-label');
+    }
+    public function label_data()
+    {
+        $label = labs_label::all();
 
-      // dd($customer);
+        // dd($label);
 
-      return DataTables::of($customer)
-        ->editColumn('created_at', function ($customer) {
-          return $customer->created_at->format('Y-m-d H:i');
-        })
-        ->addColumn('action', function ($customer) {
-          // Define the action URLs for View, Edit, and Delete
-          $showUrl = route('crm-customer-view', $customer->id_customer);
-          $editUrl = route('crm-customer-edit', $customer->id_customer);
-          $deleteUrl = route('crm-customer-destroy', $customer->id_customer);
+        return DataTables::of($label)
+            ->editColumn('created_at', function ($label) {
+                return $label->created_at->format('Y-m-d H:i');
+            })
+            ->addColumn('action', function ($label) {
+                // Define the action URLs for View, Edit, and Delete
+                $showUrl = route('labs-label-view', $label->created_at);
+                $deleteUrl = route('labs-label-destroy', $label->id_label);
 
-          // Return the action buttons HTML
-          return '
+                // Return the action buttons HTML
+                return '
                 <div class="d-inline-block">
                     <a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                         <i class="ti ti-dots-vertical ti-md"></i>
@@ -46,47 +45,57 @@ class LabsLabel extends Controller
                         </li>
                     </ul>
                 </div>
-                <a href="' . $editUrl . '" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit">
-                    <i class="ti ti-pencil ti-md"></i>
+                <a href="' . $showUrl . '" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit">
+                    <i class="ti ti-eye ti-md"></i>
                 </a>
             ';
-        })
-        ->rawColumns(['action']) // Allow raw HTML in the action column
-        ->make(true);
-  }
-  public function create(Request $request)
-  {
-      // dd($request->all());
-      // Validate the input data
-      $request->validate([
-          'brand' => 'required',
-          'customer' => 'required',
-          'PO' => 'required',
-          'type.*' => 'required',  // Using the * syntax to validate each array entry
-          'scale.*' => 'required',
-          'input.*' => 'required',
-          'qty.*' => 'required',
-      ]);
+            })
+            ->rawColumns(['action']) // Allow raw HTML in the action column
+            ->make(true);
+    }
+    public function create(Request $request)
+    {
+        // dd($request->all());
+        // Validate the input data
+        $request->validate([
+            'brand' => 'required',
+            'customer' => 'required',
+            'PO' => 'required',
+            'type.*' => 'required',  // Using the * syntax to validate each array entry
+            'scale.*' => 'required',
+            'input.*' => 'required',
+            'qty.*' => 'required',
+        ]);
 
-      // Loop through each set of inputs
-      foreach ($request['type'] as $index => $type) {
-          // Get the quantity for the current index
-          $quantity = $request['qty'][$index];
+        // Loop through each set of inputs
+        foreach ($request['type'] as $index => $type) {
+            // Get the quantity for the current index
+            $quantity = $request['qty'][$index];
 
-          // Create multiple entries based on the quantity
-          for ($i = 0; $i < $quantity; $i++) {
-              labs_label::create([
-                  'brand' => $request['brand'],
-                  'customer' => $request['customer'],
-                  'PO' => $request['PO'],
-                  'type' => $type,
-                  'scale' => $request['scale'][$index],
-                  'input' => $request['input'][$index],
-                  'qty' => 1, // Set qty to 1 for each individual entry
-              ]);
-          }
-      }
+            // Create multiple entries based on the quantity
+            for ($i = 0; $i < $quantity; $i++) {
+                labs_label::create([
+                    'brand' => $request['brand'],
+                    'customer' => $request['customer'],
+                    'PO' => $request['PO'],
+                    'type' => $type,
+                    'scale' => $request['scale'][$index],
+                    'input' => $request['input'][$index],
+                    'qty' => 1, // Set qty to 1 for each individual entry
+                ]);
+            }
+        }
 
-      return redirect('/labs/label')->with('success', 'Form submitted successfully!');
-  }
+        return redirect('/labs/label')->with('success', 'Form submitted successfully!');
+    }
+    public function label_view($created_at)
+    {
+        // Fetch all records with the given PO
+        $labs_label = labs_label::where('created_at', $created_at)->get();
+
+        // dd($labs_label);
+
+        // Pass the records to the view
+        return view('content.digitize.labs-label-view', compact('labs_label'));
+    }
 }

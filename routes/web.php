@@ -185,15 +185,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/crm/dashboard', [CrmDashboard::class, 'index'])->name('crm-dashboard');
 
     Route::get('/crm/customer', [CrmCustomer::class, 'index'])->name('crm-customer');
-    Route::post('/crm/customer/create', [CrmCustomer::class, 'create'])->name('crm-customer-create');
     Route::get('/crm/customer/data', [CrmCustomer::class, 'customer_data'])->name('crm-customer-data');
+    Route::post('/crm/customer/create', [CrmCustomer::class, 'create'])->name('crm-customer-create');
     Route::get('/crm/customer/view', [CrmCustomer::class, 'customer_view'])->name('crm-customer-view');
     Route::get('/crm/customer/edit', [CrmCustomer::class, 'customer_edit'])->name('crm-customer-edit');
     Route::get('/crm/customer/destroy', [CrmCustomer::class, 'customer_destroy'])->name('crm-customer-destroy');
 
     Route::get('/crm/visit-report', [CrmVisitReport::class, 'index'])->name('crm-visit-report');
-    Route::post('/crm/visit-report/create', [CrmVisitReport::class, 'create'])->name('crm-visit-report-create');
     Route::get('/crm/visit-report/data', [CrmVisitReport::class, 'visit_report_data'])->name('crm-visit-report-data');
+    Route::post('/crm/visit-report/create', [CrmVisitReport::class, 'create'])->name('crm-visit-report-create');
     Route::get('/crm/visit-report/view/{id_visit_report}', [CrmVisitReport::class, 'visit_report_view'])->name('crm-visit-report-view');
     Route::get('/crm/visit-report/edit', [CrmVisitReport::class, 'visit_report_edit'])->name('crm-visit-report-edit');
     Route::delete('/crm/visit-report/destroy/{id_visit_report}', [CrmVisitReport::class, 'visit_report_destroy'])->name('crm-visit-report-destroy');
@@ -203,7 +203,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/labs/label', [LabsLabel::class, 'index'])->name('labs-label');
     Route::get('/labs/label/data', [LabsLabel::class, 'label_data'])->name('labs-label-data');
     Route::post('/labs/label/create', [LabsLabel::class, 'create'])->name('labs-label-create');
-
+    Route::get('/labs/label/view/{id_label}', [LabsLabel::class, 'label_view'])->name('labs-label-view');
+    Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
 });
 // Route::get('/CRM', [CRMController::class, 'index']);
 // Route::get('/customers/{id_user}/show', [CRMController::class, 'customers_show'])->name('Customers.show');

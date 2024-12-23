@@ -361,7 +361,6 @@
         </div>
     </div>
 
-    <!--/ DataTable with Buttons -->
 
     <!-- visit-report-table -->
     <script type="text/javascript">

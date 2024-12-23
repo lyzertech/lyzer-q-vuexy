@@ -479,7 +479,20 @@
                                         John Doe
                                     @endif
                                 </h6>
-                                <small class="text-muted">Admin</small>
+                                @if (Auth::check())
+                                    @php
+                                        $roles = [
+                                            1 => 'IT Dev.',
+                                            4 => 'Sales.',
+                                            7 => 'Member',
+                                        ];
+                                        $roleName = $roles[Auth::user()->role_id] ?? 'Unknown Role';
+                                    @endphp
+                                    <small class="text-muted">{{ $roleName }}</small>
+                                @else
+                                    John Doe
+                                @endif
+
                             </div>
                         </div>
                     </a>

@@ -1,6 +1,21 @@
 {
   "pages": [
     {
+      "name": "CRM Dashboard",
+      "icon": "ti-smart-home",
+      "url": "crm/dashboard"
+    },
+    {
+      "name": "Customer",
+      "icon": "ti-smart-home",
+      "url": "crm/customer"
+    },
+    {
+      "name": "Visit Report",
+      "icon": "ti-smart-home",
+      "url": "crm/visit-report"
+    },
+    {
       "name": "Dashboard Analytics",
       "icon": "ti-smart-home",
       "url": "/"

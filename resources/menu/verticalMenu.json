@@ -31,10 +31,21 @@
       ]
     },
     {
-      "url": "labs",
       "name": "Labs",
       "icon": "menu-icon tf-icons ti ti-user-check",
-      "slug": "Labs"
+      "slug": "labs",
+      "submenu": [
+        {
+          "url": "labs/dashboard",
+          "name": "Labs Dashboard",
+          "slug": "labs-dashboard"
+        },
+        {
+          "url": "labs/label",
+          "name": "Label Generator",
+          "slug": "labs-label"
+        }
+      ]
     },
     {
       "url": "monitoring",

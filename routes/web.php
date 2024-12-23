@@ -168,6 +168,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\crm\CrmDashboard;
 use App\Http\Controllers\crm\CrmCustomer;
 use App\Http\Controllers\crm\CrmVisitReport;
+use App\Http\Controllers\labs\LabsDashboard;
+use App\Http\Controllers\labs\LabsLabel;
 
 
 // Login form
@@ -195,6 +197,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/crm/visit-report/view/{id_visit_report}', [CrmVisitReport::class, 'visit_report_view'])->name('crm-visit-report-view');
     Route::get('/crm/visit-report/edit', [CrmVisitReport::class, 'visit_report_edit'])->name('crm-visit-report-edit');
     Route::delete('/crm/visit-report/destroy/{id_visit_report}', [CrmVisitReport::class, 'visit_report_destroy'])->name('crm-visit-report-destroy');
+
+    Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');
+
+    Route::get('/labs/label', [LabsLabel::class, 'index'])->name('labs-label');
+    Route::get('/labs/label/data', [LabsLabel::class, 'label_data'])->name('labs-label-data');
+    Route::post('/labs/label/create', [LabsLabel::class, 'create'])->name('labs-label-create');
+
 });
 // Route::get('/CRM', [CRMController::class, 'index']);
 // Route::get('/customers/{id_user}/show', [CRMController::class, 'customers_show'])->name('Customers.show');

@@ -54,7 +54,9 @@
     <!-- Optional: Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-    {{-- Export --}}
+    {{-- ECharts --}}
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+
 
     <div class="row g-6">
 
@@ -99,7 +101,7 @@
         <!--/ Customer Tracker -->
 
         <!-- Customer Distribution -->
-        <div class="col-md-8">
+        <div class="col-md-2">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between">
                     <div class="card-title mb-0">
@@ -109,11 +111,17 @@
                 </div>
                 <div class="card-body row">
                     @foreach ($sales_distribution as $distribution)
-                        <div class="col-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="row">
                             <ul class="p-0 m-0">
                                 <li class="d-flex gap-4 align-items-center mb-lg-3 pb-1">
-                                    <div class="badge rounded bg-label-success p-1_5"><i class="ti ti-user-check ti-md"></i>
+
+                                    {{-- <div class="badge rounded bg-label-success p-1_5"> --}}
+                                    <div class="avatar-wrapper">
+                                        <div class="avatar me-2">
+                                            <img src="/assets/img/avatars/9.png" alt="Avatar" class="rounded-circle">
+                                        </div>
                                     </div>
+                                    {{-- </div> --}}
                                     <div>
                                         <h6 class="mb-0 text-nowrap">{{ $distribution->sales }}</h6>
                                         <small class="text-muted">{{ $distribution->total_customers }}</small>
@@ -126,6 +134,80 @@
             </div>
         </div>
         <!--/ Customer Distribution -->
+
+        <!-- Area Distribution -->
+        <div class="col-xl-4 col-md-2">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between pb-4">
+                    <div class="card-title mb-0">
+                        <h5 class="mb-1">Customer by Area</h5>
+                        {{-- <p class="card-subtitle">Last 6 Months</p> --}}
+                    </div>
+                </div>
+                <div class="card-body row">
+                    <div id="main"></div>
+
+                    <script>
+                        // Pass PHP data to JavaScript
+                        var areaData = @json($area_distribution);
+
+                        // Convert the data into ECharts format
+                        var chartData = areaData.map(item => ({
+                            value: item.value,
+                            name: item.area
+                        }));
+
+                        // Initialize the chart
+                        var chartDom = document.getElementById('main');
+                        var myChart = echarts.init(chartDom);
+
+                        // Configure the chart options
+                        var option = {
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            toolbox: {
+                                show: true,
+                                feature: {
+                                    mark: {
+                                        show: true
+                                    },
+                                    // dataView: {
+                                    //     show: true,
+                                    //     readOnly: false
+                                    // },
+                                    // restore: {
+                                    //     show: true
+                                    // },
+                                    // saveAsImage: {
+                                    //     show: true
+                                    // }
+                                }
+                            },
+                            series: [{
+                                name: 'Nightingale Chart',
+                                type: 'pie',
+                                radius: [10, 100],
+                                center: ['50%', '50%'],
+                                roseType: 'area',
+                                itemStyle: {
+                                    borderRadius: 8
+                                },
+                                data: chartData
+                            }]
+                        };
+
+                        myChart.setOption(option);
+
+
+                        // Set the chart option
+                        myChart.setOption(option);
+                    </script>
+                </div>
+            </div>
+        </div>
+        <!--/ Area Distribution -->
+
 
     </div>
 

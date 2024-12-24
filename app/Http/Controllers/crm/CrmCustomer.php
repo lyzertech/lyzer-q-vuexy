@@ -19,8 +19,16 @@ class CrmCustomer extends Controller
     $sales_distribution = crm_customer::select('sales', DB::raw('count(*) as total_customers'))
       ->groupBy('sales')
       ->get();
+    $area_distribution = crm_customer::select('area', DB::raw('count(*) as total_customers'))
+      ->groupBy('area')
+      ->get();
+    $area_distribution = DB::table('crm_customer')
+      ->select('area', DB::raw('COUNT(*) as value'))
+      ->groupBy('area')
+      ->get()
+      ->toArray();
 
-    return view('content.digitize.crm-customer', compact('total_customers', 'new_customers', 'sales_distribution'));
+    return view('content.digitize.crm-customer', compact('total_customers', 'new_customers', 'sales_distribution', 'area_distribution'));
   }
   public function customer_data()
   {
@@ -114,14 +122,14 @@ class CrmCustomer extends Controller
   }
   public function view()
   {
-    // 
+    //
   }
   public function edit()
   {
-    // 
+    //
   }
   public function destroy()
   {
-    // 
+    //
   }
 }

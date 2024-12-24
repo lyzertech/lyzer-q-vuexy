@@ -48,51 +48,10 @@
       ]
     },
     {
+      "url": "monitoring",
       "name": "Monitoring",
       "icon": "menu-icon tf-icons ti ti-heart-rate-monitor",
-      "slug": "monitoring",
-      "submenu": [
-        {
-          "url": "monitoring/dashboard",
-          "name": "Monitoring Dashboard",
-          "slug": "monitoring-dashboard"
-        },
-        {
-          "url": "monitoring/realtime",
-          "name": "Real-time Monitoring",
-          "slug": "monitoring-realtime"
-        },
-        {
-          "url": "monitoring/comparison",
-          "name": "Comparison Monitoring",
-          "slug": "monitoring-comparison"
-        },
-        {
-          "url": "monitoring/analysis",
-          "name": "Energy Analysis",
-          "slug": "monitoring-analysis"
-        },
-        {
-          "url": "monitoring/datalog",
-          "name": "Datalog Management",
-          "slug": "monitoring-datalog"
-        },
-        {
-          "url": "monitoring/quality",
-          "name": "Power Quality Analysis",
-          "slug": "monitoring-quality"
-        },
-        {
-          "url": "monitoring/event",
-          "name": "Event Management",
-          "slug": "monitoring-event"
-        },
-        {
-          "url": "monitoring/admin",
-          "name": "Admin",
-          "slug": "monitoring-admin"
-        }
-      ]
+      "slug": "monitoring"
     },
     {
       "url": "product",
@@ -162,51 +121,10 @@
       ]
     },
     {
+      "url": "monitoring/dashboard",
       "name": "Monitoring",
       "icon": "menu-icon tf-icons ti ti-heart-rate-monitor",
-      "slug": "monitoring",
-      "submenu": [
-        {
-          "url": "monitoring/dashboard",
-          "name": "Monitoring Dashboard",
-          "slug": "monitoring-dashboard"
-        },
-        {
-          "url": "monitoring/realtime",
-          "name": "Real-time Monitoring",
-          "slug": "monitoring-realtime"
-        },
-        {
-          "url": "monitoring/comparison",
-          "name": "Comparison Monitoring",
-          "slug": "monitoring-comparison"
-        },
-        {
-          "url": "monitoring/analysis",
-          "name": "Energy Analysis",
-          "slug": "monitoring-analysis"
-        },
-        {
-          "url": "monitoring/datalog",
-          "name": "Datalog Management",
-          "slug": "monitoring-datalog"
-        },
-        {
-          "url": "monitoring/quality",
-          "name": "Power Quality Analysis",
-          "slug": "monitoring-quality"
-        },
-        {
-          "url": "monitoring/event",
-          "name": "Event Management",
-          "slug": "monitoring-event"
-        },
-        {
-          "url": "monitoring/admin",
-          "name": "Admin",
-          "slug": "monitoring-admin"
-        }
-      ]
+      "slug": "monitoring-dashboard"
     },
     {
       "url": "product",

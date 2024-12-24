@@ -170,6 +170,7 @@ use App\Http\Controllers\crm\CrmCustomer;
 use App\Http\Controllers\crm\CrmVisitReport;
 use App\Http\Controllers\labs\LabsDashboard;
 use App\Http\Controllers\labs\LabsLabel;
+use App\Http\Controllers\monitoring\MonitoringDashboard;
 use App\Http\Controllers\users\Users;
 
 
@@ -416,5 +417,4 @@ Route::middleware(['auth'])->group(function () {
     // laravel example
     Route::get('/laravel/user-management', [UserManagement::class, 'UserManagement'])->name('laravel-example-user-management');
     Route::resource('/user-list', UserManagement::class);
-
 });

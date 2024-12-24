@@ -9,6 +9,6 @@ class LabsDashboard extends Controller
 {
   public function index()
   {
-      return view('content.digitize.labs-dashboard');
+    return view('content.digitize.labs-dashboard');
   }
 }

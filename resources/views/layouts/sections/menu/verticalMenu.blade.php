@@ -23,7 +23,11 @@
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
-        @foreach ($menuData[0]->menu as $menu)
+        @php
+            $menusToDisplay = auth()->user()->role_id == '1' ? $menuData[0]->menuAdmin : $menuData[0]->menu;
+        @endphp
+
+        @foreach ($menusToDisplay as $menu)
             {{-- adding active and open class if child is active --}}
 
             {{-- menu headers --}}

@@ -205,7 +205,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/labs/label/create', [LabsLabel::class, 'create'])->name('labs-label-create');
     Route::get('/labs/label/view/{id_label}', [LabsLabel::class, 'label_view'])->name('labs-label-view');
     Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
-});
+
+
+  });
 // Route::get('/CRM', [CRMController::class, 'index']);
 // Route::get('/customers/{id_user}/show', [CRMController::class, 'customers_show'])->name('Customers.show');
 // Route::post('/customers.store', [CRMController::class, 'customers_store'])->name('Customers.create');

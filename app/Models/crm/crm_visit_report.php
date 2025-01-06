@@ -15,6 +15,7 @@ class crm_visit_report extends Model
     protected $primaryKey = 'id_visit_report';
     protected $fillable = [
         'customer_name', // Name of the customer
+        'sales', // Name of the sales
         'location', // Location of the customer
         'contact_person', // Person to meet at the customer site
         'contact_number', // Contact number of the person

@@ -57,7 +57,6 @@
     {{-- Export --}}
 
     <!-- DataTable with Buttons -->
-
     <div class="card mt-4">
         <div class="card-datatable table-responsive pt-0">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -183,6 +182,16 @@
                                                         </select>
                                                     </div>
                                                 </div>
+
+                                                <!-- Sales -->
+                                                {{-- <div class="col-sm-6">
+                                                    <div class="mb-4">
+                                                        <label class="form-label" for="sales">Sales</label>
+                                                    </div>
+                                                </div> --}}
+                                                <input type="hidden" id="sales" name="sales"
+                                                    value="{{ auth()->user()->name }}">
+                                                {{-- <div>{{ auth()->user()->sales }}</div> --}}
 
                                                 <!-- Contact Person -->
                                                 <div class="col-sm-6">

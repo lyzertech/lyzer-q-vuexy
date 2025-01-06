@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('crm_visit_report', function (Blueprint $table) {
             $table->id('id_visit_report');
             $table->string('customer_name'); // Name of the customer
+            $table->string('sales'); // Name of the sales
             $table->string('location'); // Location of the customer
             $table->string('contact_person'); // Person to meet at the customer site
             $table->string('contact_number'); // Contact number of the person

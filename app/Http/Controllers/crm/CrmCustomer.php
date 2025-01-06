@@ -28,7 +28,7 @@ class CrmCustomer extends Controller
       ->get()
       ->toArray();
 
-    return view('content.digitize.crm-customer', compact('total_customers', 'new_customers', 'sales_distribution', 'area_distribution'));
+    return view('content.digitize.crm.crm-customer', compact('total_customers', 'new_customers', 'sales_distribution', 'area_distribution'));
   }
   public function customer_data()
   {

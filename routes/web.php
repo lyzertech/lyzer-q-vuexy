@@ -197,7 +197,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/crm/visit-report/data', [CrmVisitReport::class, 'visit_report_data'])->name('crm-visit-report-data');
     Route::post('/crm/visit-report/create', [CrmVisitReport::class, 'create'])->name('crm-visit-report-create');
     Route::get('/crm/visit-report/view/{id_visit_report}', [CrmVisitReport::class, 'visit_report_view'])->name('crm-visit-report-view');
-    Route::get('/crm/visit-report/edit', [CrmVisitReport::class, 'visit_report_edit'])->name('crm-visit-report-edit');
+    Route::post('/crm/visit-report/edit/{id_visit_report}', [CrmVisitReport::class, 'visit_report_edit'])->name('crm-visit-report-edit');
     Route::delete('/crm/visit-report/destroy/{id_visit_report}', [CrmVisitReport::class, 'visit_report_destroy'])->name('crm-visit-report-destroy');
 
     Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');

@@ -20,6 +20,10 @@
 
 @section('content')
 
+    @php
+        use Illuminate\Support\Facades\Auth;
+    @endphp
+
     <div class="row g-6">
         <div class="col-lg-8">
             <div class="card">
@@ -63,7 +67,7 @@
                                     {{-- <p class="text-nowrap mb-2"><i class='ti ti-check me-2 align-bottom'></i>Skill level:
                                         All Levels</p> --}}
                                     <p class="text-nowrap mb-2"><i class='ti ti-users me-2 align-top'></i>Sales:
-                                        {{ $crm_visit_report->notes }}
+                                        {{ $crm_visit_report->sales }}
                                     </p>
                                     <p class="text-nowrap mb-2"><i class='ti ti-world me-2 align-bottom'></i>Location:
                                         {{ $crm_visit_report->location }}</p>
@@ -78,29 +82,113 @@
                                 </div>
                                 <hr class="my-6">
                             </div>
-                            <h5>Notes</h5>
-                            <p class="mb-6">
-                                {{ $crm_visit_report->notes }}
-                            </p>
-                            <p class="mb-6">
-                                "Best web design course: If you're interested in web design, but want more than
-                                just a "how to use WordPress" course,I highly recommend this one." — Florian Giusti
-                            </p>
-                            <p> "Very helpful to us left-brained people: I am familiar with HTML, CSS, JQuery,
-                                and Twitter Bootstrap, but I needed instruction in web design. This course gave me
-                                practical,
-                                impactful techniques for making websites more beautiful and engaging." — Susan Darlene Cain
-                            </p>
+                            @if (Auth::check())
+                                @if (Auth::user()->role_id == 2 || Auth::user()->name != $crm_visit_report->sales)
+                                    <!-- Content for role 2 -->
+                                    <div class="">
+                                        <hr class="my-6">
+                                        <h6>Notes</h6>
+                                        <p class="mb-6">
+                                            {{ $crm_visit_report->notes }}
+                                        </p>
+                                        <h6>Customer Feedback</h6>
+                                        <p class="mb-6">
+                                            {{ $crm_visit_report->customer_feedback }}
+                                        </p>
+                                        <h6>Follow Up Date</h6>
+                                        <p class="mb-6">
+                                            {{ $crm_visit_report->follow_up_date }}
+                                        </p>
+                                        <h6>Next Step</h6>
+                                        <p class="mb-6">
+                                            {{ $crm_visit_report->next_steps }}
+                                        </p>
+
+                                        <div class="modal-footer border-0">
+                                            <button type="button" class="btn btn-label-secondary mx-2"
+                                                onclick="window.location.href = '../';">
+                                                Back
+                                            </button>
+                                        </div>
+                                    </div>
+                                @elseif (Auth::user()->role_id == 4 && Auth::user()->name == $crm_visit_report->sales)
+                                    <!-- Content for role 4 -->
+                                    <form method="post"
+                                        action="{{ route('crm-visit-report-edit', $crm_visit_report->id_visit_report) }}"
+                                        enctype="multipart/form-data">
+                                        @csrf <!-- CSRF protection -->
+                                        <hr class="my-6">
+                                        <h6>Notes</h6>
+                                        <p class="mb-6">
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="notes" name="notes">{{ $crm_visit_report->notes }}</textarea>
+                                        </p>
+                                        <h6>Customer Feedback</h6>
+                                        <p class="mb-6">
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="customer_feedback"
+                                                name="customer_feedback">{{ $crm_visit_report->customer_feedback }}</textarea>
+                                        </p>
+                                        <h6>Follow Up Date</h6>
+                                        <div class="col-sm-6">
+                                            <div class="mb-4">
+                                                <input class="form-control" type="date" id="follow_up_date"
+                                                    name="follow_up_date" value="{{ $crm_visit_report->follow_up_date }}">
+                                            </div>
+                                        </div>
+                                        <h6>Next Step</h6>
+                                        <p class="mb-6">
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" id="next_steps" name="next_steps">{{ $crm_visit_report->next_steps }}</textarea>
+                                        </p>
+
+                                        <div class="modal-footer border-0">
+                                            <button type="button" class="btn btn-label-secondary mx-2"
+                                                onclick="window.location.href = '../';">
+                                                Back
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                    </form>
+                                @else
+                                    <!-- Content for other roles -->
+                                    <p>Your role is {{ Auth::user()->role }}. You don't have access to this content.</p>
+                                @endif
+                            @else
+                                <!-- Content for unauthenticated users -->
+                                <p>Please log in to view your role.</p>
+                            @endif
+
+
+
+                            @if (auth()->user()->role_id === 2)
+                            @elseif (auth()->user()->role_id === 4)
+                            @endif
+
                             <hr class="my-6">
                             <h5>Approval</h5>
-                            <div class="d-flex justify-content-start align-items-center user-name">
-                                <div class="avatar-wrapper">
-                                    <div class="avatar me-4"><img src="{{ asset('assets/img/avatars/11.png') }}"
-                                            alt="Avatar" class="rounded-circle"></div>
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1">Devonne Wallbridge</h6>
-                                    <small>Web Developer, Designer, and Teacher</small>
+                            <div class="row">
+                                {{-- <div class="col">
+                                    <div class="d-flex justify-content-start align-items-center user-name">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar me-4"><img src="{{ asset('assets/img/avatars/11.png') }}"
+                                                    alt="Avatar" class="rounded-circle"></div>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <h6 class="mb-1">David</h6>
+                                            <small>Director</small>
+                                        </div>
+                                    </div>
+                                </div> --}}
+                                <div class="col">
+                                    <div class="d-flex justify-content-start align-items-center user-name">
+
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar me-4"><img src="{{ asset('assets/img/avatars/11.png') }}"
+                                                    alt="Avatar" class="rounded-circle"></div>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <h6 class="mb-1">Alfian Jasrin</h6>
+                                            <small>President Director</small>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -62,6 +62,7 @@
                                 of amazing web design resources included!</p> --}}
                             {{-- <hr class="my-6"> --}}
                             <h5>Detail Visit</h5>
+                            <h5>{{ $crm_visit_report->purpose }}</h5>
                             <div class="d-flex flex-wrap row-gap-2">
                                 <div class="me-12">
                                     {{-- <p class="text-nowrap mb-2"><i class='ti ti-check me-2 align-bottom'></i>Skill level:
@@ -83,7 +84,9 @@
                                 <hr class="my-6">
                             </div>
                             @if (Auth::check())
-                                @if (Auth::user()->role_id == 2 || Auth::user()->name != $crm_visit_report->sales)
+                                @if (Auth::user()->role_id == 2 ||
+                                        Auth::user()->name != $crm_visit_report->sales ||
+                                        in_array($crm_visit_report->status, ['Completed', 'Approved']))
                                     <!-- Content for role 2 -->
                                     <div class="">
                                         <hr class="my-6">
@@ -157,11 +160,6 @@
                             @endif
 
 
-
-                            @if (auth()->user()->role_id === 2)
-                            @elseif (auth()->user()->role_id === 4)
-                            @endif
-
                             <hr class="my-6">
                             <h5>Approval</h5>
                             <div class="row">
@@ -179,10 +177,10 @@
                                 </div> --}}
                                 <div class="col">
                                     <div class="d-flex justify-content-start align-items-center user-name">
-
                                         <div class="avatar-wrapper">
                                             <div class="avatar me-4"><img src="{{ asset('assets/img/avatars/11.png') }}"
-                                                    alt="Avatar" class="rounded-circle"></div>
+                                                    alt="Avatar" class="rounded-circle">
+                                            </div>
                                         </div>
                                         <div class="d-flex flex-column">
                                             <h6 class="mb-1">Alfian Jasrin</h6>
@@ -190,6 +188,35 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if (Auth::check())
+                                    @if (in_array(Auth::user()->role_id, [1, 2, 4]) && $crm_visit_report->status == 'Approved')
+                                        <div class="col">
+                                            <div class="">
+                                                <div class="me-4">
+                                                    <img src="{{ asset('img/approved.png') }}" alt="Avatar"
+                                                        class="rounded-circle" style="width: 75%; height: 75%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @elseif (in_array(Auth::user()->role_id, [1, 2, 4]) && $crm_visit_report->status !== 'Approved')
+                                    @endif
+                                @endif
+                                @if (Auth::check())
+                                    @if (Auth::user()->role_id == 2 && $crm_visit_report->status !== 'Approved')
+                                        <div class="col">
+                                            <div class="modal-footer border-0">
+                                                <form method="post"
+                                                    action="{{ route('crm-visit-report-approve', $crm_visit_report->id_visit_report) }}"
+                                                    enctype="multipart/form-data">
+                                                    @csrf <!-- CSRF protection -->
+                                                    <button type="submit" class="btn btn-primary">Approve</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @elseif (Auth::user()->role_id == 2 && $crm_visit_report->status == 'Approved')
+                                    @endif
+                                @endif
+
                             </div>
                         </div>
                     </div>

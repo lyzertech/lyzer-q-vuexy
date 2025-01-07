@@ -374,8 +374,6 @@
         </div>
     </div>
 
-    <!--/ DataTable with Buttons -->
-
     <!-- customer-table -->
     <script type="text/javascript">
         $(document).ready(function() {

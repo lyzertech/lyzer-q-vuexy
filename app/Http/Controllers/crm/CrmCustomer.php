@@ -120,13 +120,25 @@ class CrmCustomer extends Controller
 
     return redirect('/crm/customer')->with('success', 'Form submitted successfully!');
   }
-  public function view()
+  public function customer_view(Request $request, $id_customer)
   {
-    //
+    // dd($request);
+
+    $customer = crm_customer::findOrFail($id_customer);
+
+    // $crm_customer = crm_customer::findOrFail($crm_customer);
+
+    return view('content.digitize.crm.crm-customer-view', compact('customer'));
   }
-  public function edit()
+  public function customer_edit(Request $request, $id_customer)
   {
-    //
+    // dd($request);
+
+    $customer = crm_customer::findOrFail($id_customer);
+
+    // $crm_customer = crm_customer::findOrFail($crm_customer);
+
+    return view('content.digitize.crm.crm-customer-edit', compact('customer'));
   }
   public function destroy()
   {

@@ -14,7 +14,7 @@ class LabsLabel extends Controller
 {
     public function index()
     {
-        return view('content.digitize.labs-label');
+        return view('content.digitize.labs.labs-label');
     }
     public function label_data()
     {
@@ -96,6 +96,6 @@ class LabsLabel extends Controller
         // dd($labs_label);
 
         // Pass the records to the view
-        return view('content.digitize.labs-label-view', compact('labs_label'));
+        return view('content.digitize.labs.labs-label-view', compact('labs_label'));
     }
 }

@@ -58,9 +58,6 @@ class CrmVisitReport extends Controller
         // </div>
         return '
               <a href="' . $showUrl . '" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit">
-                  <i class="ti ti-eye ti-md"></i>
-              </a>
-              <a href="' . $editUrl . '" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit">
                   <i class="ti ti-pencil ti-md"></i>
               </a>
           ';
@@ -98,7 +95,6 @@ class CrmVisitReport extends Controller
   {
     // dd($request);
 
-
     // Find the existing visit report by ID
     $visitReport = crm_visit_report::findOrFail($id_visit_report);
 
@@ -116,9 +112,13 @@ class CrmVisitReport extends Controller
         'customer_feedback' => 'nullable|string|max:2000',
         'next_steps' => 'nullable|string|max:1000',
         'follow_up_date' => 'nullable|date',
-        // 'status' => 'nullable|string|max:50',
+        'status' => 'nullable|string|max:50',
         // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file types and size as needed
     ]);
+
+
+    // Set the status to "Completed"
+    $validatedData['status'] = 'Completed';
 
     // Handle file upload
     // if ($request->hasFile('image')) {
@@ -134,7 +134,25 @@ class CrmVisitReport extends Controller
     // Redirect back with success message
     return back()->with('success', 'CRM Visit updated successfully!');
   }
+  public function visit_report_approve(Request $request, $id_visit_report)
+  {
+    // Find the existing visit report by ID
+    $visitReport = crm_visit_report::findOrFail($id_visit_report);
 
+    // Validate incoming request data
+    $validatedData = $request->validate([
+        'status' => 'nullable|string|max:50',
+    ]);
+
+    // Set the status to "Completed"
+    $validatedData['status'] = 'Approved';
+
+    // Update the visit report with validated data
+    $visitReport->update($validatedData);
+
+    // Redirect back with success message
+    return back()->with('success', 'CRM Visit updated successfully!');
+  }
   public function visit_report_destroy($id_visit_report)
   {
     $delete = crm_visit_report::find($id_visit_report);

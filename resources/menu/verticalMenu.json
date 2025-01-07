@@ -148,10 +148,16 @@
       "menuHeader": "LyZer"
     },
     {
-      "url": "clan",
       "name": "Clan",
       "icon": "menu-icon tf-icons ti ti-user",
-      "slug": "clan"
+      "slug": "clan",
+      "submenu": [
+        {
+          "url": "clan/tree",
+          "name": "Tree",
+          "slug": "clan-tree"
+        }
+      ]
     },
     {
       "menuHeader": "Dashboard"

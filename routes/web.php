@@ -173,6 +173,7 @@ use App\Http\Controllers\labs\LabsLabel;
 use App\Http\Controllers\monitoring\MonitoringDashboard;
 use App\Http\Controllers\users\Users;
 
+use App\Http\Controllers\clan\ClanTree;
 
 // Login form
 Route::view('/login', 'auth.login')->name('login');
@@ -189,8 +190,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/crm/customer', [CrmCustomer::class, 'index'])->name('crm-customer');
     Route::get('/crm/customer/data', [CrmCustomer::class, 'customer_data'])->name('crm-customer-data');
     Route::post('/crm/customer/create', [CrmCustomer::class, 'create'])->name('crm-customer-create');
-    Route::get('/crm/customer/view', [CrmCustomer::class, 'customer_view'])->name('crm-customer-view');
-    Route::get('/crm/customer/edit', [CrmCustomer::class, 'customer_edit'])->name('crm-customer-edit');
+    Route::get('/crm/customer/view/{id_customer}', [CrmCustomer::class, 'customer_view'])->name('crm-customer-view');
+    Route::get('/crm/customer/edit/{id_customer}', [CrmCustomer::class, 'customer_edit'])->name('crm-customer-edit');
     Route::get('/crm/customer/destroy', [CrmCustomer::class, 'customer_destroy'])->name('crm-customer-destroy');
 
     Route::get('/crm/visit-report', [CrmVisitReport::class, 'index'])->name('crm-visit-report');
@@ -198,6 +199,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/crm/visit-report/create', [CrmVisitReport::class, 'create'])->name('crm-visit-report-create');
     Route::get('/crm/visit-report/view/{id_visit_report}', [CrmVisitReport::class, 'visit_report_view'])->name('crm-visit-report-view');
     Route::post('/crm/visit-report/edit/{id_visit_report}', [CrmVisitReport::class, 'visit_report_edit'])->name('crm-visit-report-edit');
+    Route::post('/crm/visit-report/approve/{id_visit_report}', [CrmVisitReport::class, 'visit_report_approve'])->name('crm-visit-report-approve');
     Route::delete('/crm/visit-report/destroy/{id_visit_report}', [CrmVisitReport::class, 'visit_report_destroy'])->name('crm-visit-report-destroy');
 
     Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');
@@ -215,8 +217,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users/view/{id}', [Users::class, 'users_view'])->name('users-view');
     Route::delete('/users/destroy/{id}', [Users::class, 'users_destroy'])->name('users-destroy');
 
-
-
+    // Clan
+    Route::get('/clan/tree', [ClanTree::class, 'index'])->name('clan-tree');
+    Route::get('/clan/tree/data', [ClanTree::class, 'tree_data'])->name('clan-tree-data');
+    Route::post('/clan/tree/create', [ClanTree::class, 'tree_create'])->name('clan-tree-create');
+    Route::get('/clan/tree/view/{id_tree}', [ClanTree::class, 'tree_view'])->name('clan-tree-view');
+    Route::get('/clan/tree/edit/{id_tree}', [ClanTree::class, 'tree_edit'])->name('clan-tree-edit');
+    Route::delete('/clan/tree/destroy', [ClanTree::class, 'tree_destroy'])->name('clan-tree-destroy');
 
 
     // Main Page Route

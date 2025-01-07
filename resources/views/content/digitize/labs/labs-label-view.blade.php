@@ -132,16 +132,16 @@
                                                             <div class="row">
                                                                 <div class="d-flex">
                                                                     <div class="col-5">
-                                                                        <p class="mb-0 small-font">Type</p>
-                                                                        <p class="mb-0 small-font">Scale</p>
+                                                                        <p class="mb-0 small-font">Type:</p>
+                                                                        <p class="mb-0 small-font">Scale:</p>
                                                                         <p class="mb-0 small-font">
-                                                                            {{ in_array($Label->type, ['DE96', 'DE72']) ? 'Input' : $Label->type }}
+                                                                            {{ in_array($Label->type, ['DE96', 'DE72']) ? 'Input:' : $Label->type }}
                                                                         </p>
                                                                     </div>
                                                                     <div class="col-7">
-                                                                        <p class="mb-0 small-font">: {{ $Label->type }}</p>
-                                                                        <p class="mb-0 small-font">: {{ $Label->scale }}</p>
-                                                                        <p class="mb-0 small-font">: {{ $Label->input }}</p>
+                                                                        <p class="mb-0 small-font">{{ $Label->type }}</p>
+                                                                        <p class="mb-0 small-font">{{ $Label->scale }}</p>
+                                                                        <p class="mb-0 small-font">{{ $Label->input }}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>

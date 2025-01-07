@@ -9,6 +9,6 @@ class MonitoringDashboard extends Controller
 {
     public function index()
     {
-        return view('content.digitize.monitoring-dashboard');
+        return view('content.digitize.monitoring.monitoring-dashboard');
     }
 }

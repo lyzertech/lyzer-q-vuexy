@@ -57,7 +57,7 @@
     {{-- ECharts --}}
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 
-
+    <!-- Recap Tracker -->
     <div class="row g-6">
 
         <!-- Customer Tracker -->
@@ -66,23 +66,23 @@
                 <div class="card-header d-flex justify-content-between">
                     <div class="card-title mb-0">
                         <h5 class="mb-1">Customer Tracker</h5>
-                        <p class="card-subtitle">Last 30 Days</p>
+                        {{-- <p class="card-subtitle">Last 30 Days</p> --}}
                     </div>
                 </div>
                 <div class="card-body row">
                     <div class="col-12 col-sm-4 col-md-12 col-lg-4">
                         <div class="mt-lg-4 mt-lg-2 mb-lg-6 mb-2">
                             <h2 class="mb-0">{{ $total_customers }}</h2>
-                            <p class="mb-0">Total Customers</p>
+                            <p class="mb-0">Total Company</p>
                         </div>
                     </div>
                     <div class="col-12 col-sm-8 col-md-12 col-lg-8">
                         <ul class="p-0 m-0">
                             <li class="d-flex gap-4 align-items-center mb-lg-3 pb-1">
-                                <div class="badge rounded bg-label-primary p-1_5"><i class="ti ti-ticket ti-md"></i></div>
+                                <div class="badge rounded bg-label-primary p-1_5"><i class="ti ti-user ti-md"></i></div>
                                 <div>
-                                    <h6 class="mb-0 text-nowrap">New Customers</h6>
-                                    <small class="text-muted">{{ $new_customers }}</small>
+                                    <h6 class="mb-0 text-nowrap">Total Customers</h6>
+                                    <small class="text-muted">{{ $total_purchasing }}</small>
                                 </div>
                             </li>
                             <li class="d-flex gap-4 align-items-center mb-lg-3 pb-1">
@@ -185,7 +185,7 @@
                                 }
                             },
                             series: [{
-                                name: 'Nightingale Chart',
+                                // name: 'Nightingale Chart',
                                 type: 'pie',
                                 radius: [10, 100],
                                 center: ['50%', '50%'],
@@ -271,7 +271,7 @@
                 <div class="table-responsive text-start">
                     <div class="card-datatable table-responsive">
                         <table class="table table-bordered" id="customer-table">
-                            <thead>
+                            <thead class="table-light">
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
@@ -303,9 +303,23 @@
                 @csrf <!-- CSRF protection -->
                 @method('POST')
                 <div class="mb-3 fv-plugins-icon-container">
+                    <label class="form-label" for="add-user-company">Company</label>
+                    <input type="text" class="form-control" id="add-user-company"
+                        placeholder="PT. Amptron Instrumindo" name="company" aria-label="LyZer Tech">
+                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                    </div>
+                </div>
+                <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-fullname">Full Name</label>
                     <input type="text" class="form-control" id="add-user-fullname" placeholder="John Doe"
                         name="name" aria-label="John Doe">
+                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                    </div>
+                </div>
+                <div class="mb-3 fv-plugins-icon-container">
+                    <label class="form-label" for="add-user-position">Position</label>
+                    <input type="text" class="form-control" id="add-user-position" placeholder="Supply Chain"
+                        name="position" aria-label="LyZer Tech">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
                 </div>
@@ -320,9 +334,9 @@
                     <label for="add-user-sales" class="form-label">Sales</label>
                     <select id="add-user-sales" class="form-select" name="sales">
                         <option>Choose Sales</option>
-                        <option value="David">David</option>
-                        <option value="Heri">Heri</option>
-                        <option value="Dika">Dika</option>
+                        @foreach ($sales_list as $sales)
+                            <option value="{{ $sales->name }}">{{ $sales->name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="mb-3 fv-plugins-icon-container">
@@ -350,20 +364,6 @@
                     <label class="form-label" for="add-user-mobilephone">Mobile Phone</label>
                     <input type="text" class="form-control" id="add-user-mobilephone" placeholder="+62888 8888 8888"
                         name="mobilephone" aria-label="Jakarta">
-                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                    </div>
-                </div>
-                <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="add-user-company">Company</label>
-                    <input type="text" class="form-control" id="add-user-company"
-                        placeholder="PT. Amptron Instrumindo" name="company" aria-label="LyZer Tech">
-                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                    </div>
-                </div>
-                <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="add-user-position">Position</label>
-                    <input type="text" class="form-control" id="add-user-position" placeholder="Supply Chain"
-                        name="position" aria-label="LyZer Tech">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
                 </div>
@@ -419,14 +419,16 @@
                         name: 'area',
                         render: function(data, type, row) {
                             return `
-                                <div class="d-flex justify-content-start align-items-center user-name">
-                                    <div class="d-flex flex-column">
-                                        <span class="emp_name text-truncate">${data}</span>
-                                        <hr hidden>
-                                        <small class="emp_post text-truncate text-muted">${row.address}</small>
-                                    </div>
-                                </div>
-                            `;
+                              <div class="d-flex justify-content-start align-items-center user-name">
+                                  <div class="d-flex flex-column">
+                                      <span class="emp_name text-truncate">${data}</span>
+                                      <hr hidden>
+                                      <small class="emp_post text-truncate text-muted" style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                          ${row.address}
+                                      </small>
+                                  </div>
+                              </div>
+                          `;
                         }
                     },
                     // {
@@ -456,7 +458,7 @@
                         width: '100px', // Set fixed width directly in JavaScript
                         render: function(data, type, row) {
                             return `
-                                <div style="text-align: center;">
+                                <div style="text-align: left;">
                                     ${data}
                                 </div>
                             `;
@@ -464,7 +466,7 @@
                     }
                 ],
                 displayLength: 7,
-                lengthMenu: [7, 10, 25, 50, 75, 100],
+                lengthMenu: [7, 10, 25, 50, 75, 100, 500],
                 // dom: 'Bfrtip',  // Define placement for buttons
                 buttons: [{
                         extend: 'print',

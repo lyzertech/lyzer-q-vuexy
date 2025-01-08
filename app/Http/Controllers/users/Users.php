@@ -14,7 +14,7 @@ class Users extends Controller
 {
     public function index()
     {
-        return view('content.digitize.users');
+        return view('content.digitize.users.users');
     }
     public function users_data()
     {

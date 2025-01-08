@@ -12,6 +12,7 @@ class crm_visit_reportFactory extends Factory
     public function definition(): array
     {
         return [
+            'sales' => collect(['David', 'Herianto Gomanti', 'Frahma Dika'])->random(),
             'customer_name' => $this->faker->name(), // Generates a full name
             'location' => $this->faker->city(), // Generates a city name
             'contact_person' => $this->faker->name(), // Generates a full name
@@ -23,7 +24,7 @@ class crm_visit_reportFactory extends Factory
             'customer_feedback' => $this->faker->text(100), // Generates text up to 100 characters
             'next_steps' => $this->faker->sentence(), // Generates a short sentence
             'follow_up_date' => $this->faker->date(), // Generates a random date
-            'status' => $this->faker->randomElement(['Pending', 'Completed', 'In Progress']), // Selects a random status
+            'status' => $this->faker->randomElement(['Planned', 'In Progress', 'Completed', 'Approved']), // Selects a random status
             'image' => $this->faker->imageUrl(640, 480, 'business', true, 'Faker'), // Generates a random image URL
         ];
     }

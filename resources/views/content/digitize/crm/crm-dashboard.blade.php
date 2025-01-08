@@ -19,6 +19,9 @@
 
 @section('content')
 
+
+    <h3>Customer Relationship Management</h3>
+
     <div class="row mb-6">
         <div class="col-md-12 order-3 order-lg-12">
             <div class="card text-center">

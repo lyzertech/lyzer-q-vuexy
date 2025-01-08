@@ -4,6 +4,7 @@ namespace App\Http\Controllers\crm;
 
 use App\Http\Controllers\Controller;
 use App\Models\crm\crm_customer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -14,8 +15,9 @@ class CrmCustomer extends Controller
 {
   public function index()
   {
-    $total_customers = crm_customer::count();
-    $new_customers = crm_customer::where('created_at', '>=', now()->subMonth())->count();
+    $total_customers = crm_customer::distinct('company')->count('company');
+    // $new_customers = crm_customer::where('created_at', '>=', now()->subMonth())->count();
+    $total_purchasing = crm_customer::count();
     $sales_distribution = crm_customer::select('sales', DB::raw('count(*) as total_customers'))
       ->groupBy('sales')
       ->get();
@@ -27,8 +29,9 @@ class CrmCustomer extends Controller
       ->groupBy('area')
       ->get()
       ->toArray();
+    $sales_list = User::where('role_id', 4)->get();
 
-    return view('content.digitize.crm.crm-customer', compact('total_customers', 'new_customers', 'sales_distribution', 'area_distribution'));
+    return view('content.digitize.crm.crm-customer', compact('total_customers', 'total_purchasing', 'sales_distribution', 'area_distribution', 'sales_list'));
   }
   public function customer_data()
   {

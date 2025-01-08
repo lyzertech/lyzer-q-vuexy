@@ -40,8 +40,8 @@
                                     'Planned' => 'bg-label-warning',
                                     'Rescheduled' => 'bg-label-info',
                                     'In Progress' => 'bg-label-info',
-                                    'Completed' => 'bg-label-primary',
-                                    'Approved' => 'bg-label-success',
+                                    'Completed' => 'bg-label-success',
+                                    'Approved' => 'bg-label-danger',
                                     'Cancelled' => 'bg-label-danger',
                                 ];
 

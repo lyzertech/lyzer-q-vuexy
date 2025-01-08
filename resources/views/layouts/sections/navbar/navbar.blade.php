@@ -98,6 +98,12 @@
                         <span>German</span>
                     </a>
                 </li>
+                <li>
+                    <a class="dropdown-item {{ app()->getLocale() === 'id' ? 'active' : '' }}"
+                        href="{{ url('lang/id') }}" data-language="id" data-text-direction="ltr">
+                        <span>Bahasa Indonesia</span>
+                    </a>
+                </li>
             </ul>
         </li>
         <!--/ Language -->

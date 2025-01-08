@@ -224,6 +224,7 @@
                             // Map role_id to their corresponding role names
                             const roles = {
                                 1: 'IT Dev.',
+                                2: 'President Director',
                                 4: 'Sales'
                             };
                             // Return the role name or a default value

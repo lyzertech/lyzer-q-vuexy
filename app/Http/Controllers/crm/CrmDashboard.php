@@ -10,6 +10,6 @@ class CrmDashboard extends Controller
 {
     public function index()
     {
-        return view('content.digitize.crm-dashboard');
+        return view('content.digitize.crm.crm-dashboard');
     }
 }

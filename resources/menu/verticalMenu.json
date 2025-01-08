@@ -10,7 +10,7 @@
       "submenu": [
         {
           "url": "crm/dashboard",
-          "name": "CRM Dashboard",
+          "name": "Dashboard",
           "slug": "crm-dashboard"
         },
         {
@@ -83,7 +83,7 @@
       "submenu": [
         {
           "url": "crm/dashboard",
-          "name": "CRM Dashboard",
+          "name": "Dashboard",
           "slug": "crm-dashboard"
         },
         {

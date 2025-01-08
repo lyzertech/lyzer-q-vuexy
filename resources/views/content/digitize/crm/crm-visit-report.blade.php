@@ -115,12 +115,12 @@
                 <div class="table-responsive text-start">
                     <div class="card-datatable table-responsive">
                         <table class="table table-bordered" id="visit-report-table">
-                            <thead>
+                            <thead class="table-light">
                                 <tr>
-                                    <th>Name</th>
                                     <th>Sales</th>
-                                    <th>Location</th>
-                                    <th>Visit Date and Time</th>
+                                    <th>Company</th>
+                                    <th>Meeting Point</th>
+                                    <th>Visit Date & Time</th>
                                     <th>Purpose</th>
                                     <th>Follow Up Date</th>
                                     <th>Status</th>
@@ -216,7 +216,7 @@
                                                 <!-- Location -->
                                                 <div class="col-sm-6">
                                                     <div class="mb-4">
-                                                        <label class="form-label" for="location">Location</label>
+                                                        <label class="form-label" for="location">Meeting Point</label>
                                                         <input type="text" id="location" class="form-control"
                                                             placeholder="Meruya Utara" name="location">
                                                     </div>
@@ -385,6 +385,10 @@
                 serverSide: true,
                 ajax: '{{ route('crm-visit-report-data') }}',
                 columns: [{
+                        data: 'sales',
+                        name: 'sales'
+                    },
+                    {
                         data: 'customer_name',
                         name: 'customer_name',
                         render: function(data, type, row) {
@@ -397,10 +401,6 @@
                                 </div>
                             `;
                         }
-                    },
-                    {
-                        data: 'sales',
-                        name: 'sales'
                     },
                     {
                         data: 'location',
@@ -458,11 +458,11 @@
                                         badgeText = 'In Progress';
                                         break;
                                     case 'Completed':
-                                        badgeClass = 'bg-label-primary';
+                                        badgeClass = 'bg-label-success';
                                         badgeText = 'Completed';
                                         break;
                                     case 'Approved':
-                                        badgeClass = 'bg-label-success';
+                                        badgeClass = 'bg-label-danger';
                                         badgeText = 'Approved';
                                         break;
                                     case 'Cancelled':

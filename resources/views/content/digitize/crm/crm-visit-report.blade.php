@@ -118,6 +118,7 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
+                                    <th>Sales</th>
                                     <th>Location</th>
                                     <th>Visit Date and Time</th>
                                     <th>Purpose</th>
@@ -398,6 +399,10 @@
                         }
                     },
                     {
+                        data: 'sales',
+                        name: 'sales'
+                    },
+                    {
                         data: 'location',
                         name: 'location'
                     },
@@ -482,7 +487,7 @@
                     }
                 ],
                 order: [
-                    [2, 'dsc']
+                    [3, 'dsc']
                 ],
                 displayLength: 7,
                 lengthMenu: [7, 10, 25, 50, 75, 100],

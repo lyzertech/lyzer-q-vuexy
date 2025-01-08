@@ -118,7 +118,7 @@ class CrmVisitReport extends Controller
 
 
     // Set the status to "Completed"
-    $validatedData['status'] = 'Completed';
+    $validatedData['status'] = 'In Progress';
 
     // Handle file upload
     // if ($request->hasFile('image')) {
@@ -127,6 +127,31 @@ class CrmVisitReport extends Controller
     // } else {
     //     $validatedData['image'] = $visitReport->image; // Retain the existing image if no new one is uploaded
     // }
+
+    // Update the visit report with validated data
+    $visitReport->update($validatedData);
+
+    // Redirect back with success message
+    return back()->with('success', 'CRM Visit updated successfully!');
+  }
+  public function visit_report_submit(Request $request, $id_visit_report)
+  {
+    // dd($request);
+
+    // Find the existing visit report by ID
+    $visitReport = crm_visit_report::findOrFail($id_visit_report);
+
+    // Validate incoming request data
+    $validatedData = $request->validate([
+        'notes' => 'nullable|string|max:2000',
+        'customer_feedback' => 'nullable|string|max:2000',
+        'next_steps' => 'nullable|string|max:1000',
+        'follow_up_date' => 'nullable|date',
+        'status' => 'nullable|string|max:50',
+    ]);
+
+    // Set the status to "Completed"
+    $validatedData['status'] = 'Completed';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);

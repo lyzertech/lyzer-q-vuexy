@@ -453,9 +453,9 @@
                                         badgeClass = 'bg-label-warning';
                                         badgeText = 'Planned';
                                         break;
-                                    case 'Rescheduled':
+                                    case 'In Progress':
                                         badgeClass = 'bg-label-info';
-                                        badgeText = 'Rescheduled';
+                                        badgeText = 'In Progress';
                                         break;
                                     case 'Completed':
                                         badgeClass = 'bg-label-primary';

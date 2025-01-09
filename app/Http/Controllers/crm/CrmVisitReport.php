@@ -85,8 +85,8 @@ class CrmVisitReport extends Controller
   }
   public function visit_report_view($crm_visit_report)
   {
-    // dd($crm_visit_report);
     $crm_visit_report = crm_visit_report::findOrFail($crm_visit_report);
+    // dd($crm_visit_report);
 
     // dd($crm_visit_report);
     return view('content.digitize.crm.crm-visit-report-view', compact('crm_visit_report'));
@@ -150,8 +150,71 @@ class CrmVisitReport extends Controller
         'status' => 'nullable|string|max:50',
     ]);
 
-    // Set the status to "Completed"
-    $validatedData['status'] = 'Completed';
+    // Set the status to "Submitted"
+    $validatedData['status'] = 'Submitted';
+
+    // Update the visit report with validated data
+    $visitReport->update($validatedData);
+
+    // Redirect back with success message
+    return back()->with('success', 'CRM Visit updated successfully!');
+  }
+  public function visit_report_ackmanager(Request $request, $id_visit_report)
+  {
+    // dd($request);
+
+    // Find the existing visit report by ID
+    $visitReport = crm_visit_report::findOrFail($id_visit_report);
+
+    // Validate incoming request data
+    $validatedData = $request->validate([
+        'ack_manager' => 'nullable|string|max:2000',
+    ]);
+
+    // Set the status to "Submitted"
+    // $validatedData['status'] = 'Submitted';
+
+    // Update the visit report with validated data
+    $visitReport->update($validatedData);
+
+    // Redirect back with success message
+    return back()->with('success', 'CRM Visit updated successfully!');
+  }
+  public function visit_report_ackdirector(Request $request, $id_visit_report)
+  {
+    // dd($request);
+
+    // Find the existing visit report by ID
+    $visitReport = crm_visit_report::findOrFail($id_visit_report);
+
+    // Validate incoming request data
+    $validatedData = $request->validate([
+        'ack_director' => 'nullable|string|max:2000',
+    ]);
+
+    // Set the status to "Submitted"
+    // $validatedData['status'] = 'Submitted';
+
+    // Update the visit report with validated data
+    $visitReport->update($validatedData);
+
+    // Redirect back with success message
+    return back()->with('success', 'CRM Visit updated successfully!');
+  }
+  public function visit_report_ackpresdir(Request $request, $id_visit_report)
+  {
+    // dd($request);
+
+    // Find the existing visit report by ID
+    $visitReport = crm_visit_report::findOrFail($id_visit_report);
+
+    // Validate incoming request data
+    $validatedData = $request->validate([
+        'ack_presdir' => 'nullable|string|max:2000',
+    ]);
+
+    // Set the status to "Submitted"
+    // $validatedData['status'] = 'Submitted';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);

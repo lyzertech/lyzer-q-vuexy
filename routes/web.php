@@ -200,6 +200,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/crm/visit-report/view/{id_visit_report}', [CrmVisitReport::class, 'visit_report_view'])->name('crm-visit-report-view');
     Route::post('/crm/visit-report/edit/{id_visit_report}', [CrmVisitReport::class, 'visit_report_edit'])->name('crm-visit-report-edit');
     Route::post('/crm/visit-report/submit/{id_visit_report}', [CrmVisitReport::class, 'visit_report_submit'])->name('crm-visit-report-submit');
+    Route::post('/crm/visit-report/ackmanager/{id_visit_report}', [CrmVisitReport::class, 'visit_report_ackmanager'])->name('crm-visit-report-ackmanager');
+    Route::post('/crm/visit-report/ackdirector/{id_visit_report}', [CrmVisitReport::class, 'visit_report_ackdirector'])->name('crm-visit-report-ackdirector');
+    Route::post('/crm/visit-report/ackpresdir/{id_visit_report}', [CrmVisitReport::class, 'visit_report_ackpresdir'])->name('crm-visit-report-ackpresdir');
     Route::post('/crm/visit-report/approve/{id_visit_report}', [CrmVisitReport::class, 'visit_report_approve'])->name('crm-visit-report-approve');
     Route::delete('/crm/visit-report/destroy/{id_visit_report}', [CrmVisitReport::class, 'visit_report_destroy'])->name('crm-visit-report-destroy');
 

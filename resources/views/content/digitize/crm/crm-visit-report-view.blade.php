@@ -38,11 +38,10 @@
                             @php
                                 $badgeClasses = [
                                     'Planned' => 'bg-label-warning',
-                                    'Rescheduled' => 'bg-label-info',
                                     'In Progress' => 'bg-label-info',
+                                    'Submitted' => 'bg-label-primary',
+                                    'Acknowledge' => 'bg-label-danger',
                                     'Completed' => 'bg-label-success',
-                                    'Approved' => 'bg-label-danger',
-                                    'Cancelled' => 'bg-label-danger',
                                 ];
 
                                 $status = $crm_visit_report->status ?? 'Unknown';
@@ -86,7 +85,7 @@
                             @if (Auth::check())
                                 @if (Auth::user()->role_id == 2 ||
                                         Auth::user()->name != $crm_visit_report->sales ||
-                                        in_array($crm_visit_report->status, ['Completed', 'Approved']))
+                                        in_array($crm_visit_report->status, ['Submitted', 'Acknowledge', 'Completed']))
                                     <!-- Content for role 2 -->
                                     <div class="">
                                         <hr class="my-6">
@@ -170,63 +169,161 @@
 
 
                             <hr class="my-6">
-                            <h5>Approval</h5>
-                            <div class="row">
-                                {{-- <div class="col">
-                                    <div class="d-flex justify-content-start align-items-center user-name">
-                                        <div class="avatar-wrapper">
-                                            <div class="avatar me-4"><img src="{{ asset('assets/img/avatars/11.png') }}"
-                                                    alt="Avatar" class="rounded-circle"></div>
-                                        </div>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1">David</h6>
-                                            <small>Director</small>
+                            <h5>Acknowledge</h5>
+                            {{-- Ack Manager --}}
+                            <form method="post"
+                                action="{{ route('crm-visit-report-ackmanager', $crm_visit_report->id_visit_report) }}"
+                                enctype="multipart/form-data">
+                                @csrf <!-- CSRF protection -->
+                                <div class="row mb-4">
+                                    <div class="col-4">
+                                        <div class="d-flex justify-content-start align-items-center user-name">
+                                            <div class="avatar-wrapper">
+                                                <div class="avatar me-4"><img
+                                                        src="{{ asset('assets/img/avatars/11.png') }}" alt="Avatar"
+                                                        class="rounded-circle"></div>
+                                            </div>
+                                            <div class="d-flex flex-column">
+                                                <h6 class="mb-1">David</h6>
+                                                <small>Manager</small>
+                                            </div>
                                         </div>
                                     </div>
-                                </div> --}}
-                                <div class="col">
-                                    <div class="d-flex justify-content-start align-items-center user-name">
-                                        <div class="avatar-wrapper">
-                                            <div class="avatar me-4"><img src="{{ asset('assets/img/avatars/11.png') }}"
-                                                    alt="Avatar" class="rounded-circle">
+                                    @if (Auth::check())
+                                        @if (Auth::user()->name == 'David' && empty($crm_visit_report->ack_manager))
+                                            <div class="col-8">
+                                                <p class="mb-6">
+                                                    <textarea class="form-control" id="ack_manager" rows="3" id="ack_manager" name="ack_manager">{{ $crm_visit_report->ack_manager }}</textarea>
+                                                </p>
                                             </div>
-                                        </div>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1">Alfian Jasrin</h6>
-                                            <small>President Director</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                @if (Auth::check())
-                                    @if (in_array(Auth::user()->role_id, [1, 2, 4]) && $crm_visit_report->status == 'Approved')
-                                        <div class="col">
-                                            <div class="">
-                                                <div class="me-4">
-                                                    <img src="{{ asset('img/approved.png') }}" alt="Avatar"
-                                                        class="rounded-circle" style="width: 75%; height: 75%;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @elseif (in_array(Auth::user()->role_id, [1, 2, 4]) && $crm_visit_report->status !== 'Approved')
-                                    @endif
-                                @endif
-                                @if (Auth::check())
-                                    @if (Auth::user()->role_id == 2 && $crm_visit_report->status !== 'Approved')
-                                        <div class="col">
-                                            <div class="modal-footer border-0">
-                                                <form method="post"
-                                                    action="{{ route('crm-visit-report-approve', $crm_visit_report->id_visit_report) }}"
-                                                    enctype="multipart/form-data">
-                                                    @csrf <!-- CSRF protection -->
-                                                    <button type="submit" class="btn btn-primary">Approve</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    @elseif (Auth::user()->role_id == 2 && $crm_visit_report->status == 'Approved')
-                                    @endif
-                                @endif
 
-                            </div>
+                                            <div class="modal-footer border-0">
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        @elseif (!empty($crm_visit_report->ack_manager))
+                                            <div class="col-8">
+                                                <p class="mb-6">
+                                                    {{ $crm_visit_report->ack_manager }}
+                                                </p>
+                                            </div>
+                                        @endif
+                                    @endif
+                                </div>
+                            </form>
+                            {{-- Ack Director --}}
+                            <form method="post"
+                                action="{{ route('crm-visit-report-ackdirector', $crm_visit_report->id_visit_report) }}"
+                                enctype="multipart/form-data">
+                                @csrf <!-- CSRF protection -->
+                                <div class="row mb-4">
+                                    <div class="col-4">
+                                        <div class="d-flex justify-content-start align-items-center user-name">
+                                            <div class="avatar-wrapper">
+                                                <div class="avatar me-4"><img
+                                                        src="{{ asset('assets/img/avatars/11.png') }}" alt="Avatar"
+                                                        class="rounded-circle"></div>
+                                            </div>
+                                            <div class="d-flex flex-column">
+                                                <h6 class="mb-1">David</h6>
+                                                <small>Director</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (Auth::check())
+                                        @if (empty($crm_visit_report->ack_manager))
+                                        @elseif (Auth::user()->name == 'David' && empty($crm_visit_report->ack_director))
+                                            <div class="col-8">
+                                                <p class="mb-6">
+                                                    <textarea class="form-control" id="ack_director" rows="3" id="ack_director" name="ack_director">{{ $crm_visit_report->ack_director }}</textarea>
+                                                </p>
+                                            </div>
+
+                                            <div class="modal-footer border-0">
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        @elseif (!empty($crm_visit_report->ack_director))
+                                            <div class="col-8">
+                                                <p class="mb-6">
+                                                    {{ $crm_visit_report->ack_director }}
+                                                </p>
+                                            </div>
+                                        @endif
+                                    @endif
+                                </div>
+                            </form>
+                            {{-- Ack President Director --}}
+                            <form method="post"
+                                action="{{ route('crm-visit-report-ackpresdir', $crm_visit_report->id_visit_report) }}"
+                                enctype="multipart/form-data">
+                                @csrf <!-- CSRF protection -->
+                                <div class="row mb-4">
+                                    <div class="col-4">
+                                        <div class="d-flex justify-content-start align-items-center user-name">
+                                            <div class="avatar-wrapper">
+                                                <div class="avatar me-4"><img
+                                                        src="{{ asset('assets/img/avatars/11.png') }}" alt="Avatar"
+                                                        class="rounded-circle"></div>
+                                            </div>
+                                            <div class="d-flex flex-column">
+                                                <h6 class="mb-1">Alfian Jasrin</h6>
+                                                <small>President Director</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (Auth::check())
+                                        @if (empty($crm_visit_report->ack_director))
+                                        @elseif (Auth::user()->name == 'Alfian Jasrin' && empty($crm_visit_report->ack_presdir))
+                                            <div class="col-8">
+                                                <p class="mb-6">
+                                                    <textarea class="form-control" id="ack_presdir" rows="3" id="ack_presdir" name="ack_presdir">{{ $crm_visit_report->ack_presdir }}</textarea>
+                                                </p>
+                                            </div>
+
+                                            <div class="modal-footer border-0">
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        @elseif (!empty($crm_visit_report->ack_presdir))
+                                            <div class="col-8">
+                                                <p class="mb-6">
+                                                    {{ $crm_visit_report->ack_presdir }}
+                                                </p>
+                                            </div>
+                                        @elseif (empty($crm_visit_report->ack_director))
+                                        @endif
+                                    @endif
+                                </div>
+                            </form>
+
+                            {{-- @if (Auth::check())
+                                @if (in_array(Auth::user()->role_id, [1, 2, 4]) && $crm_visit_report->status == 'Approved')
+                                    <div class="col">
+                                        <div class="">
+                                            <div class="me-4">
+                                                <img src="{{ asset('img/approved.png') }}" alt="Avatar"
+                                                    class="rounded-circle" style="width: 75%; height: 75%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                @elseif (in_array(Auth::user()->role_id, [1, 2, 4]) && $crm_visit_report->status !== 'Approved')
+                                @endif
+                            @endif --}}
+
+                            {{-- @if (Auth::check())
+                                @if (Auth::user()->role_id == 2 && $crm_visit_report->status !== 'Approved')
+                                    <div class="col">
+                                        <div class="modal-footer border-0">
+                                            <form method="post"
+                                                action="{{ route('crm-visit-report-approve', $crm_visit_report->id_visit_report) }}"
+                                                enctype="multipart/form-data">
+                                                @csrf <!-- CSRF protection -->
+                                                <button type="submit" class="btn btn-primary">Approve</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @elseif (Auth::user()->role_id == 2 && $crm_visit_report->status == 'Approved')
+                                @endif
+                            @endif --}}
+
                         </div>
                     </div>
                 </div>

@@ -26,6 +26,9 @@ return new class extends Migration
             $table->string('next_steps')->nullable(); // Next actions after the visit
             $table->date('follow_up_date')->nullable(); // Date for follow-up actions
             $table->string('status')->default('Planned'); // Visit status (e.g., Planned, Completed)
+            $table->text('ack_manager')->nullable();
+            $table->text('ack_director')->nullable();
+            $table->text('ack_presdir')->nullable();
             $table->string('image')->nullable(); // Path to an uploaded image or document
             $table->timestamps(); // Created and updated timestamps
             $table->softDeletes(); // Soft delete column

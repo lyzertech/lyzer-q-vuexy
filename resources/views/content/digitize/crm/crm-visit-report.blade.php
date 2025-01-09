@@ -457,17 +457,17 @@
                                         badgeClass = 'bg-label-info';
                                         badgeText = 'In Progress';
                                         break;
+                                    case 'Submitted':
+                                        badgeClass = 'bg-label-primary';
+                                        badgeText = 'Submitted';
+                                        break;
+                                    case 'Acknowledge':
+                                        badgeClass = 'bg-label-danger';
+                                        badgeText = 'Acknowledge';
+                                        break;
                                     case 'Completed':
                                         badgeClass = 'bg-label-success';
                                         badgeText = 'Completed';
-                                        break;
-                                    case 'Approved':
-                                        badgeClass = 'bg-label-danger';
-                                        badgeText = 'Approved';
-                                        break;
-                                    case 'Cancelled':
-                                        badgeClass = 'bg-label-danger';
-                                        badgeText = 'Cancelled';
                                         break;
                                     default:
                                         badgeClass = 'bg-label-secondary';

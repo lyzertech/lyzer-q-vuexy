@@ -100,6 +100,16 @@
                                         <h6>Follow Up Date</h6>
                                         <p class="mb-6">
                                             {{ $crm_visit_report->follow_up_date }}
+                                            @if (in_array($crm_visit_report->follow_up_date_status, ['0']) && !empty($crm_visit_report->follow_up_date))
+                                                <form method="post"
+                                                    action="{{ route('crm-visit-report-followup', $crm_visit_report->id_visit_report) }}"
+                                                    enctype="multipart/form-data">
+                                                    @csrf <!-- CSRF protection -->
+                                                    <button type="submit" class="btn btn-success">Mark as Followed
+                                                        Up</button>
+                                                </form>
+                                            @else
+                                            @endif
                                         </p>
                                         <h6>Next Step</h6>
                                         <p class="mb-6">
@@ -166,7 +176,6 @@
                                 <!-- Content for unauthenticated users -->
                                 <p>Please log in to view your role.</p>
                             @endif
-
 
                             <hr class="my-6">
                             <h5>Acknowledge</h5>
@@ -289,6 +298,51 @@
                                                 </p>
                                             </div>
                                         @elseif (empty($crm_visit_report->ack_director))
+                                        @endif
+                                    @endif
+                                </div>
+                            </form>
+
+                            <hr class="my-6">
+                            <h5>Final Response</h5>
+                            {{-- Final Response --}}
+                            <form method="post"
+                                action="{{ route('crm-visit-report-response', $crm_visit_report->id_visit_report) }}"
+                                enctype="multipart/form-data">
+                                @csrf <!-- CSRF protection -->
+                                <div class="row mb-4">
+                                    <div class="col-4">
+                                        <div class="d-flex justify-content-start align-items-center user-name">
+                                            <div class="avatar-wrapper">
+                                                <div class="avatar me-4"><img
+                                                        src="{{ asset('assets/img/avatars/11.png') }}" alt="Avatar"
+                                                        class="rounded-circle"></div>
+                                            </div>
+                                            <div class="d-flex flex-column">
+                                                <h6 class="mb-1">{{ $crm_visit_report->sales }}</h6>
+                                                <small>Sales</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (Auth::check())
+                                        @if (empty($crm_visit_report->ack_presdir))
+                                        @elseif (Auth::user()->name == $crm_visit_report->sales && empty($crm_visit_report->response))
+                                            <div class="col-8">
+                                                <p class="mb-6">
+                                                    <textarea class="form-control" id="response" rows="3" id="response" name="response">{{ $crm_visit_report->response }}</textarea>
+                                                </p>
+                                            </div>
+
+                                            <div class="modal-footer border-0">
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        @elseif (!empty($crm_visit_report->response))
+                                            <div class="col-8">
+                                                <p class="mb-6">
+                                                    {{ $crm_visit_report->response }}
+                                                </p>
+                                            </div>
+                                        @elseif (empty($crm_visit_report->ack_presdir))
                                         @endif
                                     @endif
                                 </div>

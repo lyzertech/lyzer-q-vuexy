@@ -26,10 +26,12 @@ class crm_visit_report extends Model
         'customer_feedback', // Feedback from the customer
         'next_steps', // Next actions after the visit
         'follow_up_date', // Date for follow-up actions
+        'follow_up_date_status', // status Date for follow-up actions
         'status', // Visit status (e.g., Planned, Completed)
         'ack_manager', // Visit status (e.g., Planned, Completed)
         'ack_director', // Visit status (e.g., Planned, Completed)
         'ack_presdir', // Visit status (e.g., Planned, Completed)
+        'response', // Visit status (e.g., Planned, Completed)
         'image', // Path to an uploaded image or document
         'updated_at',
         'created_at'

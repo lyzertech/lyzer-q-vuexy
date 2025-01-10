@@ -5,6 +5,7 @@ namespace App\Http\Controllers\crm;
 use App\Http\Controllers\Controller;
 use App\Models\crm\crm_customer;
 use App\Models\crm\crm_visit_report;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -19,8 +20,13 @@ class CrmVisitReport extends Controller
   public function index()
   {
     $customer = crm_customer::all();
+    // dd($customer);
+    $visit_reports = crm_visit_report::select('sales', DB::raw('count(*) as total_visits'))
+      ->groupBy('sales')
+      ->get();
+    $sales_list = User::where('role_id', 4)->get();
 
-    return view('content.digitize.crm.crm-visit-report', compact('customer'));
+    return view('content.digitize.crm.crm-visit-report', compact('customer', 'visit_reports', 'sales_list'));
   }
   public function visit_report_data()
   {
@@ -172,7 +178,7 @@ class CrmVisitReport extends Controller
     ]);
 
     // Set the status to "Submitted"
-    // $validatedData['status'] = 'Submitted';
+    $validatedData['status'] = 'Submitted';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);
@@ -213,8 +219,8 @@ class CrmVisitReport extends Controller
         'ack_presdir' => 'nullable|string|max:2000',
     ]);
 
-    // Set the status to "Submitted"
-    // $validatedData['status'] = 'Submitted';
+    // Set the status to "Acknowledge"
+    $validatedData['status'] = 'Acknowledge';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);
@@ -222,24 +228,46 @@ class CrmVisitReport extends Controller
     // Redirect back with success message
     return back()->with('success', 'CRM Visit updated successfully!');
   }
-  public function visit_report_approve(Request $request, $id_visit_report)
+  public function visit_report_response(Request $request, $id_visit_report)
   {
+    // dd($request);
+
     // Find the existing visit report by ID
     $visitReport = crm_visit_report::findOrFail($id_visit_report);
 
     // Validate incoming request data
     $validatedData = $request->validate([
-        'status' => 'nullable|string|max:50',
+        'response' => 'nullable|string|max:2000',
     ]);
 
     // Set the status to "Completed"
-    $validatedData['status'] = 'Approved';
+    $validatedData['status'] = 'Completed';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);
 
     // Redirect back with success message
     return back()->with('success', 'CRM Visit updated successfully!');
+  }
+  public function visit_report_followup(Request $request, $id_visit_report)
+  {
+    // Find the existing visit report by ID
+    $visitReport = crm_visit_report::findOrFail($id_visit_report);
+
+    // Validate incoming request data
+    $validatedData = $request->validate([
+        'follow_up_date_status' => 'nullable|string|max:50',
+    ]);
+
+    // Set the follow_up_date_status to "Completed"
+    $validatedData['follow_up_date_status'] = '1';
+
+    // Update the visit report with validated data
+    $visitReport->update($validatedData);
+
+    // Redirect back with success message
+    return redirect()->route('crm-visit-report')->with('success', 'CRM Visit updated successfully!');
+
   }
   public function visit_report_destroy($id_visit_report)
   {

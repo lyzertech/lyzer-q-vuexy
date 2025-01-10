@@ -56,6 +56,43 @@
 
     {{-- Export --}}
 
+    <!-- Recap Tracker -->
+    <div class="row g-6">
+        <!-- Visit Report Recap -->
+        <div class="col-md-2">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="card-title mb-0">
+                        <h5 class="mb-1">Sales Visit Report</h5>
+                        <p class="card-subtitle">Last 30 Days</p>
+                    </div>
+                </div>
+                <div class="card-body row">
+                    @foreach ($visit_reports as $sales_visit)
+                        <div class="row">
+                            <ul class="p-0 m-0">
+                                <li class="d-flex gap-4 align-items-center mb-lg-3 pb-1">
+                                    {{-- <div class="badge rounded bg-label-success p-1_5"> --}}
+                                    <div class="avatar-wrapper">
+                                        <div class="avatar me-2">
+                                            <img src="/assets/img/avatars/9.png" alt="Avatar" class="rounded-circle">
+                                        </div>
+                                    </div>
+                                    {{-- </div> --}}
+                                    <div>
+                                        <h6 class="mb-0 text-nowrap">{{ $sales_visit->sales }}</h6>
+                                        <small class="text-muted">{{ $sales_visit->total_visits }}</small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <!--/ Visit Report Recap -->
+    </div>
+
     <!-- DataTable with Buttons -->
     <div class="card mt-4">
         <div class="card-datatable table-responsive pt-0">
@@ -190,8 +227,8 @@
                                                         <label class="form-label" for="sales">Sales</label>
                                                     </div>
                                                 </div> --}}
-                                                <input type="hidden" id="sales" name="sales"
-                                                    value="{{ auth()->user()->name }}">
+                                                {{-- <input type="hidden" id="sales" name="sales"
+                                                    value="{{ auth()->user()->name }}"> --}}
                                                 {{-- <div>{{ auth()->user()->sales }}</div> --}}
 
                                                 <!-- Contact Person -->
@@ -213,15 +250,30 @@
                                                 </div>
                                             </div>
                                             <div class="row g-6">
+                                                <!-- Sales -->
+                                                <div class="col-sm-6">
+                                                    <div class="mb-4">
+                                                        <label for="add-user-sales" class="form-label">Sales</label>
+                                                        <select id="add-user-sales" class="form-select" name="sales">
+                                                            <option>Choose Sales</option>
+                                                            @foreach ($sales_list as $sales)
+                                                                <option value="{{ $sales->name }}">{{ $sales->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <!-- Location -->
                                                 <div class="col-sm-6">
                                                     <div class="mb-4">
-                                                        <label class="form-label" for="location">Meeting Point</label>
+                                                        <label class="form-label" for="location">Meeting Point -
+                                                            Tandem</label>
                                                         <input type="text" id="location" class="form-control"
-                                                            placeholder="Meruya Utara" name="location">
+                                                            placeholder="Meruya Utara - Sales" name="location">
                                                     </div>
                                                 </div>
-
+                                            </div>
+                                            <div class="row g-6">
                                                 <!-- Purpose -->
                                                 <div class="col-sm-6">
                                                     <div class="mb-4">
@@ -371,7 +423,6 @@
         </div>
     </div>
 
-
     <!-- visit-report-table -->
     <script type="text/javascript">
         $(document).ready(function() {
@@ -486,6 +537,44 @@
                         searchable: false
                     }
                 ],
+                createdRow: function(row, data, dataIndex) {
+                    const followUpDate = new Date(data.follow_up_date); // Parse follow-up date
+                    const today = new Date(); // Get today's date
+
+                    // Check if follow_up_date is null or invalid
+                    // Check if follow_up_date is null or invalid
+                    if (!data.follow_up_date || isNaN(followUpDate.getTime())) {
+                        $(row).css('background-color',
+                            '#ffffff'); // White background if follow_up_date is NULL or invalid
+                        return;
+                    }
+
+                    const twoDaysBefore = new Date(followUpDate); // Clone follow-up date
+                    twoDaysBefore.setDate(followUpDate.getDate() - 2); // 2 days before
+
+                    // Remove time for date-only comparison
+                    followUpDate.setHours(0, 0, 0, 0);
+                    today.setHours(0, 0, 0, 0);
+                    twoDaysBefore.setHours(0, 0, 0, 0);
+
+                    // Apply row color and show alert
+                    if (followUpDate.getTime() === today.getTime() && data.follow_up_date_status ===
+                        '0') {
+                        $(row).css('background-color', '#f5c6cb'); // Red for today
+                        alert(`Today is the follow-up date for ${data.customer_name}!`);
+                    } else if (today.getTime() >= twoDaysBefore.getTime() && today.getTime() <
+                        followUpDate.getTime()) {
+                        $(row).css('background-color', '#fff3cd'); // Yellow for 1-2 days before
+                    } else if (followUpDate > today) {
+                        $(row).css('background-color', '#ffffff'); // Green for future dates
+                    } else if (followUpDate < today && data.follow_up_date_status === '0') {
+                        $(row).css('background-color', '#f5c6cb'); // Red for overdue dates
+                    } else if (data.follow_up_date_status === '1') {
+                        $(row).css('background-color', '#ffffff'); // White background status 1
+                    } else {
+                        $(row).css('background-color', '#ffffff'); // Red for overdue dates
+                    }
+                },
                 order: [
                     [3, 'dsc']
                 ],

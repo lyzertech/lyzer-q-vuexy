@@ -203,7 +203,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/crm/visit-report/ackmanager/{id_visit_report}', [CrmVisitReport::class, 'visit_report_ackmanager'])->name('crm-visit-report-ackmanager');
     Route::post('/crm/visit-report/ackdirector/{id_visit_report}', [CrmVisitReport::class, 'visit_report_ackdirector'])->name('crm-visit-report-ackdirector');
     Route::post('/crm/visit-report/ackpresdir/{id_visit_report}', [CrmVisitReport::class, 'visit_report_ackpresdir'])->name('crm-visit-report-ackpresdir');
-    Route::post('/crm/visit-report/approve/{id_visit_report}', [CrmVisitReport::class, 'visit_report_approve'])->name('crm-visit-report-approve');
+    Route::post('/crm/visit-report/response/{id_visit_report}', [CrmVisitReport::class, 'visit_report_response'])->name('crm-visit-report-response');
+    Route::post('/crm/visit-report/followup/{id_visit_report}', [CrmVisitReport::class, 'visit_report_followup'])->name('crm-visit-report-followup');
     Route::delete('/crm/visit-report/destroy/{id_visit_report}', [CrmVisitReport::class, 'visit_report_destroy'])->name('crm-visit-report-destroy');
 
     Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');

@@ -99,7 +99,7 @@
                 </div>
                 <div class="table-responsive text-start">
                     <div class="card-datatable table-responsive">
-                        <table class="table table-bordered" id="label-table">
+                        <table class="table table-bordered" id="users-table">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -116,7 +116,7 @@
         </div>
     </div>
 
-    <!-- Modal to add new label -->
+    <!-- Modal to add new user -->
     <div class="modal fade" id="AddNewLabel" tabindex="-1" aria-modal="true" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -201,16 +201,16 @@
     </div>
 
 
-    <!-- label-table -->
+    <!-- users-table -->
     <script type="text/javascript">
         $(document).ready(function() {
             // Destroy existing DataTable before re-initializing
-            if ($.fn.DataTable.isDataTable('#label-table')) {
-                $('#label-table').DataTable().destroy();
+            if ($.fn.DataTable.isDataTable('#users-table')) {
+                $('#users-table').DataTable().destroy();
             }
 
             // Initialize DataTable with buttons for export
-            $('#label-table').DataTable({
+            $('#users-table').DataTable({
                 serverSide: true,
                 ajax: '{{ route('users-data') }}',
                 columns: [{
@@ -311,19 +311,19 @@
 
             // Optional: Bind the dropdown buttons to DataTable buttons (if you want more control)
             $('#exportPrint').click(function() {
-                $('#label-table').DataTable().button('.buttons-print').trigger();
+                $('#users-table').DataTable().button('.buttons-print').trigger();
             });
             $('#exportCsv').click(function() {
-                $('#label-table').DataTable().button('.buttons-csv').trigger();
+                $('#users-table').DataTable().button('.buttons-csv').trigger();
             });
             $('#exportExcel').click(function() {
-                $('#label-table').DataTable().button('.buttons-excel').trigger();
+                $('#users-table').DataTable().button('.buttons-excel').trigger();
             });
             $('#exportPdf').click(function() {
-                $('#label-table').DataTable().button('.buttons-pdf').trigger();
+                $('#users-table').DataTable().button('.buttons-pdf').trigger();
             });
             $('#exportCopy').click(function() {
-                $('#label-table').DataTable().button('.buttons-copy').trigger();
+                $('#users-table').DataTable().button('.buttons-copy').trigger();
             });
         });
     </script>

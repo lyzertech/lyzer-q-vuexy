@@ -32,19 +32,19 @@ class Users extends Controller
                 $deleteUrl = route('users-destroy', $users->id);
 
                 // Return the action buttons HTML
+                // <div class="d-inline-block">
+                //     <a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                //         <i class="ti ti-dots-vertical ti-md"></i>
+                //     </a>
+                //     <ul class="dropdown-menu dropdown-menu-end m-0">
+                //         <li><a href="' . $showUrl . '" class="dropdown-item">Details</a></li>
+                //         <div class="dropdown-divider"></div>
+                //         <li>
+                //         <a href="' . $deleteUrl . '" class="dropdown-item text-danger delete-record">Delete</a>
+                //         </li>
+                //     </ul>
+                // </div>
                 return '
-                <div class="d-inline-block">
-                    <a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                        <i class="ti ti-dots-vertical ti-md"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end m-0">
-                        <li><a href="' . $showUrl . '" class="dropdown-item">Details</a></li>
-                        <div class="dropdown-divider"></div>
-                        <li>
-                        <a href="' . $deleteUrl . '" class="dropdown-item text-danger delete-record">Delete</a>
-                        </li>
-                    </ul>
-                </div>
                 <a href="' . $showUrl . '" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit">
                     <i class="ti ti-eye ti-md"></i>
                 </a>

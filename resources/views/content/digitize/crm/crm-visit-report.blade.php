@@ -181,12 +181,12 @@
                     </button>
                 </div>
                 <div id="modalCarouselControls" class="carousel slide pb-6 mb-2" data-bs-interval="false">
-                    <div class="carousel-indicators">
+                    {{-- <div class="carousel-indicators">
                         <button type="button" data-bs-target="#modalCarouselControls" data-bs-slide-to="0"
                             class="active"></button>
                         <button type="button" data-bs-target="#modalCarouselControls" data-bs-slide-to="1"></button>
                         <button type="button" data-bs-target="#modalCarouselControls" data-bs-slide-to="2"></button>
-                    </div>
+                    </div> --}}
                     <div class="carousel-inner">
                         <form method="post" action="{{ route('crm-visit-report-create') }}" enctype="multipart/form-data">
                             @csrf <!-- CSRF protection -->
@@ -275,7 +275,7 @@
                                             </div>
                                             <div class="row g-6">
                                                 <!-- Purpose -->
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-12">
                                                     <div class="mb-4">
                                                         <label class="form-label" for="purpose">Purpose</label>
                                                         <input type="text" id="purpose" class="form-control"
@@ -412,12 +412,12 @@
                             </div>
                         </form>
                     </div>
-                    <a class="carousel-control-prev" href="#modalCarouselControls" role="button" data-bs-slide="prev">
+                    {{-- <a class="carousel-control-prev" href="#modalCarouselControls" role="button" data-bs-slide="prev">
                         <i class="bx bx-chevrons-left lh-1"></i><span>Previous</span>
                     </a>
                     <a class="carousel-control-next" href="#modalCarouselControls" role="button" data-bs-slide="next">
                         <span>Next</span><i class="bx bx-chevrons-right lh-1"></i>
-                    </a>
+                    </a> --}}
                 </div>
             </div>
         </div>

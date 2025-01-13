@@ -29,7 +29,7 @@ class CrmCustomer extends Controller
       ->groupBy('area')
       ->get()
       ->toArray();
-    $sales_list = User::where('role_id', 4)->get();
+    $sales_list = User::whereIn('role_id', [4, 5])->get();
 
     return view('content.digitize.crm.crm-customer', compact('total_customers', 'total_purchasing', 'sales_distribution', 'area_distribution', 'sales_list'));
   }

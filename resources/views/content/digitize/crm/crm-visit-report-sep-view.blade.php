@@ -98,7 +98,7 @@
                                                     !empty($crm_visit_report->follow_up_date) &&
                                                     Auth::user()->name == 'David')
                                                 <form method="post"
-                                                    action="{{ route('crm-visit-report-followup', $crm_visit_report->id_visit_report) }}"
+                                                    action="{{ route('crm-visit-report-sep-followup', $crm_visit_report->id_visit_report) }}"
                                                     enctype="multipart/form-data">
                                                     @csrf <!-- CSRF protection -->
                                                     <button type="submit" class="btn btn-success">Mark as Followed
@@ -119,10 +119,10 @@
                                             </button>
                                         </div>
                                     </div>
-                                @elseif (Auth::user()->role_id == 4 && Auth::user()->name == $crm_visit_report->sales)
-                                    <!-- Content for role 4 -->
+                                @elseif (Auth::user()->role_id == 5 && Auth::user()->name == $crm_visit_report->sales)
+                                    <!-- Content for role 5 -->
                                     <form method="post"
-                                        action="{{ route('crm-visit-report-edit', $crm_visit_report->id_visit_report) }}"
+                                        action="{{ route('crm-visit-report-sep-edit', $crm_visit_report->id_visit_report) }}"
                                         enctype="multipart/form-data">
                                         @csrf <!-- CSRF protection -->
                                         <hr class="my-6">
@@ -146,7 +146,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <h6>Prospek</h6>
-                                                <select id="prospek" class="form-select" name="prospek"
+                                                <select id="prospek" class="form-select" name="propek"
                                                     value="{{ $crm_visit_report->propek }}">
                                                     <option>Choose Status</option>
                                                     <option value="1">Yes</option>
@@ -169,7 +169,7 @@
                                     </form>
 
                                     <form method="post"
-                                        action="{{ route('crm-visit-report-submit', $crm_visit_report->id_visit_report) }}"
+                                        action="{{ route('crm-visit-report-sep-submit', $crm_visit_report->id_visit_report) }}"
                                         enctype="multipart/form-data">
                                         @csrf <!-- CSRF protection -->
                                         <div class="modal-footer border-0">
@@ -189,7 +189,7 @@
                             <h5>Acknowledge</h5>
                             {{-- Ack Manager --}}
                             <form method="post"
-                                action="{{ route('crm-visit-report-ackmanager', $crm_visit_report->id_visit_report) }}"
+                                action="{{ route('crm-visit-report-sep-ackmanager', $crm_visit_report->id_visit_report) }}"
                                 enctype="multipart/form-data">
                                 @csrf <!-- CSRF protection -->
                                 <div class="row mb-4">
@@ -201,13 +201,13 @@
                                                         class="rounded-circle"></div>
                                             </div>
                                             <div class="d-flex flex-column">
-                                                <h6 class="mb-1">David</h6>
+                                                <h6 class="mb-1">Eka Karnanto</h6>
                                                 <small>Manager</small>
                                             </div>
                                         </div>
                                     </div>
                                     @if (Auth::check())
-                                        @if (Auth::user()->name == 'David' && empty($crm_visit_report->ack_manager))
+                                        @if (Auth::user()->name == 'Eka Karnanto' && empty($crm_visit_report->ack_manager))
                                             <div class="col-8">
                                                 <p class="mb-6">
                                                     <textarea class="form-control" id="ack_manager" rows="3" id="ack_manager" name="ack_manager">{{ $crm_visit_report->ack_manager }}</textarea>
@@ -229,7 +229,7 @@
                             </form>
                             {{-- Ack Director --}}
                             <form method="post"
-                                action="{{ route('crm-visit-report-ackdirector', $crm_visit_report->id_visit_report) }}"
+                                action="{{ route('crm-visit-report-sep-ackdirector', $crm_visit_report->id_visit_report) }}"
                                 enctype="multipart/form-data">
                                 @csrf <!-- CSRF protection -->
                                 <div class="row mb-4">
@@ -241,14 +241,14 @@
                                                         class="rounded-circle"></div>
                                             </div>
                                             <div class="d-flex flex-column">
-                                                <h6 class="mb-1">David</h6>
+                                                <h6 class="mb-1">Bambang Tri</h6>
                                                 <small>Director</small>
                                             </div>
                                         </div>
                                     </div>
                                     @if (Auth::check())
                                         @if (empty($crm_visit_report->ack_manager))
-                                        @elseif (Auth::user()->name == 'David' && empty($crm_visit_report->ack_director))
+                                        @elseif (Auth::user()->name == 'Bambang Tri' && empty($crm_visit_report->ack_director))
                                             <div class="col-8">
                                                 <p class="mb-6">
                                                     <textarea class="form-control" id="ack_director" rows="3" id="ack_director" name="ack_director">{{ $crm_visit_report->ack_director }}</textarea>
@@ -270,7 +270,7 @@
                             </form>
                             {{-- Ack President Director --}}
                             <form method="post"
-                                action="{{ route('crm-visit-report-ackpresdir', $crm_visit_report->id_visit_report) }}"
+                                action="{{ route('crm-visit-report-sep-ackpresdir', $crm_visit_report->id_visit_report) }}"
                                 enctype="multipart/form-data">
                                 @csrf <!-- CSRF protection -->
                                 <div class="row mb-4">
@@ -315,7 +315,7 @@
                             <h5>Final Response</h5>
                             {{-- Final Response --}}
                             <form method="post"
-                                action="{{ route('crm-visit-report-response', $crm_visit_report->id_visit_report) }}"
+                                action="{{ route('crm-visit-report-sep-response', $crm_visit_report->id_visit_report) }}"
                                 enctype="multipart/form-data">
                                 @csrf <!-- CSRF protection -->
                                 <div class="row mb-4">
@@ -375,7 +375,7 @@
                                     <div class="col">
                                         <div class="modal-footer border-0">
                                             <form method="post"
-                                                action="{{ route('crm-visit-report-approve', $crm_visit_report->id_visit_report) }}"
+                                                action="{{ route('crm-visit-report-sep-approve', $crm_visit_report->id_visit_report) }}"
                                                 enctype="multipart/form-data">
                                                 @csrf <!-- CSRF protection -->
                                                 <button type="submit" class="btn btn-primary">Approve</button>

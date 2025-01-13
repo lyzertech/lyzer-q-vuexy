@@ -20,8 +20,13 @@
         },
         {
           "url": "crm/visit-report",
-          "name": "Visit Report",
+          "name": "Visit Report AII",
           "slug": "crm-visit-report"
+        },
+        {
+          "url": "crm/visit-report-sep",
+          "name": "Visit Report SEP",
+          "slug": "crm-visit-report-sep"
         }
       ]
     },

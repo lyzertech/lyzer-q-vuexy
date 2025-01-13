@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('crm_visit_report', function (Blueprint $table) {
+        Schema::create('crm_visit_report_sep', function (Blueprint $table) {
             $table->id('id_visit_report');
             $table->string('customer_name'); // Name of the customer
             $table->string('sales'); // Name of the sales
@@ -43,6 +43,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-      Schema::dropIfExists('crm_visit_report');
+      Schema::dropIfExists('crm_visit_report_sep');
     }
 };

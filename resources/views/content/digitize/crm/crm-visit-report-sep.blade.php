@@ -189,7 +189,8 @@
                         <button type="button" data-bs-target="#modalCarouselControls" data-bs-slide-to="2"></button>
                     </div> --}}
                     <div class="carousel-inner">
-                        <form method="post" action="{{ route('crm-visit-report-create') }}" enctype="multipart/form-data">
+                        <form method="post" action="{{ route('crm-visit-report-sep-create') }}"
+                            enctype="multipart/form-data">
                             @csrf <!-- CSRF protection -->
                             <div class="modal-content text-center">
                                 <div class="modal-body p-0">
@@ -435,7 +436,7 @@
             // Initialize DataTable with buttons for export
             $('#visit-report-table').DataTable({
                 serverSide: true,
-                ajax: '{{ route('crm-visit-report-data') }}',
+                ajax: '{{ route('crm-visit-report-sep-data') }}',
                 columns: [{
                         data: 'sales',
                         name: 'sales'

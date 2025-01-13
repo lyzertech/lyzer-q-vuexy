@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class crm_visit_report extends Model
+class crm_visit_report_sep extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'crm_visit_report';
+    protected $table = 'crm_visit_report_sep';
     protected $primaryKey = 'id_visit_report';
     protected $fillable = [
         'customer_name', // Name of the customer

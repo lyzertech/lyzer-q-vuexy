@@ -491,7 +491,8 @@
                                             1 => 'IT Dev.',
                                             2 => 'President Director',
                                             3 => 'Director',
-                                            4 => 'Sales',
+                                            4 => 'Sales AII',
+                                            5 => 'Sales SEP',
                                             7 => 'Member',
                                         ];
                                         $roleName = $roles[Auth::user()->role_id] ?? 'Unknown Role';

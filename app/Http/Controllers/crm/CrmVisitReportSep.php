@@ -4,7 +4,7 @@ namespace App\Http\Controllers\crm;
 
 use App\Http\Controllers\Controller;
 use App\Models\crm\crm_customer;
-use App\Models\crm\crm_visit_report;
+use App\Models\crm\crm_visit_report_sep;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Yajra\DataTables\Facades\DataTables;
 
-class CrmVisitReport extends Controller
+class CrmVisitReportSep extends Controller
 {
   use SoftDeletes;
 
@@ -21,16 +21,16 @@ class CrmVisitReport extends Controller
   {
     $customer = crm_customer::all();
     // dd($customer);
-    $visit_reports = crm_visit_report::select('sales', DB::raw('count(*) as total_visits'))
+    $visit_reports = crm_visit_report_sep::select('sales', DB::raw('count(*) as total_visits'))
       ->groupBy('sales')
       ->get();
-    $sales_list = User::where('role_id', 4)->get();
+    $sales_list = User::where('role_id', 5)->get();
 
-    return view('content.digitize.crm.crm-visit-report', compact('customer', 'visit_reports', 'sales_list'));
+    return view('content.digitize.crm.crm-visit-report-sep', compact('customer', 'visit_reports', 'sales_list'));
   }
   public function visit_report_data()
   {
-    $visit_report = crm_visit_report::all();
+    $visit_report = crm_visit_report_sep::all();
 
     // dd($visit_report);
 
@@ -40,9 +40,9 @@ class CrmVisitReport extends Controller
       })
       ->addColumn('action', function ($visit_report) {
         // Define the action URLs for View, Edit, and Delete
-        $showUrl = route('crm-visit-report-view', $visit_report->id_visit_report);
-        $editUrl = route('crm-visit-report-edit', $visit_report->id_visit_report);
-        $deleteUrl = route('crm-visit-report-destroy', $visit_report->id_visit_report);
+        $showUrl = route('crm-visit-report-sep-view', $visit_report->id_visit_report);
+        $editUrl = route('crm-visit-report-sep-edit', $visit_report->id_visit_report);
+        $deleteUrl = route('crm-visit-report-sep-destroy', $visit_report->id_visit_report);
 
         // Return the action buttons HTML
         // <div class="d-inline-block">
@@ -76,7 +76,7 @@ class CrmVisitReport extends Controller
     // $request['status'] = $request->input('status', 'Planned');
     $request['contact_number'] = $request->input('password', '12345');
 
-    crm_visit_report::create($request->only([
+    crm_visit_report_sep::create($request->only([
       'customer_name',
       'sales',
       'location',
@@ -91,18 +91,18 @@ class CrmVisitReport extends Controller
   }
   public function visit_report_view($crm_visit_report)
   {
-    $crm_visit_report = crm_visit_report::findOrFail($crm_visit_report);
+    $crm_visit_report = crm_visit_report_sep::findOrFail($crm_visit_report);
     // dd($crm_visit_report);
 
     // dd($crm_visit_report);
-    return view('content.digitize.crm.crm-visit-report-view', compact('crm_visit_report'));
+    return view('content.digitize.crm.crm-visit-report-sep-view', compact('crm_visit_report'));
   }
   public function visit_report_edit(Request $request, $id_visit_report)
   {
     // dd($request);
 
     // Find the existing visit report by ID
-    $visitReport = crm_visit_report::findOrFail($id_visit_report);
+    $visitReport = crm_visit_report_sep::findOrFail($id_visit_report);
 
     // Validate incoming request data
     $validatedData = $request->validate([
@@ -119,7 +119,6 @@ class CrmVisitReport extends Controller
         'next_steps' => 'nullable|string|max:1000',
         'follow_up_date' => 'nullable|date',
         'status' => 'nullable|string|max:50',
-        'prospek' => 'nullable|string|max:50',
         // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file types and size as needed
     ]);
 
@@ -146,7 +145,7 @@ class CrmVisitReport extends Controller
     // dd($request);
 
     // Find the existing visit report by ID
-    $visitReport = crm_visit_report::findOrFail($id_visit_report);
+    $visitReport = crm_visit_report_sep::findOrFail($id_visit_report);
 
     // Validate incoming request data
     $validatedData = $request->validate([
@@ -171,7 +170,7 @@ class CrmVisitReport extends Controller
     // dd($request);
 
     // Find the existing visit report by ID
-    $visitReport = crm_visit_report::findOrFail($id_visit_report);
+    $visitReport = crm_visit_report_sep::findOrFail($id_visit_report);
 
     // Validate incoming request data
     $validatedData = $request->validate([
@@ -192,7 +191,7 @@ class CrmVisitReport extends Controller
     // dd($request);
 
     // Find the existing visit report by ID
-    $visitReport = crm_visit_report::findOrFail($id_visit_report);
+    $visitReport = crm_visit_report_sep::findOrFail($id_visit_report);
 
     // Validate incoming request data
     $validatedData = $request->validate([
@@ -213,7 +212,7 @@ class CrmVisitReport extends Controller
     // dd($request);
 
     // Find the existing visit report by ID
-    $visitReport = crm_visit_report::findOrFail($id_visit_report);
+    $visitReport = crm_visit_report_sep::findOrFail($id_visit_report);
 
     // Validate incoming request data
     $validatedData = $request->validate([
@@ -234,7 +233,7 @@ class CrmVisitReport extends Controller
     // dd($request);
 
     // Find the existing visit report by ID
-    $visitReport = crm_visit_report::findOrFail($id_visit_report);
+    $visitReport = crm_visit_report_sep::findOrFail($id_visit_report);
 
     // Validate incoming request data
     $validatedData = $request->validate([
@@ -253,7 +252,7 @@ class CrmVisitReport extends Controller
   public function visit_report_followup(Request $request, $id_visit_report)
   {
     // Find the existing visit report by ID
-    $visitReport = crm_visit_report::findOrFail($id_visit_report);
+    $visitReport = crm_visit_report_sep::findOrFail($id_visit_report);
 
     // Validate incoming request data
     $validatedData = $request->validate([
@@ -267,12 +266,12 @@ class CrmVisitReport extends Controller
     $visitReport->update($validatedData);
 
     // Redirect back with success message
-    return redirect()->route('crm-visit-report')->with('success', 'CRM Visit updated successfully!');
+    return redirect()->route('crm-visit-report-sep')->with('success', 'CRM Visit updated successfully!');
 
   }
   public function visit_report_destroy($id_visit_report)
   {
-    $delete = crm_visit_report::find($id_visit_report);
+    $delete = crm_visit_report_sep::find($id_visit_report);
     dd($id_visit_report);
 
     if ($delete) {

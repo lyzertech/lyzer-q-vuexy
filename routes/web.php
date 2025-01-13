@@ -168,6 +168,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\crm\CrmDashboard;
 use App\Http\Controllers\crm\CrmCustomer;
 use App\Http\Controllers\crm\CrmVisitReport;
+use App\Http\Controllers\crm\CrmVisitReportSep;
 use App\Http\Controllers\labs\LabsDashboard;
 use App\Http\Controllers\labs\LabsLabel;
 use App\Http\Controllers\monitoring\MonitoringDashboard;
@@ -194,6 +195,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/crm/customer/edit/{id_customer}', [CrmCustomer::class, 'customer_edit'])->name('crm-customer-edit');
     Route::get('/crm/customer/destroy', [CrmCustomer::class, 'customer_destroy'])->name('crm-customer-destroy');
 
+    // Visit Report AII
     Route::get('/crm/visit-report', [CrmVisitReport::class, 'index'])->name('crm-visit-report');
     Route::get('/crm/visit-report/data', [CrmVisitReport::class, 'visit_report_data'])->name('crm-visit-report-data');
     Route::post('/crm/visit-report/create', [CrmVisitReport::class, 'create'])->name('crm-visit-report-create');
@@ -206,6 +208,21 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/crm/visit-report/response/{id_visit_report}', [CrmVisitReport::class, 'visit_report_response'])->name('crm-visit-report-response');
     Route::post('/crm/visit-report/followup/{id_visit_report}', [CrmVisitReport::class, 'visit_report_followup'])->name('crm-visit-report-followup');
     Route::delete('/crm/visit-report/destroy/{id_visit_report}', [CrmVisitReport::class, 'visit_report_destroy'])->name('crm-visit-report-destroy');
+
+    // Visit Report SEP
+    Route::get('/crm/visit-report-sep', [CrmVisitReportSep::class, 'index'])->name('crm-visit-report-sep');
+    Route::get('/crm/visit-report-sep/data', [CrmVisitReportSep::class, 'visit_report_data'])->name('crm-visit-report-sep-data');
+    Route::post('/crm/visit-report-sep/create', [CrmVisitReportSep::class, 'create'])->name('crm-visit-report-sep-create');
+    Route::get('/crm/visit-report-sep/view/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_view'])->name('crm-visit-report-sep-view');
+    Route::post('/crm/visit-report-sep/edit/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_edit'])->name('crm-visit-report-sep-edit');
+    Route::post('/crm/visit-report-sep/submit/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_submit'])->name('crm-visit-report-sep-submit');
+    Route::post('/crm/visit-report-sep/ackmanager/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_ackmanager'])->name('crm-visit-report-sep-ackmanager');
+    Route::post('/crm/visit-report-sep/ackdirector/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_ackdirector'])->name('crm-visit-report-sep-ackdirector');
+    Route::post('/crm/visit-report-sep/ackpresdir/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_ackpresdir'])->name('crm-visit-report-sep-ackpresdir');
+    Route::post('/crm/visit-report-sep/response/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_response'])->name('crm-visit-report-sep-response');
+    Route::post('/crm/visit-report-sep/followup/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_followup'])->name('crm-visit-report-sep-followup');
+    Route::delete('/crm/visit-report-sep/destroy/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_destroy'])->name('crm-visit-report-sep-destroy');
+
 
     Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');
 

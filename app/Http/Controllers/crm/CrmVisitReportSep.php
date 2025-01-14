@@ -25,8 +25,12 @@ class CrmVisitReportSep extends Controller
       ->groupBy('sales')
       ->get();
     $sales_list = User::where('role_id', 5)->get();
+    $total_visit_reports = crm_visit_report_sep::count();
+    $prospek_yes = crm_visit_report_sep::where('prospek', 1)->count();
+    $prospek_no = crm_visit_report_sep::where('prospek', 0)->count();
 
-    return view('content.digitize.crm.crm-visit-report-sep', compact('customer', 'visit_reports', 'sales_list'));
+    return view('content.digitize.crm.crm-visit-report-sep', compact('customer', 'visit_reports', 'sales_list',
+    'total_visit_reports', 'prospek_yes', 'prospek_no'));
   }
   public function visit_report_data()
   {
@@ -119,6 +123,7 @@ class CrmVisitReportSep extends Controller
         'next_steps' => 'nullable|string|max:1000',
         'follow_up_date' => 'nullable|date',
         'status' => 'nullable|string|max:50',
+        'prospek' => 'nullable|string|max:50',
         // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file types and size as needed
     ]);
 
@@ -154,6 +159,7 @@ class CrmVisitReportSep extends Controller
         'next_steps' => 'nullable|string|max:1000',
         'follow_up_date' => 'nullable|date',
         'status' => 'nullable|string|max:50',
+        'prospek' => 'nullable|string|max:50',
     ]);
 
     // Set the status to "Submitted"

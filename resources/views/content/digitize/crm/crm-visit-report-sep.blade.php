@@ -57,14 +57,14 @@
     {{-- Export --}}
 
     <!-- Recap Tracker -->
-    <div class="row g-6">
+    <div class="row g-6 mb-6">
         <!-- Visit Report Recap -->
         <div class="col-md-2">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between">
                     <div class="card-title mb-0">
                         <h5 class="mb-1">Sales Visit Report</h5>
-                        <p class="card-subtitle">Last 30 Days</p>
+                        {{-- <p class="card-subtitle">Last 30 Days</p> --}}
                     </div>
                 </div>
                 <div class="card-body row">
@@ -91,10 +91,83 @@
             </div>
         </div>
         <!--/ Visit Report Recap -->
+
+        <!-- Total Prospek -->
+        <div class="col-md-4">
+            <div class="row my-4">
+                <div class="col-6">
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="avatar avatar-lg">
+                            <div class="avatar-initial bg-label-primary rounded">
+                                <div>
+                                    <img src="{{ asset('assets/svg/icons/laptop.svg') }}" alt="paypal" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-right">
+                            <p class="mb-0 fw-medium">Total Visit Report</p>
+                            <h4 class="text-primary mb-0">{{ $total_visit_reports }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="avatar avatar-lg">
+                            <div class="avatar-initial bg-label-success rounded">
+                                <div>
+                                    <img src="{{ asset('assets/svg/icons/check.svg') }}" alt="Check" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-right">
+                            <p class="mb-0 fw-medium">Visit Prospek</p>
+                            <h4 class="text-success mb-0">{{ $prospek_yes }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col-6">
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="avatar avatar-lg">
+                            <div class="avatar-initial bg-label-info rounded">
+                                <div>
+                                    <img src="{{ asset('assets/svg/icons/lightbulb.svg') }}" alt="Lightbulb"
+                                        class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-right">
+                            <p class="mb-0 fw-medium">Prospek Results</p>
+                            <h4 class="text-info mb-0">
+                                {{ $total_visit_reports > 0 ? number_format(($prospek_yes / $total_visit_reports) * 100, 2) : 0 }}%
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="avatar avatar-lg">
+                            <div class="avatar-initial bg-label-danger rounded">
+                                <div>
+                                    <img src="{{ asset('assets/svg/icons/icons8-x.svg') }}" alt="Check"
+                                        class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-right">
+                            <p class="mb-0 fw-medium">Visit Not Prospek</p>
+                            <h4 class="text-danger mb-0">{{ $prospek_no }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- DataTable with Buttons -->
-    <div class="card mt-4">
+    <div class="card">
         <div class="card-datatable table-responsive pt-0">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                 <div class="card-header flex-column flex-md-row">
@@ -270,8 +343,9 @@
                                                     <div class="mb-4">
                                                         <label class="form-label" for="location">Meeting Point -
                                                             Tandem</label>
-                                                        <input type="text" id="location" class="form-control"
-                                                            placeholder="Meruya Utara - Sales" name="location">
+                                                        <input required type="text" id="location"
+                                                            class="form-control" placeholder="Meruya Utara - Sales"
+                                                            name="location">
                                                     </div>
                                                 </div>
                                             </div>
@@ -280,7 +354,8 @@
                                                 <div class="col-sm-12">
                                                     <div class="mb-4">
                                                         <label class="form-label" for="purpose">Purpose</label>
-                                                        <input type="text" id="purpose" class="form-control"
+                                                        <input required type="text" id="purpose"
+                                                            class="form-control"
                                                             placeholder="Present Transducer & Annunciator" name="purpose">
                                                     </div>
                                                 </div>
@@ -290,8 +365,8 @@
                                                 <div class="col-sm-6">
                                                     <div class="mb-4">
                                                         <label class="form-label" for="visit_date">Visit Date</label>
-                                                        <input class="form-control" type="date" id="visit_date"
-                                                            name="visit_date">
+                                                        <input required class="form-control" type="date"
+                                                            id="visit_date" name="visit_date">
                                                     </div>
                                                 </div>
 

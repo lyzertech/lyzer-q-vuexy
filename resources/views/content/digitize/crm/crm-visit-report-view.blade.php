@@ -107,6 +107,22 @@
                                             @else
                                             @endif
                                         </p>
+                                        @php
+                                            // Define badge classes for prospek statuses
+                                            $prospekBadgeClasses = [
+                                                '1' => 'bg-label-success', // Yes
+                                                '0' => 'bg-label-warning', // No
+                                                'Unknown' => 'bg-label-secondary', // Default for undefined statuses
+                                            ];
+
+                                            // Get the prospek value and map to the badge class
+                                            $prospek = $crm_visit_report->prospek ?? 'Unknown';
+                                            $prospekBadgeClass =
+                                                $prospekBadgeClasses[$prospek] ?? $prospekBadgeClasses['Unknown'];
+                                        @endphp
+                                        <h6>Prospek</h6>
+                                        <span
+                                            class="badge {{ $prospekBadgeClass }}">{{ $prospek == '1' ? 'Yes' : ($prospek == '0' ? 'No' : 'Unknown') }}</span>
                                         <h6>Next Step</h6>
                                         <p class="mb-6">
                                             {{ $crm_visit_report->next_steps }}
@@ -146,11 +162,14 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <h6>Prospek</h6>
-                                                <select id="prospek" class="form-select" name="prospek"
-                                                    value="{{ $crm_visit_report->propek }}">
+                                                <select id="prospek" class="form-select" name="prospek">
                                                     <option>Choose Status</option>
-                                                    <option value="1">Yes</option>
-                                                    <option value="0">No</option>
+                                                    <option value="1"
+                                                        {{ $crm_visit_report->prospek == '1' ? 'selected' : '' }}>Yes
+                                                    </option>
+                                                    <option value="0"
+                                                        {{ $crm_visit_report->prospek == '0' ? 'selected' : '' }}>No
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>

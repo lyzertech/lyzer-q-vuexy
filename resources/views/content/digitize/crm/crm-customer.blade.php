@@ -58,7 +58,7 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 
     <!-- Recap Tracker -->
-    <div class="row g-6">
+    <div class="row g-6 mb-6">
 
         <!-- Customer Tracker -->
         <div class="col-md-4">
@@ -79,20 +79,35 @@
                     <div class="col-12 col-sm-8 col-md-12 col-lg-8">
                         <ul class="p-0 m-0">
                             <li class="d-flex gap-4 align-items-center mb-lg-3 pb-1">
-                                <div class="badge rounded bg-label-primary p-1_5"><i class="ti ti-user ti-md"></i></div>
+                                <div class="badge rounded bg-label-primary p-1_5">
+                                    <div class="avatar">
+                                        <img src="/img/logo/aii.png" alt="">
+                                    </div>
+                                </div>
                                 <div>
                                     <h6 class="mb-0 text-nowrap">Total Customers</h6>
-                                    <small class="text-muted">{{ $total_purchasing }}</small>
+                                    <small class="text-muted">{{ $total_purchasing_aii }}</small>
                                 </div>
                             </li>
                             <li class="d-flex gap-4 align-items-center mb-lg-3 pb-1">
+                                <div class="badge rounded bg-label-success p-1_5">
+                                    <div class="avatar">
+                                        <img src="/img/logo/sep.png" alt="">
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 text-nowrap">Total Customers</h6>
+                                    <small class="text-muted">{{ $total_purchasing_sep }}</small>
+                                </div>
+                            </li>
+                            {{-- <li class="d-flex gap-4 align-items-center mb-lg-3 pb-1">
                                 <div class="badge rounded bg-label-info p-1_5"><i class="ti ti-circle-check ti-md"></i>
                                 </div>
                                 <div>
                                     <h6 class="mb-0 text-nowrap">Open Tickets</h6>
                                     <small class="text-muted">0</small>
                                 </div>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>
@@ -212,7 +227,7 @@
     </div>
 
     <!-- DataTable with Buttons -->
-    <div class="card mt-4">
+    <div class="card">
         <div class="card-datatable table-responsive pt-0">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                 <div class="card-header flex-column flex-md-row">
@@ -304,29 +319,29 @@
                 @method('POST')
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-company">Company</label>
-                    <input type="text" class="form-control" id="add-user-company"
+                    <input required type="text" class="form-control" id="add-user-company"
                         placeholder="PT. Amptron Instrumindo" name="company" aria-label="LyZer Tech">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
                 </div>
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-fullname">Full Name</label>
-                    <input type="text" class="form-control" id="add-user-fullname" placeholder="John Doe"
+                    <input required type="text" class="form-control" id="add-user-fullname" placeholder="John Doe"
                         name="name" aria-label="John Doe">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
                 </div>
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-position">Position</label>
-                    <input type="text" class="form-control" id="add-user-position" placeholder="Supply Chain"
-                        name="position" aria-label="LyZer Tech">
+                    <input required type="text" class="form-control" id="add-user-position"
+                        placeholder="Supply Chain" name="position" aria-label="LyZer Tech">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
                 </div>
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-email">Email</label>
-                    <input type="text" id="add-user-email" class="form-control" placeholder="john.doe@example.com"
-                        aria-label="john.doe@example.com" name="email">
+                    <input required type="text" id="add-user-email" class="form-control"
+                        placeholder="john.doe@example.com" aria-label="john.doe@example.com" name="email">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
                 </div>
@@ -341,35 +356,34 @@
                 </div>
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-area">Area</label>
-                    <input type="text" class="form-control" id="add-user-area" placeholder="Jakarta" name="area"
-                        aria-label="Jakarta">
+                    <input required type="text" class="form-control" id="add-user-area" placeholder="Jakarta"
+                        name="area" aria-label="Jakarta">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
                 </div>
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-address">Address</label>
-                    <input type="text" class="form-control" id="add-user-address" placeholder="Blok N15-16"
+                    <input required type="text" class="form-control" id="add-user-address" placeholder="Blok N15-16"
                         name="address" aria-label="Blok N15-16">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
                 </div>
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-phonenumber">Phone Number</label>
-                    <input type="text" class="form-control" id="add-user-phonenumber" placeholder="+62888 8888 8888"
-                        name="phonenumber" aria-label="Jakarta">
+                    <input required type="text" class="form-control" id="add-user-phonenumber"
+                        placeholder="+62888 8888 8888" name="phonenumber" aria-label="Jakarta">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
                 </div>
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-mobilephone">Mobile Phone</label>
-                    <input type="text" class="form-control" id="add-user-mobilephone" placeholder="+62888 8888 8888"
-                        name="mobilephone" aria-label="Jakarta">
+                    <input required type="text" class="form-control" id="add-user-mobilephone"
+                        placeholder="+62888 8888 8888" name="mobilephone" aria-label="Jakarta">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
                 <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
-                <input type="hidden">
             </form>
         </div>
     </div>

@@ -14,7 +14,7 @@ class crm_customerFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'sales' => collect(['David', 'Herianto Gomanti', 'Frahma Dika'])->random(),
+            'sales' => collect(['David', 'Heri Go', 'Dika', 'Eka', 'Bambang Tri'])->random(),
             'area' => $this->faker->state(),
             'address' => implode(', ', [
                 // $this->faker->streetAddress(),

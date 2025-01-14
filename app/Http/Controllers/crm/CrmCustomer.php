@@ -17,7 +17,8 @@ class CrmCustomer extends Controller
   {
     $total_customers = crm_customer::distinct('company')->count('company');
     // $new_customers = crm_customer::where('created_at', '>=', now()->subMonth())->count();
-    $total_purchasing = crm_customer::count();
+    $total_purchasing_aii = crm_customer::whereIn('sales', ['David', 'Heri go', 'Dika', 'Julia'])->count();
+    $total_purchasing_sep = crm_customer::whereIn('sales', ['Bambang Tri', 'Eka', 'Setia', 'Fitri'])->count();
     $sales_distribution = crm_customer::select('sales', DB::raw('count(*) as total_customers'))
       ->groupBy('sales')
       ->get();
@@ -31,7 +32,7 @@ class CrmCustomer extends Controller
       ->toArray();
     $sales_list = User::whereIn('role_id', [4, 5])->get();
 
-    return view('content.digitize.crm.crm-customer', compact('total_customers', 'total_purchasing', 'sales_distribution', 'area_distribution', 'sales_list'));
+    return view('content.digitize.crm.crm-customer', compact('total_customers', 'total_purchasing_aii', 'total_purchasing_sep', 'sales_distribution', 'area_distribution', 'sales_list'));
   }
   public function customer_data()
   {

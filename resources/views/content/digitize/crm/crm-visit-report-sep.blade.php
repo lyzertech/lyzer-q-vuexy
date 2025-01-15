@@ -98,15 +98,16 @@
                 <div class="col-6">
                     <div class="d-flex align-items-center gap-4">
                         <div class="avatar avatar-lg">
-                            <div class="avatar-initial bg-label-primary rounded">
+                            <div class="avatar-initial bg-label-success rounded">
                                 <div>
-                                    <img src="{{ asset('assets/svg/icons/laptop.svg') }}" alt="paypal" class="img-fluid">
+                                    <img src="{{ asset('assets/svg/icons/laptop-green.svg') }}" alt="paypal"
+                                        class="img-fluid">
                                 </div>
                             </div>
                         </div>
                         <div class="content-right">
                             <p class="mb-0 fw-medium">Total Visit Report</p>
-                            <h4 class="text-primary mb-0">{{ $total_visit_reports }}</h4>
+                            <h4 class="text-success mb-0">{{ $total_visit_reports }}</h4>
                         </div>
                     </div>
                 </div>
@@ -179,7 +180,7 @@
                         <div class="dt-buttons btn-group flex-wrap">
                             <div class="btn-group">
                                 <button type="button"
-                                    class="btn btn-label-primary dropdown-toggle me-4 waves-effect waves-light border-none"
+                                    class="btn btn-label-success dropdown-toggle me-4 waves-effect waves-light border-none"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     <span><i class="ti ti-file-export ti-xs me-sm-1"></i>
                                         <span class="d-none d-sm-inline-block">Export</span>
@@ -213,7 +214,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <button type="button" class="btn btn-secondary create-new btn-primary waves-effect waves-light"
+                            <button type="button" class="btn create-new btn-success waves-effect waves-light"
                                 data-bs-toggle="modal" data-bs-target="#AddNewVisit">
                                 <span><i class="ti ti-plus me-sm-1"></i>
                                     <span class="d-none d-sm-inline-block">Add New Visit Report</span>
@@ -225,7 +226,7 @@
                 <div class="table-responsive text-start">
                     <div class="card-datatable table-responsive">
                         <table class="table table-bordered" id="visit-report-table">
-                            <thead class="table-light">
+                            <thead style="background-color: #DDF6E8;">
                                 <tr>
                                     <th>Sales</th>
                                     <th>Company</th>
@@ -484,7 +485,7 @@
                                 <div class="modal-footer border-0">
                                     <button type="button" class="btn btn-label-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </div>
                         </form>
@@ -586,7 +587,7 @@
                                         badgeText = 'In Progress';
                                         break;
                                     case 'Submitted':
-                                        badgeClass = 'bg-label-primary';
+                                        badgeClass = 'bg-label-success';
                                         badgeText = 'Submitted';
                                         break;
                                     case 'Acknowledge':

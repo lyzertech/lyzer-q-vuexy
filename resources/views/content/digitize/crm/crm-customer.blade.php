@@ -320,7 +320,7 @@
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-company">Company</label>
                     <input required type="text" class="form-control" id="add-user-company"
-                        placeholder="PT. Amptron Instrumindo" name="company" aria-label="LyZer Tech">
+                        placeholder="PT. Amptron Instrumindo" name="company" aria-label="company">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
                 </div>

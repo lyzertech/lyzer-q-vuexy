@@ -74,26 +74,26 @@
                                     {{ $customer->status == 1 ? 'Active' : 'Not Active' }}
                                 </span>
                             </li>
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <span class="h6">Role:</span>
                                 <span>Author</span>
-                            </li>
-                            <li class="mb-2">
+                            </li> --}}
+                            {{-- <li class="mb-2">
                                 <span class="h6">Tax id:</span>
                                 <span>Tax-8965</span>
-                            </li>
+                            </li> --}}
                             <li class="mb-2">
                                 <span class="h6">Contact:</span>
                                 <span>{{ $customer->mobilephone }}</span>
                             </li>
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <span class="h6">Languages:</span>
                                 <span>French</span>
-                            </li>
-                            <li class="mb-2">
+                            </li> --}}
+                            {{-- <li class="mb-2">
                                 <span class="h6">Country:</span>
                                 <span>England</span>
-                            </li>
+                            </li> --}}
                         </ul>
                         <div class="d-flex justify-content-center">
                             <button type="button" class="btn btn-label-secondary mx-2"

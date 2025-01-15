@@ -225,7 +225,8 @@
                             const roles = {
                                 1: 'IT Dev.',
                                 2: 'President Director',
-                                4: 'Sales'
+                                4: 'Sales AII',
+                                5: 'Sales SEP'
                             };
                             // Return the role name or a default value
                             return roles[data] || 'Unknown Role';

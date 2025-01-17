@@ -13,13 +13,19 @@ return new class extends Migration
     {
         Schema::create('monitoring_acuvim', function (Blueprint $table) {
             $table->id('id_acuvim');
-            $table->timestamp('Time')->nullable();
+            $table->string('gateway_name')->nullable();
+            $table->string('gateway_model')->nullable();
+            $table->string('gateway_serial')->nullable();
+            $table->string('device_name')->nullable();
+            $table->string('device_model')->nullable();
+            $table->string('device_serial')->nullable();
+            $table->string('device_online')->nullable();
+            $table->string('Timestamp')->nullable();
             $table->float('Freq_Hz')->nullable();
             $table->float('V1')->nullable();
             $table->float('V2')->nullable();
             $table->float('V3')->nullable();
-            $table->float('Vnavg_')->nullable();
-            $table->float('V')->nullable();
+            $table->float('Vnavg_V')->nullable();
             $table->float('V12')->nullable();
             $table->float('V23')->nullable();
             $table->float('V31')->nullable();

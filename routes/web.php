@@ -173,6 +173,7 @@ use App\Http\Controllers\labs\LabsDashboard;
 use App\Http\Controllers\labs\LabsLabel;
 use App\Http\Controllers\monitoring\MonitoringDashboard;
 use App\Http\Controllers\users\Users;
+use App\Http\Controllers\dev\DevZerotest;
 
 use App\Http\Controllers\clan\ClanTree;
 
@@ -238,6 +239,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users/data', [Users::class, 'users_data'])->name('users-data');
     Route::get('/users/view/{id}', [Users::class, 'users_view'])->name('users-view');
     Route::delete('/users/destroy/{id}', [Users::class, 'users_destroy'])->name('users-destroy');
+
+    Route::get('/dev/zerotest', [DevZerotest::class, 'index'])->name('dev-zerotest');
+
 
     // Clan
     Route::get('/clan/tree', [ClanTree::class, 'index'])->name('clan-tree');

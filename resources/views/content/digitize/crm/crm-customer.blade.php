@@ -288,13 +288,13 @@
                         <table class="table table-bordered" id="customer-table">
                             <thead class="table-light">
                                 <tr>
+                                    <th>Company</th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Sales</th>
                                     <th>Area</th>
+                                    <th>Sales</th>
                                     {{-- <th>Phone Number</th> --}}
                                     {{-- <th>Mobile Phone</th> --}}
-                                    <th>Company</th>
                                     {{-- <th>Status</th> --}}
                                     <th>Actions</th>
                                 </tr>
@@ -401,6 +401,10 @@
                 serverSide: true,
                 ajax: '{{ route('crm-customer-data') }}',
                 columns: [{
+                        data: 'company',
+                        name: 'company'
+                    },
+                    {
                         data: 'name',
                         name: 'name',
                         render: function(data, type, row) {
@@ -425,10 +429,6 @@
                         name: 'email'
                     },
                     {
-                        data: 'sales',
-                        name: 'sales'
-                    },
-                    {
                         data: 'area',
                         name: 'area',
                         render: function(data, type, row) {
@@ -445,6 +445,10 @@
                           `;
                         }
                     },
+                    {
+                        data: 'sales',
+                        name: 'sales'
+                    },
                     // {
                     //     data: 'phonenumber',
                     //     name: 'phonenumber'
@@ -453,10 +457,6 @@
                     //     data: 'mobilephone',
                     //     name: 'mobilephone'
                     // },
-                    {
-                        data: 'company',
-                        name: 'company'
-                    },
                     // {
                     //     data: 'status',
                     //     name: 'status',

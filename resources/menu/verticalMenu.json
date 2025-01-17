@@ -104,7 +104,7 @@
       "slug": "users"
     },
     {
-      "url": "zerotest",
+      "url": "dev/zerotest",
       "name": "Zerotest",
       "icon": "menu-icon tf-icons ti ti-test-pipe",
       "slug": "zerotest"

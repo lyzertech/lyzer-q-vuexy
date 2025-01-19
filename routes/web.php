@@ -172,6 +172,7 @@ use App\Http\Controllers\crm\CrmVisitReportSep;
 use App\Http\Controllers\labs\LabsDashboard;
 use App\Http\Controllers\labs\LabsLabel;
 use App\Http\Controllers\monitoring\MonitoringDashboard;
+use App\Http\Controllers\monitoring\MonitoringDatalog;
 use App\Http\Controllers\users\Users;
 use App\Http\Controllers\dev\DevZerotest;
 
@@ -234,6 +235,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
 
     Route::get('/monitoring/dashboard', [MonitoringDashboard::class, 'index'])->name('monitoring-dashboard');
+    Route::get('/monitoring/datalog', [MonitoringDatalog::class, 'index'])->name('monitoring-datalog');
 
     Route::get('/users', [Users::class, 'index'])->name('users');
     Route::get('/users/data', [Users::class, 'users_data'])->name('users-data');

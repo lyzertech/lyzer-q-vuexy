@@ -23,8 +23,16 @@
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
-        @php
+        {{-- @php
             $menusToDisplay = auth()->user()->role_id == '1' ? $menuData[0]->menuAdmin : $menuData[0]->menu;
+        @endphp --}}
+
+        @php
+            if (request()->is('monitoring/*')) {
+                $menusToDisplay = $menuData[0]->menuMonitoring;
+            } else {
+                $menusToDisplay = auth()->user()->role_id == '1' ? $menuData[0]->menuAdmin : $menuData[0]->menu;
+            }
         @endphp
 
         @foreach ($menusToDisplay as $menu)

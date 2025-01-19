@@ -1216,5 +1216,70 @@
       "slug": "documentation",
       "target": "_blank"
     }
+  ],
+  "menuMonitoring": [
+    {
+      "menuHeader": "Monitoring"
+    },
+    {
+      "url": "monitoring/home",
+      "name": "Home",
+      "icon": "menu-icon tf-icons ti ti-home-dollar",
+      "slug": "monitoring-home"
+    },
+    {
+      "url": "monitoring/dashboard",
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons ti ti-layout-board",
+      "slug": "monitoring-dashboard"
+    },
+    {
+      "url": "monitoring/installation",
+      "name": "Installation",
+      "icon": "menu-icon tf-icons ti ti-brand-airtable",
+      "slug": "monitoring-installation"
+    },
+    {
+      "url": "monitoring/analysis",
+      "name": "Analysis",
+      "icon": "menu-icon tf-icons ti ti-chart-pie",
+      "slug": "monitoring-analysis"
+    },
+    {
+      "url": "monitoring/billing",
+      "name": "Billing",
+      "icon": "menu-icon tf-icons ti ti-file-dollar",
+      "slug": "monitoring-billing"
+    },
+    {
+      "url": "monitoring/report",
+      "name": "Report",
+      "icon": "menu-icon tf-icons ti ti-file-analytics",
+      "slug": "monitoring-report"
+    },
+    {
+      "url": "monitoring/datalog",
+      "name": "Data",
+      "icon": "menu-icon tf-icons ti ti-brand-databricks",
+      "slug": "monitoring-datalog"
+    },
+    {
+      "url": "monitoring/logs",
+      "name": "Logs",
+      "icon": "menu-icon tf-icons ti ti-ticket",
+      "slug": "monitoring-logs"
+    },
+    {
+      "url": "monitoring/power-quality",
+      "name": "Power Quality",
+      "icon": "menu-icon tf-icons ti ti-brand-unity",
+      "slug": "monitoring-power-quality"
+    },
+    {
+      "url": "monitoring/admin",
+      "name": "Admin",
+      "icon": "menu-icon tf-icons ti ti-shield-bolt",
+      "slug": "monitoring-admin"
+    }
   ]
 }

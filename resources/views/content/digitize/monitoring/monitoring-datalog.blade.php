@@ -33,16 +33,7 @@
     <div class="flex-shrink-1 flex-grow-0 w-px-350 border-end container-p-x container-p-y">
         <div class="layout-example-sidebar layout-example-content-inner">
             <!-- Checkbox -->
-            <div class="col-md-12 col-12">
-                <div class="card mb-md-0 mb-6">
-                    <h5 class="card-header">Checkboxes</h5>
-                    <div class="card-body">
-                        <div id="jstree"></div>
-                    </div>
-                </div>
-            </div>
-
-            <script>
+            {{-- <script>
                 $(document).ready(function() {
                     $('#jstree').jstree({
                         core: {
@@ -136,6 +127,80 @@
                             js: {
                                 icon: 'ti ti-brand-javascript text-warning'
                             }
+                        }
+                    });
+                });
+            </script> --}}
+
+            <div class="col-md-12 col-12">
+                <div class="card mb-md-0 mb-6">
+                    <h5 class="card-header">Checkboxes</h5>
+                    <div class="card-body">
+                        <div id="tree"></div>
+                        <button id="submitSelection" class="btn btn-primary mt-3">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                $(document).ready(function() {
+                    // Load the JSON data from the DatalogController
+                    $.getJSON('/monitoring/datalog/data', function(data) {
+                        $('#tree').jstree({
+                            core: {
+                                themes: {
+                                    name: 'default' // Set a valid theme name
+                                },
+                                data: data
+                            },
+                            plugins: ['types', 'checkbox', 'wholerow'],
+                            types: {
+                                default: {
+                                    icon: 'ti ti-folder'
+                                },
+                                html: {
+                                    icon: 'ti ti-brand-html5 text-danger'
+                                },
+                                css: {
+                                    icon: 'ti ti-brand-css3 text-info'
+                                },
+                                img: {
+                                    icon: 'ti ti-photo text-success'
+                                },
+                                js: {
+                                    icon: 'ti ti-brand-javascript text-warning'
+                                },
+                                file: {
+                                    icon: 'ti ti-file text-success'
+                                }
+                            }
+                        });
+                    });
+                });
+
+                $('#submitSelection').on('click', function() {
+                    // Get all selected nodes
+                    const selectedNodes = $('#tree').jstree('get_selected', true);
+
+                    // Filter to get only leaf nodes (nodes without children)
+                    const leafNodes = selectedNodes.filter(node => !node.children.length).map(node => node.id);
+
+                    // Send the leaf nodes to Laravel
+                    $.ajax({
+                        url: '/submit-tree-selection',
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            leafNodes
+                        },
+                        success: function(response) {
+                            alert(response.message);
+                        },
+                        error: function(error) {
+                            console.error(error);
+                            alert('An error occurred.');
                         }
                     });
                 });

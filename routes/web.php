@@ -236,6 +236,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/monitoring/dashboard', [MonitoringDashboard::class, 'index'])->name('monitoring-dashboard');
     Route::get('/monitoring/datalog', [MonitoringDatalog::class, 'index'])->name('monitoring-datalog');
+    Route::get('/monitoring/datalog/data', [MonitoringDatalog::class, 'datalog_getMonitoringTree'])->name('monitoring-datalog-getMonitoringTree');
 
     Route::get('/users', [Users::class, 'index'])->name('users');
     Route::get('/users/data', [Users::class, 'users_data'])->name('users-data');

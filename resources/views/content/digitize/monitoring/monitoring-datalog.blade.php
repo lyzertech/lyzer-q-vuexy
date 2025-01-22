@@ -249,9 +249,15 @@
             .table tbody td:nth-child(8),
             .table thead th:nth-child(8) {
                 position: sticky;
-                left: 180px;
+                left: 145px;
                 background-color: #f8f9fa;
                 z-index: 1;
+                width: 200px;
+                /* Adjust the width as needed */
+                min-width: 200px;
+                /* Ensure it doesn’t shrink */
+                max-width: 300px;
+                /* Optional: Set a max width */
             }
 
             .table thead th:first-child {
@@ -265,7 +271,7 @@
         <div class="row">
             <div class="layout-demo-info">
                 <div class="col-xl-12 col-sm-12">
-                    <div class="card overflow-hidden mb-6" style="height: 900px; width:2200px;">
+                    <div class="card overflow-hidden mb-6" style="height: 700px; width:1350px;">
                         <h5 class="card-header">Horizontal Scrollbar</h5>
                         <div class="table-responsive text-nowrap" id="table-scroll-container">
                             <table class="table">

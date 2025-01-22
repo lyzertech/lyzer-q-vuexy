@@ -33,178 +33,76 @@
     <div class="flex-shrink-1 flex-grow-0 w-px-350 border-end container-p-x container-p-y">
         <div class="layout-example-sidebar layout-example-content-inner">
             <!-- Checkbox -->
-            {{-- <script>
-                $(document).ready(function() {
-                    $('#jstree').jstree({
-                        core: {
-                            themes: {
-                                name: 'default' // Set a valid theme name
-                            },
-                            data: [{
-                                    text: 'AcuLink 810 Gateway',
-                                    state: {
-                                        opened: true
-                                    },
-                                    children: [{
-                                            text: 'Acuvim Office',
-                                            state: {
-                                                opened: true
-                                            },
-                                            type: 'css',
-                                            children: [{
-                                                text: 'Acuvim Office',
-                                                type: 'css'
-                                            }],
-                                        },
-                                        {
-                                            text: 'style.css',
-                                            type: 'css'
-                                        }
-                                    ]
-                                },
-                                {
-                                    text: 'img',
-                                    state: {
-                                        opened: true
-                                    },
-                                    children: [{
-                                            text: 'bg.jpg',
-                                            type: 'img'
-                                        },
-                                        {
-                                            text: 'logo.png',
-                                            type: 'img'
-                                        },
-                                        {
-                                            text: 'avatar.png',
-                                            type: 'img'
-                                        }
-                                    ]
-                                },
-                                {
-                                    text: 'js',
-                                    state: {
-                                        opened: true
-                                    },
-                                    children: [{
-                                            text: 'jquery.js',
-                                            type: 'js'
-                                        },
-                                        {
-                                            text: 'app.js',
-                                            type: 'js'
-                                        }
-                                    ]
-                                },
-                                {
-                                    text: 'index.html',
-                                    type: 'html'
-                                },
-                                {
-                                    text: 'page-one.html',
-                                    type: 'html'
-                                },
-                                {
-                                    text: 'page-two.html',
-                                    type: 'html'
-                                }
-                            ]
-                        },
-                        plugins: ['types', 'checkbox', 'wholerow'],
-                        types: {
-                            default: {
-                                icon: 'ti ti-folder'
-                            },
-                            html: {
-                                icon: 'ti ti-brand-html5 text-danger'
-                            },
-                            css: {
-                                icon: 'ti ti-brand-css3 text-info'
-                            },
-                            img: {
-                                icon: 'ti ti-photo text-success'
-                            },
-                            js: {
-                                icon: 'ti ti-brand-javascript text-warning'
-                            }
-                        }
-                    });
-                });
-            </script> --}}
-
             <div class="col-md-12 col-12">
                 <div class="card mb-md-0 mb-6">
                     <h5 class="card-header">Checkboxes</h5>
                     <div class="card-body">
                         <div id="tree"></div>
-                        <button id="submitSelection" class="btn btn-primary mt-3">Submit</button>
+
                     </div>
                 </div>
             </div>
 
-            <script>
-                $(document).ready(function() {
-                    // Load the JSON data from the DatalogController
-                    $.getJSON('/monitoring/datalog/data', function(data) {
-                        $('#tree').jstree({
-                            core: {
-                                themes: {
-                                    name: 'default' // Set a valid theme name
+            <form method="post" action="{{ route('monitoring-datalog-selectdata') }}" enctype="multipart/form-data"
+                class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="getSelectedForm">
+                @csrf <!-- CSRF protection -->
+                @method('POST')
+                <script>
+                    $(document).ready(function() {
+                        // Load the JSON data from the DatalogController
+                        $.getJSON('/monitoring/datalog/data', function(data) {
+                            $('#tree').jstree({
+                                core: {
+                                    themes: {
+                                        name: 'default' // Set a valid theme name
+                                    },
+                                    data: data
                                 },
-                                data: data
-                            },
-                            plugins: ['types', 'checkbox', 'wholerow'],
-                            types: {
-                                default: {
-                                    icon: 'ti ti-folder'
-                                },
-                                html: {
-                                    icon: 'ti ti-brand-html5 text-danger'
-                                },
-                                css: {
-                                    icon: 'ti ti-brand-css3 text-info'
-                                },
-                                img: {
-                                    icon: 'ti ti-photo text-success'
-                                },
-                                js: {
-                                    icon: 'ti ti-brand-javascript text-warning'
-                                },
-                                file: {
-                                    icon: 'ti ti-file text-success'
+                                plugins: ['types', 'checkbox', 'wholerow'],
+                                types: {
+                                    default: {
+                                        icon: 'ti ti-folder'
+                                    },
+                                    html: {
+                                        icon: 'ti ti-brand-html5 text-danger'
+                                    },
+                                    css: {
+                                        icon: 'ti ti-brand-css3 text-info'
+                                    },
+                                    img: {
+                                        icon: 'ti ti-photo text-success'
+                                    },
+                                    js: {
+                                        icon: 'ti ti-brand-javascript text-warning'
+                                    },
+                                    file: {
+                                        icon: 'ti ti-file text-success'
+                                    }
                                 }
-                            }
+                            });
                         });
                     });
-                });
 
-                $('#submitSelection').on('click', function() {
-                    // Get all selected nodes
-                    const selectedNodes = $('#tree').jstree('get_selected', true);
+                    // Capture form submission
+                    $('#getSelectedForm').on('submit', function(e) {
+                        const selectedDevices = [];
+                        const selectedNodes = $('#tree').jstree("get_checked", true);
 
-                    // Filter to get only leaf nodes (nodes without children)
-                    const leafNodes = selectedNodes.filter(node => !node.children.length).map(node => node.id);
+                        selectedNodes.forEach(function(node) {
+                            if (node.id.startsWith('model_')) { // Collect only device nodes
+                                selectedDevices.push(node.text); // Use the node's text
+                            }
+                        });
 
-                    // Send the leaf nodes to Laravel
-                    $.ajax({
-                        url: '/submit-tree-selection',
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: {
-                            leafNodes
-                        },
-                        success: function(response) {
-                            alert(response.message);
-                        },
-                        error: function(error) {
-                            console.error(error);
-                            alert('An error occurred.');
-                        }
+                        // Add the selected devices to the hidden input
+                        $('#selectedDevicesInput').val(JSON.stringify(selectedDevices));
                     });
-                });
-            </script>
+                </script>
+                <input type="hidden" name="selectedDevices" id="selectedDevicesInput">
+
+                <button id="submitSelection" class="btn btn-primary mt-3">Submit</button>
+            </form>
+
             <!-- /Checkbox -->
         </div>
     </div>

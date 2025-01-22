@@ -12,10 +12,23 @@ class MonitoringDatalog extends Controller
 {
     public function index()
     {
-        $allData = monitoring_acuvim::all();
-        // dd($allData);
+        // Retrieve the devices passed in the session
+        $selectedDevices = session('devices', []);
 
-        return view('content.digitize.monitoring.monitoring-datalog', compact('allData'));
+        // Check if any devices were selected
+        if (!empty($selectedDevices)) {
+            // Fetch data for the selected devices
+            $allData = monitoring_acuvim::whereIn(
+                DB::raw("CONCAT(device_model, ' (', device_serial, ')')"),
+                $selectedDevices
+            )->get();
+        } else {
+            // If no devices were selected, fetch all data
+            $allData = collect(); // or simply $allData = [];
+        }
+
+        // Pass the filtered data to the view
+        return view('content.digitize.monitoring.monitoring-datalog', compact('allData', 'selectedDevices'));
     }
 
     public function datalog_getMonitoringTree()
@@ -75,23 +88,16 @@ class MonitoringDatalog extends Controller
         return response()->json($treeJson);
     }
 
-    public function filterData(Request $request)
+    public function datalog_selectdata(Request $request)
     {
-        $selectedNodes = $request->input('selectedNodes', []);
+        // Decode the selected devices JSON from the hidden input
 
-        if (empty($selectedNodes)) {
-            // If no filters are applied, return all data
-            return response()->json(monitoring_acuvim::all());
-        }
+        $selectedDevices = $request->input('selectedDevices', '[]');
+        // dd($selectedDevices);
 
-        // Filter the data based on the selected nodes
-        $serials = array_map(function ($node) {
-            $parts = explode('_', $node); // Assuming nodes are in the format 'model_Model_DeviceSerial'
-            return end($parts); // Get the serial
-        }, $selectedNodes);
+        // Decode JSON into PHP array
+        $devices = json_decode($selectedDevices, true);
 
-        $filteredData = monitoring_acuvim::whereIn('device_serial', $serials)->get();
-
-        return response()->json($filteredData);
+        return redirect()->route('monitoring-datalog')->with('devices', $devices);
     }
 }

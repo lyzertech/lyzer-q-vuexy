@@ -240,6 +240,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/monitoring/datalog', [MonitoringDatalog::class, 'index'])->name('monitoring-datalog');
     Route::get('/monitoring/datalog/data', [MonitoringDatalog::class, 'datalog_getMonitoringTree'])->name('monitoring-datalog-getMonitoringTree');
+    Route::post('/monitoring/datalog/selectdata', [MonitoringDatalog::class, 'datalog_selectdata'])->name('monitoring-datalog-selectdata');
 
     Route::get('/monitoring/installation', [MonitoringInstallation::class, 'index'])->name('monitoring-installation');
     Route::get('/monitoring/installation/facility/data', [MonitoringInstallation::class, 'installation_facility_data'])->name('monitoring-installation-facility-data');

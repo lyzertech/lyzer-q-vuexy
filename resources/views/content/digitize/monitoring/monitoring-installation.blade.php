@@ -88,7 +88,7 @@
                         <div class="tab-pane fade show active" id="navs-pills-within-card-Facilities" role="tabpanel">
                             <h4 class="card-title">Facilities in "Org"</h4>
                             <!-- DataTable with Buttons -->
-                            <div class="card">
+                            <div class="">
                                 <div class="card-datatable table-responsive pt-0">
                                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                                         <div class="card-header flex-column flex-md-row">

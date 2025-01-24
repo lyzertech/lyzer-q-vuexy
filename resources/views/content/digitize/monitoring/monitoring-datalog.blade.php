@@ -169,7 +169,7 @@
         <div class="row">
             <div class="layout-demo-info">
                 <div class="col-xl-12 col-sm-12">
-                    <div class="card overflow-hidden mb-6" style="height: 700px; width:1350px;">
+                    <div class="card overflow-hidden mb-6" style="height: 700px; width:1320px;">
                         <h5 class="card-header">Horizontal Scrollbar</h5>
                         <div class="table-responsive text-nowrap" id="table-scroll-container">
                             <table class="table">

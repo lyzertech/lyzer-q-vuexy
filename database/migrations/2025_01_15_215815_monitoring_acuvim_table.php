@@ -34,6 +34,7 @@ return new class extends Migration
             $table->float('I2')->nullable();
             $table->float('I3')->nullable();
             $table->float('Iavg_A')->nullable();
+            $table->float('In')->nullable();
             $table->float('P1')->nullable();
             $table->float('P2')->nullable();
             $table->float('P3')->nullable();

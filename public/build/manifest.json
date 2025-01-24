@@ -3609,15 +3609,6 @@
     "src": "resources/assets/vendor/libs/jquery-timepicker/jquery-timepicker.scss",
     "isEntry": true
   },
-  "resources/assets/vendor/libs/jquery/jquery-3.6.0.min.js": {
-    "file": "assets/jquery-3.6.0.min-BFDD_bNV.js",
-    "name": "jquery-3.6.0.min",
-    "src": "resources/assets/vendor/libs/jquery/jquery-3.6.0.min.js",
-    "isEntry": true,
-    "imports": [
-      "__commonjsHelpers-BosuxZz1.js"
-    ]
-  },
   "resources/assets/vendor/libs/jquery/jquery.js": {
     "file": "assets/jquery-CbdDuLi-.js",
     "name": "jquery",

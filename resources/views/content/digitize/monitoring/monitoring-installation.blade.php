@@ -276,9 +276,86 @@
                             </script>
                         </div>
                         <div class="tab-pane fade" id="navs-pills-within-card-Devices" role="tabpanel">
-                            <h4 class="card-title">Special Devices title</h4>
-                            <p class="card-text">Devices</p>
-                            <a href="javascript:void(0)" class="btn btn-secondary">Go Devices</a>
+                            <h4 class="card-title">Devices in "Org"</h4>
+                            <!-- DataTable with Buttons -->
+                            <div class="">
+                                <div class="card-datatable table-responsive pt-0">
+                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                                        <div class="card-header flex-column flex-md-row">
+                                            <div class="head-label text-center">
+                                                {{-- <h5 class="card-title mb-0">Customer</h5> --}}
+                                            </div>
+
+                                            <div class="dt-action-buttons text-end pt-6 pt-md-0">
+                                                <div class="dt-buttons btn-group flex-wrap">
+                                                    <button
+                                                        class="btn btn-secondary create-new btn-primary waves-effect waves-light"
+                                                        type="button" data-bs-toggle="modal" data-bs-target="#addNewDevice"
+                                                        aria-controls="addNewDevice">
+                                                        <span><i class="ti ti-plus me-sm-1"></i>
+                                                            <span class="d-none d-sm-inline-block">Add Device</span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive text-start">
+                                            <div class="card-datatable table-responsive">
+                                                <table class="table table-bordered" id="device-table">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Device</th>
+                                                            <th>Facility</th>
+                                                            <th>Model</th>
+                                                            <th>Serial Number</th>
+                                                            <th>Location</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- device-table -->
+                            <script type="text/javascript">
+                                $(document).ready(function() {
+                                    // Destroy existing DataTable before re-initializing
+                                    if ($.fn.DataTable.isDataTable('#device-table')) {
+                                        $('#device-table').DataTable().destroy();
+                                    }
+
+                                    // Initialize DataTable with buttons for export
+                                    $('#device-table').DataTable({
+                                        serverSide: true,
+                                        ajax: '{{ route('monitoring-installation-device-data') }}',
+                                        columns: [{
+                                                data: 'device_name',
+                                                name: 'device_name'
+                                            },
+                                            {
+                                                data: 'facility',
+                                                name: 'facility'
+                                            },
+                                            {
+                                                data: 'device_model',
+                                                name: 'device_model'
+                                            },
+                                            {
+                                                data: 'device_serial',
+                                                name: 'device_serial'
+                                            },
+                                            {
+                                                data: 'location',
+                                                name: 'location'
+                                            }
+                                        ],
+                                        displayLength: 7,
+                                        lengthMenu: [7, 10, 25, 50, 75, 100, 500]
+                                    });
+                                });
+                            </script>
                         </div>
                         <div class="tab-pane fade" id="navs-pills-within-card-MeterPoints" role="tabpanel">
                             <h4 class="card-title">Special MeterPoints title</h4>
@@ -353,17 +430,17 @@
                         </div> --}}
                         <div class="col-12 col-md-12">
                             <label class="form-label" for="modalAddressFacilityName">Facility Name</label>
-                            <input type="text" id="modalAddressFacilityName" name="facilities" class="form-control"
-                                placeholder="John" />
+                            <input type="text" required id="modalAddressFacilityName" name="facilities"
+                                class="form-control" placeholder="John" />
                         </div>
                         {{-- <div class="col-12 col-md-6">
                             <label class="form-label" for="modalAddressLastName">Last Name</label>
-                            <input type="text" id="modalAddressLastName" name="modalAddressLastName"
+                            <input type="text" required id="modalAddressLastName" name="modalAddressLastName"
                                 class="form-control" placeholder="Doe" />
                         </div> --}}
                         <div class="col-12">
                             <label class="form-label" for="modalAddressType">Type</label>
-                            <select id="modalAddressType" name="type" class="select2 form-select"
+                            <select required id="modalAddressType" name="type" class="select2 form-select"
                                 data-allow-clear="true">
                                 <option value="CAMPUS">Campus</option>
                                 <option value="COMMUNITY CENTER">Community Center</option>
@@ -404,42 +481,42 @@
                         </div>
                         <div class="col-12 ">
                             <label class="form-label" for="modalAddressDescription">Description</label>
-                            <input type="text" id="modalAddressDescription" name="description" class="form-control"
-                                placeholder="12, Business Park" />
+                            <input type="text" required id="modalAddressDescription" name="description"
+                                class="form-control" placeholder="12, Business Park" />
                         </div>
                         <div class="col-12">
                             <label class="form-label" for="modalAddressstreet_address">Street Address</label>
-                            <input type="text" id="modalAddressstreet_address" name="street_address"
+                            <input type="text" required id="modalAddressstreet_address" name="street_address"
                                 class="form-control" placeholder="Mall Road" />
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label" for="modalAddressCity">City</label>
-                            <input type="text" id="modalAddressCity" name="city" class="form-control"
+                            <input type="text" required id="modalAddressCity" name="city" class="form-control"
                                 placeholder="Nr. Hard Rock Cafe" />
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label" for="modalAddressProvince">Province</label>
-                            <input type="text" id="modalAddressProvince" name="province" class="form-control"
-                                placeholder="Los Angeles" />
+                            <input type="text" required id="modalAddressProvince" name="province"
+                                class="form-control" placeholder="Los Angeles" />
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label" for="modalAddressCountry">Country</label>
-                            <input type="text" id="modalAddressCountry" name="country" class="form-control"
+                            <input type="text" required id="modalAddressCountry" name="country" class="form-control"
                                 placeholder="California" />
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label" for="modalAddressZipCode">Zip Code</label>
-                            <input type="text" id="modalAddressZipCode" name="postal_code" class="form-control"
-                                placeholder="99950" />
+                            <input type="text" required id="modalAddressZipCode" name="postal_code"
+                                class="form-control" placeholder="99950" />
                         </div>
                         <div class="col-12">
                             <label class="form-label" for="modalAddressTimezone">Timezone</label>
-                            <input type="text" id="modalAddressTimezone" name="timezone" class="form-control"
-                                placeholder="Mall Road" />
+                            <input type="text" required id="modalAddressTimezone" name="timezone"
+                                class="form-control" placeholder="Mall Road" />
                         </div>
                         {{-- <div class="col-12">
                             <div class="form-check form-switch">
-                                <input type="checkbox" class="form-check-input" id="billingAddress" />
+                                <input type="checkbox" class="form-check-input" required id="billingAddress" />
                                 <label for="billingAddress" class="form-label">Use as a billing address?</label>
                             </div>
                         </div> --}}
@@ -454,5 +531,63 @@
         </div>
     </div>
     <!--/ Add New Address Modal -->
+
+    <!-- Add New Device Modal -->
+    <div class="modal fade" id="addNewDevice" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="text-center mb-6">
+                        <h4 class="address-title mb-2">Add New Device</h4>
+                        <p class="address-subtitle">Add new device for reading data</p>
+                    </div>
+                    <form id="addNewDeviceForm" class="row g-6" method="post"
+                        action="{{ route('monitoring-installation-device-create') }}" enctype="multipart/form-data">
+                        @csrf <!-- CSRF protection -->
+                        @method('POST')
+                        <div class="col-12 col-md-12">
+                            <label class="form-label" for="modalFacility">Facility</label>
+                            <select required id="modalFacility" name="facility" class="select2 form-select"
+                                data-allow-clear="true">
+                                @foreach ($facility_list as $list)
+                                    <option value="{{ $list }}">{{ $list }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-12">
+                            <label class="form-label" for="modalDeviceModel">Model</label>
+                            <select required id="modalDeviceModel" name="device_model" class="select2 form-select"
+                                data-allow-clear="true">
+                                <option value="Acuvim II-V3">Acuvim II</option>
+                                <option value="Acuvim L-V4">Acuvim L-V4</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="modalDeviceName">Device Name</label>
+                            <input type="text" required id="modalDeviceName" name="device_name" class="form-control"
+                                placeholder="Power Meter Line 01" />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="modalDeviceSerial">Serial Number</label>
+                            <input type="text" required id="modalDeviceSerial" name="device_serial"
+                                class="form-control" placeholder="AH2512345" />
+                        </div>
+                        <div class="col-12 col-md-12">
+                            <label class="form-label" for="modalLocation">Location</label>
+                            <input type="text" required id="modalLocation" name="location" class="form-control"
+                                placeholder="Building 04" />
+                        </div>
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-primary me-3">Submit</button>
+                            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
+                                aria-label="Close">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ Add New Device Modal -->
 
 @endsection

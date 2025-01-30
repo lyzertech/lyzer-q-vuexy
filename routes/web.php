@@ -245,6 +245,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/monitoring/installation', [MonitoringInstallation::class, 'index'])->name('monitoring-installation');
     Route::get('/monitoring/installation/facility/data', [MonitoringInstallation::class, 'installation_facility_data'])->name('monitoring-installation-facility-data');
     Route::post('/monitoring/installation/facility/create', [MonitoringInstallation::class, 'installation_facility_create'])->name('monitoring-installation-facility-create');
+    Route::get('/monitoring/installation/device/data', [MonitoringInstallation::class, 'installation_device_data'])->name('monitoring-installation-device-data');
+    Route::post('/monitoring/installation/device/create', [MonitoringInstallation::class, 'installation_device_create'])->name('monitoring-installation-device-create');
 
 
     Route::get('/users', [Users::class, 'index'])->name('users');

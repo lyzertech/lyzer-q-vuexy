@@ -5,6 +5,7 @@ namespace App\Http\Controllers\monitoring;
 use App\Http\Controllers\Controller;
 use App\Models\monitoring\monitoring_datalog;
 use App\Models\monitoring\monitoring_acuvim;
+use App\Models\monitoring\monitoring_device;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,13 +19,10 @@ class MonitoringDatalog extends Controller
         // Check if any devices were selected
         if (!empty($selectedDevices)) {
             // Fetch data for the selected devices
-            $allData = monitoring_acuvim::whereIn(
-                DB::raw("CONCAT(device_model, ' (', device_serial, ')')"),
-                $selectedDevices
-            )->get();
+            $allData = monitoring_acuvim::whereIn('device_serial', $selectedDevices)->get();
         } else {
             // If no devices were selected, fetch all data
-            $allData = collect(); // or simply $allData = [];
+            $allData = collect(); // or $allData = [];
         }
 
         // Pass the filtered data to the view
@@ -34,45 +32,42 @@ class MonitoringDatalog extends Controller
     public function datalog_getMonitoringTree()
     {
         // Fetch data from the monitoring_acuvim table
-        $data = DB::table('monitoring_acuvim')->get();
+        $data = DB::table('monitoring_devices')->get();
 
         // Initialize tree structure
         $tree = [];
 
         foreach ($data as $row) {
             // Find or create gateway node
-            if (!isset($tree[$row->gateway_name])) {
-                $tree[$row->gateway_name] = [
-                    'id' => 'gateway_' . $row->gateway_name,
-                    'text' => $row->gateway_name,
-                    'state' => ['opened' => true], // Opened by default
+            if (!isset($tree[$row->facility])) {
+                $tree[$row->facility] = [
+                    'id' => 'facility' . $row->facility,
+                    'text' => $row->facility,
+                    'state' => ['opened' => true],
                     'children' => []
                 ];
             }
 
-            // Find or create device node under gateway
-            $deviceKey = $row->gateway_name . '_' . $row->device_name;
-            if (!isset($tree[$row->gateway_name]['children'][$deviceKey])) {
-                $tree[$row->gateway_name]['children'][$deviceKey] = [
-                    'id' => 'device_' . $deviceKey,
-                    'text' => $row->device_name,
-                    'state' => ['opened' => true], // Opened by default
+            $deviceKey = $row->facility . '_' . $row->location;
+            if (!isset($tree[$row->facility]['children'][$deviceKey])) {
+                $tree[$row->facility]['children'][$deviceKey] = [
+                    'id' => 'location' . $deviceKey,
+                    'text' => $row->location,
+                    'state' => ['opened' => true],
                     'children' => []
                 ];
             }
 
-            // Avoid duplicate leaf nodes by checking if it already exists
-            $leafNodeId = 'model_' . $row->device_model . '_' . $row->device_serial;
-            $existingLeafNodes = collect($tree[$row->gateway_name]['children'][$deviceKey]['children'])
+            $leafNodeId = 'model_' . $row->device_serial;
+            $existingLeafNodes = collect($tree[$row->facility]['children'][$deviceKey]['children'])
                 ->pluck('id')
                 ->toArray();
 
             if (!in_array($leafNodeId, $existingLeafNodes)) {
-                // Add device_model(device_serial) as a unique leaf node
-                $tree[$row->gateway_name]['children'][$deviceKey]['children'][] = [
+                $tree[$row->facility]['children'][$deviceKey]['children'][] = [
                     'id' => $leafNodeId,
-                    'text' => $row->device_model . ' (' . $row->device_serial . ')',
-                    'state' => ['opened' => true], // Opened by default
+                    'text' => $row->device_serial,
+                    'state' => ['opened' => true],
                     'type' => 'file'
                 ];
             }

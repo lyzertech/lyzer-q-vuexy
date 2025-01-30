@@ -5,6 +5,7 @@ namespace App\Http\Controllers\monitoring;
 use App\Http\Controllers\Controller;
 use App\Models\monitoring\monitoring_installation;
 use App\Models\monitoring\monitoring_facility;
+use App\Models\monitoring\monitoring_device;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -12,15 +13,16 @@ class MonitoringInstallation extends Controller
 {
   public function index()
   {
+    $facility_list = monitoring_facility::pluck('facilities');
 
-    return view('content.digitize.monitoring.monitoring-installation');
+    return view('content.digitize.monitoring.monitoring-installation', compact('facility_list'));
   }
 
   public function installation_facility_data()
   {
-      $monitoring_facility = monitoring_facility::all();
-
-      return DataTables::of($monitoring_facility)->make(true);
+    $monitoring_facility = monitoring_facility::all();
+    // dd($monitoring_facility);
+    return DataTables::of($monitoring_facility)->make(true);
   }
 
   public function installation_facility_create(Request $request)
@@ -57,6 +59,31 @@ class MonitoringInstallation extends Controller
 
     $facility->save();
 
+    return redirect('/monitoring/installation')->with('success', 'Form submitted successfully!');
+  }
+
+  public function installation_device_data()
+  {
+    $monitoring_device = monitoring_device::all();
+    // dd($monitoring_device);
+    return DataTables::of($monitoring_device)->make(true);
+  }
+
+  public function installation_device_create(Request $request)
+  {
+    // Validate the request data
+    $validatedData = $request->validate([
+      'facility' => 'required',
+      'device_name' => 'required',
+      'device_model' => 'required',
+      'device_serial' => 'required',
+      'location' => 'required',
+    ]);
+
+    // Save the data to the database
+    monitoring_device::create($validatedData);
+
+    // Redirect with success message
     return redirect('/monitoring/installation')->with('success', 'Form submitted successfully!');
   }
 }

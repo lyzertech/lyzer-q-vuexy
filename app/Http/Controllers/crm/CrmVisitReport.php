@@ -29,8 +29,14 @@ class CrmVisitReport extends Controller
     $prospek_yes = crm_visit_report::where('prospek', 1)->count();
     $prospek_no = crm_visit_report::where('prospek', 0)->count();
 
-    return view('content.digitize.crm.crm-visit-report', compact('customer', 'visit_reports', 'sales_list',
-    'total_visit_reports', 'prospek_yes', 'prospek_no'));
+    return view('content.digitize.crm.crm-visit-report', compact(
+      'customer',
+      'visit_reports',
+      'sales_list',
+      'total_visit_reports',
+      'prospek_yes',
+      'prospek_no'
+    ));
   }
   public function visit_report_data()
   {
@@ -110,21 +116,21 @@ class CrmVisitReport extends Controller
 
     // Validate incoming request data
     $validatedData = $request->validate([
-        // 'customer_name' => 'required|string|max:255',
-        // 'sales' => 'required|string|max:255',
-        // 'location' => 'required|string|max:255',
-        // 'contact_person' => 'required|string|max:255',
-        // 'contact_number' => 'nullable|string|max:20',
-        // 'visit_date' => 'required|date',
-        // 'visit_time' => 'required|string|max:10',
-        // 'purpose' => 'required|string|max:1000',
-        'notes' => 'nullable|string|max:2000',
-        'customer_feedback' => 'nullable|string|max:2000',
-        'next_steps' => 'nullable|string|max:1000',
-        'follow_up_date' => 'nullable|date',
-        'status' => 'nullable|string|max:50',
-        'prospek' => 'nullable|string|max:50',
-        // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file types and size as needed
+      // 'customer_name' => 'required|string|max:255',
+      // 'sales' => 'required|string|max:255',
+      // 'location' => 'required|string|max:255',
+      // 'contact_person' => 'required|string|max:255',
+      // 'contact_number' => 'nullable|string|max:20',
+      // 'visit_date' => 'required|date',
+      // 'visit_time' => 'required|string|max:10',
+      // 'purpose' => 'required|string|max:1000',
+      'notes' => 'nullable|string|max:2000',
+      'customer_feedback' => 'nullable|string|max:2000',
+      'next_steps' => 'nullable|string|max:1000',
+      'follow_up_date' => 'nullable|date',
+      'status' => 'nullable|string|max:50',
+      'prospek' => 'nullable|string|max:50',
+      // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file types and size as needed
     ]);
 
 
@@ -143,7 +149,7 @@ class CrmVisitReport extends Controller
     $visitReport->update($validatedData);
 
     // Redirect back with success message
-    return back()->with('success', 'CRM Visit updated successfully!');
+    return redirect()->route('crm-visit-report')->with('success', 'CRM Visit updated successfully!');
   }
   public function visit_report_submit(Request $request, $id_visit_report)
   {
@@ -154,12 +160,12 @@ class CrmVisitReport extends Controller
 
     // Validate incoming request data
     $validatedData = $request->validate([
-        'notes' => 'nullable|string|max:2000',
-        'customer_feedback' => 'nullable|string|max:2000',
-        'next_steps' => 'nullable|string|max:1000',
-        'follow_up_date' => 'nullable|date',
-        'status' => 'nullable|string|max:50',
-        'prospek' => 'nullable|string|max:50',
+      'notes' => 'nullable|string|max:2000',
+      'customer_feedback' => 'nullable|string|max:2000',
+      'next_steps' => 'nullable|string|max:1000',
+      'follow_up_date' => 'nullable|date',
+      'status' => 'nullable|string|max:50',
+      'prospek' => 'nullable|string|max:50',
     ]);
 
     // Set the status to "Submitted"
@@ -180,7 +186,7 @@ class CrmVisitReport extends Controller
 
     // Validate incoming request data
     $validatedData = $request->validate([
-        'ack_manager' => 'nullable|string|max:2000',
+      'ack_manager' => 'nullable|string|max:2000',
     ]);
 
     // Set the status to "Submitted"
@@ -201,7 +207,7 @@ class CrmVisitReport extends Controller
 
     // Validate incoming request data
     $validatedData = $request->validate([
-        'ack_director' => 'nullable|string|max:2000',
+      'ack_director' => 'nullable|string|max:2000',
     ]);
 
     // Set the status to "Submitted"
@@ -222,7 +228,7 @@ class CrmVisitReport extends Controller
 
     // Validate incoming request data
     $validatedData = $request->validate([
-        'ack_presdir' => 'nullable|string|max:2000',
+      'ack_presdir' => 'nullable|string|max:2000',
     ]);
 
     // Set the status to "Acknowledge"
@@ -243,7 +249,7 @@ class CrmVisitReport extends Controller
 
     // Validate incoming request data
     $validatedData = $request->validate([
-        'response' => 'nullable|string|max:2000',
+      'response' => 'nullable|string|max:2000',
     ]);
 
     // Set the status to "Completed"
@@ -262,7 +268,7 @@ class CrmVisitReport extends Controller
 
     // Validate incoming request data
     $validatedData = $request->validate([
-        'follow_up_date_status' => 'nullable|string|max:50',
+      'follow_up_date_status' => 'nullable|string|max:50',
     ]);
 
     // Set the follow_up_date_status to "Completed"
@@ -273,7 +279,6 @@ class CrmVisitReport extends Controller
 
     // Redirect back with success message
     return redirect()->route('crm-visit-report')->with('success', 'CRM Visit updated successfully!');
-
   }
   public function visit_report_destroy($id_visit_report)
   {

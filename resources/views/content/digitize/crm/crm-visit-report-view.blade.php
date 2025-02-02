@@ -187,14 +187,14 @@
                                         </div>
                                     </form>
 
-                                    <form method="post"
+                                    {{-- <form method="post"
                                         action="{{ route('crm-visit-report-submit', $crm_visit_report->id_visit_report) }}"
                                         enctype="multipart/form-data">
                                         @csrf <!-- CSRF protection -->
                                         <div class="modal-footer border-0">
                                             <button type="submit" class="btn btn-success">Submit</button>
                                         </div>
-                                    </form>
+                                    </form> --}}
                                 @else
                                     <!-- Content for other roles -->
                                     <p>Your role is {{ Auth::user()->role }}. You don't have access to this content.</p>

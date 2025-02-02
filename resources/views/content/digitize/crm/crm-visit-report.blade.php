@@ -229,7 +229,7 @@
                                 <tr>
                                     <th>Sales</th>
                                     <th>Company</th>
-                                    <th>Meeting Point</th>
+                                    <th>Meeting Point - Tandem</th>
                                     <th>Visit Date & Time</th>
                                     <th>Purpose</th>
                                     <th>Follow Up Date</th>

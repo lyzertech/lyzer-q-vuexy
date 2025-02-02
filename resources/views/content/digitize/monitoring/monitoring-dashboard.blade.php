@@ -16,6 +16,7 @@
 
     <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
         <!-- Layout Demo -->
+        <!-- Layout Demo -->
         <div class="layout-demo-wrapper">
             <div class="layout-demo-placeholder">
                 <img src="{{ asset('assets/img/layouts/layout-content-navbar-and-sidebar-' . $configData['style'] . '.png') }}"

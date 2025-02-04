@@ -125,6 +125,12 @@
       ]
     },
     {
+      "url": "all-users",
+      "name": "All-Users",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "allusers"
+    },
+    {
       "menuHeader": "Dashboard"
     },
     {

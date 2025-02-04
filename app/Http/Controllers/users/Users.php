@@ -45,10 +45,10 @@ class Users extends Controller
                 //     </ul>
                 // </div>
                 return '
-                <a href="' . $showUrl . '" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit">
-                    <i class="ti ti-eye ti-md"></i>
-                </a>
-            ';
+                ';
+                // <a href="' . $showUrl . '" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit">
+                //     <i class="ti ti-eye ti-md"></i>
+                // </a>
             })
             ->rawColumns(['action']) // Allow raw HTML in the action column
             ->make(true);

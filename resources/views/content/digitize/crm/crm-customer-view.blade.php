@@ -100,9 +100,9 @@
                                 onclick="window.location.href = '../';">
                                 Back
                             </button>
-                            <a href="javascript:;" class="btn btn-primary me-4" data-bs-target="#editUser"
-                                data-bs-toggle="modal">Edit</a>
-                            <a href="javascript:;" class="btn btn-label-danger suspend-user">Suspend</a>
+                            {{-- <a href="javascript:;" class="btn btn-primary me-4" data-bs-target="#editUser"
+                                data-bs-toggle="modal">Edit</a> --}}
+                            {{-- <a href="javascript:;" class="btn btn-label-danger suspend-user">Suspend</a> --}}
                         </div>
                     </div>
                 </div>

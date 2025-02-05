@@ -42,24 +42,24 @@
       "slug": "crm",
       "submenu": [
         {
-          "url": "crm/dashboard",
-          "name": "Dashboard",
-          "slug": "crm-dashboard"
-        },
-        {
           "url": "crm/customer",
           "name": "Customer",
           "slug": "crm-customer"
         },
         {
           "url": "crm/visit-report",
-          "name": "Visit Report",
+          "name": "Visit Report AII",
           "slug": "crm-visit-report"
         },
         {
-          "url": "crm/po",
-          "name": "PO",
-          "slug": "crm-po"
+          "url": "crm/visit-report-sep",
+          "name": "Visit Report SEP",
+          "slug": "crm-visit-report-sep"
+        },
+        {
+          "url": "crm/project",
+          "name": "Project",
+          "slug": "crm-project"
         }
       ]
     },

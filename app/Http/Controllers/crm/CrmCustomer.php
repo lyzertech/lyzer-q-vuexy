@@ -17,7 +17,7 @@ class CrmCustomer extends Controller
   {
     $total_customers = crm_customer::distinct('company')->count('company');
     // $new_customers = crm_customer::where('created_at', '>=', now()->subMonth())->count();
-    $total_purchasing_aii = crm_customer::whereIn('sales', ['David', 'Heri go', 'Dika', 'Julia'])->count();
+    $total_purchasing_aii = crm_customer::whereIn('sales', ['David', 'Heri go', 'Dika', 'Vicha', 'Julia'])->count();
     $total_purchasing_sep = crm_customer::whereIn('sales', ['Bambang Tri', 'Eka', 'Setia', 'Fitri'])->count();
     $sales_distribution = crm_customer::select('sales', DB::raw('count(*) as total_customers'))
       ->groupBy('sales')

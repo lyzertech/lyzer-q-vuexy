@@ -41,7 +41,7 @@
                     </header>
                     <main class="kanban-drag">
                         <!-- Kanban Item Template -->
-                        <div class="kanban-item" data-bs-toggle="offcanvas" data-bs-target="#editKanbanOffcanvas">
+                        <div class="kanban-item" data-bs-toggle="modal" data-bs-target="#exLargeModal">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <div class="badge bg-label-secondary">Leads / Prospects</div>
                             </div>
@@ -357,7 +357,7 @@
                             <div class="mb-5">
                                 <label class="form-label" for="label">Project Status</label>
                                 <select class="select2 select2-label form-select" id="label">
-                                    <option data-color="bg-label-success" value="UX">UX</option>
+                                    <option value="UX">UX</option>
                                     <option data-color="bg-label-warning" value="Images">
                                         Images
                                     </option>
@@ -420,6 +420,167 @@
                             </div>
                         </form>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel4">Edit Project</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="projectName">Project Name</label>
+                                        <input type="text" id="projectName" class="form-control"
+                                            placeholder="Enter Project Name" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="mb-2">
+                                                <label class="switch switch-primary">
+                                                    <input type="checkbox" class="switch-input" checked="">
+                                                    <span class="switch-toggle-slider">
+                                                        <span class="switch-on">
+                                                            <i class="ti ti-check"></i>
+                                                        </span>
+                                                        <span class="switch-off">
+                                                            <i class="ti ti-x"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="switch-label">Tender</span>
+                                                </label>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="switch switch-primary">
+                                                    <input type="checkbox" class="switch-input" checked="">
+                                                    <span class="switch-toggle-slider">
+                                                        <span class="switch-on">
+                                                            <i class="ti ti-check"></i>
+                                                        </span>
+                                                        <span class="switch-off">
+                                                            <i class="ti ti-x"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="switch-label">Tender</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="mb-5">
+                                                <label class="form-label" for="quotReff">Quotation Reference</label>
+                                                <input type="text" id="quotReff" class="form-control"
+                                                    placeholder="Enter Quotation Reference" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label" for="projectName">Customer | Sales</label>
+                                    <div class="input-group">
+                                        <select class="select2 select2-label form-select" id="label">
+                                            <option value="Pipeline">Pipeline</option>
+                                        </select>
+                                        <select class="select2 select2-label form-select" id="label">
+                                            <option value="Sales">Sales</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <select class="select2 select2-label form-select" id="label">
+                                            <option value="Pipeline">Pipeline</option>
+                                        </select>
+                                        <select class="select2 select2-label form-select" id="label">
+                                            <option value="Sales">Sales</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <select class="select2 select2-label form-select" id="label">
+                                            <option value="Pipeline">Pipeline</option>
+                                        </select>
+                                        <select class="select2 select2-label form-select" id="label">
+                                            <option value="Sales">Sales</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-4">
+                                    <label class="form-label" for="label">Project Status</label>
+                                    <select class="select2 select2-label form-select" id="label">
+                                        <option value="Pipeline">Pipeline</option>
+                                        <option value="Proposal & Negotiation">
+                                            Proposal & Negotiation
+                                        </option>
+                                        <option value="Closed - Won">Closed - Won</option>
+                                        <option value="Closed - Lost">
+                                            Closed - Lost
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <label class="form-label" for="label">Marketing Status</label>
+                                    <select class="select2 select2-label form-select" id="label">
+                                        <option value="Leads / Prospects">
+                                            Leads / Prospects
+                                        </option>
+                                        <option value="Qualified / In Discussion">
+                                            Qualified / In Discussion
+                                        </option>
+                                        <option value="Proposal Sent">
+                                            Proposal Sent</option>
+                                        <option value="Negotiation / In Progress">
+                                            Negotiation / In Progress
+                                        </option>
+                                        <option value="Successfully secured deals">
+                                            Successfully secured deals
+                                        </option>
+                                        <option value="Lost Deals">
+                                            Lost Deals
+                                        </option>
+                                        <option value="On Hold / Deferred">
+                                            On Hold / Deferred
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <label class="form-label" for="label">Amount</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">IDR</span>
+                                        <input type="number" class="form-control" placeholder="Amount"
+                                            aria-label="Amount (to the nearest dollar)">
+                                        <span class="input-group-text">.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="projectName">Items</label>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="projectName">Competitor</label>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="projectName">Comment</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -877,7 +877,7 @@
                                             <div class="onboarding-content">
                                                 <h4 class="onboarding-title text-body">Example Request Information</h4>
                                                 <!-- <div class="onboarding-info">In this example you can see a form where you can request some
-                              additional information from the customer when they land on the app page.</div> -->
+                                  additional information from the customer when they land on the app page.</div> -->
                                                 <form>
                                                     <div class="row">
                                                         <div class="col-sm-6">

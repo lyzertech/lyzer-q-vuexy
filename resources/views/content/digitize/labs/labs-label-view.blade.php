@@ -1,5 +1,9 @@
 @extends('layouts/blankLayout')
 
+@php
+    use Illuminate\Support\Str;
+@endphp
+
 @section('title', 'Labs Label')
 
 <!-- Vendor Styles -->
@@ -33,8 +37,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     {{-- Export --}}
-
-
     <div class="row g-6">
         <style>
             #printableArea {}
@@ -132,16 +134,26 @@
                                                             <div class="row">
                                                                 <div class="d-flex">
                                                                     <div class="col-5">
-                                                                        <p class="mb-0 small-font">Type:</p>
-                                                                        <p class="mb-0 small-font">Scale:</p>
+                                                                        <p class="mb-0 small-font">TYPE:</p>
+                                                                        <p class="mb-0 small-font">SCALE:</p>
                                                                         <p class="mb-0 small-font">
-                                                                            {{ in_array($Label->type, ['DE96', 'DE72']) ? 'Input:' : $Label->type }}
+                                                                            {{ Str::startsWith($Label->type, 'DS')
+                                                                                ? 'INPUT: '
+                                                                                : (Str::contains($Label->scale, 'A')
+                                                                                    ? 'CT RATIO: '
+                                                                                    : (Str::contains($Label->scale, 'V')
+                                                                                        ? 'VT RATIO: '
+                                                                                        : 'INPUT: ')) }}
                                                                         </p>
                                                                     </div>
                                                                     <div class="col-7">
                                                                         <p class="mb-0 small-font">{{ $Label->type }}</p>
                                                                         <p class="mb-0 small-font">{{ $Label->scale }}</p>
-                                                                        <p class="mb-0 small-font">{{ $Label->input }}</p>
+                                                                        <p class="mb-0 small-font">
+                                                                            {{-- AC {{ $Label->input }} --}}
+                                                                            {{ Str::startsWith($Label->type, 'DE') ? 'AC ' . $Label->input : (Str::contains($Label->type, 'DS') ? 'DC ' . $Label->input : 'INPUT: ') }}
+
+                                                                        </p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -156,7 +168,7 @@
                                                     <div class="d-flex">
                                                         <div class="col">
                                                             <p class="mb-0 small-font d-flex justify-content-center">
-                                                                {{ in_array($Label->type, ['DE96', 'DE72']) ? '50/60Hz' : $Label->type }}
+                                                                {!! in_array($Label->type, ['DE96', 'DE72', 'DE48']) ? '50/60Hz' : '<br>' !!}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -165,7 +177,8 @@
                                                     <div class="d-flex">
                                                         <div class="col-9">
                                                             <p class="mb-0 small-font d-flex justify-content-start">
-                                                                {{ $Label->PO }} Line 00001</p>
+                                                                {{ in_array($Label->PO, ['2303']) ? 'Line 00001' : $Label->PO }}
+                                                            </p>
                                                         </div>
                                                         <div class="col-3">
                                                             <p class="mb-0 small-font d-flex justify-content-end">

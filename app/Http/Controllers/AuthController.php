@@ -20,7 +20,7 @@ class AuthController extends Controller
 
         if ($user && $user->status !== 'approved') {
             return back()->withErrors([
-                'email' => 'Your account is not yet approved by an administrator.',
+                'email' => 'Contact LyZer Dev. for activation',
             ]);
         }
 

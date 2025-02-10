@@ -30,8 +30,12 @@
         @php
             if (request()->is('monitoring/*')) {
                 $menusToDisplay = $menuData[0]->menuMonitoring;
+            } elseif (auth()->user()->role_id == '1') {
+                $menusToDisplay = $menuData[0]->menuAdmin;
+            } elseif (auth()->user()->role_id == '11') {
+                $menusToDisplay = $menuData[0]->menuFamilia;
             } else {
-                $menusToDisplay = auth()->user()->role_id == '1' ? $menuData[0]->menuAdmin : $menuData[0]->menu;
+                $menusToDisplay = $menuData[0]->menu;
             }
         @endphp
 

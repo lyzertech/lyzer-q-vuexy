@@ -70,13 +70,18 @@
       "submenu": [
         {
           "url": "labs/dashboard",
-          "name": "Labs Dashboard",
+          "name": "Dashboard",
           "slug": "labs-dashboard"
         },
         {
           "url": "labs/label",
           "name": "Label Generator",
           "slug": "labs-label"
+        },
+        {
+          "url": "labs/report",
+          "name": "Report",
+          "slug": "labs-report"
         }
       ]
     },
@@ -120,10 +125,22 @@
       ]
     },
     {
+      "name": "Motor",
+      "icon": "menu-icon tf-icons ti ti-user-check",
+      "slug": "motor",
+      "submenu": [
+        {
+          "url": "motor/service",
+          "name": "Service",
+          "slug": "motor-service"
+        }
+      ]
+    },
+    {
       "url": "all-users",
       "name": "All-Users",
       "icon": "menu-icon tf-icons ti ti-user",
-      "slug": "allusers"
+      "slug": "all-users"
     },
     {
       "menuHeader": "Dashboard"
@@ -1216,6 +1233,29 @@
       "name": "Documentation",
       "slug": "documentation",
       "target": "_blank"
+    }
+  ],
+  "menuFamilia": [
+    {
+      "menuHeader": "LyZer"
+    },
+    {
+      "name": "Clan",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "clan",
+      "submenu": [
+        {
+          "url": "clan/tree",
+          "name": "Tree",
+          "slug": "clan-tree"
+        }
+      ]
+    },
+    {
+      "url": "all-users",
+      "name": "All-Users",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "all-users"
     }
   ],
   "menuMonitoring": [

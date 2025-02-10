@@ -270,6 +270,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/clan/tree/edit/{id_tree}', [ClanTree::class, 'tree_edit'])->name('clan-tree-edit');
     Route::delete('/clan/tree/destroy', [ClanTree::class, 'tree_destroy'])->name('clan-tree-destroy');
 
+    // All-Users
+    Route::get('/all-users', [Users::class, 'all_users_index'])->name('all-users');
+    Route::get('/all-users/data', [Users::class, 'all_users_data'])->name('all-users-data');
 
     // Main Page Route
     Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');

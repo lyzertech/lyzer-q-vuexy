@@ -494,6 +494,7 @@
                                             4 => 'Sales AII',
                                             5 => 'Sales SEP',
                                             7 => 'Member',
+                                            11 => 'Familia',
                                         ];
                                         $roleName = $roles[Auth::user()->role_id] ?? 'Unknown Role';
                                     @endphp

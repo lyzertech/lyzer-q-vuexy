@@ -231,9 +231,15 @@ Route::middleware(['auth'])->group(function () {
     //Project
     Route::get('/crm/project', [CrmProject::class, 'index'])->name('crm-project');
 
-
+    // Labs Dashboard
     Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');
-
+    // Labs Label
+    Route::get('/labs/label', [LabsLabel::class, 'index'])->name('labs-label');
+    Route::get('/labs/label/data', [LabsLabel::class, 'label_data'])->name('labs-label-data');
+    Route::post('/labs/label/create', [LabsLabel::class, 'create'])->name('labs-label-create');
+    Route::get('/labs/label/view/{id_label}', [LabsLabel::class, 'label_view'])->name('labs-label-view');
+    Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
+    // Labs Report
     Route::get('/labs/label', [LabsLabel::class, 'index'])->name('labs-label');
     Route::get('/labs/label/data', [LabsLabel::class, 'label_data'])->name('labs-label-data');
     Route::post('/labs/label/create', [LabsLabel::class, 'create'])->name('labs-label-create');

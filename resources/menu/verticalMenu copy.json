@@ -9,108 +9,27 @@
       "slug": "crm",
       "submenu": [
         {
-          "url": "crm/dashboard",
-          "name": "CRM Dashboard",
-          "slug": "crm-dashboard"
-        },
-        {
           "url": "crm/customer",
           "name": "Customer",
           "slug": "crm-customer"
         },
         {
           "url": "crm/visit-report",
-          "name": "Visit Report",
+          "name": "Visit Report AII",
           "slug": "crm-visit-report"
         },
         {
-          "url": "crm/po",
-          "name": "PO",
-          "slug": "crm-po"
+          "url": "crm/visit-report-sep",
+          "name": "Visit Report SEP",
+          "slug": "crm-visit-report-sep"
         }
       ]
-    },
-    {
-      "name": "Labs",
-      "icon": "menu-icon tf-icons ti ti-user-check",
-      "slug": "labs",
-      "submenu": [
-        {
-          "url": "labs/dashboard",
-          "name": "Labs Dashboard",
-          "slug": "labs-dashboard"
-        },
-        {
-          "url": "labs/label",
-          "name": "Label Generator",
-          "slug": "labs-label"
-        }
-      ]
-    },
-    {
-      "name": "Monitoring",
-      "icon": "menu-icon tf-icons ti ti-heart-rate-monitor",
-      "slug": "monitoring",
-      "submenu": [
-        {
-          "url": "monitoring/dashboard",
-          "name": "Monitoring Dashboard",
-          "slug": "monitoring-dashboard"
-        },
-        {
-          "url": "monitoring/realtime",
-          "name": "Real-time Monitoring",
-          "slug": "monitoring-realtime"
-        },
-        {
-          "url": "monitoring/comparison",
-          "name": "Comparison Monitoring",
-          "slug": "monitoring-comparison"
-        },
-        {
-          "url": "monitoring/analysis",
-          "name": "Energy Analysis",
-          "slug": "monitoring-analysis"
-        },
-        {
-          "url": "monitoring/datalog",
-          "name": "Datalog Management",
-          "slug": "monitoring-datalog"
-        },
-        {
-          "url": "monitoring/quality",
-          "name": "Power Quality Analysis",
-          "slug": "monitoring-quality"
-        },
-        {
-          "url": "monitoring/event",
-          "name": "Event Management",
-          "slug": "monitoring-event"
-        },
-        {
-          "url": "monitoring/admin",
-          "name": "Admin",
-          "slug": "monitoring-admin"
-        }
-      ]
-    },
-    {
-      "url": "product",
-      "name": "Product",
-      "icon": "menu-icon tf-icons ti ti-barcode",
-      "slug": "product"
     },
     {
       "url": "users",
       "name": "Users",
       "icon": "menu-icon tf-icons ti ti-user",
       "slug": "users"
-    },
-    {
-      "url": "zerotest",
-      "name": "Zerotest",
-      "icon": "menu-icon tf-icons ti ti-test-pipe",
-      "slug": "zerotest"
     }
   ],
   "menuAdmin": [
@@ -123,24 +42,24 @@
       "slug": "crm",
       "submenu": [
         {
-          "url": "crm/dashboard",
-          "name": "CRM Dashboard",
-          "slug": "crm-dashboard"
-        },
-        {
           "url": "crm/customer",
           "name": "Customer",
           "slug": "crm-customer"
         },
         {
           "url": "crm/visit-report",
-          "name": "Visit Report",
+          "name": "Visit Report AII",
           "slug": "crm-visit-report"
         },
         {
-          "url": "crm/po",
-          "name": "PO",
-          "slug": "crm-po"
+          "url": "crm/visit-report-sep",
+          "name": "Visit Report SEP",
+          "slug": "crm-visit-report-sep"
+        },
+        {
+          "url": "crm/project",
+          "name": "Project",
+          "slug": "crm-project"
         }
       ]
     },
@@ -151,62 +70,26 @@
       "submenu": [
         {
           "url": "labs/dashboard",
-          "name": "Labs Dashboard",
+          "name": "Dashboard",
           "slug": "labs-dashboard"
         },
         {
           "url": "labs/label",
           "name": "Label Generator",
           "slug": "labs-label"
+        },
+        {
+          "url": "labs/report",
+          "name": "Report",
+          "slug": "labs-report"
         }
       ]
     },
     {
+      "url": "monitoring/dashboard",
       "name": "Monitoring",
       "icon": "menu-icon tf-icons ti ti-heart-rate-monitor",
-      "slug": "monitoring",
-      "submenu": [
-        {
-          "url": "monitoring/dashboard",
-          "name": "Monitoring Dashboard",
-          "slug": "monitoring-dashboard"
-        },
-        {
-          "url": "monitoring/realtime",
-          "name": "Real-time Monitoring",
-          "slug": "monitoring-realtime"
-        },
-        {
-          "url": "monitoring/comparison",
-          "name": "Comparison Monitoring",
-          "slug": "monitoring-comparison"
-        },
-        {
-          "url": "monitoring/analysis",
-          "name": "Energy Analysis",
-          "slug": "monitoring-analysis"
-        },
-        {
-          "url": "monitoring/datalog",
-          "name": "Datalog Management",
-          "slug": "monitoring-datalog"
-        },
-        {
-          "url": "monitoring/quality",
-          "name": "Power Quality Analysis",
-          "slug": "monitoring-quality"
-        },
-        {
-          "url": "monitoring/event",
-          "name": "Event Management",
-          "slug": "monitoring-event"
-        },
-        {
-          "url": "monitoring/admin",
-          "name": "Admin",
-          "slug": "monitoring-admin"
-        }
-      ]
+      "slug": "monitoring-dashboard"
     },
     {
       "url": "product",
@@ -221,10 +104,43 @@
       "slug": "users"
     },
     {
-      "url": "zerotest",
+      "url": "dev/zerotest",
       "name": "Zerotest",
       "icon": "menu-icon tf-icons ti ti-test-pipe",
       "slug": "zerotest"
+    },
+    {
+      "menuHeader": "LyZer"
+    },
+    {
+      "name": "Clan",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "clan",
+      "submenu": [
+        {
+          "url": "clan/tree",
+          "name": "Tree",
+          "slug": "clan-tree"
+        }
+      ]
+    },
+    {
+      "name": "Motor",
+      "icon": "menu-icon tf-icons ti ti-user-check",
+      "slug": "motor",
+      "submenu": [
+        {
+          "url": "motor/service",
+          "name": "Service",
+          "slug": "motor-service"
+        }
+      ]
+    },
+    {
+      "url": "all-users",
+      "name": "All-Users",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "all-users"
     },
     {
       "menuHeader": "Dashboard"
@@ -1317,6 +1233,94 @@
       "name": "Documentation",
       "slug": "documentation",
       "target": "_blank"
+    }
+  ],
+  "menuFamilia": [
+    {
+      "menuHeader": "LyZer"
+    },
+    {
+      "name": "Clan",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "clan",
+      "submenu": [
+        {
+          "url": "clan/tree",
+          "name": "Tree",
+          "slug": "clan-tree"
+        }
+      ]
+    },
+    {
+      "url": "all-users",
+      "name": "All-Users",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "all-users"
+    }
+  ],
+  "menuMonitoring": [
+    {
+      "menuHeader": "Monitoring"
+    },
+    {
+      "url": "monitoring/home",
+      "name": "Home",
+      "icon": "menu-icon tf-icons ti ti-home-dollar",
+      "slug": "monitoring-home"
+    },
+    {
+      "url": "monitoring/dashboard",
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons ti ti-layout-board",
+      "slug": "monitoring-dashboard"
+    },
+    {
+      "url": "monitoring/installation",
+      "name": "Installation",
+      "icon": "menu-icon tf-icons ti ti-brand-airtable",
+      "slug": "monitoring-installation"
+    },
+    {
+      "url": "monitoring/analysis",
+      "name": "Analysis",
+      "icon": "menu-icon tf-icons ti ti-chart-pie",
+      "slug": "monitoring-analysis"
+    },
+    {
+      "url": "monitoring/billing",
+      "name": "Billing",
+      "icon": "menu-icon tf-icons ti ti-file-dollar",
+      "slug": "monitoring-billing"
+    },
+    {
+      "url": "monitoring/report",
+      "name": "Report",
+      "icon": "menu-icon tf-icons ti ti-file-analytics",
+      "slug": "monitoring-report"
+    },
+    {
+      "url": "monitoring/datalog",
+      "name": "Datalog",
+      "icon": "menu-icon tf-icons ti ti-brand-databricks",
+      "slug": "monitoring-datalog"
+    },
+    {
+      "url": "monitoring/logs",
+      "name": "Logs",
+      "icon": "menu-icon tf-icons ti ti-ticket",
+      "slug": "monitoring-logs"
+    },
+    {
+      "url": "monitoring/power-quality",
+      "name": "Power Quality",
+      "icon": "menu-icon tf-icons ti ti-brand-unity",
+      "slug": "monitoring-power-quality"
+    },
+    {
+      "url": "monitoring/admin",
+      "name": "Admin",
+      "icon": "menu-icon tf-icons ti ti-shield-bolt",
+      "slug": "monitoring-admin"
     }
   ]
 }

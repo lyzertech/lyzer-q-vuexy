@@ -37,80 +37,93 @@
       "menuHeader": "Digitize"
     },
     {
-      "name": "CRM",
+      "name": "Digitize",
       "icon": "menu-icon tf-icons ti ti-home-dollar",
-      "slug": "crm",
+      "slug": "digitize",
       "submenu": [
         {
-          "url": "crm/customer",
-          "name": "Customer",
-          "slug": "crm-customer"
+          "name": "CRM",
+          "icon": "menu-icon tf-icons ti ti-home-dollar",
+          "slug": "crm",
+          "submenu": [
+            {
+              "url": "crm/customer",
+              "name": "Customer",
+              "slug": "crm-customer"
+            },
+            {
+              "url": "crm/visit-report",
+              "name": "Visit Report AII",
+              "slug": "crm-visit-report"
+            },
+            {
+              "url": "crm/visit-report-sep",
+              "name": "Visit Report SEP",
+              "slug": "crm-visit-report-sep"
+            },
+            {
+              "url": "crm/project",
+              "name": "Project",
+              "slug": "crm-project"
+            }
+          ]
         },
         {
-          "url": "crm/visit-report",
-          "name": "Visit Report AII",
-          "slug": "crm-visit-report"
+          "name": "Labs",
+          "icon": "menu-icon tf-icons ti ti-user-check",
+          "slug": "labs",
+          "submenu": [
+            {
+              "url": "labs/dashboard",
+              "name": "Dashboard",
+              "slug": "labs-dashboard"
+            },
+            {
+              "url": "labs/label",
+              "name": "Label Generator",
+              "slug": "labs-label"
+            },
+            {
+              "url": "labs/report",
+              "name": "Report",
+              "slug": "labs-report"
+            }
+          ]
         },
         {
-          "url": "crm/visit-report-sep",
-          "name": "Visit Report SEP",
-          "slug": "crm-visit-report-sep"
+          "url": "monitoring/dashboard",
+          "name": "Monitoring",
+          "icon": "menu-icon tf-icons ti ti-heart-rate-monitor",
+          "slug": "monitoring-dashboard"
         },
         {
-          "url": "crm/project",
-          "name": "Project",
-          "slug": "crm-project"
+          "url": "product",
+          "name": "Product",
+          "icon": "menu-icon tf-icons ti ti-barcode",
+          "slug": "product"
+        },
+        {
+          "url": "users",
+          "name": "Users",
+          "icon": "menu-icon tf-icons ti ti-user",
+          "slug": "users"
+        },
+        {
+          "url": "dev/zerotest",
+          "name": "Zerotest",
+          "icon": "menu-icon tf-icons ti ti-test-pipe",
+          "slug": "zerotest"
         }
       ]
-    },
-    {
-      "name": "Labs",
-      "icon": "menu-icon tf-icons ti ti-user-check",
-      "slug": "labs",
-      "submenu": [
-        {
-          "url": "labs/dashboard",
-          "name": "Dashboard",
-          "slug": "labs-dashboard"
-        },
-        {
-          "url": "labs/label",
-          "name": "Label Generator",
-          "slug": "labs-label"
-        },
-        {
-          "url": "labs/report",
-          "name": "Report",
-          "slug": "labs-report"
-        }
-      ]
-    },
-    {
-      "url": "monitoring/dashboard",
-      "name": "Monitoring",
-      "icon": "menu-icon tf-icons ti ti-heart-rate-monitor",
-      "slug": "monitoring-dashboard"
-    },
-    {
-      "url": "product",
-      "name": "Product",
-      "icon": "menu-icon tf-icons ti ti-barcode",
-      "slug": "product"
-    },
-    {
-      "url": "users",
-      "name": "Users",
-      "icon": "menu-icon tf-icons ti ti-user",
-      "slug": "users"
-    },
-    {
-      "url": "dev/zerotest",
-      "name": "Zerotest",
-      "icon": "menu-icon tf-icons ti ti-test-pipe",
-      "slug": "zerotest"
     },
     {
       "menuHeader": "LyZer"
+    },
+    {
+      "url": "insight",
+      "name": "Project Insight",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "insight"
     },
     {
       "name": "Clan",

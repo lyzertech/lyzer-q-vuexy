@@ -6,6 +6,7 @@
 <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal  menu bg-menu-theme flex-grow-0">
     <div class="{{ $containerNav }} d-flex h-100">
         <ul class="menu-inner pb-2 pb-xl-0">
+            {{-- this HorizontalMenu still using verticalMenu.json --}}
             @php
                 if (request()->is('monitoring/*')) {
                     $menusToDisplay = $menuData[0]->menuMonitoring;

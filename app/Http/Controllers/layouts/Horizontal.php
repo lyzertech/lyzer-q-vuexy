@@ -14,6 +14,6 @@ class Horizontal extends Controller
 
     $pageConfigs = ['myLayout' => 'horizontal'];
 
-    return view('content.dashboard.dashboards-analytics',['pageConfigs'=> $pageConfigs]);
+    return view('content.dashboard.dashboards-analytics', ['pageConfigs' => $pageConfigs]);
   }
 }

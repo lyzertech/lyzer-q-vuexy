@@ -180,6 +180,11 @@ use App\Http\Controllers\dev\DevZerotest;
 
 use App\Http\Controllers\clan\ClanTree;
 
+
+use App\Http\Controllers\shield\ShieldInsight;
+use App\Http\Controllers\shield\ShieldInsightcrm;
+
+
 // Login form
 Route::view('/login', 'auth.login')->name('login');
 // Handle auth
@@ -266,6 +271,14 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/users/destroy/{id}', [Users::class, 'users_destroy'])->name('users-destroy');
 
     Route::get('/dev/zerotest', [DevZerotest::class, 'index'])->name('dev-zerotest');
+
+
+    // Insight
+    Route::get('/insight', [ShieldInsight::class, 'index'])->name('insight');
+    // Insight CRM
+    Route::get('/insight/crm', [ShieldInsightcrm::class, 'index'])->name('insight#crm');
+    Route::get('/insight/crm/customer/data', [ShieldInsightcrm::class, 'crm_customer_data'])->name('insight#crm-customer-data');
+    Route::get('/insight/crm/customer/view/{id_customer}', [ShieldInsightcrm::class, 'crm_customer_view'])->name('insight#crm-customer-view');
 
 
     // Clan

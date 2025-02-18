@@ -57,9 +57,88 @@
     {{-- ECharts --}}
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 
+    {{-- Navbal pills --}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-align-top">
+                <ul class="nav nav-pills flex-column flex-sm-row mb-6 gap-2 gap-lg-0">
+                    <li class="nav-item"><a class="nav-link active waves-effect waves-light" href="{{ route('insight#crm') }}">
+                            <i class="ti ti-user-check ti-sm me-1_5"></i> CRM</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link waves-effect waves-light" href="">
+                            <i class="ti ti-user-check ti-sm me-1_5"></i> Organization</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link waves-effect waves-light" href="">
+                            <i class="ti ti-users ti-sm me-1_5"></i> Facility</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link waves-effect waves-light" href="">
+                            <i class="ti ti-layout-grid ti-sm me-1_5"></i> Devices</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link waves-effect waves-light" href="">
+                            <i class="ti ti-link ti-sm me-1_5"></i> Alert</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <!-- DataTable with Buttons -->
     <div class="row g-6">
-        <div class="col-xl-3 col-lg-6 col-md-6">
+        <div class="col-xl-4 col-lg-6 col-md-6">
+            <div class="card">
+                <div class="card-datatable table-responsive pt-0">
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                        <div class="card-header flex-column flex-md-row">
+                            <div class="head-label text-center">
+                                <h5 class="card-title mb-0">Customer</h5>
+                            </div>
+                        </div>
+                        <div class="table-responsive text-start">
+                            <div class="card-datatable table-responsive">
+                                <table class="table table-bordered" id="customer-table">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Company</th>
+                                            <th>Name</th>
+                                            <th>Sales</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6">
+            <div class="card">
+                <div class="card-datatable table-responsive pt-0">
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                        <div class="card-header flex-column flex-md-row">
+                            <div class="head-label text-center">
+                                <h5 class="card-title mb-0">Customer</h5>
+                            </div>
+                        </div>
+                        <div class="table-responsive text-start">
+                            <div class="card-datatable table-responsive">
+                                <table class="table table-bordered" id="customer-table">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Company</th>
+                                            <th>Name</th>
+                                            <th>Sales</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-6">
             <div class="card">
                 <div class="card-datatable table-responsive pt-0">
                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">

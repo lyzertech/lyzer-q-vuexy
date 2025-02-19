@@ -146,11 +146,21 @@
                                     placeholder="PT. LyZer Tech" aria-label="DE96" aria-describedby="customerHelp">
                                 <label for="customer">Customer</label>
                             </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="PO" name="PO"
-                                    placeholder="2303 12341234" aria-describedby="POHelp">
-                                <label for="PO">PO Number</label>
-                                {{-- <div id="POHelp" class="form-text">We'll never share your details with anyone else.</div> --}}
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="PO" name="PO"
+                                            placeholder="2303 12341234" aria-describedby="POHelp">
+                                        <label for="PO">PO Number</label>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="SN" name="SN"
+                                            placeholder="1111" aria-describedby="SN">
+                                        <label for="SN">SN</label>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row g-1" id="dynamicTypeQty">
                                 <div class="col">

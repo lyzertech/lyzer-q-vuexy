@@ -12,9 +12,9 @@ class labs_label extends Model
     use SoftDeletes;
 
     protected $table = 'labs_label';
-    protected $primaryKey = 'id_label';
+    // protected $primaryKey = 'id_label';
     protected $fillable = [
-        'brand', 'customer', 'PO', 'type', 'qty', 'scale', 'input'
+        'id_label', 'brand', 'customer', 'PO', 'type', 'qty', 'scale', 'input'
     ];
 
     protected $dates = ['deleted_at'];

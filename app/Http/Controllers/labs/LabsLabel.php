@@ -14,6 +14,8 @@ class LabsLabel extends Controller
 {
     public function index()
     {
+        // $lastId = labs_label::max('id_label') ?? 0; // If no data, start from 0
+        // dd($lastId);
         return view('content.digitize.labs.labs-label');
     }
     public function label_data()
@@ -67,6 +69,9 @@ class LabsLabel extends Controller
             'qty.*' => 'required',
         ]);
 
+         // Get the starting ID from the form input (SN)
+        $currentId = $request->SN;
+
         // Loop through each set of inputs
         foreach ($request['type'] as $index => $type) {
             // Get the quantity for the current index
@@ -75,6 +80,7 @@ class LabsLabel extends Controller
             // Create multiple entries based on the quantity
             for ($i = 0; $i < $quantity; $i++) {
                 labs_label::create([
+                    'id_label' => $currentId, // Assign the ID
                     'brand' => $request['brand'],
                     'customer' => $request['customer'],
                     'PO' => $request['PO'],
@@ -83,6 +89,8 @@ class LabsLabel extends Controller
                     'input' => $request['input'][$index],
                     'qty' => 1, // Set qty to 1 for each individual entry
                 ]);
+                // Always increment ID for the next entry
+                $currentId += 1;
             }
         }
 

@@ -57,7 +57,7 @@
     {{-- ECharts --}}
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 
-    @include('layouts.navbar-shield')
+    {{-- @include('layouts.navbar-shield') --}}
 
     <!-- DataTable with Buttons -->
     <div class="row g-6">

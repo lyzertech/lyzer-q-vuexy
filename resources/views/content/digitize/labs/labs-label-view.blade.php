@@ -86,8 +86,14 @@
                 border: 1px solid #ccc;
                 background-color: #fff;
                 position: relative;
-                font-size: 9px;
+                font-size: 10px;
                 /* Change to your desired font size */
+                font-family: "Swis721 Cn BT", sans-serif;
+            }
+
+            .kardus {
+                font-size: 14px;
+                font-family: "Consolas", monospace;
             }
 
             img {
@@ -97,13 +103,12 @@
             }
 
             .bord2 {
-                border: 0.5pt solid;
+                border: 0.5pt solid rgb(0, 0, 0);
                 /* 0.5pt width, dashed style, light gray color */
             }
 
             .bord {
-                border: 0.5pt dashed lightgray;
-                /* 0.5pt width, dashed style, light gray color */
+                border: 0.5pt dashed rgb(0, 0, 0);
             }
         </style>
 
@@ -119,7 +124,7 @@
             <div class="row letter-paper">
                 <div class="col-12">
                     <div class="card-widget-separator-wrapper">
-                        <div class="card-body p-2">
+                        <div class="card-body px-2 pt-2">
                             @php
                                 $chunks = $labs_label->chunk(5);
                             @endphp
@@ -133,7 +138,7 @@
                                                         <div class="col-10">
                                                             <div class="row">
                                                                 <div class="d-flex">
-                                                                    <div class="col-5">
+                                                                    <div class="col-4">
                                                                         <p class="mb-0 small-font">TYPE:</p>
                                                                         <p class="mb-0 small-font">SCALE:</p>
                                                                         <p class="mb-0 small-font">
@@ -141,12 +146,12 @@
                                                                                 ? 'INPUT: '
                                                                                 : (Str::contains($Label->scale, 'A')
                                                                                     ? 'CT RATIO: '
-                                                                                    : (Str::contains($Label->scale, 'V')
+                                                                                    : (Str::contains($Label->scale, 'kV/V')
                                                                                         ? 'VT RATIO: '
                                                                                         : 'INPUT: ')) }}
                                                                         </p>
                                                                     </div>
-                                                                    <div class="col-7">
+                                                                    <div class="col-8">
                                                                         <p class="mb-0 small-font">{{ $Label->type }}</p>
                                                                         <p class="mb-0 small-font">{{ $Label->scale }}</p>
                                                                         <p class="mb-0 small-font">
@@ -158,7 +163,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <span class="badge d-flex justify-content-center p-0">
+                                                        <span class="badge d-flex justify-content-end p-0">
                                                             <img src="{{ asset('img/logo/aii.png') }}" alt="">
                                                         </span>
                                                     </div>
@@ -167,7 +172,7 @@
                                                 <div class="row">
                                                     <div class="d-flex">
                                                         <div class="col">
-                                                            <p class="mb-0 small-font d-flex justify-content-center">
+                                                            <p class="mb-0 small-font d-flex justify-content-center pb-1">
                                                                 {!! in_array($Label->type, ['DE96', 'DE72', 'DE48']) ? '50/60Hz' : '<br>' !!}
                                                             </p>
                                                         </div>
@@ -182,7 +187,7 @@
                                                         </div>
                                                         <div class="col-3">
                                                             <p class="mb-0 small-font d-flex justify-content-end">
-                                                                {{ substr(date('Y'), 2) }}0{{ $Label->id_label }}</p>
+                                                                {{ substr(date('Y'), 2) }}{{ $Label->id_label }}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -210,21 +215,30 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card-widget-separator-wrapper">
-                                <div class="card-body p-2">
+                                <div class="kardus card-body px-2 pb-2">
 
                                     @php
-                                        $chunks = $labs_label->chunk(15); // Split the labels into chunks of 15
+                                        $chunks = $labs_label->chunk(10); // Split the labels into chunks of 10
                                     @endphp
 
                                     @foreach ($chunks as $chunk)
                                         <div class="row">
                                             @foreach ($chunk as $input)
                                                 <div class="col bord p-0 text-center">
-                                                    {{ $input->input }}
+                                                    {{-- {{ $input->input }} --}}
+                                                    @if (Str::contains($input->input, ['A']))
+                                                        {{ $input->input }}
+                                                    @elseif (Str::contains($input->input, 'mV'))
+                                                        {{ $input->scale }}
+                                                    @elseif (Str::contains($input->input, ['kV', 'V']))
+                                                        {{ $input->input }}
+                                                    @else
+                                                        {{ $input->scale }}
+                                                    @endif
                                                 </div>
                                             @endforeach
 
-                                            @for ($i = $chunk->count(); $i < 15; $i++)
+                                            @for ($i = $chunk->count(); $i < 10; $i++)
                                                 <div class="col p-0 border" style="visibility: hidden;">
                                                     <div class="row"></div>
                                                 </div>

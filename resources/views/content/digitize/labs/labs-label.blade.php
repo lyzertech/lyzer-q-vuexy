@@ -251,6 +251,9 @@
                         searchable: false
                     }
                 ],
+                order: [
+                    [0, 'desc']
+                ], // Mengurutkan berdasarkan id_label (kolom pertama) secara ascending
                 displayLength: 7,
                 lengthMenu: [7, 10, 25, 50, 75, 100],
                 // dom: 'Bfrtip',  // Define placement for buttons

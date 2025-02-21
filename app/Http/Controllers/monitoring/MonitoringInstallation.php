@@ -13,9 +13,15 @@ class MonitoringInstallation extends Controller
 {
   public function index()
   {
-    $facility_list = monitoring_facility::pluck('facilities');
+      $pageConfigs = ['menuCollapsed' => true];
 
-    return view('content.digitize.monitoring.monitoring-installation', compact('facility_list'));
+      // Ensure facility_list is an array if needed
+      $facility_list = monitoring_facility::pluck('facilities')->toArray();
+
+      return view('content.digitize.monitoring.monitoring-installation', [
+          'facility_list' => $facility_list,
+          'pageConfigs' => $pageConfigs
+      ]);
   }
 
   public function installation_facility_data()

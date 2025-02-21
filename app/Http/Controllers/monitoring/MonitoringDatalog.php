@@ -13,6 +13,8 @@ class MonitoringDatalog extends Controller
 {
     public function index()
     {
+        $pageConfigs = ['menuCollapsed' => true];
+
         // Retrieve the devices passed in the session
         $selectedDevices = session('devices', []);
 
@@ -26,7 +28,11 @@ class MonitoringDatalog extends Controller
         }
 
         // Pass the filtered data to the view
-        return view('content.digitize.monitoring.monitoring-datalog', compact('allData', 'selectedDevices'));
+        return view('content.digitize.monitoring.monitoring-datalog', [
+          'allData' => $allData,
+          'selectedDevices' => $selectedDevices,
+          'pageConfigs' => $pageConfigs
+        ]);
     }
 
     public function datalog_getMonitoringTree()

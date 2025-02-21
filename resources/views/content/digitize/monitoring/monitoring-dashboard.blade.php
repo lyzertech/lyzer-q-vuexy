@@ -7,7 +7,9 @@
 
 @section('title', 'Monitoring')
 
+
 @section('content')
+
     <div class="flex-shrink-1 flex-grow-0 w-px-350 border-end container-p-x container-p-y">
         <div class="layout-example-sidebar layout-example-content-inner">
             Sidebar

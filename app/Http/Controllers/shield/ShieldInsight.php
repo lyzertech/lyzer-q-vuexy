@@ -11,6 +11,7 @@ class ShieldInsight extends Controller
     public function index()
     {
         $pageConfigs = ['myLayout' => 'horizontal'];
+        // $pageConfigs = ['menuCollapsed' => true];
 
         return view('content.lyzer.shield.project-insight', ['pageConfigs' => $pageConfigs]);
     }

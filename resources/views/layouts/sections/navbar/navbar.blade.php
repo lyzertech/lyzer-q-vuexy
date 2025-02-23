@@ -55,7 +55,30 @@
         <!-- /Search -->
     @endif
 
+    {{-- <ul class="navbar-nav flex-row align-items-center ms-auto">
+        <li class="nav-item">
+            <a class="nav-link fw-medium px-6" href="{{ url('front-pages/landing') }}#landingHero">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-medium px-6" href="{{ url('front-pages/landing') }}#landingFeatures">Features</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-medium px-6" href="{{ url('front-pages/landing') }}#landingTeam">Team</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-medium px-6" href="{{ url('front-pages/landing') }}#landingFAQ">FAQ</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-medium px-6" href="{{ url('front-pages/landing') }}#landingContact">Contact
+                us</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-medium px-6" href="{{ url('/') }}" target="_blank">Admin</a>
+        </li>
+    </ul> --}}
+
     <ul class="navbar-nav flex-row align-items-center ms-auto">
+
         @if (isset($menuHorizontal))
             <!-- Search -->
             <li class="nav-item navbar-search-wrapper">

@@ -173,8 +173,9 @@ use App\Http\Controllers\crm\CrmProject;
 use App\Http\Controllers\labs\LabsDashboard;
 use App\Http\Controllers\labs\LabsLabel;
 use App\Http\Controllers\monitoring\MonitoringDashboard;
-use App\Http\Controllers\monitoring\MonitoringDatalog;
 use App\Http\Controllers\monitoring\MonitoringInstallation;
+use App\Http\Controllers\monitoring\MonitoringAnalysis;
+use App\Http\Controllers\monitoring\MonitoringDatalog;
 use App\Http\Controllers\users\Users;
 use App\Http\Controllers\dev\DevZerotest;
 
@@ -254,15 +255,20 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/monitoring/dashboard', [MonitoringDashboard::class, 'index'])->name('monitoring-dashboard');
 
-    Route::get('/monitoring/datalog', [MonitoringDatalog::class, 'index'])->name('monitoring-datalog');
-    Route::get('/monitoring/datalog/data', [MonitoringDatalog::class, 'datalog_getMonitoringTree'])->name('monitoring-datalog-getMonitoringTree');
-    Route::post('/monitoring/datalog/selectdata', [MonitoringDatalog::class, 'datalog_selectdata'])->name('monitoring-datalog-selectdata');
-
     Route::get('/monitoring/installation', [MonitoringInstallation::class, 'index'])->name('monitoring-installation');
     Route::get('/monitoring/installation/facility/data', [MonitoringInstallation::class, 'installation_facility_data'])->name('monitoring-installation-facility-data');
     Route::post('/monitoring/installation/facility/create', [MonitoringInstallation::class, 'installation_facility_create'])->name('monitoring-installation-facility-create');
     Route::get('/monitoring/installation/device/data', [MonitoringInstallation::class, 'installation_device_data'])->name('monitoring-installation-device-data');
     Route::post('/monitoring/installation/device/create', [MonitoringInstallation::class, 'installation_device_create'])->name('monitoring-installation-device-create');
+
+    Route::get('/monitoring/analysis', [MonitoringAnalysis::class, 'index'])->name('monitoring-analysis');
+    Route::get('/monitoring/analysis/data', [MonitoringAnalysis::class, 'analysis_getMonitoringTree'])->name('monitoring-analysis-getMonitoringTree');
+    Route::post('/monitoring/analysis/selectdata', [MonitoringAnalysis::class, 'analysis_selectdata'])->name('monitoring-analysis-selectdata');
+
+    Route::get('/monitoring/datalog', [MonitoringDatalog::class, 'index'])->name('monitoring-datalog');
+    Route::get('/monitoring/datalog/data', [MonitoringDatalog::class, 'datalog_getMonitoringTree'])->name('monitoring-datalog-getMonitoringTree');
+    Route::post('/monitoring/datalog/selectdata', [MonitoringDatalog::class, 'datalog_selectdata'])->name('monitoring-datalog-selectdata');
+
 
 
     Route::get('/users', [Users::class, 'index'])->name('users');

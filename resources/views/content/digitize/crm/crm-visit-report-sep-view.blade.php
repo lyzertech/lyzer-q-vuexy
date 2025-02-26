@@ -361,7 +361,7 @@
                                             </div>
 
                                             <div class="modal-footer border-0">
-                                                <button type="submit" class="btn btn-success">Submit</button>
+                                                <button type="submit" class="btn btn-success">Completed</button>
                                             </div>
                                         @elseif (!empty($crm_visit_report->response))
                                             <div class="col-8">

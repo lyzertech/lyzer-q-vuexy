@@ -135,7 +135,7 @@ class CrmVisitReportSep extends Controller
 
 
     // Set the status to "Completed"
-    $validatedData['status'] = 'In Progress';
+    $validatedData['status'] = ($request->prospek == 0) ? 'Completed' : 'In Progress';
 
     // Handle file upload
     // if ($request->hasFile('image')) {
@@ -153,7 +153,7 @@ class CrmVisitReportSep extends Controller
   }
   public function visit_report_submit(Request $request, $id_visit_report)
   {
-    // dd($request);
+    // dd($request->prospek);
 
     // Find the existing visit report by ID
     $visitReport = crm_visit_report_sep::findOrFail($id_visit_report);
@@ -168,8 +168,8 @@ class CrmVisitReportSep extends Controller
       'prospek' => 'nullable|string|max:50',
     ]);
 
-    // Set the status to "Submitted"
-    $validatedData['status'] = 'Submitted';
+    // Set the status to "In Progress"
+    $validatedData['status'] = ($request->prospek == 0) ? 'Completed' : 'In Progress';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);
@@ -189,8 +189,8 @@ class CrmVisitReportSep extends Controller
       'ack_manager' => 'nullable|string|max:2000',
     ]);
 
-    // Set the status to "Submitted"
-    $validatedData['status'] = 'Submitted';
+    // Set the status to "In Progress"
+    $validatedData['status'] = 'In Progress';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);
@@ -210,8 +210,8 @@ class CrmVisitReportSep extends Controller
       'ack_director' => 'nullable|string|max:2000',
     ]);
 
-    // Set the status to "Submitted"
-    // $validatedData['status'] = 'Submitted';
+    // Set the status to "In Progress"
+    // $validatedData['status'] = 'In Progress';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);
@@ -231,8 +231,8 @@ class CrmVisitReportSep extends Controller
       'ack_presdir' => 'nullable|string|max:2000',
     ]);
 
-    // Set the status to "Acknowledge"
-    $validatedData['status'] = 'Acknowledge';
+    // Set the status to "In Progress"
+    $validatedData['status'] = 'In Progress';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);

@@ -52,4 +52,32 @@ class ShieldInsightcrm extends Controller
 
         return view('content.lyzer.shield.project-insight#crm#customer-view', ['pageConfigs' => $pageConfigs], compact('customer'));
     }
+    public function crm_customer_edit(Request $request, $id_customer)
+    {
+        $pageConfigs = ['myLayout' => 'horizontal'];
+
+        $customer = crm_customer::findOrFail($id_customer);
+
+        // dd($request);
+
+        // Validate incoming request data
+        $validatedData = $request->validate([
+          'notes' => 'nullable|string|max:2000',
+          'customer_feedback' => 'nullable|string|max:2000',
+          'next_steps' => 'nullable|string|max:1000',
+          'follow_up_date' => 'nullable|date',
+          'status' => 'nullable|string|max:50',
+          'prospek' => 'nullable|string|max:50',
+        ]);
+
+
+        // Set the status to "Completed"
+        $validatedData['status'] = 'In Progress';
+
+        // Update the visit report with validated data
+        $visitReport->update($validatedData);
+
+        // Redirect back with success message
+        return view('content.lyzer.shield.project-insight#crm#customer-view', ['pageConfigs' => $pageConfigs], compact('customer'));
+    }
 }

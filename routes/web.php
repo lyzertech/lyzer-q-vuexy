@@ -285,6 +285,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/insight/crm', [ShieldInsightcrm::class, 'index'])->name('insight#crm');
     Route::get('/insight/crm/customer/data', [ShieldInsightcrm::class, 'crm_customer_data'])->name('insight#crm-customer-data');
     Route::get('/insight/crm/customer/view/{id_customer}', [ShieldInsightcrm::class, 'crm_customer_view'])->name('insight#crm-customer-view');
+    Route::post('/insight/crm/customer/edit/{id_customer}', [ShieldInsightcrm::class, 'crm_customer_edit'])->name('insight#crm-customer-edit');
 
 
     // Clan

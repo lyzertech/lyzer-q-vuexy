@@ -61,57 +61,43 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-around flex-wrap my-6 gap-0 gap-md-3 gap-lg-4">
-                        <div class="d-flex align-items-center me-5 gap-4">
-                            <div class="avatar">
-                                <div class="avatar-initial bg-label-primary rounded">
-                                    <i class='ti ti-checkbox ti-lg'></i>
-                                </div>
-                            </div>
-                            <div>
-                                <h5 class="mb-0">1.23k</h5>
-                                <span>Task Done</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center gap-4">
-                            <div class="avatar">
-                                <div class="avatar-initial bg-label-primary rounded">
-                                    <i class='ti ti-briefcase ti-lg'></i>
-                                </div>
-                            </div>
-                            <div>
-                                <h5 class="mb-0">568</h5>
-                                <span>Project Done</span>
-                            </div>
-                        </div>
-                    </div>
                     <h5 class="pb-4 border-bottom mb-4">Details</h5>
                     <div class="info-container">
                         <ul class="list-unstyled mb-6">
-                            <li class="mb-2">
-                                <span class="h6">Email:</span>
+                            <li class="d-flex">
+                                <span class="h6" style="min-width: 150px;">Email:</span>
                                 <span>{{ $customer->email }}</span>
                             </li>
-                            <li class="mb-2">
-                                <span class="h6">Status:</span>
+                            <li class="d-flex">
+                                <span class="h6" style="min-width: 150px;">Sales Incharge:</span>
+                                <span>{{ $customer->sales }}</span>
+                            </li>
+                            <li class="d-flex">
+                                <span class="h6" style="min-width: 150px;">Area:</span>
+                                <span>{{ $customer->area }}</span>
+                            </li>
+                            <li class="d-flex">
+                                <span class="h6" style="min-width: 150px;">Address:</span>
+                                <span>{{ $customer->address }}</span>
+                            </li>
+                            <li class="d-flex">
+                                <span class="h6" style="min-width: 150px;">Status:</span>
                                 <span
                                     class="{{ $customer->status == 1 ? 'badge bg-label-success' : 'badge bg-label-danger' }}">
                                     {{ $customer->status == 1 ? 'Active' : 'Not Active' }}
                                 </span>
                             </li>
-                            <li class="mb-2">
-                                <span class="h6">Contact:</span>
+                            <li class="d-flex">
+                                <span class="h6" style="min-width: 150px;">Phone Number:</span>
+                                <span>{{ $customer->phonenumber }}</span>
+                            </li>
+                            <li class="d-flex">
+                                <span class="h6" style="min-width: 150px;">Mobile Phone:</span>
                                 <span>{{ $customer->mobilephone }}</span>
                             </li>
-                            {{-- <li class="mb-2">
-                            <span class="h6">Languages:</span>
-                            <span>French</span>
-                        </li> --}}
-                            {{-- <li class="mb-2">
-                            <span class="h6">Country:</span>
-                            <span>England</span>
-                        </li> --}}
                         </ul>
+
+
                         <div class="d-flex justify-content-center">
                             <button type="button" class="btn btn-label-secondary mx-2"
                                 onclick="window.location.href = '../../';">
@@ -133,90 +119,83 @@
             <!-- User Card -->
             <div class="card mb-6">
                 <div class="card-body pt-12">
-                    <div class="user-avatar-section">
-                        <div class=" d-flex align-items-center flex-column">
-                            <img class="img-fluid rounded mb-4" src="{{ asset('assets/img/avatars/1.png') }}" height="120"
-                                width="120" alt="User avatar" />
-                            <div class="user-info text-center">
-                                <h5>{{ $customer->name }}</h5>
-                                <span class="badge bg-label-secondary">{{ $customer->position }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-around flex-wrap my-6 gap-0 gap-md-3 gap-lg-4">
-                        <div class="d-flex align-items-center me-5 gap-4">
-                            <div class="avatar">
-                                <div class="avatar-initial bg-label-primary rounded">
-                                    <i class='ti ti-checkbox ti-lg'></i>
+                    <form method="post"
+                        action="{{ route('insight#crm-customer-edit', ['id_customer' => $customer->id_customer]) }}"
+                        enctype="multipart/form-data" class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework"
+                        id="addNewUserForm">
+                        @csrf <!-- CSRF protection -->
+                        @method('POST')
+                        <div class="user-avatar-section">
+                            <div class=" d-flex align-items-center flex-column">
+                                <img class="img-fluid rounded mb-4" src="{{ asset('assets/img/avatars/1.png') }}"
+                                    height="120" width="120" alt="User avatar" />
+                                <div class="user-info text-center">
+                                    <input required type="text" class="form-control" value="{{ $customer->name }}"
+                                        name="name">
+                                    <input required type="text" class="form-control" value="{{ $customer->position }}"
+                                        name="position">
                                 </div>
                             </div>
-                            <div>
-                                <h5 class="mb-0">1.23k</h5>
-                                <span>Task Done</span>
+                        </div>
+                        <h5 class="pb-4 border-bottom mb-4">Details</h5>
+                        <div class="info-container">
+                            <ul class="list-unstyled mb-6">
+                                <li class="d-flex">
+                                    <span class="h6" style="min-width: 150px;">Email:</span>
+                                    <input required type="text" class="form-control" value="{{ $customer->email }}"
+                                        name="email">
+                                </li>
+                                <li class="d-flex">
+                                    <span class="h6" style="min-width: 150px;">Sales Incharge:</span>
+                                    <input required type="text" class="form-control" value="{{ $customer->sales }}"
+                                        name="sales">
+                                </li>
+                                <li class="d-flex">
+                                    <span class="h6" style="min-width: 150px;">Area:</span>
+                                    <input required type="text" class="form-control" value="{{ $customer->area }}"
+                                        name="area">
+                                </li>
+                                <li class="d-flex">
+                                    <span class="h6" style="min-width: 150px;">Address:</span>
+                                    <input required type="text" class="form-control" value="{{ $customer->address }}"
+                                        name="address">
+                                </li>
+                                <li class="d-flex">
+                                    <span class="h6" style="min-width: 150px;">Status:</span>
+                                    <input required type="text" class="form-control" value="{{ $customer->status }}"
+                                        name="status">
+                                </li>
+                                <li class="d-flex">
+                                    <span class="h6" style="min-width: 150px;">Phone Number:</span>
+                                    <input required type="text" class="form-control"
+                                        value="{{ $customer->phonenumber }}" name="phonenumber">
+                                </li>
+                                <li class="d-flex">
+                                    <span class="h6" style="min-width: 150px;">Mobile Phone:</span>
+                                    <input required type="text" class="form-control"
+                                        value="{{ $customer->mobilephone }}" name="mobilephone">
+                                </li>
+                            </ul>
+
+
+                            <div class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-label-secondary mx-2"
+                                    onclick="window.location.href = '../../';">
+                                    Back
+                                </button>
+                                <button type="submit" class="btn btn-primary me-4">
+                                    Edit
+                                </button>
                             </div>
                         </div>
-                        <div class="d-flex align-items-center gap-4">
-                            <div class="avatar">
-                                <div class="avatar-initial bg-label-primary rounded">
-                                    <i class='ti ti-briefcase ti-lg'></i>
-                                </div>
-                            </div>
-                            <div>
-                                <h5 class="mb-0">568</h5>
-                                <span>Project Done</span>
-                            </div>
-                        </div>
-                    </div>
-                    <h5 class="pb-4 border-bottom mb-4">Details</h5>
-                    <div class="info-container">
-                        <ul class="list-unstyled mb-6">
-                            <li class="mb-2">
-                                <span class="h6">Email:</span>
-                                <span>{{ $customer->email }}</span>
-                            </li>
-                            <li class="mb-2">
-                                <span class="h6">Status:</span>
-                                <span
-                                    class="{{ $customer->status == 1 ? 'badge bg-label-success' : 'badge bg-label-danger' }}">
-                                    {{ $customer->status == 1 ? 'Active' : 'Not Active' }}
-                                </span>
-                            </li>
-                            {{-- <li class="mb-2">
-                            <span class="h6">Role:</span>
-                            <span>Author</span>
-                        </li> --}}
-                            {{-- <li class="mb-2">
-                            <span class="h6">Tax id:</span>
-                            <span>Tax-8965</span>
-                        </li> --}}
-                            <li class="mb-2">
-                                <span class="h6">Contact:</span>
-                                <span>{{ $customer->mobilephone }}</span>
-                            </li>
-                            {{-- <li class="mb-2">
-                            <span class="h6">Languages:</span>
-                            <span>French</span>
-                        </li> --}}
-                            {{-- <li class="mb-2">
-                            <span class="h6">Country:</span>
-                            <span>England</span>
-                        </li> --}}
-                        </ul>
-                        <div class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-label-secondary mx-2"
-                                onclick="window.location.href = '../../';">
-                                Back
-                            </button>
-                            {{-- <a href="javascript:;" class="btn btn-primary me-4" data-bs-target="#editUser"
-                            data-bs-toggle="modal">Edit</a> --}}
-                            {{-- <a href="javascript:;" class="btn btn-label-danger suspend-user">Suspend</a> --}}
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <!-- /User Card -->
         </div>
         <!--/ User Sidebar -->
+
+
         <!-- User Sidebar -->
         <div class="col-xl-3 col-lg-5 order-1 order-md-0">
             <!-- User Card -->

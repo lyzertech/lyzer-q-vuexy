@@ -20,7 +20,13 @@ class LabsLabel extends Controller
     }
     public function label_data()
     {
-        $label = labs_label::all();
+        // $label = labs_label::all();
+        $label = labs_label::select('*')
+        ->whereIn('id_label', function ($query) {
+            $query->selectRaw('MAX(id_label)')
+                  ->from('labs_label')
+                  ->groupBy('PO');
+        })->get();
 
         // dd($label);
 
@@ -58,6 +64,9 @@ class LabsLabel extends Controller
     public function create(Request $request)
     {
         // dd($request->all());
+        // Get the starting ID from the form input (SN)
+        $currentId = $request->SN ?? (labs_label::max('id_label') + 1);
+
         // Validate the input data
         $request->validate([
             'brand' => 'required',
@@ -68,9 +77,6 @@ class LabsLabel extends Controller
             'input.*' => 'required',
             'qty.*' => 'required',
         ]);
-
-         // Get the starting ID from the form input (SN)
-        $currentId = $request->SN;
 
         // Loop through each set of inputs
         foreach ($request['type'] as $index => $type) {

@@ -83,7 +83,7 @@
                 /* Letter size height */
                 margin: auto;
                 /* padding: 1in; */
-                border: 1px solid #ccc;
+                border: 1px solid #ffffff;
                 background-color: #fff;
                 position: relative;
                 font-size: 10px;
@@ -116,6 +116,8 @@
 
         <script>
             function printArea() {
+                document.title =
+                    "{{ '25' . $labs_label->first()->id_label . '_' . $labs_label->first()->customer . '_' . $labs_label->first()->PO . '_' . $labs_label->first()->type ?? 'DefaultFileName' }}";
                 window.print();
             }
         </script>

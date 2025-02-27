@@ -283,9 +283,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/insight', [ShieldInsight::class, 'index'])->name('insight');
     // Insight CRM
     Route::get('/insight/crm', [ShieldInsightcrm::class, 'index'])->name('insight#crm');
+
     Route::get('/insight/crm/customer/data', [ShieldInsightcrm::class, 'crm_customer_data'])->name('insight#crm-customer-data');
     Route::get('/insight/crm/customer/view/{id_customer}', [ShieldInsightcrm::class, 'crm_customer_view'])->name('insight#crm-customer-view');
     Route::post('/insight/crm/customer/edit/{id_customer}', [ShieldInsightcrm::class, 'crm_customer_edit'])->name('insight#crm-customer-edit');
+
+    Route::get('/insight/crm/visit-report/data', [ShieldInsightcrm::class, 'crm_visit_report_data'])->name('insight#crm-visit-report-data');
+    Route::get('/insight/crm/visit-report/view/{id_visit-report}', [ShieldInsightcrm::class, 'crm_visit_report_view'])->name('insight#crm-visit-report-view');
+
+    Route::get('/insight/crm/visit-report-sep/data', [ShieldInsightcrm::class, 'crm_visit_report_sep_data'])->name('insight#crm-visit-report-sep-data');
+    Route::get('/insight/crm/visit-report-sep/view/{id_visit_report}', [ShieldInsightcrm::class, 'crm_visit_report_sep_view'])->name('insight#crm-visit-report-sep-view');
 
 
     // Clan

@@ -6,20 +6,44 @@
 @extends('layouts/layoutMaster')
 
 @section('title', 'Content navbar + Sidebar - Layouts')
-
 <!-- Vendor Styles -->
 @section('vendor-style')
-    @vite('resources/assets/vendor/libs/jstree/jstree.scss')
+    @vite([
+        //datatables
+        'resources/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.scss',
+        'resources/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.scss',
+        'resources/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.scss',
+        // Buttons and Pickers
+        'resources/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.scss',
+        'resources/assets/vendor/libs/flatpickr/flatpickr.scss',
+        // Additional Features
+        'resources/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.scss',
+        'resources/assets/vendor/libs/@form-validation/form-validation.scss',
+        'resources/assets/vendor/libs/jstree/jstree.scss',
+    ])
 @endsection
 
 <!-- Vendor Scripts -->
 @section('vendor-script')
-    @vite('resources/assets/vendor/libs/jstree/jstree.js')
+    @vite([
+        // datatables
+        'resources/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js',
+        'resources/assets/vendor/libs/moment/moment.js',
+        'resources/assets/vendor/libs/flatpickr/flatpickr.js',
+        'resources/assets/vendor/libs/@form-validation/popular.js',
+        'resources/assets/vendor/libs/@form-validation/bootstrap5.js',
+        'resources/assets/vendor/libs/@form-validation/auto-focus.js',
+        'resources/assets/vendor/libs/jstree/jstree.js',
+    ])
 @endsection
 
 <!-- Page Scripts -->
 @section('page-script')
-    @vite('resources/assets/js/extended-ui-treeview.js')
+    @vite([
+        // datatables
+        'resources/assets/js/tables-datatables-customer.js',
+        'resources/assets/js/extended-ui-treeview.js',
+    ])
 @endsection
 
 <!-- Include jsTree CSS -->
@@ -109,7 +133,7 @@
 
     <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
 
-        <style>
+        {{-- <style>
             .table-container {
                 overflow: auto;
                 /* Enables horizontal and vertical scrolling */
@@ -165,14 +189,14 @@
             .table thead th:nth-child(8) {
                 z-index: 3;
             }
-        </style>
+        </style> --}}
         <div class="row">
             <div class="layout-demo-info">
                 <div class="col-xl-12 col-sm-12">
                     <div class="card overflow-hidden mb-6" style="height: 700px; width:1320px;">
                         <h5 class="card-header">Horizontal Scrollbar</h5>
                         <div class="table-responsive text-nowrap" id="table-scroll-container">
-                            <table class="table">
+                            <table id="dataTable" class="table table-bordered">
                                 <thead class="table-light">
                                     <tr>
                                         <th>gateway_name</th>
@@ -356,5 +380,25 @@
                 </div>
             </div>
         </div>
+
+        <!-- datalog-table -->
+        <script>
+            $(document).ready(function() {
+                $('#dataTable').DataTable(); // Simple initialization
+            });
+
+            $('#dataTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                lengthMenu: [10, 25, 50, 100],
+            });
+
+            function viewDetail(id) {
+                alert('View details for ID: ' + id);
+            }
+        </script>
+
+
     </div>
 @endsection

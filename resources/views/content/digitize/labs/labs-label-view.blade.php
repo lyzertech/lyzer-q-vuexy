@@ -140,7 +140,7 @@
                                                         <div class="col-10">
                                                             <div class="row">
                                                                 <div class="d-flex">
-                                                                    <div class="col-4">
+                                                                    <div class="col-5">
                                                                         <p class="mb-0 small-font">TYPE:</p>
                                                                         <p class="mb-0 small-font">SCALE:</p>
                                                                         <p class="mb-0 small-font">
@@ -153,7 +153,7 @@
                                                                                         : 'INPUT: ')) }}
                                                                         </p>
                                                                     </div>
-                                                                    <div class="col-8">
+                                                                    <div class="col-7">
                                                                         <p class="mb-0 small-font">{{ $Label->type }}</p>
                                                                         <p class="mb-0 small-font">{{ $Label->scale }}</p>
                                                                         <p class="mb-0 small-font">

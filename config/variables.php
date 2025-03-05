@@ -2,8 +2,8 @@
 // Variables
 return [
   "creatorName" => "baseanalyzer",
-  "creatorUrl" => "https://pixinvent.com",
-  "templateName" => "LyZer Tech",
+  "creatorUrl" => "#",
+  "templateName" => "AII-SEP",
   "templateSuffix" => " ",
   "templateVersion" => "2.0.0",
   "templateFree" => false,

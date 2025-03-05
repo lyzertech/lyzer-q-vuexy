@@ -535,7 +535,9 @@
                 </li>
                 <li>
                     <a class="dropdown-item"
-                        href="{{ Route::has('profile.show') ? route('profile.show') : url('pages/profile-user') }}">
+                        href="
+                        {{-- {{ Route::has('profile.show') ? route('profile.show') : url('pages/profile-user') }} --}}
+                         ">
                         <i class="ti ti-user me-3 ti-md"></i><span class="align-middle">My Profile</span>
                     </a>
                 </li>
@@ -547,7 +549,7 @@
                   </a>
                 </li>
               @endif --}}
-                <li>
+                {{-- <li>
                     <a class="dropdown-item" href="{{ url('pages/account-settings-billing') }}">
                         <span class="d-flex align-items-center align-middle">
                             <i class="flex-shrink-0 ti ti-file-dollar me-3 ti-md"></i><span
@@ -556,7 +558,7 @@
                                 class="flex-shrink-0 badge bg-danger d-flex align-items-center justify-content-center">4</span>
                         </span>
                     </a>
-                </li>
+                </li> --}}
 
                 {{-- @if (Auth::User() && Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <li>

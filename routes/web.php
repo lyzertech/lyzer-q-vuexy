@@ -203,7 +203,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/crm/customer/data', [CrmCustomer::class, 'customer_data'])->name('crm-customer-data');
     Route::post('/crm/customer/create', [CrmCustomer::class, 'create'])->name('crm-customer-create');
     Route::get('/crm/customer/view/{id_customer}', [CrmCustomer::class, 'customer_view'])->name('crm-customer-view');
-    Route::get('/crm/customer/edit/{id_customer}', [CrmCustomer::class, 'customer_edit'])->name('crm-customer-edit');
+    Route::post('/crm/customer/edit/{id_customer}', [CrmCustomer::class, 'customer_edit'])->name('crm-customer-edit');
     Route::get('/crm/customer/destroy', [CrmCustomer::class, 'customer_destroy'])->name('crm-customer-destroy');
 
     // Visit Report AII

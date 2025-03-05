@@ -129,20 +129,36 @@ class CrmCustomer extends Controller
     // dd($request);
 
     $customer = crm_customer::findOrFail($id_customer);
+    $sales_list = User::whereIn('role_id', [4, 5])->get();
 
     // $crm_customer = crm_customer::findOrFail($crm_customer);
 
-    return view('content.digitize.crm.crm-customer-view', compact('customer'));
+    return view('content.digitize.crm.crm-customer-view', compact('customer', 'sales_list'));
   }
   public function customer_edit(Request $request, $id_customer)
   {
-    // dd($request);
+    // dd($id_customer);
 
     $customer = crm_customer::findOrFail($id_customer);
 
-    // $crm_customer = crm_customer::findOrFail($crm_customer);
+    $validatedData = $request->validate([
+      'name' => 'required|string|max:255',
+      'position' => 'required|max:255',
+      'company' => 'required|max:255',
+      'email' => 'required|email|max:255',
+      'sales' => 'required|string|max:255',
+      'area' => 'required|max:255',
+      'address' => 'required|max:255',
+      'status' => 'required|max:255',
+      'phonenumber' => 'required|max:255',
+      'mobilephone' => 'required|max:255',
+    ]);
 
-    return view('content.digitize.crm.crm-customer-edit', compact('customer'));
+    $customer->update($validatedData);
+
+    // Redirect back with success message
+    return redirect()->route('crm-customer-view', ['id_customer' => $id_customer])
+    ->with('success', 'CRM Visit updated successfully!');
   }
   public function destroy()
   {

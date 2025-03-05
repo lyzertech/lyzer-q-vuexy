@@ -402,7 +402,21 @@
                 ajax: '{{ route('crm-customer-data') }}',
                 columns: [{
                         data: 'company',
-                        name: 'company'
+                        name: 'company',
+                        render: function(data, type, row) {
+                            if (!data) return ''; // Handle empty data
+
+                            // Ensure "PT." remains uppercase and extract the remaining part
+                            let formatted = data.replace(/^PT\.\s*/i, 'PT. ');
+
+                            // Convert only the remaining part to title case
+                            formatted = formatted.replace(/^PT\.\s*(.*)$/, function(match, rest) {
+                                return 'PT. ' + rest.toLowerCase().replace(/\b\w/g, c => c
+                                    .toUpperCase());
+                            });
+
+                            return formatted;
+                        }
                     },
                     {
                         data: 'name',

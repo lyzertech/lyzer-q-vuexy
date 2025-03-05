@@ -20,6 +20,10 @@
 
 @section('content')
 
+    @php
+        use Illuminate\Support\Str;
+    @endphp
+
     <div class="row">
         <!-- User Sidebar -->
         <div class="col-xl-6 col-lg-5 order-1 order-md-0">
@@ -33,7 +37,7 @@
                             <div class="user-info text-center">
                                 <h5>{{ $customer->name }}</h5>
                                 <span class="badge bg-label-secondary">{{ $customer->position }}</span>
-                                <h5>{{ $customer->company }}</h5>
+                                <h5>{{ 'PT. ' . Str::title(strtolower(str_replace('PT. ', '', $customer->company))) }}</h5>
                             </div>
                         </div>
                     </div>
@@ -110,7 +114,8 @@
                                         name="name">
                                     <input required type="text" class="form-control" value="{{ $customer->position }}"
                                         name="position">
-                                    <input required type="text" class="form-control" value="{{ $customer->company }}"
+                                    <input required type="text" class="form-control"
+                                        value="{{ 'PT. ' . Str::title(strtolower(str_replace('PT. ', '', $customer->company))) }}"
                                         name="company">
                                 </div>
                             </div>

@@ -148,7 +148,7 @@
                                                                                 ? 'INPUT: '
                                                                                 : (Str::contains($Label->scale, 'A')
                                                                                     ? 'CT RATIO: '
-                                                                                    : (Str::contains($Label->scale, 'kV/V')
+                                                                                    : (Str::contains($Label->scale, 'kV')
                                                                                         ? 'VT RATIO: '
                                                                                         : 'INPUT: ')) }}
                                                                         </p>

@@ -135,7 +135,19 @@ class CrmVisitReport extends Controller
 
 
     // Set the status to "Completed"
-    $validatedData['status'] = ($request->prospek == 0) ? 'Completed' : 'In Progress';
+    switch ($request->prospek) {
+        case 0:
+            $validatedData['status'] = 'Completed';
+            break;
+        case 1:
+            $validatedData['status'] = 'In Progress';
+            break;
+        case 2:
+            $validatedData['status'] = 'Cancelled';
+            break;
+        default:
+            $validatedData['status'] = 'Unknown'; // Optional: Handle unexpected values
+    }
 
     // Handle file upload
     // if ($request->hasFile('image')) {

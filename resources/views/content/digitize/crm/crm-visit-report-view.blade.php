@@ -41,6 +41,7 @@
                                     'In Progress' => 'bg-label-info',
                                     'Submitted' => 'bg-label-primary',
                                     'Acknowledge' => 'bg-label-danger',
+                                    'Cancelled' => 'bg-label-danger',
                                     'Completed' => 'bg-label-success',
                                 ];
 
@@ -79,7 +80,7 @@
                             @if (Auth::check())
                                 @if (Auth::user()->role_id == 2 ||
                                         Auth::user()->name != $crm_visit_report->sales ||
-                                        in_array($crm_visit_report->status, ['Submitted', 'Acknowledge', 'Completed']))
+                                        in_array($crm_visit_report->status, ['Submitted', 'Acknowledge', 'Cancelled', 'Completed']))
                                     <!-- Content for role 2 -->
                                     <div class="">
                                         <hr class="my-6">
@@ -169,6 +170,9 @@
                                                     </option>
                                                     <option value="0"
                                                         {{ $crm_visit_report->prospek == '0' ? 'selected' : '' }}>No
+                                                    </option>
+                                                    <option value="2"
+                                                        {{ $crm_visit_report->prospek == '2' ? 'selected' : '' }}>Cancelled
                                                     </option>
                                                 </select>
                                             </div>

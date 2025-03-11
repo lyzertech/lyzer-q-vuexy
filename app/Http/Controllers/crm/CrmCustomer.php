@@ -25,14 +25,34 @@ class CrmCustomer extends Controller
     $area_distribution = crm_customer::select('area', DB::raw('count(*) as total_customers'))
       ->groupBy('area')
       ->get();
-    $area_distribution = DB::table('crm_customer')
-      ->select('area', DB::raw('COUNT(*) as value'))
-      ->groupBy('area')
+    $area_distribution = DB::table('crm_customer as c1')
+      ->select('c1.area', DB::raw('COUNT(DISTINCT c1.company) as value'))
+      ->whereIn('c1.id_customer', function ($query) {
+          $query->selectRaw('MIN(id_customer)') // Selects the first entry per company
+              ->from('crm_customer')
+              ->groupBy('company');
+      })
+      ->groupBy('c1.area')
       ->get()
       ->toArray();
     $sales_list = User::whereIn('role_id', [4, 5])->get();
+    $company_list = crm_customer::select('company')
+    ->distinct()
+    ->orderBy('company', 'asc')
+    ->pluck('company')
+    ->map(function ($company) {
+        // Ensure "PT." remains uppercase and extract the remaining part
+        $formatted = preg_replace('/^PT\.\s*/i', 'PT. ', $company);
 
-    return view('content.digitize.crm.crm-customer', compact('total_customers', 'total_purchasing_aii', 'total_purchasing_sep', 'sales_distribution', 'area_distribution', 'sales_list'));
+        // Convert only the remaining part to title case
+        $formatted = preg_replace_callback('/^PT\.\s*(.*)$/', function ($matches) {
+            return 'PT. ' . ucwords(strtolower($matches[1]));
+        }, $formatted);
+
+        return $formatted;
+    });
+
+    return view('content.digitize.crm.crm-customer', compact('total_customers', 'total_purchasing_aii', 'total_purchasing_sep', 'sales_distribution', 'area_distribution', 'sales_list', 'company_list'));
   }
   public function customer_data()
   {
@@ -84,25 +104,20 @@ class CrmCustomer extends Controller
       // 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the allowed file types and size as needed
       'area' => 'required|max:255',
       'address' => 'required|max:255',
+      'company' => 'nullable|string',
+      'custom_company' => 'nullable|string',
       'phonenumber' => 'required|max:255',
       'mobilephone' => 'required|max:255',
-      'company' => 'required|max:255',
       'position' => 'required|max:255',
     ]);
 
     $yearOfJoin = Carbon::now()->year;
     $validatedData['id_customer'] = $yearOfJoin . 1234;
 
-    // $validatedData['company'] = $request->input('company', "PT. LyZer-Tech");
-    $validatedData['status'] = $request->input('status', 1);
+    // Use 'custom_company' if provided, otherwise use selected 'company'
+    $validatedData['company'] = $request->custom_company ?: $request->company;
 
-    // Handle file upload
-    // if ($request->hasFile('image')) {
-    //     $imagePath = $request->file('image')->store('images', 'public');
-    //     $validatedData['image'] = $imagePath;
-    // } else {
-    //     return redirect()->back()->withErrors(['image' => 'Image upload failed'])->withInput();
-    // }
+    $validatedData['status'] = $request->input('status', 1);
 
     // Create a new Customer instance
     $customer = new crm_customer([

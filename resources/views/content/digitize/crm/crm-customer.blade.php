@@ -317,13 +317,43 @@
                 class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm">
                 @csrf <!-- CSRF protection -->
                 @method('POST')
-                <div class="mb-3 fv-plugins-icon-container">
+                {{-- <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-company">Company</label>
                     <input required type="text" class="form-control" id="add-user-company"
                         placeholder="PT. Amptron Instrumindo" name="company" aria-label="company">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
+                </div> --}}
+                <div class="mb-3">
+                    <label class="form-label" for="company-select">Company</label>
+                    <select class="form-control" id="company-select" name="company">
+                        <option value="">-- Select a company --</option>
+                        <option value="other">Other (Enter new company)</option>
+                        @foreach ($company_list as $company)
+                            <option value="{{ $company }}">{{ $company }}</option>
+                        @endforeach
+                    </select>
                 </div>
+                <div class="mb-3" id="custom-company-container" style="display: none;">
+                    <label class="form-label" for="custom-company">New Company Name</label>
+                    <input type="text" class="form-control" id="custom-company" name="custom_company"
+                        placeholder="Enter new company">
+                </div>
+                <script>
+                    document.getElementById("company-select").addEventListener("change", function() {
+                        var customCompanyContainer = document.getElementById("custom-company-container");
+                        var customCompanyInput = document.getElementById("custom-company");
+
+                        if (this.value === "other") {
+                            customCompanyContainer.style.display = "block";
+                            customCompanyInput.setAttribute("required", "required");
+                        } else {
+                            customCompanyContainer.style.display = "none";
+                            customCompanyInput.removeAttribute("required");
+                            customCompanyInput.value = ""; // Clear input when hidden
+                        }
+                    });
+                </script>
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-fullname">Full Name</label>
                     <input required type="text" class="form-control" id="add-user-fullname" placeholder="John Doe"

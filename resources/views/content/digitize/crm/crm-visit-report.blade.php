@@ -593,6 +593,10 @@
                                         badgeClass = 'bg-label-danger';
                                         badgeText = 'Acknowledge';
                                         break;
+                                    case 'Cancelled':
+                                        badgeClass = 'bg-label-danger';
+                                        badgeText = 'Cancelled';
+                                        break;
                                     case 'Completed':
                                         badgeClass = 'bg-label-success';
                                         badgeText = 'Completed';
@@ -635,6 +639,10 @@
                                     case '1':
                                         badgeClass = 'bg-label-success';
                                         badgeText = 'Yes';
+                                        break;
+                                    case '2':
+                                        badgeClass = 'bg-label-danger';
+                                        badgeText = 'Cancelled';
                                         break;
                                     default:
                                         badgeClass = 'bg-label-secondary';

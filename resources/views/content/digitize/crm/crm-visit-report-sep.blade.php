@@ -289,9 +289,9 @@
                                                         <select id="customer-company" class="form-select"
                                                             name="customer_name">
                                                             <option value="">Select Company</option>
-                                                            @foreach ($customer->sortBy('company') as $cust)
-                                                                <option value="{{ $cust->company }}">
-                                                                    {{ $cust->company }}</option>
+                                                            @foreach ($companies as $cust)
+                                                                <option value="{{ $cust }}">
+                                                                    {{ $cust }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -587,7 +587,7 @@
                                         badgeText = 'In Progress';
                                         break;
                                     case 'Submitted':
-                                        badgeClass = 'bg-label-success';
+                                        badgeClass = 'bg-label-primary';
                                         badgeText = 'Submitted';
                                         break;
                                     case 'Acknowledge':

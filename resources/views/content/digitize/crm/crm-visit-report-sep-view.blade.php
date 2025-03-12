@@ -134,6 +134,15 @@
                                                 onclick="window.location.href = '../';">
                                                 Back
                                             </button>
+                                            @if (Auth::user()->name === 'Fitri' && $status === 'Planned')
+                                                <form method="post"
+                                                    action="{{ route('crm-visit-report-sep-cancel', $crm_visit_report->id_visit_report) }}"
+                                                    enctype="multipart/form-data"
+                                                    onsubmit="return confirm('Are you sure you want to cancel this visit report?');">
+                                                    @csrf <!-- CSRF protection -->
+                                                    <button type="submit" class="btn btn-danger">Cancelled</button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </div>
                                 @elseif (Auth::user()->role_id == 5 && Auth::user()->name == $crm_visit_report->sales)
@@ -211,7 +220,7 @@
                             <hr class="my-6">
                             <h5>Acknowledge</h5>
                             {{-- Ack Manager --}}
-                            <form method="post"
+                            {{-- <form method="post"
                                 action="{{ route('crm-visit-report-sep-ackmanager', $crm_visit_report->id_visit_report) }}"
                                 enctype="multipart/form-data">
                                 @csrf <!-- CSRF protection -->
@@ -249,7 +258,7 @@
                                         @endif
                                     @endif
                                 </div>
-                            </form>
+                            </form> --}}
                             {{-- Ack Director --}}
                             <form method="post"
                                 action="{{ route('crm-visit-report-sep-ackdirector', $crm_visit_report->id_visit_report) }}"
@@ -270,8 +279,8 @@
                                         </div>
                                     </div>
                                     @if (Auth::check())
-                                        @if (empty($crm_visit_report->ack_manager))
-                                        @elseif (Auth::user()->name == 'Bambang Tri' && empty($crm_visit_report->ack_director))
+                                        {{-- @if (empty($crm_visit_report->ack_manager)) --}}
+                                        @if (Auth::user()->name == 'Bambang Tri' && empty($crm_visit_report->ack_director))
                                             <div class="col-8">
                                                 <p class="mb-6">
                                                     <textarea class="form-control" id="ack_director" rows="3" id="ack_director" name="ack_director">{{ $crm_visit_report->ack_director }}</textarea>

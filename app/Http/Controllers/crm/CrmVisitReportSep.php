@@ -22,12 +22,17 @@ class CrmVisitReportSep extends Controller
     $customer = crm_customer::all();
     // dd($customer);
     $visit_reports = crm_visit_report_sep::select('sales', DB::raw('count(*) as total_visits'))
-      ->groupBy('sales')
-      ->get();
+    ->where('status', '!=', 'Cancelled') // Exclude 'Cancelled' status
+    ->groupBy('sales')
+    ->get();
     $sales_list = User::where('role_id', 5)->get();
-    $total_visit_reports = crm_visit_report_sep::count();
+    $total_visit_reports = crm_visit_report_sep::where('status', '!=', 'Cancelled')->count();
     $prospek_yes = crm_visit_report_sep::where('prospek', 1)->count();
     $prospek_no = crm_visit_report_sep::where('prospek', 0)->count();
+    $companies = crm_customer::select('company')
+    ->distinct()
+    ->orderBy('company', 'asc') // Sort in ascending order
+    ->pluck('company');
 
     return view('content.digitize.crm.crm-visit-report-sep', compact(
       'customer',
@@ -35,7 +40,8 @@ class CrmVisitReportSep extends Controller
       'sales_list',
       'total_visit_reports',
       'prospek_yes',
-      'prospek_no'
+      'prospek_no',
+      'companies'
     ));
   }
   public function visit_report_data()
@@ -146,7 +152,7 @@ class CrmVisitReportSep extends Controller
             $validatedData['status'] = 'Cancelled';
             break;
         default:
-            $validatedData['status'] = 'Unknown'; // Optional: Handle unexpected values
+            $validatedData['status'] = 'In Progress'; // Optional: Handle unexpected values
     }
 
     // Handle file upload
@@ -156,6 +162,29 @@ class CrmVisitReportSep extends Controller
     // } else {
     //     $validatedData['image'] = $visitReport->image; // Retain the existing image if no new one is uploaded
     // }
+
+    // Update the visit report with validated data
+    $visitReport->update($validatedData);
+
+    // Redirect back with success message
+    return redirect()->route('crm-visit-report-sep')->with('success', 'CRM Visit updated successfully!');
+  }
+  public function visit_report_cancel(Request $request, $id_visit_report)
+  {
+    // dd($request);
+
+    // Find the existing visit report by ID
+    $visitReport = crm_visit_report_sep::findOrFail($id_visit_report);
+
+    // Validate incoming request data
+    $validatedData = $request->validate([
+      'status' => 'nullable|string|max:50',
+      'prospek' => 'nullable|string|max:50',
+    ]);
+
+    // Set the status to "Cancelled"
+    $validatedData['status'] = 'Cancelled';
+    $validatedData['prospek'] = '2';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);
@@ -201,8 +230,8 @@ class CrmVisitReportSep extends Controller
       'ack_manager' => 'nullable|string|max:2000',
     ]);
 
-    // Set the status to "In Progress"
-    $validatedData['status'] = 'In Progress';
+    // Set the status to "Submitted"
+    $validatedData['status'] = 'Submitted';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);
@@ -222,8 +251,8 @@ class CrmVisitReportSep extends Controller
       'ack_director' => 'nullable|string|max:2000',
     ]);
 
-    // Set the status to "In Progress"
-    // $validatedData['status'] = 'In Progress';
+    // Set the status to "Submitted"
+    $validatedData['status'] = 'Submitted';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);
@@ -243,8 +272,8 @@ class CrmVisitReportSep extends Controller
       'ack_presdir' => 'nullable|string|max:2000',
     ]);
 
-    // Set the status to "In Progress"
-    $validatedData['status'] = 'In Progress';
+    // Set the status to "Acknowledge"
+    $validatedData['status'] = 'Acknowledge';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);

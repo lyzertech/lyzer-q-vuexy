@@ -91,7 +91,7 @@
         @endif
 
         <!-- Language -->
-        <li class="nav-item dropdown-language dropdown">
+        {{-- <li class="nav-item dropdown-language dropdown">
             <a class="nav-link btn btn-text-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
                 href="javascript:void(0);" data-bs-toggle="dropdown">
                 <i class='ti ti-language rounded-circle ti-md'></i>
@@ -128,7 +128,7 @@
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
         <!--/ Language -->
 
         @if ($configData['hasCustomizer'] == true)
@@ -161,7 +161,7 @@
         @endif
 
         <!-- Quick links  -->
-        <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown">
+        {{-- <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown">
             <a class="nav-link btn btn-text-secondary btn-icon rounded-pill btn-icon dropdown-toggle hide-arrow"
                 href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                 <i class='ti ti-layout-grid-add ti-md'></i>
@@ -243,11 +243,11 @@
                     </div>
                 </div>
             </div>
-        </li>
+        </li> --}}
         <!-- Quick links -->
 
         <!-- Notification -->
-        <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
+        {{-- <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
             <a class="nav-link btn btn-text-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
                 href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                 aria-expanded="false">
@@ -473,7 +473,7 @@
                     </div>
                 </li>
             </ul>
-        </li>
+        </li> --}}
         <!--/ Notification -->
 
         <!-- User -->
@@ -481,13 +481,17 @@
             <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <div class="avatar avatar-online">
                     @if (Auth::check())
-                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle">
+                        @if (in_array(Auth::user()->name, ['Alfian', 'BT', 'David', 'Dika', 'Eka', 'Heri Go', 'Maman', 'Setia']))
+                            <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle">
+                        @elseif (in_array(Auth::user()->name, ['Fitri', 'Julia', 'Vicha']))
+                            <img src="{{ asset('assets/img/avatars/2.png') }}" alt class="rounded-circle">
+                        @else
+                            <img src="{{ Auth::user()->profile_photo_url ?? asset('assets/img/avatars/1.png') }}" alt
+                                class="rounded-circle">
+                        @endif
                     @else
-                        <img src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('assets/img/avatars/1.png') }}"
-                            alt class="rounded-circle">
+                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle">
                     @endif
-                    {{-- <img src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('assets/img/avatars/1.png') }}"
-                        alt class="rounded-circle"> --}}
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -497,7 +501,20 @@
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 me-2">
                                 <div class="avatar avatar-online">
-                                    <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle">
+                                    @if (Auth::check())
+                                        @if (in_array(Auth::user()->name, ['Alfian Jasrin', 'Bambang Tri', 'David', 'Dika', 'Eka', 'Heri Go', 'Maman', 'Setia']))
+                                            <img src="{{ asset('assets/img/avatars/1.png') }}" alt
+                                                class="rounded-circle">
+                                        @elseif (in_array(Auth::user()->name, ['Fitri', 'Julia', 'Vicha']))
+                                            <img src="{{ asset('assets/img/avatars/2.png') }}" alt
+                                                class="rounded-circle">
+                                        @else
+                                            <img src="{{ Auth::user()->profile_photo_url ?? asset('assets/img/avatars/1.png') }}"
+                                                alt class="rounded-circle">
+                                        @endif
+                                    @else
+                                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle">
+                                    @endif
                                 </div>
                             </div>
                             <div class="flex-grow-1">

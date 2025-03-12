@@ -219,6 +219,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/crm/visit-report/response/{id_visit_report}', [CrmVisitReport::class, 'visit_report_response'])->name('crm-visit-report-response');
     Route::post('/crm/visit-report/followup/{id_visit_report}', [CrmVisitReport::class, 'visit_report_followup'])->name('crm-visit-report-followup');
     Route::delete('/crm/visit-report/destroy/{id_visit_report}', [CrmVisitReport::class, 'visit_report_destroy'])->name('crm-visit-report-destroy');
+    Route::post('/crm/visit-report/cancel/{id_visit_report}', [CrmVisitReport::class, 'visit_report_cancel'])->name('crm-visit-report-cancel');
 
     // Visit Report SEP
     Route::get('/crm/visit-report-sep', [CrmVisitReportSep::class, 'index'])->name('crm-visit-report-sep');
@@ -233,6 +234,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/crm/visit-report-sep/response/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_response'])->name('crm-visit-report-sep-response');
     Route::post('/crm/visit-report-sep/followup/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_followup'])->name('crm-visit-report-sep-followup');
     Route::delete('/crm/visit-report-sep/destroy/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_destroy'])->name('crm-visit-report-sep-destroy');
+    Route::post('/crm/visit-report-sep/cancel/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_cancel'])->name('crm-visit-report-sep-cancel');
 
     //Project
     Route::get('/crm/project', [CrmProject::class, 'index'])->name('crm-project');

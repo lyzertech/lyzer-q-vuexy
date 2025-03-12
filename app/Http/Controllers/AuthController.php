@@ -12,11 +12,11 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'name' => ['required'],
             'password' => ['required'],
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('name', $request->name)->first();
 
         if ($user && $user->status !== 'approved') {
             return back()->withErrors([
@@ -30,7 +30,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'name' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
     }
     public function register(Request $request)

@@ -60,10 +60,10 @@
                     <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div> --}}
-                <span>or use your email for login</span>
-                <input id="email" type="email" placeholder="Email" name="email" value="{{ old('email') }}"
+                <span>or use your username for login</span>
+                <input id="name" type="name" placeholder="Username" name="name" value="{{ old('name') }}"
                     required>
-                @error('email')
+                @error('name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

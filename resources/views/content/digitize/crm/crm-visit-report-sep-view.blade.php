@@ -97,7 +97,7 @@
                                             {{ $crm_visit_report->follow_up_date }}
                                             @if (in_array($crm_visit_report->follow_up_date_status, ['0']) &&
                                                     !empty($crm_visit_report->follow_up_date) &&
-                                                    Auth::user()->name == 'Eka')
+                                                    Auth::user()->name == 'Bambang Tri')
                                                 <form method="post"
                                                     action="{{ route('crm-visit-report-sep-followup', $crm_visit_report->id_visit_report) }}"
                                                     enctype="multipart/form-data">

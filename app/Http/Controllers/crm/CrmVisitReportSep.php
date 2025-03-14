@@ -8,6 +8,7 @@ use App\Models\crm\crm_visit_report_sep;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -72,7 +73,7 @@ class CrmVisitReportSep extends Controller
   public function create(Request $request)
   {
     // $request['status'] = $request->input('status', 'Planned');
-    $request['contact_number'] = $request->input('password', '12345');
+    $request['contact_number'] = Auth::user()->name;
 
     crm_visit_report_sep::create($request->only([
       'customer_name',

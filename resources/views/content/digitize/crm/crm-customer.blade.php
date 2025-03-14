@@ -116,7 +116,7 @@
         <!--/ Customer Tracker -->
 
         <!-- Customer Distribution -->
-        <div class="col-md-2">
+        <div class="col-md-4">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between">
                     <div class="card-title mb-0">
@@ -126,17 +126,15 @@
                 </div>
                 <div class="card-body row">
                     @foreach ($sales_distribution as $distribution)
-                        <div class="row">
+                        <div class="col-md-6">
                             <ul class="p-0 m-0">
                                 <li class="d-flex gap-4 align-items-center mb-lg-3 pb-1">
 
-                                    {{-- <div class="badge rounded bg-label-success p-1_5"> --}}
                                     <div class="avatar-wrapper">
                                         <div class="avatar me-2">
                                             <img src="/assets/img/avatars/9.png" alt="Avatar" class="rounded-circle">
                                         </div>
                                     </div>
-                                    {{-- </div> --}}
                                     <div>
                                         <h6 class="mb-0 text-nowrap">{{ $distribution->sales }}</h6>
                                         <small class="text-muted">{{ $distribution->total_customers }}</small>

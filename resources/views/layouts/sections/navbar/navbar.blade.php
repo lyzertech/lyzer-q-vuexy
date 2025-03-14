@@ -497,7 +497,9 @@
             <ul class="dropdown-menu dropdown-menu-end">
                 <li>
                     <a class="dropdown-item mt-0"
-                        href="{{ Route::has('profile.show') ? route('profile.show') : url('pages/profile-user') }}">
+                        href="
+                        {{-- {{ Route::has('profile.show') ? route('profile.show') : url('pages/profile-user') }} --}}
+                         ">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 me-2">
                                 <div class="avatar avatar-online">
@@ -551,11 +553,8 @@
                     <div class="dropdown-divider my-1 mx-n2"></div>
                 </li>
                 <li>
-                    <a class="dropdown-item"
-                        href="
-                        {{-- {{ Route::has('profile.show') ? route('profile.show') : url('pages/profile-user') }} --}}
-                         ">
-                        <i class="ti ti-user me-3 ti-md"></i><span class="align-middle">My Profile</span>
+                    <a class="dropdown-item" href="{{ route('users-change-password', ['id' => Auth::user()->id]) }}">
+                        <i class="ti ti-key me-3 ti-md"></i><span class="align-middle">Change Password</span>
                     </a>
                 </li>
 

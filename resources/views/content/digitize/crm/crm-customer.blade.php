@@ -317,13 +317,6 @@
                 class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm">
                 @csrf <!-- CSRF protection -->
                 @method('POST')
-                {{-- <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="add-user-company">Company</label>
-                    <input required type="text" class="form-control" id="add-user-company"
-                        placeholder="PT. Amptron Instrumindo" name="company" aria-label="company">
-                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                    </div>
-                </div> --}}
                 <div class="mb-3">
                     <label class="form-label" for="company-select">Company</label>
                     <select class="form-control" id="company-select" name="company">
@@ -354,6 +347,22 @@
                         }
                     });
                 </script>
+                <div class="mb-3 fv-plugins-icon-container">
+                    <label class="form-label" for="status-select">Category Customer</label>
+                    <select class="form-control" id="status-select" name="status">
+                        <option value="">-- Select a Category --</option>
+                        <option value="End-User">End-User</option>
+                        <option value="Panel Maker">Panel Maker</option>
+                        <option value="System Integrator">System Integrator</option>
+                        <option value="EPC">EPC</option>
+                        <option value="Supplier/Trader">Supplier/Trader</option>
+                        <option value="Consultant">Consultant</option>
+                        <option value="Contractor">Contractor</option>
+                        <option value="Data Center">Data Center</option>
+                    </select>
+                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                    </div>
+                </div>
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="add-user-fullname">Full Name</label>
                     <input required type="text" class="form-control" id="add-user-fullname" placeholder="John Doe"
@@ -432,21 +441,21 @@
                 ajax: '{{ route('crm-customer-data') }}',
                 columns: [{
                         data: 'company',
-                        name: 'company',
-                        render: function(data, type, row) {
-                            if (!data) return ''; // Handle empty data
+                        name: 'company'
+                        // render: function(data, type, row) {
+                        //     if (!data) return ''; // Handle empty data
 
-                            // Ensure "PT." remains uppercase and extract the remaining part
-                            let formatted = data.replace(/^PT\.\s*/i, 'PT. ');
+                        //     // Ensure "PT." remains uppercase and extract the remaining part
+                        //     let formatted = data.replace(/^PT\.\s*/i, 'PT. ');
 
-                            // Convert only the remaining part to title case
-                            formatted = formatted.replace(/^PT\.\s*(.*)$/, function(match, rest) {
-                                return 'PT. ' + rest.toLowerCase().replace(/\b\w/g, c => c
-                                    .toUpperCase());
-                            });
+                        //     // Convert only the remaining part to title case
+                        //     formatted = formatted.replace(/^PT\.\s*(.*)$/, function(match, rest) {
+                        //         return 'PT. ' + rest.toLowerCase().replace(/\b\w/g, c => c
+                        //             .toUpperCase());
+                        //     });
 
-                            return formatted;
-                        }
+                        //     return formatted;
+                        // }
                     },
                     {
                         data: 'name',

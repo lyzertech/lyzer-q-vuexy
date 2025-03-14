@@ -40,6 +40,7 @@
                                     'Planned' => 'bg-label-warning',
                                     'In Progress' => 'bg-label-info',
                                     'Submitted' => 'bg-label-primary',
+                                    'Checked' => 'bg-label-warning',
                                     'Acknowledge' => 'bg-label-danger',
                                     'Cancelled' => 'bg-label-danger',
                                     'Completed' => 'bg-label-success',
@@ -80,7 +81,7 @@
                             @if (Auth::check())
                                 @if (Auth::user()->role_id == 2 ||
                                         Auth::user()->name != $crm_visit_report->sales ||
-                                        in_array($crm_visit_report->status, ['Submitted', 'Acknowledge', 'Cancelled', 'Completed']))
+                                        in_array($crm_visit_report->status, ['Submitted', 'Checked', 'Acknowledge', 'Cancelled', 'Completed']))
                                     <!-- Content for role 2 -->
                                     <div class="">
                                         <hr class="my-6">
@@ -130,11 +131,25 @@
                                         </p>
 
                                         <div class="modal-footer border-0">
-                                            <button type="button" class="btn btn-label-secondary mx-2"
-                                                onclick="window.location.href = '../';">
-                                                Back
-                                            </button>
-                                            @if (Auth::user()->name === 'Fitri' && $status === 'Planned')
+                                            @if (in_array(Auth::user()->name, ['Bambang Tri', 'Alfian Jasrin']))
+                                                <form method="post"
+                                                    action="{{ route('crm-visit-report-sep-delete', $crm_visit_report->id_visit_report) }}"
+                                                    enctype="multipart/form-data"
+                                                    onsubmit="return confirm('Are you sure you want to Delete this visit report?');">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger mx-2">
+                                                        <i class="fas fa-trash-alt"></i>&nbsp; Delete
+                                                    </button>
+                                                </form>
+                                                <button type="button" class="btn btn-label-secondary"
+                                                    onclick="window.location.href = '../';">
+                                                    Back
+                                                </button>
+                                            @elseif (Auth::user()->name === 'Fitri' && $status === 'Planned')
+                                                <button type="button" class="btn btn-label-secondary mx-2"
+                                                    onclick="window.location.href = '../';">
+                                                    Back
+                                                </button>
                                                 <form method="post"
                                                     action="{{ route('crm-visit-report-sep-cancel', $crm_visit_report->id_visit_report) }}"
                                                     enctype="multipart/form-data"
@@ -142,6 +157,11 @@
                                                     @csrf <!-- CSRF protection -->
                                                     <button type="submit" class="btn btn-danger">Cancelled</button>
                                                 </form>
+                                            @else
+                                                <button type="button" class="btn btn-label-secondary mx-2"
+                                                    onclick="window.location.href = '../';">
+                                                    Back
+                                                </button>
                                             @endif
                                         </div>
                                     </div>
@@ -200,14 +220,15 @@
                                         </div>
                                     </form>
 
-                                    {{-- <form method="post"
+                                    <form method="post"
                                         action="{{ route('crm-visit-report-sep-submit', $crm_visit_report->id_visit_report) }}"
-                                        enctype="multipart/form-data">
+                                        enctype="multipart/form-data"
+                                        onsubmit="return confirm('⚠️ WARNING: Make sure you have updated the visit report before submitting. \n\nAre you sure you want to SUBMIT this visit report?');">
                                         @csrf <!-- CSRF protection -->
                                         <div class="modal-footer border-0">
                                             <button type="submit" class="btn btn-success">Submit</button>
                                         </div>
-                                    </form> --}}
+                                    </form>
                                 @else
                                     <!-- Content for other roles -->
                                     <p>Your role is {{ Auth::user()->role }}. You don't have access to this content.</p>

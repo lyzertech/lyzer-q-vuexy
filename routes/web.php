@@ -220,6 +220,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/crm/visit-report/followup/{id_visit_report}', [CrmVisitReport::class, 'visit_report_followup'])->name('crm-visit-report-followup');
     Route::delete('/crm/visit-report/destroy/{id_visit_report}', [CrmVisitReport::class, 'visit_report_destroy'])->name('crm-visit-report-destroy');
     Route::post('/crm/visit-report/cancel/{id_visit_report}', [CrmVisitReport::class, 'visit_report_cancel'])->name('crm-visit-report-cancel');
+    Route::post('/crm/visit-report/delete/{id_visit_report}', [CrmVisitReport::class, 'visit_report_delete'])->name('crm-visit-report-delete');
 
     // Visit Report SEP
     Route::get('/crm/visit-report-sep', [CrmVisitReportSep::class, 'index'])->name('crm-visit-report-sep');
@@ -235,6 +236,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/crm/visit-report-sep/followup/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_followup'])->name('crm-visit-report-sep-followup');
     Route::delete('/crm/visit-report-sep/destroy/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_destroy'])->name('crm-visit-report-sep-destroy');
     Route::post('/crm/visit-report-sep/cancel/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_cancel'])->name('crm-visit-report-sep-cancel');
+    Route::post('/crm/visit-report-sep/delete/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_delete'])->name('crm-visit-report-sep-delete');
 
     //Project
     Route::get('/crm/project', [CrmProject::class, 'index'])->name('crm-project');
@@ -276,6 +278,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users', [Users::class, 'index'])->name('users');
     Route::get('/users/data', [Users::class, 'users_data'])->name('users-data');
     Route::get('/users/view/{id}', [Users::class, 'users_view'])->name('users-view');
+    Route::get('/users/change/{id}', [Users::class, 'users_change_password'])->name('users-change-password');
+    Route::post('/users/change/{id}', [Users::class, 'users_update_password'])->name('users-update-password');
     Route::delete('/users/destroy/{id}', [Users::class, 'users_destroy'])->name('users-destroy');
 
     Route::get('/dev/zerotest', [DevZerotest::class, 'index'])->name('dev-zerotest');

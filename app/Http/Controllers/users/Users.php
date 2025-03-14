@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -53,7 +54,31 @@ class Users extends Controller
             ->rawColumns(['action']) // Allow raw HTML in the action column
             ->make(true);
     }
+    public function users_change_password(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
 
+        // $crm_customer = crm_customer::findOrFail($crm_customer);
+
+        return view('content.digitize.users.users-change-password', compact('user'));
+    }
+    public function users_update_password(Request $request, $id)
+    {
+        // Validate input fields
+        $request->validate([
+            'newPassword' => 'required|min:8|confirmed',
+        ]);
+
+        // Find user by ID
+        $user = User::findOrFail($id);
+
+        // Update password
+        $user->remember_token = $request->newPassword;
+        $user->password = Hash::make($request->newPassword);
+        $user->save();
+
+        return back()->with('success', 'Password changed successfully.');
+    }
     public function all_users_index()
     {
         return view('content.digitize.users.all-users');

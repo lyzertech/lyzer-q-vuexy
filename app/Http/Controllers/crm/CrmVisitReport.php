@@ -22,11 +22,11 @@ class CrmVisitReport extends Controller
     $customer = crm_customer::all();
     // dd($customer);
     $visit_reports = crm_visit_report::select('sales', DB::raw('count(*) as total_visits'))
-    ->where('status', '!=', 'Cancelled') // Exclude 'Cancelled' status
+    ->whereNotIn('status', ['Cancelled', 'Deleted']) // Exclude both 'Cancelled' and 'Deleted' statuses
     ->groupBy('sales')
     ->get();
     $sales_list = User::where('role_id', 4)->get();
-    $total_visit_reports = crm_visit_report::where('status', '!=', 'Cancelled')->count();
+    $total_visit_reports = crm_visit_report::whereNotIn('status', ['Cancelled', 'Deleted'])->count();
     $prospek_yes = crm_visit_report::where('prospek', 1)->count();
     $prospek_no = crm_visit_report::where('prospek', 0)->count();
     $companies = crm_customer::select('company')
@@ -46,7 +46,7 @@ class CrmVisitReport extends Controller
   }
   public function visit_report_data()
   {
-    $visit_report = crm_visit_report::all();
+    $visit_report = crm_visit_report::where('status', '!=', 'deleted')->get();
 
     // dd($visit_report);
 
@@ -60,24 +60,6 @@ class CrmVisitReport extends Controller
         $editUrl = route('crm-visit-report-edit', $visit_report->id_visit_report);
         $deleteUrl = route('crm-visit-report-destroy', $visit_report->id_visit_report);
 
-        // Return the action buttons HTML
-        // <div class="d-inline-block">
-        //     <a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-        //         <i class="ti ti-dots-vertical ti-md"></i>
-        //     </a>
-        //     <ul class="dropdown-menu dropdown-menu-end m-0">
-        //         <li><a href="' . $showUrl . '" class="dropdown-item">Details</a></li>
-        //         <div class="dropdown-divider"></div>
-        //         <li>
-        //             <a href="javascript:;"
-        //               data-url="' . $deleteUrl . '"
-        //               class="dropdown-item text-danger delete-record"
-        //               data-csrf-token="' . csrf_token() . '">
-        //               Delete
-        //             </a>
-        //         </li>
-        //     </ul>
-        // </div>
         return '
               <a href="' . $showUrl . '" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit">
                   <i class="ti ti-pencil ti-md"></i>
@@ -167,7 +149,7 @@ class CrmVisitReport extends Controller
     $visitReport->update($validatedData);
 
     // Redirect back with success message
-    return redirect()->route('crm-visit-report')->with('success', 'CRM Visit updated successfully!');
+    return back()->with('success', 'CRM Visit updated successfully!');
   }
   public function visit_report_cancel(Request $request, $id_visit_report)
   {
@@ -200,17 +182,17 @@ class CrmVisitReport extends Controller
     $visitReport = crm_visit_report::findOrFail($id_visit_report);
 
     // Validate incoming request data
-    $validatedData = $request->validate([
-      'notes' => 'nullable|string|max:2000',
-      'customer_feedback' => 'nullable|string|max:2000',
-      'next_steps' => 'nullable|string|max:1000',
-      'follow_up_date' => 'nullable|date',
-      'status' => 'nullable|string|max:50',
-      'prospek' => 'nullable|string|max:50',
-    ]);
+    // $validatedData = $request->validate([
+    //   'notes' => 'nullable|string|max:2000',
+    //   'customer_feedback' => 'nullable|string|max:2000',
+    //   'next_steps' => 'nullable|string|max:1000',
+    //   'follow_up_date' => 'nullable|date',
+    //   'status' => 'nullable|string|max:50',
+    //   'prospek' => 'nullable|string|max:50',
+    // ]);
 
     // Set the status to "In Progress"
-    $validatedData['status'] = ($request->prospek == 0) ? 'Completed' : 'In Progress';
+    $validatedData['status'] = ($request->prospek == 0) ? 'Submitted' : 'In Progress';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);
@@ -251,8 +233,8 @@ class CrmVisitReport extends Controller
       'ack_director' => 'nullable|string|max:2000',
     ]);
 
-    // Set the status to "Submitted"
-    $validatedData['status'] = 'Submitted';
+    // Set the status to "Checked"
+    $validatedData['status'] = 'Checked';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);
@@ -332,5 +314,28 @@ class CrmVisitReport extends Controller
     }
 
     return redirect()->back()->with('error', 'User not found.');
+  }
+  public function visit_report_delete(Request $request, $id_visit_report)
+  {
+    // dd($request);
+
+    // Find the existing visit report by ID
+    $visitReport = crm_visit_report::findOrFail($id_visit_report);
+
+    // Validate incoming request data
+    $validatedData = $request->validate([
+      'status' => 'nullable|string|max:50',
+      // 'prospek' => 'nullable|string|max:50',
+    ]);
+
+    // Set the status to "Cancelled"
+    $validatedData['status'] = 'Deleted';
+    // $validatedData['prospek'] = '2';
+
+    // Update the visit report with validated data
+    $visitReport->update($validatedData);
+
+    // Redirect back with success message
+    return redirect()->route('crm-visit-report')->with('success', 'CRM Visit updated successfully!');
   }
 }

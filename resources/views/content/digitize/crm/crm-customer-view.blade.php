@@ -37,13 +37,20 @@
                             <div class="user-info text-center">
                                 <h5>{{ $customer->name }}</h5>
                                 <span class="badge bg-label-secondary">{{ $customer->position }}</span>
-                                <h5>{{ 'PT. ' . Str::title(strtolower(str_replace('PT. ', '', $customer->company))) }}</h5>
+                                <h5>{{ $customer->company }}</h5>
                             </div>
                         </div>
                     </div>
                     <h5 class="pb-4 border-bottom mb-4">Details</h5>
                     <div class="info-container">
                         <ul class="list-unstyled mb-6">
+
+                            <li class="d-flex">
+                                <span class="h6" style="min-width: 150px;">Category Customer:</span>
+                                <span class="">
+                                    {{ $customer->status }}
+                                </span>
+                            </li>
                             <li class="d-flex">
                                 <span class="h6" style="min-width: 150px;">Email:</span>
                                 <span>{{ $customer->email }}</span>
@@ -59,13 +66,6 @@
                             <li class="d-flex">
                                 <span class="h6" style="min-width: 150px;">Address:</span>
                                 <span>{{ $customer->address }}</span>
-                            </li>
-                            <li class="d-flex">
-                                <span class="h6" style="min-width: 150px;">Status:</span>
-                                <span
-                                    class="{{ $customer->status == 1 ? 'badge bg-label-success' : 'badge bg-label-danger' }}">
-                                    {{ $customer->status == 1 ? 'Active' : 'Not Active' }}
-                                </span>
                             </li>
                             <li class="d-flex">
                                 <span class="h6" style="min-width: 150px;">Phone Number:</span>
@@ -109,13 +109,12 @@
                             <div class=" d-flex align-items-center flex-column">
                                 <img class="img-fluid rounded mb-4" src="{{ asset('assets/img/avatars/1.png') }}"
                                     height="120" width="120" alt="User avatar" />
-                                <div class="user-info text-center">
+                                <div class="user-info text-center col-lg-8">
                                     <input required type="text" class="form-control" value="{{ $customer->name }}"
                                         name="name">
                                     <input required type="text" class="form-control" value="{{ $customer->position }}"
                                         name="position">
-                                    <input required type="text" class="form-control"
-                                        value="{{ 'PT. ' . Str::title(strtolower(str_replace('PT. ', '', $customer->company))) }}"
+                                    <input required type="text" class="form-control" value="{{ $customer->company }}"
                                         name="company">
                                 </div>
                             </div>
@@ -123,6 +122,20 @@
                         <h5 class="pb-4 border-bottom mb-4">Details</h5>
                         <div class="info-container">
                             <ul class="list-unstyled mb-6">
+                                <li class="d-flex">
+                                    <span class="h6" style="min-width: 150px;">Category Customer:</span>
+                                    <select class="form-control" id="status-select" name="status">
+                                        <option value="{{ $customer->status }}">{{ $customer->status }}</option>
+                                        <option value="End-User">End-User</option>
+                                        <option value="Panel Maker">Panel Maker</option>
+                                        <option value="System Integrator">System Integrator</option>
+                                        <option value="EPC">EPC</option>
+                                        <option value="Supplier/Trader">Supplier/Trader</option>
+                                        <option value="Consultant">Consultant</option>
+                                        <option value="Contractor">Contractor</option>
+                                        <option value="Data Center">Data Center</option>
+                                    </select>
+                                </li>
                                 <li class="d-flex">
                                     <span class="h6" style="min-width: 150px;">Email:</span>
                                     <input required type="text" class="form-control" value="{{ $customer->email }}"
@@ -146,22 +159,6 @@
                                     <span class="h6" style="min-width: 150px;">Address:</span>
                                     <input required type="text" class="form-control" value="{{ $customer->address }}"
                                         name="address">
-                                </li>
-                                <li class="d-flex">
-                                    <span class="h6" style="min-width: 150px;">Status:</span>
-                                    <label class="switch switch-square">
-                                        <!-- Hidden input to ensure '0' is sent when unchecked -->
-                                        <input type="hidden" name="status" value="0">
-
-                                        <!-- Checkbox input -->
-                                        <input type="checkbox" class="switch-input" name="status" value="1"
-                                            {{ $customer->status == 1 ? 'checked' : '' }} />
-
-                                        <span class="switch-toggle-slider">
-                                            <span class="switch-on">Active</span>
-                                            <span class="switch-off">Inactive</span>
-                                        </span>
-                                    </label>
                                 </li>
                                 <li class="d-flex">
                                     <span class="h6" style="min-width: 150px;">Phone Number:</span>

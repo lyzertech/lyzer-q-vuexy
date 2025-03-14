@@ -590,6 +590,10 @@
                                         badgeClass = 'bg-label-primary';
                                         badgeText = 'Submitted';
                                         break;
+                                    case 'Checked':
+                                        badgeClass = 'bg-label-warning';
+                                        badgeText = 'Checked';
+                                        break;
                                     case 'Acknowledge':
                                         badgeClass = 'bg-label-danger';
                                         badgeText = 'Acknowledge';

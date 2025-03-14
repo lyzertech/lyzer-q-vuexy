@@ -90,7 +90,7 @@
         </div>
 
         <!-- Visit Report by AII-SEP-->
-        <div class="col-xxl-4 col-md-6">
+        <div class="col-xxl-5 col-md-6">
             <div class="card h-100">
                 <div class="card-body p-0">
                     <div class="nav-align-top">
@@ -120,6 +120,8 @@
                                                             <thead class="table-light">
                                                                 <tr>
                                                                     <th>Company</th>
+                                                                    <th>Sales</th>
+                                                                    <th>Creator</th>
                                                                     <th>Status</th>
                                                                     <th>Prospek</th>
                                                                     <th>Actions</th>
@@ -145,6 +147,8 @@
                                                             <thead class="table-light">
                                                                 <tr>
                                                                     <th>Company</th>
+                                                                    <th>Sales</th>
+                                                                    <th>Creator</th>
                                                                     <th>Status</th>
                                                                     <th>Prospek</th>
                                                                     <th>Actions</th>
@@ -318,6 +322,14 @@
                 columns: [{
                         data: 'customer_name',
                         name: 'customer_name'
+                    },
+                    {
+                        data: 'sales',
+                        name: 'sales'
+                    },
+                    {
+                        data: 'contact_number',
+                        name: 'contact_number'
                     },
                     {
                         data: 'status',
@@ -521,6 +533,14 @@
                 columns: [{
                         data: 'customer_name',
                         name: 'customer_name'
+                    },
+                    {
+                        data: 'sales',
+                        name: 'sales'
+                    },
+                    {
+                        data: 'contact_number',
+                        name: 'contact_number'
                     },
                     {
                         data: 'status',

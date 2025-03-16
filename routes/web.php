@@ -169,6 +169,7 @@ use App\Http\Controllers\crm\CrmDashboard;
 use App\Http\Controllers\crm\CrmCustomer;
 use App\Http\Controllers\crm\CrmVisitReport;
 use App\Http\Controllers\crm\CrmVisitReportSep;
+use App\Http\Controllers\crm\CrmCalendar;
 use App\Http\Controllers\crm\CrmProject;
 use App\Http\Controllers\labs\LabsDashboard;
 use App\Http\Controllers\labs\LabsLabel;
@@ -237,6 +238,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/crm/visit-report-sep/destroy/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_destroy'])->name('crm-visit-report-sep-destroy');
     Route::post('/crm/visit-report-sep/cancel/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_cancel'])->name('crm-visit-report-sep-cancel');
     Route::post('/crm/visit-report-sep/delete/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_delete'])->name('crm-visit-report-sep-delete');
+
+    // Calendar
+    Route::get('/calendar', [CrmCalendar::class, 'calendar_index'])->name('calendar');
+    Route::get('/calendar/data', [CrmCalendar::class, 'calendar_data'])->name('calendar');
 
     //Project
     Route::get('/crm/project', [CrmProject::class, 'index'])->name('crm-project');

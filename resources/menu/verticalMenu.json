@@ -65,6 +65,12 @@
               "url": "crm/project",
               "name": "Project",
               "slug": "crm-project"
+            },
+            {
+              "url": "calendar",
+              "name": "Calendar",
+              "icon": "menu-icon tf-icons ti ti-user",
+              "slug": "calendar"
             }
           ]
         },

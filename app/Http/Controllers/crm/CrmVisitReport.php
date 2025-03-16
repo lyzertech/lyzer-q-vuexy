@@ -23,17 +23,17 @@ class CrmVisitReport extends Controller
     $customer = crm_customer::all();
     // dd($customer);
     $visit_reports = crm_visit_report::select('sales', DB::raw('count(*) as total_visits'))
-    ->whereNotIn('status', ['Cancelled', 'Deleted']) // Exclude both 'Cancelled' and 'Deleted' statuses
-    ->groupBy('sales')
-    ->get();
+      ->whereNotIn('status', ['Cancelled', 'Deleted']) // Exclude both 'Cancelled' and 'Deleted' statuses
+      ->groupBy('sales')
+      ->get();
     $sales_list = User::where('role_id', 4)->get();
     $total_visit_reports = crm_visit_report::whereNotIn('status', ['Cancelled', 'Deleted'])->count();
     $prospek_yes = crm_visit_report::where('prospek', 1)->count();
     $prospek_no = crm_visit_report::where('prospek', 0)->count();
     $companies = crm_customer::select('company')
-    ->distinct()
-    ->orderBy('company', 'asc') // Sort in ascending order
-    ->pluck('company');
+      ->distinct()
+      ->orderBy('company', 'asc') // Sort in ascending order
+      ->pluck('company');
 
     return view('content.digitize.crm.crm-visit-report', compact(
       'customer',
@@ -125,17 +125,17 @@ class CrmVisitReport extends Controller
 
     // Set the status to "Completed"
     switch ($request->prospek) {
-        case 0:
-            $validatedData['status'] = 'Completed';
-            break;
-        case 1:
-            $validatedData['status'] = 'In Progress';
-            break;
-        case 2:
-            $validatedData['status'] = 'Cancelled';
-            break;
-        default:
-            $validatedData['status'] = 'In Progress'; // Optional: Handle unexpected values
+      case 0:
+        $validatedData['status'] = 'Completed';
+        break;
+      case 1:
+        $validatedData['status'] = 'In Progress';
+        break;
+      case 2:
+        $validatedData['status'] = 'Cancelled';
+        break;
+      default:
+        $validatedData['status'] = 'In Progress'; // Optional: Handle unexpected values
     }
 
     // Handle file upload

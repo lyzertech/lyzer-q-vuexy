@@ -22,6 +22,12 @@
           "url": "crm/visit-report-sep",
           "name": "Visit Report SEP",
           "slug": "crm-visit-report-sep"
+        },
+        {
+          "url": "calendar",
+          "name": "Calendar",
+          "icon": "menu-icon tf-icons ti ti-user",
+          "slug": "calendar"
         }
       ]
     },

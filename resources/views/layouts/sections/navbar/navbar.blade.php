@@ -481,7 +481,7 @@
             <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <div class="avatar avatar-online">
                     @if (Auth::check())
-                        @if (in_array(Auth::user()->name, ['Alfian', 'BT', 'David', 'Dika', 'Eka', 'Heri Go', 'Maman', 'Setia']))
+                        @if (in_array(Auth::user()->name, ['Alfian', 'BT', 'David', 'Dika', 'Eka', 'Heri Go', 'Maman', 'Setia', 'Paiman']))
                             <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle">
                         @elseif (in_array(Auth::user()->name, ['Fitri', 'Julia', 'Vicha']))
                             <img src="{{ asset('assets/img/avatars/2.png') }}" alt class="rounded-circle">
@@ -535,6 +535,7 @@
                                             3 => 'Director',
                                             4 => 'Sales AII',
                                             5 => 'Sales SEP',
+                                            6 => 'Labs',
                                             7 => 'Member',
                                             11 => 'Familia',
                                         ];

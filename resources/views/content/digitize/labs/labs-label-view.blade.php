@@ -153,7 +153,7 @@
                                                                                         : 'INPUT: ')) }}
                                                                         </p>
                                                                     </div>
-                                                                    <div class="col-7">
+                                                                    <div class="col-8">
                                                                         <p class="mb-0 small-font">{{ $Label->type }}</p>
                                                                         <p class="mb-0 small-font">{{ $Label->scale }}</p>
                                                                         <p class="mb-0 small-font">

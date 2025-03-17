@@ -1260,6 +1260,23 @@
       "target": "_blank"
     }
   ],
+  "labs": [
+    {
+      "menuHeader": "Digitize"
+    },
+    {
+      "name": "Labs",
+      "icon": "menu-icon tf-icons ti ti-user-check",
+      "slug": "labs",
+      "submenu": [
+        {
+          "url": "labs/label",
+          "name": "Label Generator",
+          "slug": "labs-label"
+        }
+      ]
+    }
+  ],
   "menuFamilia": [
     {
       "menuHeader": "LyZer"

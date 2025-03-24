@@ -78,10 +78,22 @@ class LabsLabel extends Controller
             'qty.*' => 'required',
         ]);
 
+        // Initialize line counter
+        $lineNumber = 1;
+
         // Loop through each set of inputs
         foreach ($request['type'] as $index => $type) {
             // Get the quantity for the current index
             $quantity = $request['qty'][$index];
+
+            // Check if the customer is "Schneider Indonesia"
+              if ($request['customer'] === "Schneider Indonesia") {
+                // Format PO with line number (padded with leading zeros)
+                $formattedPO = $request['PO'] . " Line " . str_pad($lineNumber, 5, '0', STR_PAD_LEFT);
+            } else {
+                // Keep PO as is for other customers
+                $formattedPO = $request['PO'];
+            }
 
             // Create multiple entries based on the quantity
             for ($i = 0; $i < $quantity; $i++) {
@@ -89,7 +101,7 @@ class LabsLabel extends Controller
                     'id_label' => $currentId, // Assign the ID
                     'brand' => $request['brand'],
                     'customer' => $request['customer'],
-                    'PO' => $request['PO'],
+                    'PO' => $formattedPO,
                     'type' => $type,
                     'scale' => $request['scale'][$index],
                     'input' => $request['input'][$index],
@@ -97,6 +109,10 @@ class LabsLabel extends Controller
                 ]);
                 // Always increment ID for the next entry
                 $currentId += 1;
+            }
+            // Move to the next line number after processing the current batch (only for Schneider Indonesia)
+              if ($request['customer'] === "Schneider Indonesia") {
+                $lineNumber += 1;
             }
         }
 

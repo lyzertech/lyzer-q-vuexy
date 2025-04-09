@@ -248,6 +248,28 @@
                                         </div>
                                     @endforeach
 
+                                    @if ($labs_label->first()?->customer === 'Schneider Indonesia')
+                                        @php
+                                            $chunks = $labs_label->chunk(6); // Split the labels into chunks of 6
+                                        @endphp
+
+                                        @foreach ($chunks as $chunk)
+                                            <div class="row">
+                                                @foreach ($chunk as $input)
+                                                    <div class="col bord px-2">
+                                                        PO {{ $input->PO }}
+                                                    </div>
+                                                @endforeach
+
+                                                @for ($i = $chunk->count(); $i < 6; $i++)
+                                                    <div class="col px-2 border" style="visibility: hidden;">
+                                                        <div class="row"></div>
+                                                    </div>
+                                                @endfor
+                                            </div>
+                                        @endforeach
+                                    @endif
+
                                 </div>
                             </div>
                         </div>

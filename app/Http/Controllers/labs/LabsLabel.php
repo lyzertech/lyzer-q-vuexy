@@ -36,7 +36,7 @@ class LabsLabel extends Controller
             })
             ->addColumn('action', function ($label) {
                 // Define the action URLs for View, Edit, and Delete
-                $showUrl = route('labs-label-view', $label->created_at);
+                $showUrl = route('labs-label-view', $label->created_at->format('Y-m-d H:i'));
                 $deleteUrl = route('labs-label-destroy', $label->id_label);
 
                 // Return the action buttons HTML
@@ -120,12 +120,12 @@ class LabsLabel extends Controller
     }
     public function label_view($created_at)
     {
-        // Fetch all records with the given PO
-        $labs_label = labs_label::where('created_at', $created_at)->get();
+        // Convert string to Carbon instance
+        $created_at = Carbon::parse($created_at)->format('Y-m-d H:i');
 
-        // dd($labs_label);
+        // Fetch all records with the given timestamp
+        $labs_label = labs_label::whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') = ?", [$created_at])->get();
 
-        // Pass the records to the view
         return view('content.digitize.labs.labs-label-view', compact('labs_label'));
     }
 }

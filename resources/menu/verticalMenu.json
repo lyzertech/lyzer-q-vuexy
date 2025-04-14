@@ -24,10 +24,10 @@
           "slug": "crm-visit-report-sep"
         },
         {
-          "url": "calendar",
+          "url": "crm/calendar",
           "name": "Calendar",
           "icon": "menu-icon tf-icons ti ti-user",
-          "slug": "calendar"
+          "slug": "crm-calendar"
         }
       ]
     },
@@ -73,10 +73,10 @@
               "slug": "crm-project"
             },
             {
-              "url": "calendar",
+              "url": "crm/calendar",
               "name": "Calendar",
               "icon": "menu-icon tf-icons ti ti-user",
-              "slug": "calendar"
+              "slug": "crm-calendar"
             }
           ]
         },

@@ -240,8 +240,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/crm/visit-report-sep/delete/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_delete'])->name('crm-visit-report-sep-delete');
 
     // Calendar
-    Route::get('/calendar', [CrmCalendar::class, 'calendar_index'])->name('calendar');
-    Route::get('/calendar/data', [CrmCalendar::class, 'calendar_data'])->name('calendar');
+    Route::get('/crm/calendar', [CrmCalendar::class, 'calendar_index'])->name('crm-calendar');
+    Route::get('/crm/calendar/data', [CrmCalendar::class, 'calendar_data'])->name('crm-calendar');
 
     //Project
     Route::get('/crm/project', [CrmProject::class, 'index'])->name('crm-project');

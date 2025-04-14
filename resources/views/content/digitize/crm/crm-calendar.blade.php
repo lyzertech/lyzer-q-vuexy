@@ -38,10 +38,11 @@
                         right: 'dayGridMonth,listMonth'
                     },
                     height: 710, // Set max height to 200px
+                    firstDay: 1, // Start week on Monday
                     selectable: true,
                     editable: false,
                     droppable: false,
-                    events: '/calendar/data', // Fetch events from Laravel API
+                    events: '/crm/calendar/data', // Fetch events from Laravel API
                     eventClassNames: function(info) {
                         return calendar.view.type === 'dayGridMonth' ? ['day-grid-event'] : [];
                     }

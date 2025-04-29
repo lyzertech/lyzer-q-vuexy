@@ -171,6 +171,7 @@ use App\Http\Controllers\crm\CrmVisitReport;
 use App\Http\Controllers\crm\CrmVisitReportSep;
 use App\Http\Controllers\crm\CrmCalendar;
 use App\Http\Controllers\crm\CrmProject;
+use App\Http\Controllers\crm\CrmQuotation;
 use App\Http\Controllers\labs\LabsDashboard;
 use App\Http\Controllers\labs\LabsLabel;
 use App\Http\Controllers\monitoring\MonitoringDashboard;
@@ -245,6 +246,9 @@ Route::middleware(['auth'])->group(function () {
 
     //Project
     Route::get('/crm/project', [CrmProject::class, 'index'])->name('crm-project');
+
+    //Quotation
+    Route::get('/crm/quotation', [CrmQuotation::class, 'index'])->name('crm-quotation');
 
     // Labs Dashboard
     Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');

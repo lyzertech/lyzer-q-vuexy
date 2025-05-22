@@ -226,7 +226,8 @@
                                 1: 'IT Dev.',
                                 2: 'President Director',
                                 4: 'Sales AII',
-                                5: 'Sales SEP'
+                                5: 'Sales SEP',
+                                45: 'Admin'
                             };
                             // Return the role name or a default value
                             return roles[data] || 'Unknown Role';

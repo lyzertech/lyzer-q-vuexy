@@ -483,7 +483,7 @@
                     @if (Auth::check())
                         @if (in_array(Auth::user()->name, ['Alfian', 'BT', 'David', 'Dika', 'Eka', 'Heri Go', 'Maman', 'Setia', 'Paiman']))
                             <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle">
-                        @elseif (in_array(Auth::user()->name, ['Fitri', 'Julia', 'Vicha']))
+                        @elseif (in_array(Auth::user()->name, ['Fitri', 'Julia', 'Vicha', 'Maureen']))
                             <img src="{{ asset('assets/img/avatars/2.png') }}" alt class="rounded-circle">
                         @else
                             <img src="{{ Auth::user()->profile_photo_url ?? asset('assets/img/avatars/1.png') }}" alt
@@ -507,7 +507,7 @@
                                         @if (in_array(Auth::user()->name, ['Alfian Jasrin', 'Bambang Tri', 'David', 'Dika', 'Eka', 'Heri Go', 'Maman', 'Setia']))
                                             <img src="{{ asset('assets/img/avatars/1.png') }}" alt
                                                 class="rounded-circle">
-                                        @elseif (in_array(Auth::user()->name, ['Fitri', 'Julia', 'Vicha']))
+                                        @elseif (in_array(Auth::user()->name, ['Fitri', 'Julia', 'Vicha', 'Maureen']))
                                             <img src="{{ asset('assets/img/avatars/2.png') }}" alt
                                                 class="rounded-circle">
                                         @else
@@ -538,6 +538,7 @@
                                             6 => 'Labs',
                                             7 => 'Member',
                                             11 => 'Familia',
+                                            45 => 'Admin',
                                         ];
                                         $roleName = $roles[Auth::user()->role_id] ?? 'Unknown Role';
                                     @endphp

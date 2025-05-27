@@ -59,7 +59,7 @@
     <!-- Recap Tracker -->
     <div class="row g-6 mb-6">
         <!-- Visit Report Recap -->
-        <div class="col-md-2">
+        <div class="col-md-7">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between">
                     <div class="card-title mb-0">
@@ -69,13 +69,15 @@
                 </div>
                 <div class="card-body row">
                     @foreach ($visit_reports as $sales_visit)
-                        <div class="row">
+                        <div class="col">
                             <ul class="p-0 m-0">
                                 <li class="d-flex gap-4 align-items-center mb-lg-3 pb-1">
                                     {{-- <div class="badge rounded bg-label-success p-1_5"> --}}
                                     <div class="avatar-wrapper">
                                         <div class="avatar me-2">
-                                            <img src="/assets/img/avatars/9.png" alt="Avatar" class="rounded-circle">
+                                            {{-- <img src="/assets/img/avatars/9.png" alt="Avatar" class="rounded-circle"> --}}
+                                            <img src="{{ asset('assets/img/avatars/' . $sales_visit->sales . '.png') }}"
+                                                alt="Avatar" class="rounded-circle">
                                         </div>
                                     </div>
                                     {{-- </div> --}}
@@ -589,8 +591,12 @@
                                         badgeClass = 'bg-label-primary';
                                         badgeText = 'Submitted';
                                         break;
-                                    case 'Checked':
+                                    case 'Reviewed':
                                         badgeClass = 'bg-label-warning';
+                                        badgeText = 'Reviewed';
+                                        break;
+                                    case 'Checked':
+                                        badgeClass = 'bg-label-danger';
                                         badgeText = 'Checked';
                                         break;
                                     case 'Acknowledge':
@@ -608,6 +614,7 @@
                                     default:
                                         badgeClass = 'bg-label-secondary';
                                         badgeText = 'Unknown';
+                                        break;
                                 }
                             }
 

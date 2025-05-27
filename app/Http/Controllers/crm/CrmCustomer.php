@@ -19,9 +19,16 @@ class CrmCustomer extends Controller
     // $new_customers = crm_customer::where('created_at', '>=', now()->subMonth())->count();
     $total_purchasing_aii = crm_customer::whereIn('sales', ['David', 'Heri go', 'Dika', 'Vicha', 'Julia'])->count();
     $total_purchasing_sep = crm_customer::whereIn('sales', ['Bambang Tri', 'Eka', 'Setia', 'Fitri'])->count();
+
+    $customOrder = ['David', 'Vicha', 'Heri Go', 'Dika'];
     $sales_distribution = crm_customer::select('sales', DB::raw('count(*) as total_customers'))
       ->groupBy('sales')
-      ->get();
+      ->get()
+      ->sortBy(function ($item) use ($customOrder) {
+          return array_search($item->sales, $customOrder);
+      })
+      ->values();
+
     $area_distribution = crm_customer::select('area', DB::raw('count(*) as total_customers'))
       ->groupBy('area')
       ->get();

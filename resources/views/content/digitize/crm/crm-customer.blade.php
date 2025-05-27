@@ -132,7 +132,8 @@
 
                                     <div class="avatar-wrapper">
                                         <div class="avatar me-2">
-                                            <img src="/assets/img/avatars/9.png" alt="Avatar" class="rounded-circle">
+                                            <img src="{{ asset('assets/img/avatars/' . $distribution->sales . '.png') }}"
+                                                alt="Avatar" class="rounded-circle">
                                         </div>
                                     </div>
                                     <div>

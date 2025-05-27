@@ -22,10 +22,17 @@ class CrmVisitReport extends Controller
   {
     $customer = crm_customer::all();
     // dd($customer);
+
+    $customOrder = ['David', 'Vicha', 'Heri Go', 'Dika'];
     $visit_reports = crm_visit_report::select('sales', DB::raw('count(*) as total_visits'))
       ->whereNotIn('status', ['Cancelled', 'Deleted']) // Exclude both 'Cancelled' and 'Deleted' statuses
       ->groupBy('sales')
-      ->get();
+      ->get()
+      ->sortBy(function ($item) use ($customOrder) {
+          return array_search($item->sales, $customOrder);
+      })
+      ->values();
+
     $sales_list = User::where('role_id', 4)->get();
     $total_visit_reports = crm_visit_report::whereNotIn('status', ['Cancelled', 'Deleted'])->count();
     $prospek_yes = crm_visit_report::where('prospek', 1)->count();
@@ -213,8 +220,8 @@ class CrmVisitReport extends Controller
       'ack_manager' => 'nullable|string|max:2000',
     ]);
 
-    // Set the status to "Submitted"
-    $validatedData['status'] = 'Submitted';
+    // Set the status to "Reviewed"
+    $validatedData['status'] = 'Reviewed';
 
     // Update the visit report with validated data
     $visitReport->update($validatedData);

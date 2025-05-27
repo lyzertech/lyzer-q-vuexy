@@ -40,7 +40,8 @@
                                     'Planned' => 'bg-label-warning',
                                     'In Progress' => 'bg-label-info',
                                     'Submitted' => 'bg-label-primary',
-                                    'Checked' => 'bg-label-warning',
+                                    'Reviewed' => 'bg-label-warning',
+                                    'Checked' => 'bg-label-danger',
                                     'Acknowledge' => 'bg-label-danger',
                                     'Cancelled' => 'bg-label-danger',
                                     'Completed' => 'bg-label-success',
@@ -242,7 +243,7 @@
                             <hr class="my-6">
                             <h5>Acknowledge</h5>
                             {{-- Ack Manager --}}
-                            {{-- <form method="post"
+                            <form method="post"
                                 action="{{ route('crm-visit-report-ackmanager', $crm_visit_report->id_visit_report) }}"
                                 enctype="multipart/form-data">
                                 @csrf <!-- CSRF protection -->
@@ -251,17 +252,17 @@
                                         <div class="d-flex justify-content-start align-items-center user-name">
                                             <div class="avatar-wrapper">
                                                 <div class="avatar me-4"><img
-                                                        src="{{ asset('assets/img/avatars/11.png') }}" alt="Avatar"
+                                                        src="{{ asset('assets/img/avatars/Vicha.png') }}" alt="Avatar"
                                                         class="rounded-circle"></div>
                                             </div>
                                             <div class="d-flex flex-column">
-                                                <h6 class="mb-1">David</h6>
+                                                <h6 class="mb-1">Vicha</h6>
                                                 <small>Manager</small>
                                             </div>
                                         </div>
                                     </div>
                                     @if (Auth::check())
-                                        @if (Auth::user()->name == 'David' && empty($crm_visit_report->ack_manager))
+                                        @if (Auth::user()->name == 'Vicha' && empty($crm_visit_report->ack_manager))
                                             <div class="col-8">
                                                 <p class="mb-6">
                                                     <textarea class="form-control" id="ack_manager" rows="3" id="ack_manager" name="ack_manager">{{ $crm_visit_report->ack_manager }}</textarea>
@@ -280,7 +281,7 @@
                                         @endif
                                     @endif
                                 </div>
-                            </form> --}}
+                            </form>
                             {{-- Ack Director --}}
                             <form method="post"
                                 action="{{ route('crm-visit-report-ackdirector', $crm_visit_report->id_visit_report) }}"
@@ -301,8 +302,8 @@
                                         </div>
                                     </div>
                                     @if (Auth::check())
-                                        {{-- @if (empty($crm_visit_report->ack_manager)) --}}
-                                        @if (Auth::user()->name == 'David' && empty($crm_visit_report->ack_director))
+                                        @if (empty($crm_visit_report->ack_manager))
+                                        @elseif (Auth::user()->name == 'David' && empty($crm_visit_report->ack_director))
                                             <div class="col-8">
                                                 <p class="mb-6">
                                                     <textarea class="form-control" id="ack_director" rows="3" id="ack_director" name="ack_director">{{ $crm_visit_report->ack_director }}</textarea>
@@ -323,7 +324,7 @@
                                 </div>
                             </form>
                             {{-- Ack President Director --}}
-                            <form method="post"
+                            {{-- <form method="post"
                                 action="{{ route('crm-visit-report-ackpresdir', $crm_visit_report->id_visit_report) }}"
                                 enctype="multipart/form-data">
                                 @csrf <!-- CSRF protection -->
@@ -363,7 +364,7 @@
                                         @endif
                                     @endif
                                 </div>
-                            </form>
+                            </form> --}}
 
                             <hr class="my-6">
                             <h5>Final Response</h5>
@@ -376,9 +377,10 @@
                                     <div class="col-4">
                                         <div class="d-flex justify-content-start align-items-center user-name">
                                             <div class="avatar-wrapper">
-                                                <div class="avatar me-4"><img
-                                                        src="{{ asset('assets/img/avatars/11.png') }}" alt="Avatar"
-                                                        class="rounded-circle"></div>
+                                                <div class="avatar me-4">
+                                                    <img src="{{ asset('assets/img/avatars/' . $crm_visit_report->sales . '.png') }}"
+                                                        alt="Avatar" class="rounded-circle">
+                                                </div>
                                             </div>
                                             <div class="d-flex flex-column">
                                                 <h6 class="mb-1">{{ $crm_visit_report->sales }}</h6>
@@ -387,7 +389,8 @@
                                         </div>
                                     </div>
                                     @if (Auth::check())
-                                        @if (empty($crm_visit_report->ack_presdir))
+                                        {{-- @if (empty($crm_visit_report->ack_presdir)) --}}
+                                        @if (empty($crm_visit_report->ack_director))
                                         @elseif (Auth::user()->name == $crm_visit_report->sales && empty($crm_visit_report->response))
                                             <div class="col-8">
                                                 <p class="mb-6">
@@ -404,7 +407,7 @@
                                                     {{ $crm_visit_report->response }}
                                                 </p>
                                             </div>
-                                        @elseif (empty($crm_visit_report->ack_presdir))
+                                            {{-- @elseif (empty($crm_visit_report->ack_presdir)) --}}
                                         @endif
                                     @endif
                                 </div>

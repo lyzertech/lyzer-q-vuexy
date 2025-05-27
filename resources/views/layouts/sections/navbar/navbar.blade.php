@@ -480,15 +480,15 @@
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <div class="avatar avatar-online">
+                    @php
+                        $avatarPath = public_path('assets/img/avatars/' . Auth::user()->name . '.png');
+                        $avatarUrl = file_exists($avatarPath)
+                            ? asset('assets/img/avatars/' . Auth::user()->name . '.png')
+                            : asset('assets/img/avatars/1.png');
+                    @endphp
+
                     @if (Auth::check())
-                        @if (in_array(Auth::user()->name, ['Alfian', 'BT', 'David', 'Dika', 'Eka', 'Heri Go', 'Maman', 'Setia', 'Paiman']))
-                            <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle">
-                        @elseif (in_array(Auth::user()->name, ['Fitri', 'Julia', 'Vicha', 'Maureen']))
-                            <img src="{{ asset('assets/img/avatars/2.png') }}" alt class="rounded-circle">
-                        @else
-                            <img src="{{ Auth::user()->profile_photo_url ?? asset('assets/img/avatars/1.png') }}" alt
-                                class="rounded-circle">
-                        @endif
+                        <img src="{{ Auth::user()->profile_photo_url ?? $avatarUrl }}" alt class="rounded-circle">
                     @else
                         <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle">
                     @endif
@@ -503,17 +503,16 @@
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 me-2">
                                 <div class="avatar avatar-online">
+                                    @php
+                                        $avatarPath = public_path('assets/img/avatars/' . Auth::user()->name . '.png');
+                                        $avatarUrl = file_exists($avatarPath)
+                                            ? asset('assets/img/avatars/' . Auth::user()->name . '.png')
+                                            : asset('assets/img/avatars/1.png');
+                                    @endphp
+
                                     @if (Auth::check())
-                                        @if (in_array(Auth::user()->name, ['Alfian Jasrin', 'Bambang Tri', 'David', 'Dika', 'Eka', 'Heri Go', 'Maman', 'Setia']))
-                                            <img src="{{ asset('assets/img/avatars/1.png') }}" alt
-                                                class="rounded-circle">
-                                        @elseif (in_array(Auth::user()->name, ['Fitri', 'Julia', 'Vicha', 'Maureen']))
-                                            <img src="{{ asset('assets/img/avatars/2.png') }}" alt
-                                                class="rounded-circle">
-                                        @else
-                                            <img src="{{ Auth::user()->profile_photo_url ?? asset('assets/img/avatars/1.png') }}"
-                                                alt class="rounded-circle">
-                                        @endif
+                                        <img src="{{ Auth::user()->profile_photo_url ?? $avatarUrl }}" alt
+                                            class="rounded-circle">
                                     @else
                                         <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="rounded-circle">
                                     @endif
@@ -654,8 +653,7 @@
 
 <!-- Search Small Screens -->
 <div class="navbar-search-wrapper search-input-wrapper {{ isset($menuHorizontal) ? $containerNav : '' }} d-none">
-    <input type="text"
-        class="form-control search-input {{ isset($menuHorizontal) ? '' : $containerNav }} border-0"
+    <input type="text" class="form-control search-input {{ isset($menuHorizontal) ? '' : $containerNav }} border-0"
         placeholder="Search..." aria-label="Search...">
     <i class="ti ti-x search-toggler cursor-pointer"></i>
 </div>

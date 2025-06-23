@@ -86,12 +86,22 @@
                                     <div class="">
                                         <hr class="my-6">
                                         <h6>Notes</h6>
-                                        <p class="mb-6">
+                                        {{-- <p class="mb-6">
                                             {{ $crm_visit_report->notes }}
+                                        </p> --}}
+                                        <p class="mb-6">
+                                            @foreach (explode("\n", $crm_visit_report->notes) as $line)
+                                                <span class="note-line">- {{ e($line) }}</span><br>
+                                            @endforeach
                                         </p>
                                         <h6>Customer Feedback</h6>
-                                        <p class="mb-6">
+                                        {{-- <p class="mb-6">
                                             {{ $crm_visit_report->customer_feedback }}
+                                        </p> --}}
+                                        <p class="mb-6">
+                                            @foreach (explode("\n", $crm_visit_report->customer_feedback) as $line)
+                                                <span class="note-line">- {{ e($line) }}</span><br>
+                                            @endforeach
                                         </p>
                                         <h6>Follow Up Date</h6>
                                         <p class="mb-6">
@@ -126,8 +136,13 @@
                                         <span
                                             class="badge {{ $prospekBadgeClass }}">{{ $prospek == '1' ? 'Yes' : ($prospek == '0' ? 'No' : 'Unknown') }}</span>
                                         <h6>Next Step</h6>
-                                        <p class="mb-6">
+                                        {{-- <p class="mb-6">
                                             {{ $crm_visit_report->next_steps }}
+                                        </p> --}}
+                                        <p class="mb-6">
+                                            @foreach (explode("\n", $crm_visit_report->next_steps) as $line)
+                                                <span class="note-line">- {{ e($line) }}</span><br>
+                                            @endforeach
                                         </p>
 
                                         <div class="modal-footer border-0">

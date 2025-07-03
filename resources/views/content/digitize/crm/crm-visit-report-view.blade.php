@@ -82,7 +82,14 @@
                             @if (Auth::check())
                                 @if (Auth::user()->role_id == 2 ||
                                         Auth::user()->name != $crm_visit_report->sales ||
-                                        in_array($crm_visit_report->status, ['Submitted', 'Checked', 'Acknowledge', 'Cancelled', 'Completed']))
+                                        in_array($crm_visit_report->status, [
+                                            'Submitted',
+                                            'Reviewed',
+                                            'Checked',
+                                            'Acknowledge',
+                                            'Cancelled',
+                                            'Completed',
+                                        ]))
                                     <!-- Content for role 2 -->
                                     <div class="">
                                         <hr class="my-6">

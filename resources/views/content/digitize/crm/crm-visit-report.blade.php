@@ -59,7 +59,7 @@
     <!-- Recap Tracker -->
     <div class="row g-6 mb-6">
         <!-- Visit Report Recap -->
-        <div class="col-md-7">
+        <div class="col-md-5">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between">
                     <div class="card-title mb-0">
@@ -166,7 +166,60 @@
             </div>
         </div>
 
+        <div class="col-md-3">
+            <div class="dt-buttons btn-group flex-wrap">
+                <form id="filterForm" method="GET" action="{{ route('crm-visit-report') }}">
+                    <div class="row">
+                        <label>Year:
+                            <select id="yearFilter" name="year">
+                                <option value="">All</option>
+                                @for ($y = now()->year; $y >= 2020; $y--)
+                                    <option value="{{ $y }}" {{ request('year') == $y ? 'selected' : '' }}>
+                                        {{ $y }}</option>
+                                @endfor
+                            </select>
+                        </label>
+                    </div>
+                    <label>From:
+                        <select id="monthFromFilter" name="month_from">
+                            <option value="">All</option>
+                            @for ($i = 1; $i <= 12; $i++)
+                                <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}"
+                                    {{ request('month_from') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                    {{ \Carbon\Carbon::create()->month($i)->format('F') }}
+                                </option>
+                            @endfor
+                        </select>
+                    </label>
+
+                    <label>To:
+                        <select id="monthToFilter" name="month_to">
+                            <option value="">All</option>
+                            @for ($i = 1; $i <= 12; $i++)
+                                <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}"
+                                    {{ request('month_to') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                    {{ \Carbon\Carbon::create()->month($i)->format('F') }}
+                                </option>
+                            @endfor
+                        </select>
+                    </label>
+
+                    <label>Sales Name:
+                        <select id="salesFilter" name="sales">
+                            <option value="">All</option>
+                            <option value="David" {{ request('sales') == 'David' ? 'selected' : '' }}>David</option>
+                            <option value="Vicha" {{ request('sales') == 'Vicha' ? 'selected' : '' }}>Vicha</option>
+                            <option value="Heri Go" {{ request('sales') == 'Heri Go' ? 'selected' : '' }}>Heri Go</option>
+                            <option value="Dika" {{ request('sales') == 'Dika' ? 'selected' : '' }}>Dika</option>
+                        </select>
+                    </label>
+
+                    <button type="submit">Apply Filter</button>
+                </form>
+            </div>
+        </div>
     </div>
+
 
     <!-- DataTable with Buttons -->
     <div class="card">
@@ -215,7 +268,8 @@
                                     </li>
                                 </ul>
                             </div>
-                            <button type="button" class="btn btn-secondary create-new btn-primary waves-effect waves-light"
+                            <button type="button"
+                                class="btn btn-secondary create-new btn-primary waves-effect waves-light"
                                 data-bs-toggle="modal" data-bs-target="#AddNewVisit">
                                 <span><i class="ti ti-plus me-sm-1"></i>
                                     <span class="d-none d-sm-inline-block">Add New Visit Report</span>
@@ -513,7 +567,9 @@
             // Initialize DataTable with buttons for export
             $('#visit-report-table').DataTable({
                 serverSide: true,
-                ajax: '{{ route('crm-visit-report-data') }}',
+                ajax: {
+                    url: '{{ route('crm-visit-report-data') }}' + window.location.search,
+                },
                 columns: [{
                         data: 'sales',
                         name: 'sales'

@@ -23,9 +23,33 @@ class CrmVisitReport extends Controller
     $customer = crm_customer::all();
     // dd($customer);
 
+    $selectedSales = request()->input('sales'); // e.g. 'John Doe'
+    $monthFrom = request()->input('month_from');       // e.g. '04'
+    $monthTo = request()->input('month_to');           // e.g. '07'
+    $year = request()->input('year') ?? now()->year;
+
+    $startDate = null;
+    $endDate = null;
+
+    if ($monthFrom && $monthTo) {
+      $startDate = Carbon::createFromDate($year, $monthFrom, 1)->startOfMonth();
+      $endDate = Carbon::createFromDate($year, $monthTo, 1)->endOfMonth();
+
+      // Optional: swap if user selects From > To
+      if ($startDate->gt($endDate)) {
+          [$startDate, $endDate] = [$endDate, $startDate];
+      }
+    }
+
     $customOrder = ['David', 'Vicha', 'Heri Go', 'Dika'];
     $visit_reports = crm_visit_report::select('sales', DB::raw('count(*) as total_visits'))
       ->whereNotIn('status', ['Cancelled', 'Deleted']) // Exclude both 'Cancelled' and 'Deleted' statuses
+      ->when($selectedSales, function ($query, $selectedSales) {
+        return $query->where('sales', $selectedSales);
+      })
+      ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+        return $query->whereBetween('visit_date', [$startDate, $endDate]);
+      })
       ->groupBy('sales')
       ->get()
       ->sortBy(function ($item) use ($customOrder) {
@@ -54,7 +78,35 @@ class CrmVisitReport extends Controller
   }
   public function visit_report_data()
   {
-    $visit_report = crm_visit_report::where('status', '!=', 'deleted')->get();
+    // $selectedSales = 'David'; // test only
+    // $selectedMonth = '7';
+
+    $selectedSales = request()->input('sales'); // e.g. 'John Doe'
+    $monthFrom = request()->input('month_from');       // e.g. '04'
+    $monthTo = request()->input('month_to');           // e.g. '07'
+    $year = request()->input('year') ?? now()->year;
+
+    $startDate = null;
+    $endDate = null;
+
+    if ($monthFrom && $monthTo) {
+      $startDate = Carbon::createFromDate($year, $monthFrom, 1)->startOfMonth();
+      $endDate = Carbon::createFromDate($year, $monthTo, 1)->endOfMonth();
+
+      // Optional: swap if user selects From > To
+      if ($startDate->gt($endDate)) {
+          [$startDate, $endDate] = [$endDate, $startDate];
+      }
+    }
+
+    $visit_report = crm_visit_report::where('status', '!=', 'deleted')
+    ->when($selectedSales, function ($query, $selectedSales) {
+        return $query->where('sales', $selectedSales);
+    })
+    ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+      return $query->whereBetween('visit_date', [$startDate, $endDate]);
+    })
+    ->get();
 
     // dd($visit_report);
 

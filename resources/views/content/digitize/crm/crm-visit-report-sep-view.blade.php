@@ -235,7 +235,7 @@
                                         </div>
                                     </form>
 
-                                    <form method="post"
+                                    {{-- <form method="post"
                                         action="{{ route('crm-visit-report-sep-submit', $crm_visit_report->id_visit_report) }}"
                                         enctype="multipart/form-data"
                                         onsubmit="return confirm('⚠️ WARNING: Make sure you have updated the visit report before submitting. \n\nAre you sure you want to SUBMIT this visit report?');">
@@ -243,7 +243,7 @@
                                         <div class="modal-footer border-0">
                                             <button type="submit" class="btn btn-success">Submit</button>
                                         </div>
-                                    </form>
+                                    </form> --}}
                                 @else
                                     <!-- Content for other roles -->
                                     <p>Your role is {{ Auth::user()->role }}. You don't have access to this content.</p>

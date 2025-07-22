@@ -37,7 +37,7 @@
                         <div class="d-flex align-items-center">
                             @php
                                 $badgeClasses = [
-                                    'Planned' => 'bg-label-warning',
+                                    'Planned' => 'bg-label-info',
                                     'In Progress' => 'bg-label-info',
                                     'Submitted' => 'bg-label-primary',
                                     'Reviewed' => 'bg-label-warning',

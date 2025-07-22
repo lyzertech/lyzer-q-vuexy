@@ -59,7 +59,7 @@
     <!-- Recap Tracker -->
     <div class="row g-6 mb-6">
         <!-- Visit Report Recap -->
-        <div class="col-md-5">
+        <div class="col-md-3">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between">
                     <div class="card-title mb-0">
@@ -95,9 +95,9 @@
         <!--/ Visit Report Recap -->
 
         <!-- Total Prospek -->
-        <div class="col-md-4">
+        <div class="col-md-2">
             <div class="row my-4">
-                <div class="col-6">
+                <div class="col-12">
                     <div class="d-flex align-items-center gap-4">
                         <div class="avatar avatar-lg">
                             <div class="avatar-initial bg-label-primary rounded">
@@ -112,7 +112,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
+                {{-- <div class="col-12">
                     <div class="d-flex align-items-center gap-4">
                         <div class="avatar avatar-lg">
                             <div class="avatar-initial bg-label-success rounded">
@@ -126,28 +126,28 @@
                             <h4 class="text-success mb-0">{{ $prospek_yes }}</h4>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="row my-4">
-                <div class="col-6">
+                <div class="col-12">
                     <div class="d-flex align-items-center gap-4">
                         <div class="avatar avatar-lg">
-                            <div class="avatar-initial bg-label-info rounded">
+                            <div class="avatar-initial bg-label-success rounded">
                                 <div>
-                                    <img src="{{ asset('assets/svg/icons/lightbulb.svg') }}" alt="Lightbulb"
+                                    <img src="{{ asset('assets/svg/icons/laptop-green.svg') }}" alt="laptop-green"
                                         class="img-fluid">
                                 </div>
                             </div>
                         </div>
                         <div class="content-right">
                             <p class="mb-0 fw-medium">Prospek Results</p>
-                            <h4 class="text-info mb-0">
+                            <h4 class="text-success mb-0">
                                 {{ $total_visit_reports > 0 ? number_format(($prospek_yes / $total_visit_reports) * 100, 2) : 0 }}%
                             </h4>
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
+                {{-- <div class="col-12">
                     <div class="d-flex align-items-center gap-4">
                         <div class="avatar avatar-lg">
                             <div class="avatar-initial bg-label-danger rounded">
@@ -162,60 +162,282 @@
                             <h4 class="text-danger mb-0">{{ $prospek_no }}</h4>
                         </div>
                     </div>
+                </div> --}}
+            </div>
+        </div>
+        @php
+            $metrics = [
+                [
+                    'title' => 'Completed',
+                    'icon' => null,
+                    'color' => 'success',
+                    'value' => $completed,
+                    'format' => 'number',
+                    'text_color' => 'white',
+                ],
+                [
+                    'title' => 'Checked',
+                    'icon' => null,
+                    'color' => 'danger',
+                    'value' => $checked,
+                    'format' => 'number',
+                    'text_color' => 'white',
+                ],
+                [
+                    'title' => 'Reviewed',
+                    'icon' => null,
+                    'color' => 'warning',
+                    'value' => $reviewed,
+                    'format' => 'number',
+                    'text_color' => 'white',
+                ],
+                [
+                    'title' => 'Submitted',
+                    'icon' => null,
+                    'color' => 'primary',
+                    'value' => $submitted,
+                    'format' => 'number',
+                    'text_color' => 'white',
+                ],
+                [
+                    'title' => 'Planned',
+                    'icon' => null,
+                    'color' => 'info',
+                    'value' => $planned,
+                    'format' => 'number',
+                    'text_color' => 'white',
+                ],
+                [
+                    'title' => 'Cancelled',
+                    'icon' => null,
+                    'color' => 'secondary',
+                    'value' => $cancelled,
+                    'format' => 'number',
+                    'text_color' => 'white',
+                ],
+            ];
+        @endphp
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="row row-cols-2 g-3">
+                    @foreach ($metrics as $metric)
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-3 bg-white p-2 rounded">
+                                <div class="avatar bg-white border border-{{ $metric['color'] }} text-{{ $metric['color'] }} rounded-circle d-flex align-items-center justify-content-center fw-bold"
+                                    style="width: 66px; height: 66px; font-size: 1.5rem;">
+                                    {{ $metric['value'] }}{{ $metric['suffix'] ?? '' }}
+                                </div>
+                                <div class="flex-grow-1">
+                                    <p class="mb-0 fw-semibold text-{{ $metric['color'] }}" style="font-size: 1rem;">
+                                        {{ $metric['title'] }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="dt-buttons btn-group flex-wrap">
-                <form id="filterForm" method="GET" action="{{ route('crm-visit-report') }}">
-                    <div class="row">
-                        <label>Year:
-                            <select id="yearFilter" name="year">
-                                <option value="">All</option>
-                                @for ($y = now()->year; $y >= 2020; $y--)
-                                    <option value="{{ $y }}" {{ request('year') == $y ? 'selected' : '' }}>
-                                        {{ $y }}</option>
-                                @endfor
-                            </select>
-                        </label>
+        {{-- Custom Filter --}}
+        <div class="col-md-4">
+            <div class="col-xxl-12 col-lg-12">
+                <div class="card h-100">
+                    {{-- <div class="card-header d-flex align-items-center justify-content-between">
+                        <div class="card-title mb-0">
+                            <h5 class="mb-1">Time Filter</h5>
+                            <p class="card-subtitle">62 deliveries in progress</p>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-2 me-n1"
+                                type="button" id="salesByCountryTabs" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="ti ti-dots-vertical ti-md text-muted"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="salesByCountryTabs">
+                                <a class="dropdown-item" href="javascript:void(0);">Select All</a>
+                                <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+                                <a class="dropdown-item" href="javascript:void(0);">Share</a>
+                            </div>
+                        </div>
+                    </div> --}}
+                    <div class="card-body p-0">
+                        <div class="nav-align-top">
+                            <ul class="nav nav-tabs nav-fill rounded-0 timeline-indicator-advanced" role="tablist">
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                                        data-bs-target="#navs-justified-link-preparing"
+                                        aria-controls="navs-justified-link-preparing" aria-selected="false">Custom</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                        data-bs-target="#navs-justified-new" aria-controls="navs-justified-new"
+                                        aria-selected="true">Quick Filters</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content border-0  mx-1">
+                                <div class="tab-pane fade show active" id="navs-justified-link-preparing" role="tabpanel">
+                                    <div class="dt-buttons btn-group flex-wrap">
+                                        <form id="filterForm" method="GET" action="{{ route('crm-visit-report') }}"
+                                            class="rounded">
+                                            <div class="row g-3 align-items-end">
+                                                <!-- Year Range -->
+                                                <div class="col-md-3">
+                                                    <label for="yearFromFilter" class="form-label">Year From</label>
+                                                    <select id="yearFromFilter" name="year_from" class="form-select">
+                                                        <option value="">All</option>
+                                                        @for ($y = now()->year; $y >= 2020; $y--)
+                                                            <option value="{{ $y }}"
+                                                                {{ request('year_from') == $y ? 'selected' : '' }}>
+                                                                {{ $y }}</option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="yearToFilter" class="form-label">Year To</label>
+                                                    <select id="yearToFilter" name="year_to" class="form-select">
+                                                        <option value="">All</option>
+                                                        @for ($y = now()->year; $y >= 2020; $y--)
+                                                            <option value="{{ $y }}"
+                                                                {{ request('year_to') == $y ? 'selected' : '' }}>
+                                                                {{ $y }}</option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+
+                                                <!-- Month Range -->
+                                                <div class="col-md-3">
+                                                    <label for="monthFromFilter" class="form-label">Month From</label>
+                                                    <select id="monthFromFilter" name="month_from" class="form-select">
+                                                        <option value="">All</option>
+                                                        @for ($i = 1; $i <= 12; $i++)
+                                                            <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}"
+                                                                {{ request('month_from') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                                                {{ \Carbon\Carbon::create()->month($i)->format('F') }}
+                                                            </option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="monthToFilter" class="form-label">Month To</label>
+                                                    <select id="monthToFilter" name="month_to" class="form-select">
+                                                        <option value="">All</option>
+                                                        @for ($i = 1; $i <= 12; $i++)
+                                                            <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}"
+                                                                {{ request('month_to') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                                                {{ \Carbon\Carbon::create()->month($i)->format('F') }}
+                                                            </option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+
+                                                <!-- Sales -->
+                                                <div class="col-md-6">
+                                                    <label for="salesFilter" class="form-label">Sales Name</label>
+                                                    <select id="salesFilter" name="sales" class="form-select">
+                                                        <option value="">All</option>
+                                                        <option value="David"
+                                                            {{ request('sales') == 'David' ? 'selected' : '' }}>David
+                                                        </option>
+                                                        <option value="Vicha"
+                                                            {{ request('sales') == 'Vicha' ? 'selected' : '' }}>Vicha
+                                                        </option>
+                                                        <option value="Heri Go"
+                                                            {{ request('sales') == 'Heri Go' ? 'selected' : '' }}>Heri Go
+                                                        </option>
+                                                        <option value="Dika"
+                                                            {{ request('sales') == 'Dika' ? 'selected' : '' }}>Dika
+                                                        </option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- Submit -->
+                                                <div class="col-md-6 text-end">
+                                                    <button type="submit" class="btn btn-primary w-100">
+                                                        <i class="ti ti-filter me-1"></i> Apply Filter
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="navs-justified-new" role="tabpanel">
+                                    <div class="col-12 col-lg-12">
+                                        <div class="d-flex justify-content-between flex-column mb-4 mb-md-0">
+                                            <ul class="nav nav-align-left nav-pills flex-column">
+                                                @php
+                                                    use Carbon\Carbon;
+
+                                                    // This Month
+                                                    $thisMonth = Carbon::now();
+                                                    $thisMonthUrl = route('crm-visit-report', [
+                                                        'year_from' => $thisMonth->year,
+                                                        'year_to' => $thisMonth->year,
+                                                        'month_from' => $thisMonth->format('m'),
+                                                        'month_to' => $thisMonth->format('m'),
+                                                    ]);
+
+                                                    // This Year
+                                                    $thisYear = Carbon::now()->year;
+                                                    $thisYearUrl = route('crm-visit-report', [
+                                                        'year_from' => $thisYear,
+                                                        'year_to' => $thisYear,
+                                                    ]);
+
+                                                    // Last 3 Months
+                                                    $threeMonthsAgo = Carbon::now()->subMonthsNoOverflow(2); // include current month
+                                                    $current = Carbon::now();
+                                                    $last3MonthsUrl = route('crm-visit-report', [
+                                                        'year_from' => $threeMonthsAgo->year,
+                                                        'month_from' => $threeMonthsAgo->format('m'),
+                                                        'year_to' => $current->year,
+                                                        'month_to' => $current->format('m'),
+                                                    ]);
+                                                @endphp
+
+                                                <div class="mb-4 mb-md-0">
+                                                    <div class="card border-0">
+                                                        {{-- <h6 class="text-primary fw-bold mb-3"><i
+                                                                class="ti ti-filter me-2"></i>Quick Filters</h6> --}}
+                                                        <div class="d-grid gap-2">
+                                                            <!-- This Month -->
+                                                            <a href="{{ $thisMonthUrl }}"
+                                                                class="btn btn-outline-primary d-flex align-items-center justify-content-between">
+                                                                <span><i class="ti ti-calendar me-2"></i> This Month</span>
+                                                                <i class="ti ti-chevron-right"></i>
+                                                            </a>
+
+                                                            <!-- This Year -->
+                                                            <a href="{{ $thisYearUrl }}"
+                                                                class="btn btn-outline-success d-flex align-items-center justify-content-between">
+                                                                <span><i class="ti ti-calendar-time me-2"></i> This
+                                                                    Year</span>
+                                                                <i class="ti ti-chevron-right"></i>
+                                                            </a>
+
+                                                            <!-- Last 3 Months -->
+                                                            <a href="{{ $last3MonthsUrl }}"
+                                                                class="btn btn-outline-info d-flex align-items-center justify-content-between">
+                                                                <span><i class="ti ti-calendar-stats me-2"></i> Last 3
+                                                                    Months</span>
+                                                                <i class="ti ti-chevron-right"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
-                    <label>From:
-                        <select id="monthFromFilter" name="month_from">
-                            <option value="">All</option>
-                            @for ($i = 1; $i <= 12; $i++)
-                                <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}"
-                                    {{ request('month_from') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
-                                    {{ \Carbon\Carbon::create()->month($i)->format('F') }}
-                                </option>
-                            @endfor
-                        </select>
-                    </label>
-
-                    <label>To:
-                        <select id="monthToFilter" name="month_to">
-                            <option value="">All</option>
-                            @for ($i = 1; $i <= 12; $i++)
-                                <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}"
-                                    {{ request('month_to') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
-                                    {{ \Carbon\Carbon::create()->month($i)->format('F') }}
-                                </option>
-                            @endfor
-                        </select>
-                    </label>
-
-                    <label>Sales Name:
-                        <select id="salesFilter" name="sales">
-                            <option value="">All</option>
-                            <option value="David" {{ request('sales') == 'David' ? 'selected' : '' }}>David</option>
-                            <option value="Vicha" {{ request('sales') == 'Vicha' ? 'selected' : '' }}>Vicha</option>
-                            <option value="Heri Go" {{ request('sales') == 'Heri Go' ? 'selected' : '' }}>Heri Go</option>
-                            <option value="Dika" {{ request('sales') == 'Dika' ? 'selected' : '' }}>Dika</option>
-                        </select>
-                    </label>
-
-                    <button type="submit">Apply Filter</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -632,11 +854,11 @@
                             // Determine badge class and text based on the status and time
                             if (data === 'Planned' && isInProgress) {
                                 badgeClass = 'bg-label-info';
-                                badgeText = 'In Progress';
+                                badgeText = 'Planned';
                             } else {
                                 switch (data) {
                                     case 'Planned':
-                                        badgeClass = 'bg-label-warning';
+                                        badgeClass = 'bg-label-info';
                                         badgeText = 'Planned';
                                         break;
                                     case 'In Progress':
@@ -660,7 +882,7 @@
                                         badgeText = 'Acknowledge';
                                         break;
                                     case 'Cancelled':
-                                        badgeClass = 'bg-label-danger';
+                                        badgeClass = 'bg-label-secondary';
                                         badgeText = 'Cancelled';
                                         break;
                                     case 'Completed':
@@ -708,7 +930,7 @@
                                         badgeText = 'Yes';
                                         break;
                                     case '2':
-                                        badgeClass = 'bg-label-danger';
+                                        badgeClass = 'bg-label-secondary';
                                         badgeText = 'Cancelled';
                                         break;
                                     default:

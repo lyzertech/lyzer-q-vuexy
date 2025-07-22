@@ -26,14 +26,15 @@ class CrmVisitReport extends Controller
     $selectedSales = request()->input('sales'); // e.g. 'John Doe'
     $monthFrom = request()->input('month_from');       // e.g. '04'
     $monthTo = request()->input('month_to');           // e.g. '07'
-    $year = request()->input('year') ?? now()->year;
+    $yearFrom = request()->input('year_from');
+    $yearTo = request()->input('year_to');
 
     $startDate = null;
     $endDate = null;
 
     if ($monthFrom && $monthTo) {
-      $startDate = Carbon::createFromDate($year, $monthFrom, 1)->startOfMonth();
-      $endDate = Carbon::createFromDate($year, $monthTo, 1)->endOfMonth();
+      $startDate = Carbon::createFromDate($yearFrom, $monthFrom, 1)->startOfMonth();
+      $endDate = Carbon::createFromDate($yearTo, $monthTo, 1)->endOfMonth();
 
       // Optional: swap if user selects From > To
       if ($startDate->gt($endDate)) {
@@ -58,9 +59,85 @@ class CrmVisitReport extends Controller
       ->values();
 
     $sales_list = User::where('role_id', 4)->get();
-    $total_visit_reports = crm_visit_report::whereNotIn('status', ['Cancelled', 'Deleted'])->count();
-    $prospek_yes = crm_visit_report::where('prospek', 1)->count();
+    $total_visit_reports = crm_visit_report::whereNotIn('status', ['Cancelled', 'Deleted'])
+    ->when($selectedSales, function ($query, $selectedSales) {
+        return $query->where('sales', $selectedSales);
+    })
+    ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+        return $query->whereBetween('visit_date', [$startDate, $endDate]);
+    })
+    ->count(); // ← Use count here instead of get
+    $prospek_yes = crm_visit_report::where('prospek', 1)
+    ->when($selectedSales, function ($query, $selectedSales) {
+      return $query->where('sales', $selectedSales);
+    })
+    ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+        return $query->whereBetween('visit_date', [$startDate, $endDate]);
+    })
+    ->count();
     $prospek_no = crm_visit_report::where('prospek', 0)->count();
+
+    // $completed = crm_visit_report::where('status', 'completed')
+    // ->when($selectedSales, function ($query, $selectedSales) {
+    //   return $query->where('sales', $selectedSales);
+    // })
+    // ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+    //     return $query->whereBetween('visit_date', [$startDate, $endDate]);
+    // })
+    // ->count();
+    // $checked = crm_visit_report::where('status', 'checked')
+    // ->when($selectedSales, function ($query, $selectedSales) {
+    //   return $query->where('sales', $selectedSales);
+    // })
+    // ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+    //     return $query->whereBetween('visit_date', [$startDate, $endDate]);
+    // })
+    // ->count();
+    // $reviewed = crm_visit_report::where('status', 'reviewed')
+    // ->when($selectedSales, function ($query, $selectedSales) {
+    //   return $query->where('sales', $selectedSales);
+    // })
+    // ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+    //     return $query->whereBetween('visit_date', [$startDate, $endDate]);
+    // })
+    // ->count();
+    // $submitted = crm_visit_report::where('status', 'submitted')
+    // ->when($selectedSales, function ($query, $selectedSales) {
+    //   return $query->where('sales', $selectedSales);
+    // })
+    // ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+    //     return $query->whereBetween('visit_date', [$startDate, $endDate]);
+    // })
+    // ->count();
+    // $planned = crm_visit_report::where('status', 'planned')
+    // ->when($selectedSales, function ($query, $selectedSales) {
+    //   return $query->where('sales', $selectedSales);
+    // })
+    // ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+    //     return $query->whereBetween('visit_date', [$startDate, $endDate]);
+    // })
+    // ->count();
+
+    $statuses = ['completed', 'checked', 'reviewed', 'submitted', 'planned', 'cancelled'];
+    $counts = [];
+
+    foreach ($statuses as $status) {
+        $counts[$status] = crm_visit_report::where('status', $status)
+            ->when($selectedSales, fn($query) => $query->where('sales', $selectedSales))
+            ->when($startDate && $endDate, fn($query) => $query->whereBetween('visit_date', [$startDate, $endDate]))
+            ->count();
+    }
+
+    // Access with:
+    $completed = $counts['completed'];
+    $checked = $counts['checked'];
+    $reviewed = $counts['reviewed'];
+    $submitted = $counts['submitted'];
+    $planned = $counts['planned'];
+    $cancelled = $counts['cancelled'];
+
+    // dd($submitted);
+
     $companies = crm_customer::select('company')
       ->distinct()
       ->orderBy('company', 'asc') // Sort in ascending order
@@ -73,7 +150,13 @@ class CrmVisitReport extends Controller
       'total_visit_reports',
       'prospek_yes',
       'prospek_no',
-      'companies'
+      'companies',
+      'completed',
+      'checked',
+      'reviewed',
+      'submitted',
+      'planned',
+      'cancelled',
     ));
   }
   public function visit_report_data()
@@ -84,14 +167,15 @@ class CrmVisitReport extends Controller
     $selectedSales = request()->input('sales'); // e.g. 'John Doe'
     $monthFrom = request()->input('month_from');       // e.g. '04'
     $monthTo = request()->input('month_to');           // e.g. '07'
-    $year = request()->input('year') ?? now()->year;
+    $yearFrom = request()->input('year_from');
+    $yearTo = request()->input('year_to');
 
     $startDate = null;
     $endDate = null;
 
     if ($monthFrom && $monthTo) {
-      $startDate = Carbon::createFromDate($year, $monthFrom, 1)->startOfMonth();
-      $endDate = Carbon::createFromDate($year, $monthTo, 1)->endOfMonth();
+      $startDate = Carbon::createFromDate($yearFrom, $monthFrom, 1)->startOfMonth();
+      $endDate = Carbon::createFromDate($yearTo, $monthTo, 1)->endOfMonth();
 
       // Optional: swap if user selects From > To
       if ($startDate->gt($endDate)) {

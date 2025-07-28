@@ -336,7 +336,7 @@
                                     @endif
                                 </div>
                             </form>
-                            {{-- Ack President Director --}}
+                            {{-- Ack Sales --}}
                             <form method="post"
                                 action="{{ route('crm-visit-report-sep-ackpresdir', $crm_visit_report->id_visit_report) }}"
                                 enctype="multipart/form-data">
@@ -350,14 +350,14 @@
                                                         class="rounded-circle"></div>
                                             </div>
                                             <div class="d-flex flex-column">
-                                                <h6 class="mb-1">Alfian Jasrin</h6>
-                                                <small>President Director</small>
+                                                <h6 class="mb-1">Rizky</h6>
+                                                <small>Sales</small>
                                             </div>
                                         </div>
                                     </div>
                                     @if (Auth::check())
                                         @if (empty($crm_visit_report->ack_director))
-                                        @elseif (Auth::user()->name == 'Alfian Jasrin' && empty($crm_visit_report->ack_presdir))
+                                        @elseif (Auth::user()->name == 'Rizky' && empty($crm_visit_report->ack_presdir))
                                             <div class="col-8">
                                                 <p class="mb-6">
                                                     <textarea class="form-control" id="ack_presdir" rows="3" id="ack_presdir" name="ack_presdir">{{ $crm_visit_report->ack_presdir }}</textarea>

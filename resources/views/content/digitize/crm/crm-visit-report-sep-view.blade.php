@@ -37,7 +37,7 @@
                         <div class="d-flex align-items-center">
                             @php
                                 $badgeClasses = [
-                                    'Planned' => 'bg-label-warning',
+                                    'Planned' => 'bg-label-info',
                                     'In Progress' => 'bg-label-info',
                                     'Submitted' => 'bg-label-primary',
                                     'Checked' => 'bg-label-warning',
@@ -337,7 +337,7 @@
                                 </div>
                             </form>
                             {{-- Ack Sales --}}
-                            <form method="post"
+                            {{-- <form method="post"
                                 action="{{ route('crm-visit-report-sep-ackpresdir', $crm_visit_report->id_visit_report) }}"
                                 enctype="multipart/form-data">
                                 @csrf <!-- CSRF protection -->
@@ -377,7 +377,7 @@
                                         @endif
                                     @endif
                                 </div>
-                            </form>
+                            </form> --}}
 
                             <hr class="my-6">
                             <h5>Final Response</h5>
@@ -401,7 +401,7 @@
                                         </div>
                                     </div>
                                     @if (Auth::check())
-                                        @if (empty($crm_visit_report->ack_presdir))
+                                        @if (empty($crm_visit_report->ack_director))
                                         @elseif (Auth::user()->name == $crm_visit_report->sales && empty($crm_visit_report->response))
                                             <div class="col-8">
                                                 <p class="mb-6">
@@ -418,7 +418,7 @@
                                                     {{ $crm_visit_report->response }}
                                                 </p>
                                             </div>
-                                        @elseif (empty($crm_visit_report->ack_presdir))
+                                        @elseif (empty($crm_visit_report->ack_director))
                                         @endif
                                     @endif
                                 </div>

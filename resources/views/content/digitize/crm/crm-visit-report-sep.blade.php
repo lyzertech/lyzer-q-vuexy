@@ -575,11 +575,11 @@
                             // Determine badge class and text based on the status and time
                             if (data === 'Planned' && isInProgress) {
                                 badgeClass = 'bg-label-info';
-                                badgeText = 'In Progress';
+                                badgeText = 'Planned';
                             } else {
                                 switch (data) {
                                     case 'Planned':
-                                        badgeClass = 'bg-label-warning';
+                                        badgeClass = 'bg-label-info';
                                         badgeText = 'Planned';
                                         break;
                                     case 'In Progress':

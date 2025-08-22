@@ -52,6 +52,11 @@
                     <div class="dt-action-buttons text-end pt-6 pt-md-0">
                         <div class="dt-buttons btn-group flex-wrap">
                             <div class="btn-group">
+                                <button id="btn1m" class="btn btn-primary">Latest 1 Month</button>
+                                <button id="btn3m" class="btn btn-primary">Latest 3 Months</button>
+                                <button id="btnYear" class="btn btn-primary">This Year</button>
+                                <button id="btnAll" class="btn btn-primary">All</button>
+
                                 <button type="button"
                                     class="btn btn-label-primary dropdown-toggle me-4 waves-effect waves-light border-none"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -315,6 +320,26 @@
                         }
                     }
                 ]
+            });
+
+            // Show Latest 1 Month
+            $('#btn1m').on('click', function() {
+                $('#label-table').DataTable().ajax.url("{{ route('labs-label-data') }}?filter=1m").load();
+            });
+
+            // Show Latest 3 Months
+            $('#btn3m').on('click', function() {
+                $('#label-table').DataTable().ajax.url("{{ route('labs-label-data') }}?filter=3m").load();
+            });
+
+            // Show This Year
+            $('#btnYear').on('click', function() {
+                $('#label-table').DataTable().ajax.url("{{ route('labs-label-data') }}?filter=year").load();
+            });
+
+            // Show All
+            $('#btnAll').on('click', function() {
+                $('#label-table').DataTable().ajax.url("{{ route('labs-label-data') }}?all=1").load();
             });
 
             // Optional: Bind the dropdown buttons to DataTable buttons (if you want more control)

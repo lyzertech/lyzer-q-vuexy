@@ -18,17 +18,30 @@ class LabsLabel extends Controller
         // dd($lastId);
         return view('content.digitize.labs.labs-label');
     }
-    public function label_data()
+    public function label_data(Request $request)
     {
-        // $label = labs_label::all();
-        $label = labs_label::select('*')
-        ->whereIn('id_label', function ($query) {
-            $query->selectRaw('MAX(id_label)')
+      $query = labs_label::select('*')
+          ->whereIn('id_label', function ($sub) {
+              $sub->selectRaw('MAX(id_label)')
                   ->from('labs_label')
                   ->groupBy('PO');
-        })->get();
+          });
 
-        // dd($label);
+      // ✅ Apply filters
+      if ($request->has('all')) {
+          // no filter applied (show all)
+      } elseif ($request->filter === '1m') {
+          $query->where('created_at', '>=', now()->subMonth());
+      } elseif ($request->filter === '3m') {
+          $query->where('created_at', '>=', now()->subMonths(3));
+      } elseif ($request->filter === 'year') {
+          $query->whereYear('created_at', now()->year);
+      } else {
+          // default: 1 month
+          $query->where('created_at', '>=', now()->subMonth());
+      }
+
+      $label = $query->get();
 
         return DataTables::of($label)
             ->editColumn('created_at', function ($label) {

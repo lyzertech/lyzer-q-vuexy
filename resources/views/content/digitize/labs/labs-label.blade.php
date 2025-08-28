@@ -52,10 +52,10 @@
                     <div class="dt-action-buttons text-end pt-6 pt-md-0">
                         <div class="dt-buttons btn-group flex-wrap">
                             <div class="btn-group">
-                                <button id="btn1m" class="btn btn-primary">Latest 1 Month</button>
-                                <button id="btn3m" class="btn btn-primary">Latest 3 Months</button>
-                                <button id="btnYear" class="btn btn-primary">This Year</button>
-                                <button id="btnAll" class="btn btn-primary">All</button>
+                                <button id="btn1m" class="btn btn-primary mx-2">Latest 1 Month</button>
+                                <button id="btn3m" class="btn btn-primary mx-2">Latest 3 Months</button>
+                                <button id="btnYear" class="btn btn-primary mx-2">This Year</button>
+                                <button id="btnAll" class="btn btn-primary mx-2">All</button>
 
                                 <button type="button"
                                     class="btn btn-label-primary dropdown-toggle me-4 waves-effect waves-light border-none"
@@ -228,6 +228,7 @@
             // Initialize DataTable with buttons for export
             $('#label-table').DataTable({
                 serverSide: true,
+                processing: true,
                 ajax: '{{ route('labs-label-data') }}',
                 columns: [{
                         data: 'id_label',

@@ -21,19 +21,85 @@ class CrmVisitReportSep extends Controller
   public function index()
   {
     $customer = crm_customer::all();
-    // dd($customer);
+
+    $selectedSales = request()->input('sales'); // e.g. 'John Doe'
+    $monthFrom = request()->input('month_from');       // e.g. '04'
+    $monthTo = request()->input('month_to');           // e.g. '07'
+    $yearFrom = request()->input('year_from');
+    $yearTo = request()->input('year_to');
+
+    $startDate = null;
+    $endDate = null;
+
+    if ($monthFrom && $monthTo) {
+      $startDate = Carbon::createFromDate($yearFrom, $monthFrom, 1)->startOfMonth();
+      $endDate = Carbon::createFromDate($yearTo, $monthTo, 1)->endOfMonth();
+
+      // Optional: swap if user selects From > To
+      if ($startDate->gt($endDate)) {
+          [$startDate, $endDate] = [$endDate, $startDate];
+      }
+    }
+
+    $customOrder = ['Bambang Tri', 'Rizky', 'Eka', 'Setia'];
     $visit_reports = crm_visit_report_sep::select('sales', DB::raw('count(*) as total_visits'))
-    ->whereNotIn('status', ['Cancelled', 'Deleted']) // Exclude both 'Cancelled' and 'Deleted' statuses
-    ->groupBy('sales')
-    ->get();
+      ->whereNotIn('status', ['Cancelled', 'Deleted']) // Exclude both 'Cancelled' and 'Deleted' statuses
+      ->when($selectedSales, function ($query, $selectedSales) {
+        return $query->where('sales', $selectedSales);
+      })
+      ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+        return $query->whereBetween('visit_date', [$startDate, $endDate]);
+      })
+      ->groupBy('sales')
+      ->get()
+      ->sortBy(function ($item) use ($customOrder) {
+          return array_search($item->sales, $customOrder);
+      })
+      ->values();
+
     $sales_list = User::where('role_id', 5)->get();
-    $total_visit_reports = crm_visit_report_sep::whereNotIn('status', ['Cancelled', 'Deleted'])->count();
-    $prospek_yes = crm_visit_report_sep::where('prospek', 1)->count();
+    $total_visit_reports = crm_visit_report_sep::whereNotIn('status', ['Cancelled', 'Deleted'])
+    ->when($selectedSales, function ($query, $selectedSales) {
+        return $query->where('sales', $selectedSales);
+    })
+    ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+        return $query->whereBetween('visit_date', [$startDate, $endDate]);
+    })
+    ->count(); // ← Use count here instead of get
+    $prospek_yes = crm_visit_report_sep::where('prospek', 1)
+    ->when($selectedSales, function ($query, $selectedSales) {
+      return $query->where('sales', $selectedSales);
+    })
+    ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+        return $query->whereBetween('visit_date', [$startDate, $endDate]);
+    })
+    ->count();
     $prospek_no = crm_visit_report_sep::where('prospek', 0)->count();
+
+    $statuses = ['completed', 'checked', 'reviewed', 'submitted', 'planned', 'cancelled'];
+    $counts = [];
+
+    foreach ($statuses as $status) {
+        $counts[$status] = crm_visit_report_sep::where('status', $status)
+            ->when($selectedSales, fn($query) => $query->where('sales', $selectedSales))
+            ->when($startDate && $endDate, fn($query) => $query->whereBetween('visit_date', [$startDate, $endDate]))
+            ->count();
+    }
+
+    // Access with:
+    $completed = $counts['completed'];
+    $checked = $counts['checked'];
+    $reviewed = $counts['reviewed'];
+    $submitted = $counts['submitted'];
+    $planned = $counts['planned'];
+    $cancelled = $counts['cancelled'];
+
+    // dd($submitted);
+
     $companies = crm_customer::select('company')
-    ->distinct()
-    ->orderBy('company', 'asc') // Sort in ascending order
-    ->pluck('company');
+      ->distinct()
+      ->orderBy('company', 'asc') // Sort in ascending order
+      ->pluck('company');
 
     return view('content.digitize.crm.crm-visit-report-sep', compact(
       'customer',
@@ -42,14 +108,69 @@ class CrmVisitReportSep extends Controller
       'total_visit_reports',
       'prospek_yes',
       'prospek_no',
-      'companies'
+      'companies',
+      'completed',
+      'checked',
+      'reviewed',
+      'submitted',
+      'planned',
+      'cancelled',
     ));
   }
-  public function visit_report_data()
+  public function visit_report_dataa()
   {
     $visit_report = crm_visit_report_sep::where('status', '!=', 'deleted')->get();
 
     // dd($visit_report);
+
+    return DataTables::of($visit_report)
+      ->editColumn('created_at', function ($visit_report) {
+        return $visit_report->created_at->format('Y-m-d H:i');
+      })
+      ->addColumn('action', function ($visit_report) {
+        // Define the action URLs for View, Edit, and Delete
+        $showUrl = route('crm-visit-report-sep-view', $visit_report->id_visit_report);
+        $editUrl = route('crm-visit-report-sep-edit', $visit_report->id_visit_report);
+        $deleteUrl = route('crm-visit-report-sep-destroy', $visit_report->id_visit_report);
+
+        return '
+              <a href="' . $showUrl . '" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit">
+                  <i class="ti ti-pencil ti-md"></i>
+              </a>
+          ';
+      })
+      ->rawColumns(['action']) // Allow raw HTML in the action column
+      ->make(true);
+  }
+  public function visit_report_data()
+  {
+    $selectedSales = request()->input('sales'); // e.g. 'John Doe'
+    $monthFrom = request()->input('month_from');       // e.g. '04'
+    $monthTo = request()->input('month_to');           // e.g. '07'
+    $yearFrom = request()->input('year_from');
+    $yearTo = request()->input('year_to');
+
+    $startDate = null;
+    $endDate = null;
+
+    if ($monthFrom && $monthTo) {
+      $startDate = Carbon::createFromDate($yearFrom, $monthFrom, 1)->startOfMonth();
+      $endDate = Carbon::createFromDate($yearTo, $monthTo, 1)->endOfMonth();
+
+      // Optional: swap if user selects From > To
+      if ($startDate->gt($endDate)) {
+          [$startDate, $endDate] = [$endDate, $startDate];
+      }
+    }
+
+    $visit_report = crm_visit_report_sep::where('status', '!=', 'deleted')
+    ->when($selectedSales, function ($query, $selectedSales) {
+        return $query->where('sales', $selectedSales);
+    })
+    ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+      return $query->whereBetween('visit_date', [$startDate, $endDate]);
+    })
+    ->get();
 
     return DataTables::of($visit_report)
       ->editColumn('created_at', function ($visit_report) {

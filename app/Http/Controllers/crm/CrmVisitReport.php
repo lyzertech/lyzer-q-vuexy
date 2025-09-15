@@ -21,7 +21,6 @@ class CrmVisitReport extends Controller
   public function index()
   {
     $customer = crm_customer::all();
-    // dd($customer);
 
     $selectedSales = request()->input('sales'); // e.g. 'John Doe'
     $monthFrom = request()->input('month_from');       // e.g. '04'
@@ -77,47 +76,6 @@ class CrmVisitReport extends Controller
     ->count();
     $prospek_no = crm_visit_report::where('prospek', 0)->count();
 
-    // $completed = crm_visit_report::where('status', 'completed')
-    // ->when($selectedSales, function ($query, $selectedSales) {
-    //   return $query->where('sales', $selectedSales);
-    // })
-    // ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-    //     return $query->whereBetween('visit_date', [$startDate, $endDate]);
-    // })
-    // ->count();
-    // $checked = crm_visit_report::where('status', 'checked')
-    // ->when($selectedSales, function ($query, $selectedSales) {
-    //   return $query->where('sales', $selectedSales);
-    // })
-    // ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-    //     return $query->whereBetween('visit_date', [$startDate, $endDate]);
-    // })
-    // ->count();
-    // $reviewed = crm_visit_report::where('status', 'reviewed')
-    // ->when($selectedSales, function ($query, $selectedSales) {
-    //   return $query->where('sales', $selectedSales);
-    // })
-    // ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-    //     return $query->whereBetween('visit_date', [$startDate, $endDate]);
-    // })
-    // ->count();
-    // $submitted = crm_visit_report::where('status', 'submitted')
-    // ->when($selectedSales, function ($query, $selectedSales) {
-    //   return $query->where('sales', $selectedSales);
-    // })
-    // ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-    //     return $query->whereBetween('visit_date', [$startDate, $endDate]);
-    // })
-    // ->count();
-    // $planned = crm_visit_report::where('status', 'planned')
-    // ->when($selectedSales, function ($query, $selectedSales) {
-    //   return $query->where('sales', $selectedSales);
-    // })
-    // ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-    //     return $query->whereBetween('visit_date', [$startDate, $endDate]);
-    // })
-    // ->count();
-
     $statuses = ['completed', 'checked', 'reviewed', 'submitted', 'planned', 'cancelled'];
     $counts = [];
 
@@ -161,9 +119,6 @@ class CrmVisitReport extends Controller
   }
   public function visit_report_data()
   {
-    // $selectedSales = 'David'; // test only
-    // $selectedMonth = '7';
-
     $selectedSales = request()->input('sales'); // e.g. 'John Doe'
     $monthFrom = request()->input('month_from');       // e.g. '04'
     $monthTo = request()->input('month_to');           // e.g. '07'
@@ -191,8 +146,6 @@ class CrmVisitReport extends Controller
       return $query->whereBetween('visit_date', [$startDate, $endDate]);
     })
     ->get();
-
-    // dd($visit_report);
 
     return DataTables::of($visit_report)
       ->editColumn('created_at', function ($visit_report) {

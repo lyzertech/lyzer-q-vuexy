@@ -61,7 +61,7 @@
     <div class="row g-6 mb-6">
 
         <!-- Customer Tracker -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between">
                     <div class="card-title mb-0">
@@ -116,7 +116,7 @@
         <!--/ Customer Tracker -->
 
         <!-- Customer Distribution -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between">
                     <div class="card-title mb-0">
@@ -150,7 +150,7 @@
         <!--/ Customer Distribution -->
 
         <!-- Area Distribution -->
-        <div class="col-xl-4 col-md-2">
+        <div class="col-xl-6 col-md-2">
             <div class="card h-100">
                 <div class="card-header d-flex justify-content-between pb-4">
                     <div class="card-title mb-0">
@@ -217,6 +217,105 @@
                         // Set the chart option
                         myChart.setOption(option);
                     </script>
+
+                    {{-- <script>
+                      var myChart = echarts.init(document.getElementById('main'));
+
+                      function createChart() {
+                        var indonesiaRoughLatitude = -2;  // near equator
+                        option = {
+                          geo: {
+                            map: 'indonesia',
+                            roam: true,
+                            aspectScale: Math.cos((indonesiaRoughLatitude * Math.PI) / 180),
+                            label: {
+                              show: true,
+                              color: '#555'
+                            }
+                          },
+                          tooltip: {},
+                          visualMap: [
+                            {
+                              orient: 'horizontal',
+                              calculable: true,
+                              right: 0,
+                              bottom: 0,
+                              seriesIndex: 0,
+                              min: 0,
+                              max: 100000,
+                              dimension: 2,
+                              inRange: {
+                                symbolSize: [5, 30]
+                              },
+                              controller: {
+                                inRange: {
+                                  color: ['#66c2a5']
+                                }
+                              }
+                            },
+                            {
+                              orient: 'horizontal',
+                              calculable: true,
+                              left: 0,
+                              bottom: 0,
+                              seriesIndex: 1,
+                              min: 0,
+                              max: 1000,
+                              dimension: 0,
+                              inRange: {
+                                color: ['#deebf7', '#3182bd']
+                              }
+                            }
+                          ],
+                          series: [
+                            {
+                              type: 'scatter',
+                              coordinateSystem: 'geo',
+                              geoIndex: 0,
+                              encode: {
+                                tooltip: 2,
+                                label: 2
+                              },
+                              data: [
+                                [106.8456, -6.2088, 45213],   // Jakarta
+                                [112.7508, -7.2575, 35678],   // Surabaya
+                                [98.6722, 3.5952, 28945],     // Medan
+                                [110.3695, -7.8014, 17654],   // Yogyakarta
+                                [119.436, -5.1477, 23456]     // Makassar
+                              ],
+                              itemStyle: {
+                                color: '#66c2a5',
+                                borderWidth: 1,
+                                borderColor: '#3c7865'
+                              }
+                            },
+                            {
+                              type: 'map',
+                              geoIndex: 0,
+                              map: 'indonesia',
+                              data: [
+                                { name: 'DKI JAKARTA', value: 523 },
+                                { name: 'JAWA TIMUR', value: 456 },
+                                { name: 'SUMATERA UTARA', value: 312 },
+                                { name: 'DI YOGYAKARTA', value: 198 },
+                                { name: 'SULAWESI SELATAN', value: 267 }
+                              ]
+                            }
+                          ]
+                        };
+                        myChart.setOption(option);
+                      }
+
+                      function fetchGeoJSON() {
+                        myChart.showLoading();
+                        $.get('/assets/json/indonesia.json', function (geoJSON) {
+                          echarts.registerMap('indonesia', geoJSON);
+                          createChart();
+                          myChart.hideLoading();
+                        });
+                      }
+                      fetchGeoJSON();
+                    </script> --}}
                 </div>
             </div>
         </div>

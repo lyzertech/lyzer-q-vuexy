@@ -48,6 +48,11 @@
       "slug": "crm",
       "submenu": [
         {
+          "url": "crm/dashboard",
+          "name": "Dashboard",
+          "slug": "crm-dashboard"
+        },
+        {
           "url": "crm/customer",
           "name": "Customer",
           "slug": "crm-customer"

@@ -220,7 +220,7 @@
         @endphp
 
         <div class="col-md-3">
-            <div class="card">
+            <div class="card h-100">
                 <div class="row row-cols-2 g-3">
                     @foreach ($metrics as $metric)
                         <div class="col">

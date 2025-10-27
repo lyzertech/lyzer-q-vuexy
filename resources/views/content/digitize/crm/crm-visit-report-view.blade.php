@@ -99,7 +99,7 @@
                                         </p> --}}
                                         <p class="mb-6">
                                             @foreach (explode("\n", $crm_visit_report->notes) as $line)
-                                                <span class="note-line">- {{ e($line) }}</span><br>
+                                                <span class="note-line">- {!! $line !!}</span><br>
                                             @endforeach
                                         </p>
                                         <h6>Customer Feedback</h6>
@@ -108,7 +108,7 @@
                                         </p> --}}
                                         <p class="mb-6">
                                             @foreach (explode("\n", $crm_visit_report->customer_feedback) as $line)
-                                                <span class="note-line">- {{ e($line) }}</span><br>
+                                                <span class="note-line">- {!! $line !!}</span><br>
                                             @endforeach
                                         </p>
                                         <h6>Follow Up Date</h6>
@@ -149,7 +149,7 @@
                                         </p> --}}
                                         <p class="mb-6">
                                             @foreach (explode("\n", $crm_visit_report->next_steps) as $line)
-                                                <span class="note-line">- {{ e($line) }}</span><br>
+                                                <span class="note-line">- {!! $line !!}</span><br>
                                             @endforeach
                                         </p>
 

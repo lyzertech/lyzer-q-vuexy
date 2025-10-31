@@ -252,6 +252,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Labs Dashboard
     Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');
+
     // Labs Label
     Route::get('/labs/label', [LabsLabel::class, 'index'])->name('labs-label');
     Route::get('/labs/label/data', [LabsLabel::class, 'label_data'])->name('labs-label-data');
@@ -267,11 +268,13 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/monitoring/dashboard', [MonitoringDashboard::class, 'index'])->name('monitoring-dashboard');
+    // Route::get('/dashboard', [MonitoringDashboard::class, 'dashboard']);
 
     Route::get('/monitoring/installation', [MonitoringInstallation::class, 'index'])->name('monitoring-installation');
     Route::get('/monitoring/installation/facility/data', [MonitoringInstallation::class, 'installation_facility_data'])->name('monitoring-installation-facility-data');
     Route::post('/monitoring/installation/facility/create', [MonitoringInstallation::class, 'installation_facility_create'])->name('monitoring-installation-facility-create');
     Route::get('/monitoring/installation/device/data', [MonitoringInstallation::class, 'installation_device_data'])->name('monitoring-installation-device-data');
+    Route::get('/monitoring/installation/device/data/notListed', [MonitoringInstallation::class, 'installation_device_data_not_listed'])->name('monitoring-installation-device-data-not-listed');
     Route::post('/monitoring/installation/device/create', [MonitoringInstallation::class, 'installation_device_create'])->name('monitoring-installation-device-create');
 
     Route::get('/monitoring/analysis', [MonitoringAnalysis::class, 'index'])->name('monitoring-analysis');

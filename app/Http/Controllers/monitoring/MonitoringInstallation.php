@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\monitoring\monitoring_installation;
 use App\Models\monitoring\monitoring_facility;
 use App\Models\monitoring\monitoring_device;
+use App\Models\monitoring\monitoring_acuvim;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class MonitoringInstallation extends Controller
@@ -73,6 +75,22 @@ class MonitoringInstallation extends Controller
     $monitoring_device = monitoring_device::all();
     // dd($monitoring_device);
     return DataTables::of($monitoring_device)->make(true);
+  }
+
+  public function installation_device_data_not_listed()
+  {
+    $devices = monitoring_acuvim::select('monitoring_acuvim.*')
+        ->join(DB::raw('(SELECT device_name, device_serial, MAX(Timestamp) as latest
+                        FROM monitoring_acuvim
+                        GROUP BY device_name, device_serial) as latest_data'),
+            function($join) {
+                $join->on('monitoring_acuvim.device_name', '=', 'latest_data.device_name')
+                    ->on('monitoring_acuvim.device_serial', '=', 'latest_data.device_serial')
+                    ->on('monitoring_acuvim.Timestamp', '=', 'latest_data.latest');
+            })
+        ->get();
+    // dd($monitoring_acuvim);
+    return DataTables::of($devices)->make(true);
   }
 
   public function installation_device_create(Request $request)

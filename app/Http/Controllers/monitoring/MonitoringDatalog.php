@@ -21,8 +21,10 @@ class MonitoringDatalog extends Controller
         // Check if any devices were selected
         if (!empty($selectedDevices)) {
             // Fetch data for the selected devices
-            $allData = monitoring_acuvim::whereIn('device_serial', $selectedDevices)->get();
-        } else {
+            $allData = monitoring_acuvim::whereIn('device_serial', $selectedDevices)
+                ->orderBy('Timestamp', 'desc')
+                ->get();
+          } else {
             // If no devices were selected, fetch all data
             $allData = collect(); // or $allData = [];
         }

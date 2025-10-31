@@ -52,6 +52,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <!-- Include jsTree JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
+{{-- Fixed header --}}
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.dataTables.min.css">
+<script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
 
 @section('content')
     <div class="flex-shrink-1 flex-grow-0 w-px-350 border-end container-p-x container-p-y">
@@ -133,7 +136,7 @@
 
     <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
 
-        {{-- <style>
+        <style>
             .table-container {
                 overflow: auto;
                 /* Enables horizontal and vertical scrolling */
@@ -189,11 +192,11 @@
             .table thead th:nth-child(8) {
                 z-index: 3;
             }
-        </style> --}}
+        </style>
         <div class="row">
             <div class="layout-demo-info">
                 <div class="col-xl-12 col-sm-12">
-                    <div class="card overflow-hidden mb-6" style="height: 700px; width:1320px;">
+                    <div class="card overflow-hidden mb-6" style="height: 713px; width:1565px;">
                         <h5 class="card-header">Horizontal Scrollbar</h5>
                         <div class="table-responsive text-nowrap" id="table-scroll-container">
                             <table id="dataTable" class="table table-bordered">
@@ -294,8 +297,9 @@
                                             <td>{{ $data->device_model }}</td>
                                             <td>{{ $data->device_serial }}</td>
                                             <td>{{ $data->device_online }}</td>
-                                            <td>{{ \Carbon\Carbon::createFromTimestamp($data->Timestamp)->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s') }}
-                                            </td>
+                                            {{-- <td>{{ \Carbon\Carbon::createFromTimestamp($data->Timestamp)->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s') }}
+                                            </td> --}}
+                                            <td>{{ $data->Timestamp }}</td>
                                             <td>{{ $data->Freq_Hz }}</td>
                                             <td>{{ $data->V1 }}</td>
                                             <td>{{ $data->V2 }}</td>
@@ -384,21 +388,20 @@
         <!-- datalog-table -->
         <script>
             $(document).ready(function() {
-                $('#dataTable').DataTable(); // Simple initialization
-            });
-
-            $('#dataTable').DataTable({
-                paging: true,
-                searching: true,
-                ordering: true,
-                lengthMenu: [10, 25, 50, 100],
+                $('#dataTable').DataTable({
+                    paging: true,
+                    searching: false, // 🔹 Disable search box
+                    ordering: true,
+                    lengthChange: false, // 🔹 Hide "Show X entries"
+                    info: false // 🔹 Hide "Showing 1 to 10 of X entries"
+                    fixedHeader: true // 🔹 Keep header always visible
+                });
             });
 
             function viewDetail(id) {
                 alert('View details for ID: ' + id);
             }
         </script>
-
 
     </div>
 @endsection

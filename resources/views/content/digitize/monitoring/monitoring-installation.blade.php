@@ -76,6 +76,12 @@
                             </li>
                             <li class="nav-item">
                                 <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-pills-within-card-DevicesNotListed"
+                                    aria-controls="navs-pills-within-card-DevicesNotListed" aria-selected="false">Devices
+                                    Not Listed</button>
+                            </li>
+                            <li class="nav-item">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                     data-bs-target="#navs-pills-within-card-MeterPoints"
                                     aria-controls="navs-pills-within-card-MeterPoints" aria-selected="false">Meter
                                     Points</button>
@@ -349,6 +355,88 @@
                                             {
                                                 data: 'location',
                                                 name: 'location'
+                                            }
+                                        ],
+                                        displayLength: 7,
+                                        lengthMenu: [7, 10, 25, 50, 75, 100, 500]
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="tab-pane fade" id="navs-pills-within-card-DevicesNotListed" role="tabpanel">
+                            {{-- <h4 class="card-title">Devices in "Org"</h4> --}}
+                            <!-- DataTable with Buttons -->
+                            <div class="">
+                                <div class="card-datatable table-responsive pt-0">
+                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                                        <div class="card-header flex-column flex-md-row">
+                                            <div class="head-label text-center">
+                                                {{-- <h5 class="card-title mb-0">Customer</h5> --}}
+                                            </div>
+
+                                            {{-- <div class="dt-action-buttons text-end pt-6 pt-md-0">
+                                                <div class="dt-buttons btn-group flex-wrap">
+                                                    <button
+                                                        class="btn btn-secondary create-new btn-primary waves-effect waves-light"
+                                                        type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#addNewDevice" aria-controls="addNewDevice">
+                                                        <span><i class="ti ti-plus me-sm-1"></i>
+                                                            <span class="d-none d-sm-inline-block">Add Device</span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div> --}}
+                                        </div>
+                                        <div class="table-responsive text-start">
+                                            <div class="card-datatable table-responsive">
+                                                <table class="table table-bordered" id="device-table-not-listed">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Device</th>
+                                                            <th>Gateway Serial</th>
+                                                            <th>Model</th>
+                                                            <th>Serial Number</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- device-table-not-listed -->
+                            <script type="text/javascript">
+                                $(document).ready(function() {
+                                    // Destroy existing DataTable before re-initializing
+                                    if ($.fn.DataTable.isDataTable('#device-table-not-listed')) {
+                                        $('#device-table-not-listed').DataTable().destroy();
+                                    }
+
+                                    // Initialize DataTable with buttons for export
+                                    $('#device-table-not-listed').DataTable({
+                                        serverSide: true,
+                                        ajax: '{{ route('monitoring-installation-device-data-not-listed') }}',
+                                        columns: [{
+                                                data: 'device_name',
+                                                name: 'device_name'
+                                            },
+                                            {
+                                                data: 'gateway_serial',
+                                                name: 'gateway_serial'
+                                            },
+                                            {
+                                                data: 'device_model',
+                                                name: 'device_model'
+                                            },
+                                            {
+                                                data: 'device_serial',
+                                                name: 'device_serial'
+                                            },
+                                            {
+                                                data: 'device_online',
+                                                name: 'device_online'
                                             }
                                         ],
                                         displayLength: 7,

@@ -327,20 +327,56 @@
                                         <div class="col-md-10 d-flex flex-wrap align-items-center gap-2">
                                             <div class="btn-group flex-wrap" role="group"
                                                 aria-label="Parameter Buttons" id="paramButtons">
-                                                <button type="button" class="btn btn-outline-primary"
-                                                    data-param="VLN">LN Voltage</button>
-                                                <button type="button" class="btn btn-outline-primary"
-                                                    data-param="VLL">LL Voltage</button>
-                                                <button type="button" class="btn btn-outline-primary"
-                                                    data-param="Current">Current</button>
-                                                <button type="button" class="btn btn-outline-primary"
-                                                    data-param="Active">Active</button>
-                                                <button type="button" class="btn btn-outline-primary"
-                                                    data-param="Reactive">Reactive</button>
-                                                <button type="button" class="btn btn-outline-primary"
-                                                    data-param="Apparent">Apparent</button>
-                                                <button type="button" class="btn btn-outline-primary"
-                                                    data-param="PF">Power Factor</button>
+                                                <ul class="nav nav-pills">
+                                                    <style>
+                                                        .nav-item {
+                                                            /* Button spacing */
+                                                            border-radius: 6px;
+                                                            /* Rounded edges */
+                                                            margin-right: 6px;
+                                                        }
+
+                                                        .nav-item .param {
+                                                            border: 1px solid #7367F0;
+                                                        }
+                                                    </style>
+                                                    <li class="nav-item">
+                                                        <button type="button"
+                                                            class="nav-link param waves-effect waves-light"
+                                                            data-param="VLN">LN Voltage</button>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <button type="button"
+                                                            class="nav-link param waves-effect waves-light"
+                                                            data-param="VLL">LL Voltage</button>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <button type="button"
+                                                            class="nav-link param waves-effect waves-light"
+                                                            data-param="Current">Current</button>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <button type="button"
+                                                            class="nav-link param waves-effect waves-light"
+                                                            data-param="Active">Active</button>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <button type="button"
+                                                            class="nav-link param waves-effect waves-light"
+                                                            data-param="Reactive">Reactive</button>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <button type="button"
+                                                            class="nav-link param waves-effect waves-light"
+                                                            data-param="Apparent">Apparent</button>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <button type="button"
+                                                            class="nav-link param waves-effect waves-light"
+                                                            data-param="PF">Power Factor</button>
+                                                    </li>
+
+                                                </ul>
                                             </div>
 
                                             <span class="vr mx-3"></span>
@@ -361,7 +397,7 @@
                                     <hr class="my-3" />
 
                                     <!-- === Time Interval Selection === -->
-                                    <div class="row align-items-center">
+                                    <div class="row align-items-center mb-3">
                                         <div class="col-md-2">
                                             <label class="form-label fw-semibold mb-0">Select a Time Interval:</label>
                                         </div>

@@ -77,7 +77,7 @@ class DataController extends Controller
         // Fetch data
         $data = DB::table('monitoring_acuvim')
             ->select($select)
-            ->where('device_name', 'MAINT. BUILDING')
+            ->where('device_name', 'Device-01')
             ->whereBetween('Timestamp', [$today, $tomorrow])
             ->orderBy('Timestamp', 'asc')
             ->get();

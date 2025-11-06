@@ -5,4 +5,4 @@ use App\Http\Controllers\api\DataController;
 
 Route::get('/v1/data/latest', [DataController::class, 'latest']);
 Route::get('/v1/voltage/today', [DataController::class, 'getTodayVoltage']);
-Route::get('/v1/data/today', [DataController::class, 'getTodayData']);
+Route::get('/v1/data', [DataController::class, 'getData']);

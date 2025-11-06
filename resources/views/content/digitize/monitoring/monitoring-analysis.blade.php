@@ -291,14 +291,19 @@
                                             <label class="form-label fw-semibold mb-0">Select a Time Frame:</label>
                                         </div>
                                         <div class="col-md-10 d-flex flex-wrap align-items-center gap-2">
-                                            <select class="form-select w-auto">
-                                                <option>Today</option>
-                                                <option>Yesterday</option>
-                                                <option>This Week</option>
-                                                <option>Custom</option>
+                                            <select id="dateRangeSelect" class="form-select w-auto">
+                                                <option value="today" selected>Today</option>
+                                                <option value="yesterday">Yesterday</option>
+                                                <option value="this_week">This Week</option>
+                                                <option value="custom">Custom</option>
                                             </select>
 
-                                            <input type="datetime-local" class="form-control w-auto"
+                                            <!-- Only visible if user picks Custom -->
+                                            <input type="date" id="startDate" class="form-control w-auto d-none">
+                                            <input type="date" id="endDate" class="form-control w-auto d-none">
+
+
+                                            {{-- <input type="datetime-local" class="form-control w-auto"
                                                 value="2025-10-29T00:00" />
                                             <span class="mx-2 fw-semibold">To</span>
                                             <input type="datetime-local" class="form-control w-auto"
@@ -307,13 +312,13 @@
                                             <div class="form-check ms-3">
                                                 <input class="form-check-input" type="checkbox" id="compareCheck" />
                                                 <label class="form-check-label" for="compareCheck">Compare to</label>
-                                            </div>
+                                            </div> --}}
 
-                                            <input type="text" class="form-control w-auto" id="comparisonDate"
-                                                placeholder="Comparison Date" disabled />
+                                            {{-- <input type="text" class="form-control w-auto" id="comparisonDate"
+                                                placeholder="Comparison Date" disabled /> --}}
 
-                                            <button class="btn btn-primary waves-effect waves-light mx-auto">Update
-                                                Chart</button>
+                                            {{-- <button class="btn btn-primary waves-effect waves-light mx-auto">Update
+                                                Chart</button> --}}
                                         </div>
                                     </div>
 
@@ -324,7 +329,7 @@
                                         <div class="col-md-2">
                                             <label class="form-label fw-semibold mb-0">Select a Parameter:</label>
                                         </div>
-                                        <div class="col-md-10 d-flex flex-wrap align-items-center gap-2">
+                                        <div class="col-md-10 d-flex flex-wrap align-items-center gap-4">
                                             <div class="btn-group flex-wrap" role="group"
                                                 aria-label="Parameter Buttons" id="paramButtons">
                                                 <ul class="nav nav-pills">
@@ -342,7 +347,7 @@
                                                     </style>
                                                     <li class="nav-item">
                                                         <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
+                                                            class="nav-link param waves-effect waves-light active"
                                                             data-param="VLN">LN Voltage</button>
                                                     </li>
                                                     <li class="nav-item">
@@ -381,12 +386,12 @@
 
                                             <span class="vr mx-3"></span>
 
-                                            <div class="form-check form-check-inline">
+                                            <div class="form-check form-check-inline m-0">
                                                 <input class="form-check-input" type="radio" name="systemTypeRealtime"
                                                     id="systemRealtime" value="system" checked />
                                                 <label class="form-check-label" for="systemRealtime">System</label>
                                             </div>
-                                            <div class="form-check form-check-inline">
+                                            <div class="form-check form-check-inline m-0">
                                                 <input class="form-check-input" type="radio" name="systemTypeRealtime"
                                                     id="phaseRealtime" value="phase" />
                                                 <label class="form-check-label" for="phaseRealtime">Phase</label>
@@ -443,7 +448,7 @@
                                 </style>
                                 <div id="Chart" style="height: 515px; width: 100%;"></div>
 
-                                <script>
+                                {{-- <script>
                                     document.addEventListener("DOMContentLoaded", function() {
                                         const chartDom = document.getElementById('Chart');
                                         const myChart = echarts.init(chartDom);
@@ -723,7 +728,477 @@
 
                                         window.addEventListener('resize', () => myChart.resize());
                                     });
+                                </script> --}}
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        const chartDom = document.getElementById('Chart');
+                                        const myChart = echarts.init(chartDom);
+
+                                        // =========================================================
+                                        // 1️⃣ TIME AXIS (Start-End Date + Interval)
+                                        // =========================================================
+                                        function generateTimeAxis(start, end, interval) {
+                                            const times = [];
+                                            let current = new Date(start);
+
+                                            while (current <= end) {
+                                                const yyyy = current.getFullYear();
+                                                const mm = String(current.getMonth() + 1).padStart(2, '0');
+                                                const dd = String(current.getDate()).padStart(2, '0');
+                                                const hh = String(current.getHours()).padStart(2, '0');
+                                                const min = String(current.getMinutes()).padStart(2, '0');
+
+                                                times.push(`${yyyy}-${mm}-${dd} ${hh}:${min}`);
+                                                current.setMinutes(current.getMinutes() + interval);
+                                            }
+                                            return times;
+                                        }
+
+                                        // ✅ Full-day timestamp (00:00 to 23:59) for Today
+                                        function getSelectedDateRange() {
+                                            const selection = document.getElementById('dateRangeSelect').value;
+                                            const today = new Date();
+                                            let start = new Date();
+                                            let end = new Date();
+
+                                            switch (selection) {
+                                                case "today":
+                                                    start.setHours(0, 0, 0, 0);
+                                                    end.setHours(23, 59, 0, 0);
+                                                    break;
+
+                                                case "yesterday":
+                                                    start.setDate(today.getDate() - 1);
+                                                    end.setDate(today.getDate() - 1);
+                                                    start.setHours(0, 0, 0, 0);
+                                                    end.setHours(23, 59, 0, 0);
+                                                    break;
+
+                                                case "this_week":
+                                                    const firstDay = today.getDate() - today.getDay();
+                                                    start = new Date(today.setDate(firstDay));
+                                                    start.setHours(0, 0, 0, 0);
+                                                    end = new Date();
+                                                    end.setHours(23, 59, 0, 0);
+                                                    break;
+
+                                                case "custom":
+                                                    const startInput = document.getElementById('startDate').value;
+                                                    const endInput = document.getElementById('endDate').value;
+                                                    if (!startInput || !endInput) return null; // 🛑 IMPORTANT FIX
+                                                    start = new Date(startInput);
+                                                    start.setHours(0, 0, 0, 0);
+                                                    end = new Date(endInput);
+                                                    end.setHours(23, 59, 0, 0);
+                                                    break;
+                                            }
+
+                                            return {
+                                                start,
+                                                end
+                                            };
+                                        }
+
+                                        // =========================================================
+                                        // 2️⃣ GET SELECTED PARAMETERS & SYSTEM TYPE
+                                        // =========================================================
+                                        function getSelectedParams() {
+                                            const activeBtn = document.querySelector('#paramButtons .active');
+                                            if (!activeBtn) return ['V1', 'V2', 'V3']; // fallback
+                                            return getParameters(activeBtn.dataset.param);
+                                        }
+
+                                        function getSystemType() {
+                                            return document.querySelector('input[name="systemTypeRealtime"]:checked')?.value || 'phase';
+                                        }
+
+                                        function getParameters(paramType) {
+                                            const systemType = getSystemType();
+                                            const map = {
+                                                phase: {
+                                                    VLN: [{
+                                                            key: 'V1',
+                                                            label: 'Phase 1 Line-to-Neutral Voltage'
+                                                        },
+                                                        {
+                                                            key: 'V2',
+                                                            label: 'Phase 2 Line-to-Neutral Voltage'
+                                                        },
+                                                        {
+                                                            key: 'V3',
+                                                            label: 'Phase 3 Line-to-Neutral Voltage'
+                                                        }
+                                                    ],
+                                                    VLL: [{
+                                                            key: 'V12',
+                                                            label: 'Phase 1-2 Line-to-Line Voltage'
+                                                        },
+                                                        {
+                                                            key: 'V23',
+                                                            label: 'Phase 2-3 Line-to-Line Voltage'
+                                                        },
+                                                        {
+                                                            key: 'V31',
+                                                            label: 'Phase 3-1 Line-to-Line Voltage'
+                                                        }
+                                                    ],
+                                                    Current: [{
+                                                            key: 'I1',
+                                                            label: 'Phase 1 Current'
+                                                        },
+                                                        {
+                                                            key: 'I2',
+                                                            label: 'Phase 2 Current'
+                                                        },
+                                                        {
+                                                            key: 'I3',
+                                                            label: 'Phase 3 Current'
+                                                        }
+                                                    ],
+                                                    Active: [{
+                                                            key: 'P1',
+                                                            label: 'Phase 1 Active Power'
+                                                        },
+                                                        {
+                                                            key: 'P2',
+                                                            label: 'Phase 2 Active Power'
+                                                        },
+                                                        {
+                                                            key: 'P3',
+                                                            label: 'Phase 3 Active Power'
+                                                        }
+                                                    ],
+                                                    Reactive: [{
+                                                            key: 'Q1',
+                                                            label: 'Phase 1 Reactive Power'
+                                                        },
+                                                        {
+                                                            key: 'Q2',
+                                                            label: 'Phase 2 Reactive Power'
+                                                        },
+                                                        {
+                                                            key: 'Q3',
+                                                            label: 'Phase 3 Reactive Power'
+                                                        }
+                                                    ],
+                                                    Apparent: [{
+                                                            key: 'S1',
+                                                            label: 'Phase 1 Apparent Power'
+                                                        },
+                                                        {
+                                                            key: 'S2',
+                                                            label: 'Phase 2 Apparent Power'
+                                                        },
+                                                        {
+                                                            key: 'S3',
+                                                            label: 'Phase 3 Apparent Power'
+                                                        }
+                                                    ],
+                                                    PF: [{
+                                                            key: 'PF1',
+                                                            label: 'Phase 1 Power Factor'
+                                                        },
+                                                        {
+                                                            key: 'PF2',
+                                                            label: 'Phase 2 Power Factor'
+                                                        },
+                                                        {
+                                                            key: 'PF3',
+                                                            label: 'Phase 3 Power Factor'
+                                                        }
+                                                    ]
+                                                },
+
+                                                system: {
+                                                    VLN: [{
+                                                        key: 'Vnavg_V',
+                                                        label: 'System Average Line-to-Neutral Voltage'
+                                                    }],
+                                                    VLL: [{
+                                                        key: 'Vlavg_V',
+                                                        label: 'System Average Line-to-Line Voltage'
+                                                    }],
+                                                    Current: [{
+                                                        key: 'Iavg_A',
+                                                        label: 'System Average Current'
+                                                    }],
+                                                    Active: [{
+                                                        key: 'Psum_kW',
+                                                        label: 'System Active Power (kW)'
+                                                    }],
+                                                    Reactive: [{
+                                                        key: 'Qsum_kvar',
+                                                        label: 'System Reactive Power (kVAR)'
+                                                    }],
+                                                    Apparent: [{
+                                                        key: 'Ssum_kVA',
+                                                        label: 'System Apparent Power (kVA)'
+                                                    }],
+                                                    PF: [{
+                                                        key: 'PF',
+                                                        label: 'System Power Factor'
+                                                    }]
+                                                }
+                                            };
+
+                                            return map[systemType][paramType] || [];
+                                        }
+
+                                        function getYAxisLabel(params) {
+                                            if (!params || params.length === 0) return '';
+
+                                            const firstKey = params[0].key; // Check first selected parameter
+
+                                            if (firstKey.startsWith('V')) return 'V';
+                                            if (firstKey.startsWith('I')) return 'A';
+                                            if (firstKey.startsWith('Psum') || firstKey.startsWith('P')) return 'kW';
+                                            if (firstKey.startsWith('Qsum') || firstKey.startsWith('Q')) return 'kVAR';
+                                            if (firstKey.startsWith('Ssum') || firstKey.startsWith('S')) return 'kVA';
+                                            if (firstKey.startsWith('PF')) return 'PF';
+
+                                            return ''; // default
+                                        }
+
+                                        // =========================================================
+                                        // 3️⃣ GET SELECTED INTERVAL
+                                        // =========================================================
+                                        function getSelectedInterval() {
+                                            const intervalSelect = document.getElementById('intervalSelect');
+                                            return intervalSelect ? parseInt(intervalSelect.value) : 5;
+                                        }
+
+                                        // =========================================================
+                                        // 4️⃣ COLOR CONFIGURATION
+                                        // =========================================================
+                                        function getColor(param) {
+                                            const phaseR = ['V1', 'V12', 'I1', 'P1', 'Q1', 'S1', 'PF1'];
+                                            const phaseS = ['V2', 'V23', 'I2', 'P2', 'Q2', 'S2', 'PF2'];
+                                            const phaseT = ['V3', 'V31', 'I3', 'P3', 'Q3', 'S3', 'PF3'];
+                                            const system = ['Vnavg_V', 'Vlavg_V', 'Iavg_A', 'Psum_kW', 'Qsum_kvar', 'Ssum_kVA', 'PF'];
+
+                                            if (phaseR.includes(param)) return '#FF4560';
+                                            if (phaseS.includes(param)) return '#FEB019';
+                                            if (phaseT.includes(param)) return '#008FFB';
+                                            if (system.includes(param)) return '#7367F0';
+                                            return '#FFA500';
+                                        }
+
+                                        // =========================================================
+                                        // 5️⃣ FETCH API DATA
+                                        // =========================================================
+
+                                        async function fetchChartData(params, start, end) {
+                                            if (!params.length) return [];
+
+                                            // const queryParams = params.map(p => `parameters[]=${p}`).join('&');
+                                            const queryParams = params.map(p => `parameters[]=${p.key}`).join('&');
+
+                                            let url = "";
+
+                                            const startDate = start.toISOString().split('T')[0];
+                                            const endDate = end.toISOString().split('T')[0];
+
+                                            // ✅ If only 1 day (Today or Yesterday)
+                                            if (startDate === endDate) {
+                                                url = `http://127.0.0.1:8000/api/v1/data?date=${startDate}&${queryParams}`;
+                                            }
+                                            // ✅ If multi-day range (Custom or This Week)
+                                            else {
+                                                url =
+                                                    `http://127.0.0.1:8000/api/v1/data?start_date=${startDate}&end_date=${endDate}&${queryParams}`;
+                                            }
+
+                                            // console.log("API Request:", url); // ← See it in browser console
+
+                                            try {
+                                                const response = await fetch(url);
+                                                return await response.json();
+                                            } catch (err) {
+                                                console.error("API Fetch Error:", err);
+                                                return [];
+                                            }
+                                        }
+
+                                        // =========================================================
+                                        // 6️⃣ BUILD SERIES (Align Data to Time Axis)
+                                        // =========================================================
+                                        function buildSeriesData(apiData, timeAxis, params) {
+                                            const lookup = {};
+                                            apiData.forEach(d => {
+                                                const timeKey = d.time.slice(0, 16); // "YYYY-MM-DD HH:mm"
+                                                lookup[timeKey] = d;
+                                            });
+
+                                            return params.map(p => ({
+                                                name: p.label, // ← Show readable text on legend
+                                                type: 'line',
+                                                smooth: true,
+                                                symbol: 'circle',
+                                                symbolSize: 6,
+                                                data: timeAxis.map(t => lookup[t] ? lookup[t][p.key] : null), // ✅ Use API key
+
+                                                lineStyle: {
+                                                    width: 2,
+                                                    color: getColor(p.key) // ← Use key for color
+                                                },
+                                                itemStyle: {
+                                                    color: '#ffffff', // ✅ White fill inside the circle
+                                                    borderColor: getColor(p.key),
+                                                    borderWidth: 2 // ✅ Outline thickness
+                                                }
+                                            }));
+                                        }
+
+                                        // =========================================================
+                                        // 7️⃣ RENDER CHART
+                                        // =========================================================
+                                        function renderChart(timeAxis, series, params) {
+                                            const allValues = series.flatMap(s => s.data.filter(v => v !== null));
+                                            const yMin = allValues.length ? Math.min(...allValues) : 0;
+                                            const yMax = allValues.length ? Math.max(...allValues) : 1;
+                                            const yMargin = (yMax - yMin) * 0.1;
+
+                                            myChart.setOption({
+                                                title: {
+                                                    // text: `${params.join(', ')} (Today)`,
+                                                    left: 'center'
+                                                },
+                                                tooltip: {
+                                                    trigger: 'axis'
+                                                },
+                                                legend: {
+                                                    type: 'plain', // 'plain' or 'scroll' for many items
+                                                    orient: 'horizontal', // 'horizontal' or 'vertical'
+                                                    top: 20, // Position from top
+                                                    left: 20, // 'left' | 'right' | 'center' | 'number'
+                                                    // left: 'left', // 'left' | 'right' | 'center' | 'number'
+                                                    data: params.map(p => p.label), // ✅ Show readable names
+                                                },
+                                                grid: {
+                                                    left: '2%',
+                                                    right: '5%',
+                                                    top: '15%',
+                                                    bottom: '15%',
+                                                    containLabel: true
+                                                },
+                                                xAxis: {
+                                                    type: 'category',
+                                                    boundaryGap: false,
+                                                    data: timeAxis
+                                                },
+                                                yAxis: {
+                                                    name: getYAxisLabel(params), // ✅ Dynamic label here
+                                                    nameTextStyle: {
+                                                        fontWeight: 'bold', // ✅ Make it bold
+                                                        fontSize: 14 // (optional) adjust size
+                                                    },
+                                                    type: 'value',
+                                                    axisLine: {
+                                                        show: true, // ✅ Show the Y-axis vertical line
+                                                    },
+                                                    splitLine: {
+                                                        show: true,
+                                                        lineStyle: {
+                                                            color: '#eee'
+                                                        }
+                                                    },
+                                                    min: parseFloat((yMin - yMargin).toFixed(2)),
+                                                    max: parseFloat((yMax + yMargin).toFixed(2))
+                                                },
+                                                series: series,
+                                                dataZoom: [{
+                                                    type: 'slider',
+                                                    bottom: 5
+                                                }, {
+                                                    type: 'inside'
+                                                }],
+                                                toolbox: {
+                                                    itemSize: 24, // ✅ Default is 15 — increase to make icons bigger
+                                                    feature: {
+                                                        saveAsImage: {
+                                                            title: 'Download'
+                                                        },
+                                                        dataZoom: {
+                                                            title: {
+                                                                zoom: 'Zoom',
+                                                                back: 'Reset'
+                                                            },
+                                                            yAxisIndex: false // ✅ Disable zoom for Y-axis inside toolbox
+                                                        }
+                                                    },
+                                                    right: 20
+                                                },
+                                            }, true);
+                                        }
+
+                                        // =========================================================
+                                        // 🔄 MAIN CONTROL FUNCTION
+                                        // =========================================================
+                                        async function updateChart() {
+                                            const range = getSelectedDateRange();
+                                            if (!range) return;
+
+                                            const {
+                                                start,
+                                                end
+                                            } = range;
+                                            const interval = getSelectedInterval();
+                                            const timeAxis = generateTimeAxis(start, end, interval);
+                                            const params = getSelectedParams();
+
+                                            // ✅ Pass start & end to API
+                                            const apiData = await fetchChartData(params, start, end);
+
+                                            const series = buildSeriesData(apiData, timeAxis, params);
+                                            renderChart(timeAxis, series, params);
+                                        }
+
+                                        // =========================================================
+                                        // EVENT LISTENERS
+                                        // =========================================================
+                                        // 📌 Show/Hide Custom Date Inputs
+                                        document.getElementById('dateRangeSelect').addEventListener('change', function() {
+                                            const isCustom = this.value === 'custom';
+                                            document.getElementById('startDate').classList.toggle('d-none', !isCustom);
+                                            document.getElementById('endDate').classList.toggle('d-none', !isCustom);
+
+                                            if (this.value !== 'custom') {
+                                                updateChart();
+                                            }
+                                        });
+
+                                        // If custom date is selected, trigger chart update when both dates picked
+                                        ['startDate', 'endDate'].forEach(id => {
+                                            document.getElementById(id).addEventListener('change', function() {
+                                                const range = getSelectedDateRange();
+                                                if (range) updateChart();
+                                            });
+                                        });
+
+                                        document.querySelectorAll('#paramButtons button').forEach(btn => {
+                                            btn.addEventListener('click', () => {
+                                                document.querySelectorAll('#paramButtons button').forEach(b => b.classList
+                                                    .remove('active'));
+                                                btn.classList.add('active');
+                                                updateChart();
+                                            });
+                                        });
+
+                                        document.querySelectorAll('input[name="systemTypeRealtime"]').forEach(r => {
+                                            r.addEventListener('change', updateChart);
+                                        });
+
+                                        const intervalSelect = document.getElementById('intervalSelect');
+                                        if (intervalSelect) intervalSelect.addEventListener('change', updateChart);
+
+                                        window.addEventListener('resize', () => myChart.resize());
+
+                                        // ✅ Load Chart First Time
+                                        updateChart();
+                                    });
                                 </script>
+
 
                             </div>
                         </div>

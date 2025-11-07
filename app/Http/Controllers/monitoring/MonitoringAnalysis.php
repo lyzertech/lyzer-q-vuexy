@@ -21,7 +21,7 @@ class MonitoringAnalysis extends Controller
       // Check if any devices were selected
       if (!empty($selectedDevices)) {
           // Fetch data for the selected devices
-          $allData = monitoring_acuvim::whereIn('device_serial', $selectedDevices)->get();
+          $allData = monitoring_acuvim::whereIn('device_name', $selectedDevices)->get();
       } else {
           // If no devices were selected, fetch all data
           $allData = collect(); // or $allData = [];
@@ -64,7 +64,7 @@ class MonitoringAnalysis extends Controller
               ];
           }
 
-          $leafNodeId = 'model_' . $row->device_serial;
+          $leafNodeId = 'model_' . $row->device_name;
           $existingLeafNodes = collect($tree[$row->facility]['children'][$deviceKey]['children'])
               ->pluck('id')
               ->toArray();
@@ -72,7 +72,7 @@ class MonitoringAnalysis extends Controller
           if (!in_array($leafNodeId, $existingLeafNodes)) {
               $tree[$row->facility]['children'][$deviceKey]['children'][] = [
                   'id' => $leafNodeId,
-                  'text' => $row->device_serial,
+                  'text' => $row->device_name,
                   'state' => ['opened' => true],
                   'type' => 'file'
               ];

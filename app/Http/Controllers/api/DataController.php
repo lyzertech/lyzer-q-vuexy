@@ -47,6 +47,9 @@ class DataController extends Controller
 
     public function getData(Request $request)
     {
+        // $deviceName = $request->input('device_name', 'MAINT. BUILDING');
+        $deviceName = $request->input('device_name'); // ✅ no default fallback
+
         // ✅ 1. Default: Today
         $startDate = Carbon::today();
         $endDate = Carbon::tomorrow();
@@ -87,7 +90,7 @@ class DataController extends Controller
         // ✅ 6. Dynamic query using selected date(s)
         $data = DB::table('monitoring_acuvim')
             ->select($select)
-            ->where('device_name', 'MCC 5 DBEL 1')
+            ->where('device_name', $deviceName)
             ->whereBetween('Timestamp', [$startDate, $endDate])
             ->orderBy('Timestamp', 'asc')
             ->get();

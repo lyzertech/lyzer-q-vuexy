@@ -44,66 +44,6 @@
                 </div>
             </div>
 
-            <form method="post" action="{{ route('monitoring-analysis-selectdata') }}" enctype="multipart/form-data"
-                class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="getSelectedForm">
-                @csrf <!-- CSRF protection -->
-                @method('POST')
-                <script>
-                    $(document).ready(function() {
-                        // Load the JSON data from the DatalogController
-                        $.getJSON('/monitoring/analysis/data', function(data) {
-                            $('#tree').jstree({
-                                core: {
-                                    themes: {
-                                        name: 'default' // Set a valid theme name
-                                    },
-                                    data: data
-                                },
-                                plugins: ['types', 'checkbox', 'wholerow'],
-                                types: {
-                                    default: {
-                                        icon: 'ti ti-folder'
-                                    },
-                                    html: {
-                                        icon: 'ti ti-brand-html5 text-danger'
-                                    },
-                                    css: {
-                                        icon: 'ti ti-brand-css3 text-info'
-                                    },
-                                    img: {
-                                        icon: 'ti ti-photo text-success'
-                                    },
-                                    js: {
-                                        icon: 'ti ti-brand-javascript text-warning'
-                                    },
-                                    file: {
-                                        icon: 'ti ti-file text-success'
-                                    }
-                                }
-                            });
-                        });
-                    });
-
-                    // Capture form submission
-                    $('#getSelectedForm').on('submit', function(e) {
-                        const selectedDevices = [];
-                        const selectedNodes = $('#tree').jstree("get_checked", true);
-
-                        selectedNodes.forEach(function(node) {
-                            if (node.id.startsWith('model_')) { // Collect only device nodes
-                                selectedDevices.push(node.text); // Use the node's text
-                            }
-                        });
-
-                        // Add the selected devices to the hidden input
-                        $('#selectedDevicesInput').val(JSON.stringify(selectedDevices));
-                    });
-                </script>
-                <input type="hidden" name="selectedDevices" id="selectedDevicesInput">
-
-                <button id="submitSelection" class="btn btn-primary mt-3">Submit</button>
-            </form>
-
             <!-- /Checkbox -->
         </div>
     </div>
@@ -342,7 +282,7 @@
                                                         }
 
                                                         .nav-item .param {
-                                                            border: 1px solid #7367F0;
+                                                            border: 1px solid #E6E6E8;
                                                         }
                                                     </style>
                                                     <li class="nav-item">
@@ -735,6 +675,68 @@
                                         const chartDom = document.getElementById('Chart');
                                         const myChart = echarts.init(chartDom);
 
+                                        $.getJSON('/monitoring/analysis/data', function(data) {
+                                            $('#tree').jstree({
+                                                core: {
+                                                    themes: {
+                                                        name: 'default' // Set a valid theme name
+                                                    },
+                                                    data: data
+                                                },
+                                                plugins: ['types',
+                                                    // 'checkbox',
+                                                    'wholerow'
+                                                ],
+                                                types: {
+                                                    default: {
+                                                        icon: 'ti ti-folder'
+                                                    },
+                                                    html: {
+                                                        icon: 'ti ti-brand-html5 text-danger'
+                                                    },
+                                                    css: {
+                                                        icon: 'ti ti-brand-css3 text-info'
+                                                    },
+                                                    img: {
+                                                        icon: 'ti ti-photo text-success'
+                                                    },
+                                                    js: {
+                                                        icon: 'ti ti-brand-javascript text-warning'
+                                                    },
+                                                    file: {
+                                                        icon: 'ti ti-file text-success'
+                                                    }
+                                                }
+                                            });
+                                        });
+
+                                        // ✅ 2. Ensure jsTree is fully ready
+                                        $('#tree').on('ready.jstree', function() {
+                                            // console.log("✅ jsTree Loaded");
+                                        });
+
+                                        // ✅ 3. Detect device selection
+                                        $('#tree').on('select_node.jstree', function(e, data) {
+                                            if (data.node.id.startsWith('model_')) {
+                                                updateChart();
+                                            }
+                                        });
+
+                                        // ✅ 4. Safe function to get selected device
+                                        function getSelectedDevice() {
+                                            const tree = $('#tree').jstree(true);
+                                            if (!tree || typeof tree.get_selected !== 'function') return null;
+
+                                            const selected = tree.get_selected(true);
+                                            if (selected.length > 0) {
+                                                const node = selected[0];
+                                                if (node.type === 'file' || node.id.startsWith('model_')) {
+                                                    return node.text; // <-- this is device_name
+                                                }
+                                            }
+                                            return null;
+                                        }
+
                                         // =========================================================
                                         // 1️⃣ TIME AXIS (Start-End Date + Interval)
                                         // =========================================================
@@ -776,8 +778,9 @@
                                                     break;
 
                                                 case "this_week":
-                                                    const firstDay = today.getDate() - today.getDay();
-                                                    start = new Date(today.setDate(firstDay));
+                                                    const day = today.getDay(); // 0 = Sunday
+                                                    const diff = today.getDate() - (day === 0 ? 6 : day - 1);
+                                                    start = new Date(today.setDate(diff));
                                                     start.setHours(0, 0, 0, 0);
                                                     end = new Date();
                                                     end.setHours(23, 59, 0, 0);
@@ -988,7 +991,7 @@
                                         // 5️⃣ FETCH API DATA
                                         // =========================================================
 
-                                        async function fetchChartData(params, start, end) {
+                                        async function fetchChartData(params, start, end, deviceName) {
                                             if (!params.length) return [];
 
                                             // const queryParams = params.map(p => `parameters[]=${p}`).join('&');
@@ -999,14 +1002,15 @@
                                             const startDate = start.toISOString().split('T')[0];
                                             const endDate = end.toISOString().split('T')[0];
 
-                                            // ✅ If only 1 day (Today or Yesterday)
+                                            // ✅ If 1 day
                                             if (startDate === endDate) {
-                                                url = `http://127.0.0.1:8000/api/v1/data?date=${startDate}&${queryParams}`;
+                                                url =
+                                                    `http://127.0.0.1:8000/api/v1/data?date=${startDate}&device_name=${encodeURIComponent(deviceName)}&${queryParams}`;
                                             }
-                                            // ✅ If multi-day range (Custom or This Week)
+                                            // ✅ If multiple days
                                             else {
                                                 url =
-                                                    `http://127.0.0.1:8000/api/v1/data?start_date=${startDate}&end_date=${endDate}&${queryParams}`;
+                                                    `http://127.0.0.1:8000/api/v1/data?start_date=${startDate}&end_date=${endDate}&device_name=${encodeURIComponent(deviceName)}&${queryParams}`;
                                             }
 
                                             // console.log("API Request:", url); // ← See it in browser console
@@ -1059,6 +1063,7 @@
                                             const yMax = allValues.length ? Math.max(...allValues) : 1;
                                             const yMargin = (yMax - yMin) * 0.1;
 
+                                            myChart.clear(); // ✅ Remove all old series, axes, zoom, events
                                             myChart.setOption({
                                                 title: {
                                                     // text: `${params.join(', ')} (Today)`,
@@ -1136,6 +1141,14 @@
                                         // 🔄 MAIN CONTROL FUNCTION
                                         // =========================================================
                                         async function updateChart() {
+                                            const deviceName = getSelectedDevice(); // ✅ from jsTree
+                                            if (!deviceName) {
+                                                // console.warn("No device selected");
+                                                return;
+                                            }
+
+                                            // console.log("Selected device:", deviceName);
+
                                             const range = getSelectedDateRange();
                                             if (!range) return;
 
@@ -1148,7 +1161,7 @@
                                             const params = getSelectedParams();
 
                                             // ✅ Pass start & end to API
-                                            const apiData = await fetchChartData(params, start, end);
+                                            const apiData = await fetchChartData(params, start, end, deviceName);
 
                                             const series = buildSeriesData(apiData, timeAxis, params);
                                             renderChart(timeAxis, series, params);

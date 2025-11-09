@@ -241,24 +241,6 @@
                                             <!-- Only visible if user picks Custom -->
                                             <input type="date" id="startDate" class="form-control w-auto d-none">
                                             <input type="date" id="endDate" class="form-control w-auto d-none">
-
-
-                                            {{-- <input type="datetime-local" class="form-control w-auto"
-                                                value="2025-10-29T00:00" />
-                                            <span class="mx-2 fw-semibold">To</span>
-                                            <input type="datetime-local" class="form-control w-auto"
-                                                value="2025-10-30T00:00" />
-
-                                            <div class="form-check ms-3">
-                                                <input class="form-check-input" type="checkbox" id="compareCheck" />
-                                                <label class="form-check-label" for="compareCheck">Compare to</label>
-                                            </div> --}}
-
-                                            {{-- <input type="text" class="form-control w-auto" id="comparisonDate"
-                                                placeholder="Comparison Date" disabled /> --}}
-
-                                            {{-- <button class="btn btn-primary waves-effect waves-light mx-auto">Update
-                                                Chart</button> --}}
                                         </div>
                                     </div>
 
@@ -955,10 +937,10 @@
 
                                             if (firstKey.startsWith('V')) return 'V';
                                             if (firstKey.startsWith('I')) return 'A';
+                                            if (firstKey.startsWith('PF')) return 'PF';
                                             if (firstKey.startsWith('Psum') || firstKey.startsWith('P')) return 'kW';
                                             if (firstKey.startsWith('Qsum') || firstKey.startsWith('Q')) return 'kVAR';
                                             if (firstKey.startsWith('Ssum') || firstKey.startsWith('S')) return 'kVA';
-                                            if (firstKey.startsWith('PF')) return 'PF';
 
                                             return ''; // default
                                         }
@@ -1082,9 +1064,9 @@
                                                 },
                                                 grid: {
                                                     left: '2%',
-                                                    right: '5%',
+                                                    right: '2%',
                                                     top: '15%',
-                                                    bottom: '15%',
+                                                    bottom: '10%',
                                                     containLabel: true
                                                 },
                                                 xAxis: {
@@ -1125,11 +1107,68 @@
                                                             title: 'Download'
                                                         },
                                                         dataZoom: {
-                                                            title: {
-                                                                zoom: 'Zoom',
-                                                                back: 'Reset'
-                                                            },
+                                                            // title: {
+                                                            //     zoom: 'Zoom',
+                                                            //     back: 'Reset'
+                                                            // },
                                                             yAxisIndex: false // ✅ Disable zoom for Y-axis inside toolbox
+                                                        },
+                                                        // ✅ Add Data View
+                                                        dataView: {
+                                                            title: 'Data View',
+                                                            readOnly: true,
+                                                            optionToContent: function(opt) {
+                                                                const axisData = opt.xAxis[0].data;
+                                                                const series = opt.series;
+
+                                                                let table =
+                                                                    '<button id="downloadCSV" style="margin-bottom:8px;">Download CSV</button>';
+                                                                table +=
+                                                                    '<table border="1" style="width:100%;text-align:center"><tr><th>Time</th>';
+
+                                                                series.forEach(s => {
+                                                                    table += `<th>${s.name}</th>`;
+                                                                });
+                                                                table += '</tr>';
+
+                                                                axisData.forEach((time, i) => {
+                                                                    table += `<tr><td>${time}</td>`;
+                                                                    series.forEach(s => {
+                                                                        table +=
+                                                                            `<td>${s.data[i] !== undefined ? s.data[i] : ''}</td>`;
+                                                                    });
+                                                                    table += '</tr>';
+                                                                });
+                                                                table += '</table>';
+
+                                                                setTimeout(() => {
+                                                                    document.getElementById('downloadCSV').onclick =
+                                                                        function() {
+                                                                            let csv = 'Time,' + series.map(s => s.name)
+                                                                                .join(',') + '\n';
+                                                                            axisData.forEach((time, i) => {
+                                                                                csv += time + ',' + series.map(s =>
+                                                                                    s.data[i]).join(',') + '\n';
+                                                                            });
+
+                                                                            const blob = new Blob([csv], {
+                                                                                type: 'text/csv'
+                                                                            });
+                                                                            const url = URL.createObjectURL(blob);
+
+                                                                            const a = document.createElement('a');
+                                                                            a.href = url;
+                                                                            a.download = 'chart-data.csv';
+                                                                            a.click();
+                                                                            URL.revokeObjectURL(url);
+                                                                        };
+                                                                });
+
+                                                                return table;
+                                                            }
+                                                        },
+                                                        restore: {
+                                                            title: 'Restore' // ✅ Add the restore feature
                                                         }
                                                     },
                                                     right: 20
@@ -1176,9 +1215,18 @@
                                             document.getElementById('startDate').classList.toggle('d-none', !isCustom);
                                             document.getElementById('endDate').classList.toggle('d-none', !isCustom);
 
-                                            if (this.value !== 'custom') {
+                                            // If not custom, update chart directly
+                                            if (!isCustom) {
                                                 updateChart();
                                             }
+                                        });
+
+                                        // 📌 Make date input fully clickable (open picker on click)
+                                        ['startDate', 'endDate'].forEach(id => {
+                                            const input = document.getElementById(id);
+                                            input.addEventListener('click', function() {
+                                                this.showPicker?.(); // Open calendar when clicking anywhere
+                                            });
                                         });
 
                                         // If custom date is selected, trigger chart update when both dates picked

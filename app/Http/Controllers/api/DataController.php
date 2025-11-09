@@ -47,7 +47,7 @@ class DataController extends Controller
 
     public function getData(Request $request)
     {
-        // $deviceName = $request->input('device_name', 'MAINT. BUILDING');
+        // $deviceName = $request->input('device_name', 'MCC 5 SS1');
         $deviceName = $request->input('device_name'); // ✅ no default fallback
 
         // ✅ 1. Default: Today

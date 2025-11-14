@@ -19,9 +19,11 @@ class MonitoringInstallation extends Controller
 
       // Ensure facility_list is an array if needed
       $facility_list = monitoring_facility::pluck('facilities')->toArray();
+      $device_list = Monitoring_Device::whereNull('facility')->get();
 
       return view('content.digitize.monitoring.monitoring-installation', [
           'facility_list' => $facility_list,
+          'device_list' => $device_list,
           'pageConfigs' => $pageConfigs
       ]);
   }
@@ -79,17 +81,26 @@ class MonitoringInstallation extends Controller
 
   public function installation_device_data_not_listed()
   {
-    $devices = monitoring_acuvim::select('monitoring_acuvim.*')
-        ->join(DB::raw('(SELECT device_name, device_serial, MAX(Timestamp) as latest
-                        FROM monitoring_acuvim
-                        GROUP BY device_name, device_serial) as latest_data'),
-            function($join) {
-                $join->on('monitoring_acuvim.device_name', '=', 'latest_data.device_name')
-                    ->on('monitoring_acuvim.device_serial', '=', 'latest_data.device_serial')
-                    ->on('monitoring_acuvim.Timestamp', '=', 'latest_data.latest');
-            })
-        ->get();
-    // dd($monitoring_acuvim);
+    $devices = monitoring_acuvim::select(
+                'monitoring_acuvim.device_name',
+                'monitoring_acuvim.gateway_serial',
+                'monitoring_acuvim.device_model',
+                'monitoring_acuvim.device_serial',
+                'monitoring_acuvim.device_online'
+            )
+            ->join(DB::raw('(SELECT device_name, device_serial, MAX(Timestamp) as latest
+                            FROM monitoring_acuvim
+                            GROUP BY device_name, device_serial) as latest_data'),
+                function($join) {
+                    $join->on('monitoring_acuvim.device_name', '=', 'latest_data.device_name')
+                        ->on('monitoring_acuvim.device_serial', '=', 'latest_data.device_serial')
+                        ->on('monitoring_acuvim.Timestamp', '=', 'latest_data.latest');
+                })
+            ->whereNotIn('monitoring_acuvim.device_serial', function($query) {
+                $query->select('device_serial')->from('monitoring_devices');
+            });
+            // ->get();
+
     return DataTables::of($devices)->make(true);
   }
 
@@ -109,5 +120,30 @@ class MonitoringInstallation extends Controller
 
     // Redirect with success message
     return redirect('/monitoring/installation')->with('success', 'Form submitted successfully!');
+  }
+
+  public function installation_device_bulkFacility(Request $request)
+  {
+      $validated = $request->validate([
+          'facility' => 'required|string',
+          'location' => 'required|string',
+          'devices'  => 'required|array|min:1',
+      ]);
+
+      $facility = $validated['facility'];
+      $location = $validated['location'];
+      $devices  = $validated['devices'];
+
+      // Example: update each device's facility & location
+      foreach ($devices as $deviceName) {
+          monitoring_device::where('device_name', $deviceName)
+              ->update([
+                  'facility' => $facility,
+                  'location' => $location,
+                  'updated_at' => now(),
+              ]);
+      }
+
+      return redirect()->back()->with('success', 'Devices updated successfully!');
   }
 }

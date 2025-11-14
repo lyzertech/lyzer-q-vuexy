@@ -26,7 +26,27 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/crm/customer');
+
+            $user = Auth::user();
+
+            switch ((int) $user->role_id) {
+                case 1: // IT Dev.
+                    return redirect('/monitoring/analysis');
+
+                case 2: // SuperAdmin
+                    return redirect('/admin');
+
+                case 4: // Sales
+                case 5: // Sales
+                    return redirect('/crm/customer');
+
+                case 6: // Labs Team
+                    return redirect('/labs/label');
+
+                default:
+                    // fallback kalau role gak dikenal
+                    return redirect('/home');
+            }
         }
 
         return back()->withErrors([

@@ -196,11 +196,13 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::middleware(['auth'])->group(function () {
-    // Digitize
+// Route::middleware(['auth'])->group(function () {
+
+Route::middleware(['role:1'])->group(function () {
+  // Digitize
     Route::get('/crm/dashboard', [CrmDashboard::class, 'index'])->name('crm-dashboard');
 
-    // Customer
+  // Customer
     Route::get('/crm/customer', [CrmCustomer::class, 'index'])->name('crm-customer');
     Route::get('/crm/customer/data', [CrmCustomer::class, 'customer_data'])->name('crm-customer-data');
     Route::post('/crm/customer/create', [CrmCustomer::class, 'create'])->name('crm-customer-create');
@@ -208,7 +210,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/crm/customer/edit/{id_customer}', [CrmCustomer::class, 'customer_edit'])->name('crm-customer-edit');
     Route::get('/crm/customer/destroy', [CrmCustomer::class, 'customer_destroy'])->name('crm-customer-destroy');
 
-    // Visit Report AII
+  // Visit Report AII
     Route::get('/crm/visit-report', [CrmVisitReport::class, 'index'])->name('crm-visit-report');
     Route::get('/crm/visit-report/data', [CrmVisitReport::class, 'visit_report_data'])->name('crm-visit-report-data');
     Route::post('/crm/visit-report/create', [CrmVisitReport::class, 'create'])->name('crm-visit-report-create');
@@ -224,7 +226,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/crm/visit-report/cancel/{id_visit_report}', [CrmVisitReport::class, 'visit_report_cancel'])->name('crm-visit-report-cancel');
     Route::post('/crm/visit-report/delete/{id_visit_report}', [CrmVisitReport::class, 'visit_report_delete'])->name('crm-visit-report-delete');
 
-    // Visit Report SEP
+  // Visit Report SEP
     Route::get('/crm/visit-report-sep', [CrmVisitReportSep::class, 'index'])->name('crm-visit-report-sep');
     Route::get('/crm/visit-report-sep/data', [CrmVisitReportSep::class, 'visit_report_data'])->name('crm-visit-report-sep-data');
     Route::post('/crm/visit-report-sep/create', [CrmVisitReportSep::class, 'create'])->name('crm-visit-report-sep-create');
@@ -240,33 +242,34 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/crm/visit-report-sep/cancel/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_cancel'])->name('crm-visit-report-sep-cancel');
     Route::post('/crm/visit-report-sep/delete/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_delete'])->name('crm-visit-report-sep-delete');
 
-    // Calendar
+  // Calendar
     Route::get('/crm/calendar', [CrmCalendar::class, 'calendar_index'])->name('crm-calendar');
     Route::get('/crm/calendar/data', [CrmCalendar::class, 'calendar_data'])->name('crm-calendar');
 
-    //Project
+  // Project
     Route::get('/crm/project', [CrmProject::class, 'index'])->name('crm-project');
 
-    //Quotation
+  // Quotation
     Route::get('/crm/quotation', [CrmQuotation::class, 'index'])->name('crm-quotation');
 
-    // Labs Dashboard
+  // Labs Dashboard
     Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');
 
-    // Labs Label
-    Route::get('/labs/label', [LabsLabel::class, 'index'])->name('labs-label');
-    Route::get('/labs/label/data', [LabsLabel::class, 'label_data'])->name('labs-label-data');
-    Route::post('/labs/label/create', [LabsLabel::class, 'create'])->name('labs-label-create');
-    Route::get('/labs/label/view/{id_label}', [LabsLabel::class, 'label_view'])->name('labs-label-view');
-    Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
-    // Labs Report
+  // Labs Label
     Route::get('/labs/label', [LabsLabel::class, 'index'])->name('labs-label');
     Route::get('/labs/label/data', [LabsLabel::class, 'label_data'])->name('labs-label-data');
     Route::post('/labs/label/create', [LabsLabel::class, 'create'])->name('labs-label-create');
     Route::get('/labs/label/view/{id_label}', [LabsLabel::class, 'label_view'])->name('labs-label-view');
     Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
 
+  // Labs Report
+    Route::get('/labs/label', [LabsLabel::class, 'index'])->name('labs-label');
+    Route::get('/labs/label/data', [LabsLabel::class, 'label_data'])->name('labs-label-data');
+    Route::post('/labs/label/create', [LabsLabel::class, 'create'])->name('labs-label-create');
+    Route::get('/labs/label/view/{id_label}', [LabsLabel::class, 'label_view'])->name('labs-label-view');
+    Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
 
+  // Monitoring
     Route::get('/monitoring/dashboard', [MonitoringDashboard::class, 'index'])->name('monitoring-dashboard');
     // Route::get('/dashboard', [MonitoringDashboard::class, 'dashboard']);
 
@@ -276,6 +279,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/monitoring/installation/device/data', [MonitoringInstallation::class, 'installation_device_data'])->name('monitoring-installation-device-data');
     Route::get('/monitoring/installation/device/data/notListed', [MonitoringInstallation::class, 'installation_device_data_not_listed'])->name('monitoring-installation-device-data-not-listed');
     Route::post('/monitoring/installation/device/create', [MonitoringInstallation::class, 'installation_device_create'])->name('monitoring-installation-device-create');
+    Route::post('/monitoring/installation/device/bulkFacility', [MonitoringInstallation::class, 'installation_device_bulkFacility'])->name('monitoring-installation-device-bulkFacility');
 
     Route::get('/monitoring/analysis', [MonitoringAnalysis::class, 'index'])->name('monitoring-analysis');
     Route::get('/monitoring/analysis/data', [MonitoringAnalysis::class, 'analysis_getMonitoringTree'])->name('monitoring-analysis-getMonitoringTree');
@@ -285,8 +289,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/monitoring/datalog/data', [MonitoringDatalog::class, 'datalog_getMonitoringTree'])->name('monitoring-datalog-getMonitoringTree');
     Route::post('/monitoring/datalog/selectdata', [MonitoringDatalog::class, 'datalog_selectdata'])->name('monitoring-datalog-selectdata');
 
-
-
+  // Users
     Route::get('/users', [Users::class, 'index'])->name('users');
     Route::get('/users/data', [Users::class, 'users_data'])->name('users-data');
     Route::get('/users/view/{id}', [Users::class, 'users_view'])->name('users-view');
@@ -294,12 +297,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/users/change/{id}', [Users::class, 'users_update_password'])->name('users-update-password');
     Route::delete('/users/destroy/{id}', [Users::class, 'users_destroy'])->name('users-destroy');
 
+  // Zerotest
     Route::get('/dev/zerotest', [DevZerotest::class, 'index'])->name('dev-zerotest');
 
-
-    // Insight
+  // Insight
     Route::get('/insight', [ShieldInsight::class, 'index'])->name('insight');
-    // Insight CRM
+  // Insight CRM
     Route::get('/insight/crm', [ShieldInsightcrm::class, 'index'])->name('insight#crm');
 
     Route::get('/insight/crm/customer/data', [ShieldInsightcrm::class, 'crm_customer_data'])->name('insight#crm-customer-data');
@@ -312,8 +315,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/insight/crm/visit-report-sep/data', [ShieldInsightcrm::class, 'crm_visit_report_sep_data'])->name('insight#crm-visit-report-sep-data');
     Route::get('/insight/crm/visit-report-sep/view/{id_visit_report}', [ShieldInsightcrm::class, 'crm_visit_report_sep_view'])->name('insight#crm-visit-report-sep-view');
 
-
-    // Clan
+  // Clan
     Route::get('/clan/tree', [ClanTree::class, 'index'])->name('clan-tree');
     Route::get('/clan/tree/data', [ClanTree::class, 'tree_data'])->name('clan-tree-data');
     Route::post('/clan/tree/create', [ClanTree::class, 'tree_create'])->name('clan-tree-create');
@@ -321,18 +323,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/clan/tree/edit/{id_tree}', [ClanTree::class, 'tree_edit'])->name('clan-tree-edit');
     Route::delete('/clan/tree/destroy', [ClanTree::class, 'tree_destroy'])->name('clan-tree-destroy');
 
-    // All-Users
+  // All-Users
     Route::get('/all-users', [Users::class, 'all_users_index'])->name('all-users');
     Route::get('/all-users/data', [Users::class, 'all_users_data'])->name('all-users-data');
 
-    // Main Page Route
+  // Main Page Route
     Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
     Route::get('/dashboard/analytics', [Analytics::class, 'index'])->name('dashboard-analytics');
     Route::get('/dashboard/crm', [CrmOri::class, 'index'])->name('dashboard-crm');
-    // locale
+
+  // locale
     Route::get('/lang/{locale}', [LanguageController::class, 'swap']);
 
-    // layout
+  // layout
     Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
     Route::get('/layouts/content-navbar', [ContentNavbar::class, 'index'])->name('layouts-content-navbar');
     Route::get('/layouts/content-nav-sidebar', [ContentNavSidebar::class, 'index'])->name('layouts-content-nav-sidebar');
@@ -346,7 +349,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/layouts/container', [Container::class, 'index'])->name('layouts-container');
     Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
-    // Front Pages
+  // Front Pages
     Route::get('/front-pages/landing', [Landing::class, 'index'])->name('front-pages-landing');
     Route::get('/front-pages/pricing', [Pricing::class, 'index'])->name('front-pages-pricing');
     Route::get('/front-pages/payment', [Payment::class, 'index'])->name('front-pages-payment');
@@ -354,7 +357,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/front-pages/help-center', [HelpCenter::class, 'index'])->name('front-pages-help-center');
     Route::get('/front-pages/help-center-article', [HelpCenterArticle::class, 'index'])->name('front-pages-help-center-article');
 
-    // apps
+  // apps
     Route::get('/app/email', [Email::class, 'index'])->name('app-email');
     Route::get('/app/chat', [Chat::class, 'index'])->name('app-chat');
     Route::get('/app/calendar', [Calendar::class, 'index'])->name('app-calendar');
@@ -397,7 +400,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/app/access-roles', [AccessRoles::class, 'index'])->name('app-access-roles');
     Route::get('/app/access-permission', [AccessPermission::class, 'index'])->name('app-access-permission');
 
-    // pages
+  // pages
     Route::get('/pages/profile-user', [UserProfile::class, 'index'])->name('pages-profile-user');
     Route::get('/pages/profile-teams', [UserTeams::class, 'index'])->name('pages-profile-teams');
     Route::get('/pages/profile-projects', [UserProjects::class, 'index'])->name('pages-profile-projects');
@@ -414,7 +417,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pages/misc-comingsoon', [MiscComingSoon::class, 'index'])->name('pages-misc-comingsoon');
     Route::get('/pages/misc-not-authorized', [MiscNotAuthorized::class, 'index'])->name('pages-misc-not-authorized');
 
-    // authentication
+  // authentication
     Route::get('/auth/login-basic', [LoginBasic::class, 'index'])->name('auth-login-basic');
     Route::get('/auth/login-cover', [LoginCover::class, 'index'])->name('auth-login-cover');
     Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-register-basic');
@@ -429,15 +432,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/auth/two-steps-basic', [TwoStepsBasic::class, 'index'])->name('auth-two-steps-basic');
     Route::get('/auth/two-steps-cover', [TwoStepsCover::class, 'index'])->name('auth-two-steps-cover');
 
-    // wizard example
+  // wizard example
     Route::get('/wizard/ex-checkout', [WizardCheckout::class, 'index'])->name('wizard-ex-checkout');
     Route::get('/wizard/ex-property-listing', [PropertyListing::class, 'index'])->name('wizard-ex-property-listing');
     Route::get('/wizard/ex-create-deal', [CreateDeal::class, 'index'])->name('wizard-ex-create-deal');
 
-    // modal
+  // modal
     Route::get('/modal-examples', [ModalExample::class, 'index'])->name('modal-examples');
 
-    // cards
+  // cards
     Route::get('/cards/basic', [CardBasic::class, 'index'])->name('cards-basic');
     Route::get('/cards/advance', [CardAdvance::class, 'index'])->name('cards-advance');
     Route::get('/cards/statistics', [CardStatistics::class, 'index'])->name('cards-statistics');
@@ -445,7 +448,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cards/gamifications', [CardGamifications::class, 'index'])->name('cards-gamifications');
     Route::get('/cards/actions', [CardActions::class, 'index'])->name('cards-actions');
 
-    // User Interface
+  // User Interface
     Route::get('/ui/accordion', [Accordion::class, 'index'])->name('ui-accordion');
     Route::get('/ui/alerts', [Alerts::class, 'index'])->name('ui-alerts');
     Route::get('/ui/badges', [Badges::class, 'index'])->name('ui-badges');
@@ -466,7 +469,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ui/tooltips-popovers', [TooltipsPopovers::class, 'index'])->name('ui-tooltips-popovers');
     Route::get('/ui/typography', [Typography::class, 'index'])->name('ui-typography');
 
-    // extended ui
+  // extended ui
     Route::get('/extended/ui-avatar', [Avatar::class, 'index'])->name('extended-ui-avatar');
     Route::get('/extended/ui-blockui', [BlockUI::class, 'index'])->name('extended-ui-blockui');
     Route::get('/extended/ui-drag-and-drop', [DragAndDrop::class, 'index'])->name('extended-ui-drag-and-drop');
@@ -481,11 +484,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/extended/ui-treeview', [Treeview::class, 'index'])->name('extended-ui-treeview');
     Route::get('/extended/ui-misc', [Misc::class, 'index'])->name('extended-ui-misc');
 
-    // icons
+  // icons
     Route::get('/icons/tabler', [Tabler::class, 'index'])->name('icons-tabler');
     Route::get('/icons/font-awesome', [FontAwesome::class, 'index'])->name('icons-font-awesome');
 
-    // form elements
+  // form elements
     Route::get('/forms/basic-inputs', [BasicInput::class, 'index'])->name('forms-basic-inputs');
     Route::get('/forms/input-groups', [InputGroups::class, 'index'])->name('forms-input-groups');
     Route::get('/forms/custom-options', [CustomOptions::class, 'index'])->name('forms-custom-options');
@@ -497,30 +500,113 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/forms/switches', [Switches::class, 'index'])->name('forms-switches');
     Route::get('/forms/extras', [Extras::class, 'index'])->name('forms-extras');
 
-    // form layouts
+  // form layouts
     Route::get('/form/layouts-vertical', [VerticalForm::class, 'index'])->name('form-layouts-vertical');
     Route::get('/form/layouts-horizontal', [HorizontalForm::class, 'index'])->name('form-layouts-horizontal');
     Route::get('/form/layouts-sticky', [StickyActions::class, 'index'])->name('form-layouts-sticky');
 
-    // form wizards
+  // form wizards
     Route::get('/form/wizard-numbered', [FormWizardNumbered::class, 'index'])->name('form-wizard-numbered');
     Route::get('/form/wizard-icons', [FormWizardIcons::class, 'index'])->name('form-wizard-icons');
     Route::get('/form/validation', [Validation::class, 'index'])->name('form-validation');
 
-    // tables
+  // tables
     Route::get('/tables/basic', [TablesBasic::class, 'index'])->name('tables-basic');
     Route::get('/tables/datatables-basic', [DatatableBasic::class, 'index'])->name('tables-datatables-basic');
     Route::get('/tables/datatables-advanced', [DatatableAdvanced::class, 'index'])->name('tables-datatables-advanced');
     Route::get('/tables/datatables-extensions', [DatatableExtensions::class, 'index'])->name('tables-datatables-extensions');
 
-    // charts
+  // charts
     Route::get('/charts/apex', [ApexCharts::class, 'index'])->name('charts-apex');
     Route::get('/charts/chartjs', [ChartJs::class, 'index'])->name('charts-chartjs');
 
-    // maps
+  // maps
     Route::get('/maps/leaflet', [Leaflet::class, 'index'])->name('maps-leaflet');
 
-    // laravel example
+  // laravel example
     Route::get('/laravel/user-management', [UserManagement::class, 'UserManagement'])->name('laravel-example-user-management');
     Route::resource('/user-list', UserManagement::class);
+});
+
+Route::middleware(['role:1,2,4,5'])->group(function () {
+  // Digitize
+    Route::get('/crm/dashboard', [CrmDashboard::class, 'index'])->name('crm-dashboard');
+
+  // Customer
+    Route::get('/crm/customer', [CrmCustomer::class, 'index'])->name('crm-customer');
+    Route::get('/crm/customer/data', [CrmCustomer::class, 'customer_data'])->name('crm-customer-data');
+    Route::post('/crm/customer/create', [CrmCustomer::class, 'create'])->name('crm-customer-create');
+    Route::get('/crm/customer/view/{id_customer}', [CrmCustomer::class, 'customer_view'])->name('crm-customer-view');
+    Route::post('/crm/customer/edit/{id_customer}', [CrmCustomer::class, 'customer_edit'])->name('crm-customer-edit');
+    Route::get('/crm/customer/destroy', [CrmCustomer::class, 'customer_destroy'])->name('crm-customer-destroy');
+
+  // Visit Report AII
+    Route::get('/crm/visit-report', [CrmVisitReport::class, 'index'])->name('crm-visit-report');
+    Route::get('/crm/visit-report/data', [CrmVisitReport::class, 'visit_report_data'])->name('crm-visit-report-data');
+    Route::post('/crm/visit-report/create', [CrmVisitReport::class, 'create'])->name('crm-visit-report-create');
+    Route::get('/crm/visit-report/view/{id_visit_report}', [CrmVisitReport::class, 'visit_report_view'])->name('crm-visit-report-view');
+    Route::post('/crm/visit-report/edit/{id_visit_report}', [CrmVisitReport::class, 'visit_report_edit'])->name('crm-visit-report-edit');
+    Route::post('/crm/visit-report/submit/{id_visit_report}', [CrmVisitReport::class, 'visit_report_submit'])->name('crm-visit-report-submit');
+    Route::post('/crm/visit-report/ackmanager/{id_visit_report}', [CrmVisitReport::class, 'visit_report_ackmanager'])->name('crm-visit-report-ackmanager');
+    Route::post('/crm/visit-report/ackdirector/{id_visit_report}', [CrmVisitReport::class, 'visit_report_ackdirector'])->name('crm-visit-report-ackdirector');
+    Route::post('/crm/visit-report/ackpresdir/{id_visit_report}', [CrmVisitReport::class, 'visit_report_ackpresdir'])->name('crm-visit-report-ackpresdir');
+    Route::post('/crm/visit-report/response/{id_visit_report}', [CrmVisitReport::class, 'visit_report_response'])->name('crm-visit-report-response');
+    Route::post('/crm/visit-report/followup/{id_visit_report}', [CrmVisitReport::class, 'visit_report_followup'])->name('crm-visit-report-followup');
+    Route::delete('/crm/visit-report/destroy/{id_visit_report}', [CrmVisitReport::class, 'visit_report_destroy'])->name('crm-visit-report-destroy');
+    Route::post('/crm/visit-report/cancel/{id_visit_report}', [CrmVisitReport::class, 'visit_report_cancel'])->name('crm-visit-report-cancel');
+    Route::post('/crm/visit-report/delete/{id_visit_report}', [CrmVisitReport::class, 'visit_report_delete'])->name('crm-visit-report-delete');
+
+  // Visit Report SEP
+    Route::get('/crm/visit-report-sep', [CrmVisitReportSep::class, 'index'])->name('crm-visit-report-sep');
+    Route::get('/crm/visit-report-sep/data', [CrmVisitReportSep::class, 'visit_report_data'])->name('crm-visit-report-sep-data');
+    Route::post('/crm/visit-report-sep/create', [CrmVisitReportSep::class, 'create'])->name('crm-visit-report-sep-create');
+    Route::get('/crm/visit-report-sep/view/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_view'])->name('crm-visit-report-sep-view');
+    Route::post('/crm/visit-report-sep/edit/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_edit'])->name('crm-visit-report-sep-edit');
+    Route::post('/crm/visit-report-sep/submit/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_submit'])->name('crm-visit-report-sep-submit');
+    Route::post('/crm/visit-report-sep/ackmanager/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_ackmanager'])->name('crm-visit-report-sep-ackmanager');
+    Route::post('/crm/visit-report-sep/ackdirector/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_ackdirector'])->name('crm-visit-report-sep-ackdirector');
+    Route::post('/crm/visit-report-sep/ackpresdir/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_ackpresdir'])->name('crm-visit-report-sep-ackpresdir');
+    Route::post('/crm/visit-report-sep/response/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_response'])->name('crm-visit-report-sep-response');
+    Route::post('/crm/visit-report-sep/followup/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_followup'])->name('crm-visit-report-sep-followup');
+    Route::delete('/crm/visit-report-sep/destroy/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_destroy'])->name('crm-visit-report-sep-destroy');
+    Route::post('/crm/visit-report-sep/cancel/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_cancel'])->name('crm-visit-report-sep-cancel');
+    Route::post('/crm/visit-report-sep/delete/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_delete'])->name('crm-visit-report-sep-delete');
+
+  // Calendar
+    Route::get('/crm/calendar', [CrmCalendar::class, 'calendar_index'])->name('crm-calendar');
+    Route::get('/crm/calendar/data', [CrmCalendar::class, 'calendar_data'])->name('crm-calendar');
+
+  // Project
+    Route::get('/crm/project', [CrmProject::class, 'index'])->name('crm-project');
+
+  // Quotation
+    Route::get('/crm/quotation', [CrmQuotation::class, 'index'])->name('crm-quotation');
+
+  // Users
+    Route::get('/users', [Users::class, 'index'])->name('users');
+    Route::get('/users/data', [Users::class, 'users_data'])->name('users-data');
+    Route::get('/users/view/{id}', [Users::class, 'users_view'])->name('users-view');
+    Route::get('/users/change/{id}', [Users::class, 'users_change_password'])->name('users-change-password');
+    Route::post('/users/change/{id}', [Users::class, 'users_update_password'])->name('users-update-password');
+    Route::delete('/users/destroy/{id}', [Users::class, 'users_destroy'])->name('users-destroy');
+
+});
+
+Route::middleware(['role:1,6'])->group(function () {
+  // Labs Dashboard
+    Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');
+
+  // Labs Label
+    Route::get('/labs/label', [LabsLabel::class, 'index'])->name('labs-label');
+    Route::get('/labs/label/data', [LabsLabel::class, 'label_data'])->name('labs-label-data');
+    Route::post('/labs/label/create', [LabsLabel::class, 'create'])->name('labs-label-create');
+    Route::get('/labs/label/view/{id_label}', [LabsLabel::class, 'label_view'])->name('labs-label-view');
+    Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
+
+  // Labs Report
+    Route::get('/labs/label', [LabsLabel::class, 'index'])->name('labs-label');
+    Route::get('/labs/label/data', [LabsLabel::class, 'label_data'])->name('labs-label-data');
+    Route::post('/labs/label/create', [LabsLabel::class, 'create'])->name('labs-label-create');
+    Route::get('/labs/label/view/{id_label}', [LabsLabel::class, 'label_view'])->name('labs-label-view');
+    Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
 });

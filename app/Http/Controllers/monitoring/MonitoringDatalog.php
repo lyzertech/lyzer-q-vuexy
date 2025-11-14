@@ -22,8 +22,10 @@ class MonitoringDatalog extends Controller
         if (!empty($selectedDevices)) {
             // Fetch data for the selected devices
             $allData = monitoring_acuvim::whereIn('device_serial', $selectedDevices)
-                ->orderBy('Timestamp', 'desc')
-                ->get();
+              ->orderBy('Timestamp', 'desc')
+              ->limit(50)
+              ->get();
+
           } else {
             // If no devices were selected, fetch all data
             $allData = collect(); // or $allData = [];
@@ -51,7 +53,7 @@ class MonitoringDatalog extends Controller
                 $tree[$row->facility] = [
                     'id' => 'facility' . $row->facility,
                     'text' => $row->facility,
-                    'state' => ['opened' => true],
+                    'state' => ['opened' => false],
                     'children' => []
                 ];
             }
@@ -61,7 +63,7 @@ class MonitoringDatalog extends Controller
                 $tree[$row->facility]['children'][$deviceKey] = [
                     'id' => 'location' . $deviceKey,
                     'text' => $row->location,
-                    'state' => ['opened' => true],
+                    'state' => ['opened' => false],
                     'children' => []
                 ];
             }
@@ -75,7 +77,7 @@ class MonitoringDatalog extends Controller
                 $tree[$row->facility]['children'][$deviceKey]['children'][] = [
                     'id' => $leafNodeId,
                     'text' => $row->device_serial,
-                    'state' => ['opened' => true],
+                    'state' => ['opened' => false],
                     'type' => 'file'
                 ];
             }

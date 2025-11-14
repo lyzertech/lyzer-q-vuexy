@@ -38,7 +38,10 @@ class MonitoringAnalysis extends Controller
   public function analysis_getMonitoringTree()
   {
       // Fetch data from the monitoring_acuvim table
-      $data = DB::table('monitoring_devices')->get();
+      // $data = DB::table('monitoring_devices')->get();
+      $data = DB::table('monitoring_devices')
+        ->orderBy('device_serial', 'asc')
+        ->get();
 
       // Initialize tree structure
       $tree = [];
@@ -49,7 +52,8 @@ class MonitoringAnalysis extends Controller
               $tree[$row->facility] = [
                   'id' => 'facility' . $row->facility,
                   'text' => $row->facility,
-                  'state' => ['opened' => true],
+                  'state' => ['opened' => false],
+                  'type' => 'facility',
                   'children' => []
               ];
           }
@@ -59,12 +63,16 @@ class MonitoringAnalysis extends Controller
               $tree[$row->facility]['children'][$deviceKey] = [
                   'id' => 'location' . $deviceKey,
                   'text' => $row->location,
-                  'state' => ['opened' => true],
+                  'state' => ['opened' => false],
+                  'type' => 'location',
                   'children' => []
               ];
           }
 
-          $leafNodeId = 'model_' . $row->device_name;
+          // $leafNodeId = 'model_' . $row->device_name;
+          $leafNodeId = 'model_' . $row->id_devices;
+          // $leafNodeId = 'model_' . $row->facility . '_' . $row->location . '_' . $row->device_name;
+
           $existingLeafNodes = collect($tree[$row->facility]['children'][$deviceKey]['children'])
               ->pluck('id')
               ->toArray();
@@ -72,8 +80,8 @@ class MonitoringAnalysis extends Controller
           if (!in_array($leafNodeId, $existingLeafNodes)) {
               $tree[$row->facility]['children'][$deviceKey]['children'][] = [
                   'id' => $leafNodeId,
-                  'text' => $row->device_name,
-                  'state' => ['opened' => true],
+                  'text' => $row->device_name . ' (' . $row->device_serial . ')',
+                  'state' => ['opened' => false],
                   'type' => 'file'
               ];
           }

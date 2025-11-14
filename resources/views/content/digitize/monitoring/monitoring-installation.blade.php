@@ -281,30 +281,39 @@
                                 });
                             </script>
                         </div>
-                        <div class="tab-pane fade" id="navs-pills-within-card-Devices" role="tabpanel">
+                        <div class="tab-pane fade " id="navs-pills-within-card-Devices" role="tabpanel">
                             <h4 class="card-title">Devices in "Org"</h4>
                             <!-- DataTable with Buttons -->
                             <div class="">
                                 <div class="card-datatable table-responsive pt-0">
                                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                                        <div class="card-header flex-column flex-md-row">
+                                        <div
+                                            class="card-header flex-column flex-md-row align-items-center justify-content-between py-0">
                                             <div class="head-label text-center">
                                                 {{-- <h5 class="card-title mb-0">Customer</h5> --}}
                                             </div>
 
-                                            <div class="dt-action-buttons text-end pt-6 pt-md-0">
-                                                <div class="dt-buttons btn-group flex-wrap">
-                                                    <button
-                                                        class="btn btn-secondary create-new btn-primary waves-effect waves-light"
-                                                        type="button" data-bs-toggle="modal" data-bs-target="#addNewDevice"
-                                                        aria-controls="addNewDevice">
-                                                        <span><i class="ti ti-plus me-sm-1"></i>
-                                                            <span class="d-none d-sm-inline-block">Add Device</span>
-                                                        </span>
-                                                    </button>
-                                                </div>
+                                            <div class="dt-action-buttons text-end pt-6 pt-md-0 d-flex gap-2">
+                                                <button
+                                                    class="btn btn-secondary create-new btn-primary waves-effect waves-light"
+                                                    type="button" data-bs-toggle="modal" data-bs-target="#addNewDevice"
+                                                    aria-controls="addNewDevice">
+                                                    <span><i class="ti ti-plus me-sm-1"></i>
+                                                        <span class="d-none d-sm-inline-block">Add Device</span>
+                                                    </span>
+                                                </button>
+
+                                                <button
+                                                    class="btn btn-secondary create-new btn-primary waves-effect waves-light"
+                                                    type="button" data-bs-toggle="modal" data-bs-target="#bulkFacility"
+                                                    aria-controls="bulkFacility">
+                                                    <span><i class="ti ti-settings me-sm-1"></i>
+                                                        <span class="d-none d-sm-inline-block">Bulk Facility</span>
+                                                    </span>
+                                                </button>
                                             </div>
                                         </div>
+
                                         <div class="table-responsive text-start">
                                             <div class="card-datatable table-responsive">
                                                 <table class="table table-bordered" id="device-table">
@@ -364,28 +373,13 @@
                             </script>
                         </div>
                         <div class="tab-pane fade" id="navs-pills-within-card-DevicesNotListed" role="tabpanel">
-                            {{-- <h4 class="card-title">Devices in "Org"</h4> --}}
                             <!-- DataTable with Buttons -->
-                            <div class="">
+                            {{-- <div class="">
                                 <div class="card-datatable table-responsive pt-0">
                                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                                         <div class="card-header flex-column flex-md-row">
                                             <div class="head-label text-center">
-                                                {{-- <h5 class="card-title mb-0">Customer</h5> --}}
                                             </div>
-
-                                            {{-- <div class="dt-action-buttons text-end pt-6 pt-md-0">
-                                                <div class="dt-buttons btn-group flex-wrap">
-                                                    <button
-                                                        class="btn btn-secondary create-new btn-primary waves-effect waves-light"
-                                                        type="button" data-bs-toggle="modal"
-                                                        data-bs-target="#addNewDevice" aria-controls="addNewDevice">
-                                                        <span><i class="ti ti-plus me-sm-1"></i>
-                                                            <span class="d-none d-sm-inline-block">Add Device</span>
-                                                        </span>
-                                                    </button>
-                                                </div>
-                                            </div> --}}
                                         </div>
                                         <div class="table-responsive text-start">
                                             <div class="card-datatable table-responsive">
@@ -404,10 +398,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <!-- device-table-not-listed -->
-                            <script type="text/javascript">
+                            {{-- <script type="text/javascript">
                                 $(document).ready(function() {
                                     // Destroy existing DataTable before re-initializing
                                     if ($.fn.DataTable.isDataTable('#device-table-not-listed')) {
@@ -443,7 +437,7 @@
                                         lengthMenu: [7, 10, 25, 50, 75, 100, 500]
                                     });
                                 });
-                            </script>
+                            </script> --}}
                         </div>
                         <div class="tab-pane fade" id="navs-pills-within-card-MeterPoints" role="tabpanel">
                             <h4 class="card-title">Special MeterPoints title</h4>
@@ -456,7 +450,7 @@
         </div>
     </div>
 
-    <!-- Add New Address Modal -->
+    <!-- Add New Facility Modal -->
     <div class="modal fade" id="addNewFacility" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
             <div class="modal-content">
@@ -618,7 +612,73 @@
             </div>
         </div>
     </div>
-    <!--/ Add New Address Modal -->
+    <!--/ Add New Facility Modal -->
+
+    <!-- Bulk Facility Modal -->
+    <div class="modal fade" id="bulkFacility" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="text-center mb-6">
+                        <h4 class="address-title mb-2">Bulk Facility Device</h4>
+                        <p class="address-subtitle">Bulk devices for specific Facility</p>
+                    </div>
+                    <form id="bulkFacilityForm" class="row g-6" method="post"
+                        action="{{ route('monitoring-installation-device-bulkFacility') }}" enctype="multipart/form-data">
+                        @csrf <!-- CSRF protection -->
+                        @method('POST')
+                        <div class="col-12 col-md-12">
+                            <label class="form-label" for="modalFacility">Facility</label>
+                            <select required id="modalFacility" name="facility" class="select2 form-select"
+                                data-allow-clear="true">
+                                @foreach ($facility_list as $list)
+                                    <option value="{{ $list }}">{{ $list }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-12">
+                            <label class="form-label" for="modalDeviceName">Device Name</label>
+                            <small class="text-light fw-medium d-block"></small>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="selectAllDevices" />
+                                <label class="form-check-label fw-bold" for="selectAllDevices">Select All</label>
+                            </div>
+                            <small class="text-light fw-medium d-block"></small>
+
+                            @foreach ($device_list as $devName)
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input device-checkbox" type="checkbox"
+                                        id="{{ $devName->device_name }}" name="devices[]"
+                                        value="{{ $devName->device_name }}" />
+                                    <label class="form-check-label"
+                                        for="{{ $devName->device_name }}">{{ $devName->device_name }}</label>
+                                </div>
+                            @endforeach
+
+                            <script>
+                                document.getElementById('selectAllDevices').addEventListener('change', function() {
+                                    const checked = this.checked;
+                                    document.querySelectorAll('.device-checkbox').forEach(cb => cb.checked = checked);
+                                });
+                            </script>
+                        </div>
+                        <div class="col-12 col-md-12">
+                            <label class="form-label" for="modalLocation">Location</label>
+                            <input type="text" required id="modalLocation" name="location" class="form-control"
+                                placeholder="Building 04" />
+                        </div>
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-primary me-3">Submit</button>
+                            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
+                                aria-label="Close">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ Bulk Facility Modal -->
 
     <!-- Add New Device Modal -->
     <div class="modal fade" id="addNewDevice" tabindex="-1" aria-hidden="true">

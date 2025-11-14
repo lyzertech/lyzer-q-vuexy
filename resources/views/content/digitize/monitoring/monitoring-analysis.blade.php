@@ -31,13 +31,13 @@
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 
 @section('content')
-    <div class="flex-shrink-1 flex-grow-0 w-px-350 border-end container-p-x container-p-y">
+    <div class="flex-shrink-1 flex-grow-1 border-end container-p-x container-p-y">
         <div class="layout-example-sidebar layout-example-content-inner">
             <!-- Checkbox -->
             <div class="col-md-12 col-12">
                 <div class="card mb-md-0 mb-6">
                     <h5 class="card-header">Analysis</h5>
-                    <div class="card-body">
+                    <div class="card-body px-4">
                         <div id="tree"></div>
 
                     </div>
@@ -227,7 +227,7 @@
                                 <div class="card-body">
                                     <!-- === Time Frame Selection === -->
                                     <div class="row align-items-center mb-3">
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 my-3">
                                             <label class="form-label fw-semibold mb-0">Select a Time Frame:</label>
                                         </div>
                                         <div class="col-md-10 d-flex flex-wrap align-items-center gap-2">
@@ -248,7 +248,7 @@
 
                                     <!-- === Parameter Selection === -->
                                     <div class="row align-items-center mb-3">
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 my-3">
                                             <label class="form-label fw-semibold mb-0">Select a Parameter:</label>
                                         </div>
                                         <div class="col-md-10 d-flex flex-wrap align-items-center gap-4">
@@ -325,7 +325,7 @@
 
                                     <!-- === Time Interval Selection === -->
                                     <div class="row align-items-center mb-3">
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 my-3">
                                             <label class="form-label fw-semibold mb-0">Select a Time Interval:</label>
                                         </div>
                                         <div class="col-md-10 d-flex align-items-center gap-3">
@@ -685,8 +685,14 @@
                                                     js: {
                                                         icon: 'ti ti-brand-javascript text-warning'
                                                     },
+                                                    facility: {
+                                                        icon: 'ti ti-building-community text-warning'
+                                                    },
+                                                    location: {
+                                                        icon: 'ti ti-building text-success'
+                                                    },
                                                     file: {
-                                                        icon: 'ti ti-file text-success'
+                                                        icon: 'ti ti-activity-heartbeat text-primary'
                                                     }
                                                 }
                                             });

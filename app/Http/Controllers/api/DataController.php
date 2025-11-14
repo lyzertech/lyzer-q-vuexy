@@ -48,7 +48,14 @@ class DataController extends Controller
     public function getData(Request $request)
     {
         // $deviceName = $request->input('device_name', 'MCC 5 SS1');
-        $deviceName = $request->input('device_name'); // ✅ no default fallback
+        // $deviceName = $request->input('device_name'); // ✅ no default fallback
+        $deviceLabel = $request->input('device_name');
+        preg_match('/^(.*)\s+\((.*)\)$/', $deviceLabel, $m);
+
+        $deviceName = trim($m[1] ?? '');
+        $deviceSerial = trim($m[2] ?? '');
+
+        // dd($deviceName);
 
         // ✅ 1. Default: Today
         $startDate = Carbon::today();
@@ -90,7 +97,8 @@ class DataController extends Controller
         // ✅ 6. Dynamic query using selected date(s)
         $data = DB::table('monitoring_acuvim')
             ->select($select)
-            ->where('device_name', $deviceName)
+            // ->where('device_name', $deviceName)
+            ->where('device_serial', $deviceSerial)
             ->whereBetween('Timestamp', [$startDate, $endDate])
             ->orderBy('Timestamp', 'asc')
             ->get();

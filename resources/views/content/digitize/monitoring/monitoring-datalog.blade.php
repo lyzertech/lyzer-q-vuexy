@@ -170,11 +170,26 @@
                 z-index: 1;
             }
 
-            /* Sticky column 8 */
-            .table tbody td:nth-child(8),
-            .table thead th:nth-child(8) {
+            /* Sticky column 2 */
+            .table tbody td:nth-child(2),
+            .table thead th:nth-child(2) {
                 position: sticky;
-                left: 145px;
+                left: 45px;
+                background-color: #f8f9fa;
+                z-index: 1;
+                width: 200px;
+                /* Adjust the width as needed */
+                min-width: 200px;
+                /* Ensure it doesn’t shrink */
+                max-width: 300px;
+                /* Optional: Set a max width */
+            }
+
+            /* Sticky column 9 */
+            .table tbody td:nth-child(9),
+            .table thead th:nth-child(9) {
+                position: sticky;
+                left: 225px;
                 background-color: #f8f9fa;
                 z-index: 1;
                 width: 200px;
@@ -189,10 +204,15 @@
                 z-index: 3;
             }
 
-            .table thead th:nth-child(8) {
+            .table thead th:nth-child(2) {
+                z-index: 3;
+            }
+
+            .table thead th:nth-child(9) {
                 z-index: 3;
             }
         </style>
+
         <div class="row">
             <div class="layout-demo-info">
                 <div class="col-xl-12 col-sm-12">
@@ -202,6 +222,7 @@
                             <table id="dataTable" class="table table-bordered">
                                 <thead class="table-light">
                                     <tr>
+                                        <th>No.</th>
                                         <th>gateway_name</th>
                                         <th>gateway_model</th>
                                         <th>gateway_serial</th>
@@ -288,8 +309,9 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                    @foreach ($allData as $data)
+                                    @foreach ($allData as $index => $data)
                                         <tr>
+                                            <td>{{ $index + 1 }}</td> {{-- Auto number list --}}
                                             <td>{{ $data->gateway_name }}</td>
                                             <td>{{ $data->gateway_model }}</td>
                                             <td>{{ $data->gateway_serial }}</td>
@@ -308,7 +330,7 @@
                                             <td>{{ $data->V12 }}</td>
                                             <td>{{ $data->V23 }}</td>
                                             <td>{{ $data->V31 }}</td>
-                                            <td>{{ $data->VIavg_V }}</td>
+                                            <td>{{ $data->Vlavg_V }}</td>
                                             <td>{{ $data->I1 }}</td>
                                             <td>{{ $data->I2 }}</td>
                                             <td>{{ $data->I3 }}</td>
@@ -331,7 +353,7 @@
                                             <td>{{ $data->PF }}</td>
                                             <td>{{ $data->Unbl_V }}</td>
                                             <td>{{ $data->Unbl_I }}</td>
-                                            <td>{{ $data->LCavg }}</td>
+                                            <td>{{ $data->LoadType }}</td>
                                             <td>{{ $data->DMD_P_kW }}</td>
                                             <td>{{ $data->DMD_Q_kvar }}</td>
                                             <td>{{ $data->DMD_S_kVA }}</td>

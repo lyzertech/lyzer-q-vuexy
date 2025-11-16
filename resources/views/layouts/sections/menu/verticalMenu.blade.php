@@ -8,10 +8,10 @@
     <!-- ! Hide app brand if navbar-full -->
     @if (!isset($navbarFull))
         <div class="app-brand demo">
-            <a href="{{ url('/') }}" class="app-brand-link">
-                <span class="app-brand-logo demo">@include('_partials.macros', ['height' => 20])</span>
-                <span class="app-brand-text demo menu-text fw-bold">{{ config('variables.templateName') }}</span>
-            </a>
+            {{-- <a href="{{ url('/') }}" class="app-brand-link"> --}}
+            <span class="app-brand-logo demo">@include('_partials.macros', ['height' => 20])</span>
+            <span class="app-brand-text demo menu-text fw-bold">{{ config('variables.templateName') }}</span>
+            {{-- </a> --}}
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
                 <i class="ti menu-toggle-icon d-none d-xl-block align-middle"></i>
@@ -36,6 +36,8 @@
                 $menusToDisplay = $menuData[0]->labs;
             } elseif (auth()->user()->role_id == '11') {
                 $menusToDisplay = $menuData[0]->menuFamilia;
+            } elseif (auth()->user()->role_id == '21') {
+                $menusToDisplay = $menuData[0]->menuSchTeacher;
             } else {
                 $menusToDisplay = $menuData[0]->menu;
             }

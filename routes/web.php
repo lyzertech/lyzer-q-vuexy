@@ -187,6 +187,8 @@ use App\Http\Controllers\clan\ClanTree;
 use App\Http\Controllers\shield\ShieldInsight;
 use App\Http\Controllers\shield\ShieldInsightcrm;
 
+use App\Http\Controllers\school\SchoolStudent;
+
 
 // Login form
 Route::view('/login', 'auth.login')->name('login');
@@ -609,4 +611,13 @@ Route::middleware(['role:1,6'])->group(function () {
     Route::post('/labs/label/create', [LabsLabel::class, 'create'])->name('labs-label-create');
     Route::get('/labs/label/view/{id_label}', [LabsLabel::class, 'label_view'])->name('labs-label-view');
     Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
+});
+
+Route::middleware(['role:1,21'])->group(function () {
+  // Student
+    Route::get('/student/list', [SchoolStudent::class, 'index'])->name('student-list');
+    Route::get('/student/list/data', [SchoolStudent::class, 'label_data'])->name('student-list-data');
+    Route::post('/student/list/create', [SchoolStudent::class, 'create'])->name('student-list-create');
+    Route::get('/student/list/view/{id_label}', [SchoolStudent::class, 'label_view'])->name('student-list-view');
+    Route::delete('/student/list/destroy/{id_label}', [SchoolStudent::class, 'label_destroy'])->name('student-list-destroy');
 });

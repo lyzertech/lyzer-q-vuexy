@@ -31,7 +31,7 @@ class AuthController extends Controller
 
             switch ((int) $user->role_id) {
                 case 1: // IT Dev.
-                    return redirect('/monitoring/analysis');
+                    return redirect('/crm/dashboard');
 
                 case 2: // SuperAdmin
                     return redirect('/admin');
@@ -42,6 +42,9 @@ class AuthController extends Controller
 
                 case 6: // Labs Team
                     return redirect('/labs/label');
+
+                case 21: // Teacher
+                    return redirect('/student/list');
 
                 default:
                     // fallback kalau role gak dikenal

@@ -171,6 +171,33 @@
       "slug": "all-users"
     },
     {
+      "menuHeader": "School"
+    },
+    {
+      "name": "Student",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "student",
+      "submenu": [
+        {
+          "url": "student/list",
+          "name": "List",
+          "slug": "student-list"
+        }
+      ]
+    },
+    {
+      "name": "Absense",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "absense",
+      "submenu": [
+        {
+          "url": "absense/present",
+          "name": "Present",
+          "slug": "absense-present"
+        }
+      ]
+    },
+    {
       "menuHeader": "Dashboard"
     },
     {
@@ -1301,6 +1328,35 @@
       "name": "All-Users",
       "icon": "menu-icon tf-icons ti ti-user",
       "slug": "all-users"
+    }
+  ],
+  "menuSchTeacher": [
+    {
+      "menuHeader": "School"
+    },
+    {
+      "name": "Student",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "student",
+      "submenu": [
+        {
+          "url": "student/list",
+          "name": "List",
+          "slug": "student-list"
+        }
+      ]
+    },
+    {
+      "name": "Absense",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "absense",
+      "submenu": [
+        {
+          "url": "absense/present",
+          "name": "Present",
+          "slug": "absense-present"
+        }
+      ]
     }
   ],
   "menuMonitoring": [

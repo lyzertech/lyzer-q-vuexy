@@ -55,7 +55,7 @@
                 <div class="nav-align-top mb-4">
                     <ul class="nav nav-pills flex-column flex-md-row gap-2 gap-lg-0" id="energyTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="energy-tab" data-bs-toggle="tab" data-bs-target="#energy"
+                            <button class="nav-link " id="energy-tab" data-bs-toggle="tab" data-bs-target="#energy"
                                 type="button" role="tab" aria-controls="energy" aria-selected="true">
                                 <i class="ti-sm ti ti-bolt me-1_5"></i> Energy
                             </button>
@@ -88,141 +88,18 @@
                 <!-- Tabs Content -->
                 <div class="tab-content mt-4 p-0" id="energyTabsContent">
                     <!-- Energy -->
-                    <div class="tab-pane fade" id="energy" role="tabpanel" aria-labelledby="energy-tab">
-                        <h5 class="fw-bold mb-2">
-                            <i class="ti ti-bolt me-1"></i> Energy Overview
-                        </h5>
-                        <p class="text-muted mb-0">
-                            This section shows your active energy summary and trends.
-                        </p>
-                        <div class="card shadow-sm border-0">
-                            <div class="card-body">
-                                <!-- === Time Frame Selection === -->
-                                <div class="row align-items-center mb-3">
-                                    <div class="col-md-2">
-                                        <label class="form-label fw-semibold">Select a Time Frame:</label>
-                                    </div>
-                                    <div class="col-md-10 d-flex flex-wrap align-items-center gap-2">
-                                        <select class="form-select w-auto">
-                                            <option>Today</option>
-                                            <option>Yesterday</option>
-                                            <option>This Week</option>
-                                            <option>Custom</option>
-                                        </select>
-                                        <input type="datetime-local" class="form-control w-auto" value="2025-10-29T00:00" />
-                                        <span class="mx-2 fw-semibold">To</span>
-                                        <input type="datetime-local" class="form-control w-auto" value="2025-10-30T00:00" />
-                                        <div class="form-check ms-3">
-                                            <input class="form-check-input" type="checkbox" id="compareCheck" />
-                                            <label class="form-check-label" for="compareCheck">Compare to</label>
-                                        </div>
-                                        <input type="text" class="form-control w-auto" id="comparisonDate"
-                                            placeholder="Comparison Date" disabled />
-                                        <button class="btn btn-sm btn-primary ms-auto">Update Chart</button>
-                                    </div>
-                                </div>
 
-                                <hr />
 
-                                <!-- === Parameter Selection === -->
-                                <div class="row align-items-center mb-3">
-                                    <div class="col-md-2">
-                                        <label class="form-label fw-semibold">Select a Parameter:</label>
-                                    </div>
-                                    <div class="col-md-10 d-flex flex-wrap align-items-center gap-2">
-                                        <div class="btn-group" role="group" aria-label="Parameter Type">
-                                            <button type="button" class="btn btn-outline-primary active">Active</button>
-                                            <button type="button" class="btn btn-outline-primary">Reactive</button>
-                                            <button type="button" class="btn btn-outline-primary">Apparent</button>
-                                        </div>
-
-                                        <span class="vr mx-3"></span>
-
-                                        <div class="btn-group" role="group" aria-label="Direction">
-                                            <button type="button"
-                                                class="btn btn-outline-secondary active">Import</button>
-                                            <button type="button" class="btn btn-outline-secondary">Export</button>
-                                            <button type="button" class="btn btn-outline-secondary">Net</button>
-                                            <button type="button" class="btn btn-outline-secondary">Total</button>
-                                        </div>
-
-                                        <span class="vr mx-3"></span>
-
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="systemTypeEnergy"
-                                                id="systemEnergy" checked />
-                                            <label class="form-check-label" for="systemEnergy">System</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="systemTypeEnergy"
-                                                id="phaseEnergy" />
-                                            <label class="form-check-label" for="phaseEnergy">Phase</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <hr />
-
-                                <!-- === Time Interval Selection === -->
-                                <div class="row align-items-center">
-                                    <div class="col-md-2">
-                                        <label class="form-label fw-semibold">Select a Time Interval:</label>
-                                    </div>
-                                    <div class="col-md-10 d-flex align-items-center gap-3">
-                                        {{-- <select id="intervalSelect" class="form-select w-auto">
-                                            <option value="1">1 Minute</option>
-                                            <option value="5">5 Minutes</option>
-                                            <option value="10">10 Minutes</option>
-                                            <option value="15">15 Minutes</option>
-                                            <option value="30">30 Minutes</option>
-                                            <option value="60">60 Minutes</option>
-                                        </select> --}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Chart -->
-                        <div class="card mt-6">
-                            <h5 class="card-header">Delete Account</h5>
-                            <div class="card-body">
-                                <div class="alert alert-warning mb-4">
-                                    <h5 class="alert-heading mb-1">
-                                        Are you sure you want to delete your account?
-                                    </h5>
-                                    <p class="mb-0">
-                                        Once you delete your account, there is no going back. Please be
-                                        certain.
-                                    </p>
-                                </div>
-
-                                <form id="formAccountDeactivation" onsubmit="return false;">
-                                    <div class="form-check mb-4">
-                                        <input class="form-check-input" type="checkbox" name="accountActivation"
-                                            id="accountActivation" />
-                                        <label class="form-check-label" for="accountActivation">
-                                            I confirm my account deactivation
-                                        </label>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-danger deactivate-account" disabled>
-                                        Deactivate Account
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Realtime -->
-                    <div class="tab-pane fade show active" id="realtime" role="tabpanel"
-                        aria-labelledby="realtime-tab">
+                    <div class="tab-pane fade show active" id="realtime" role="tabpanel" aria-labelledby="realtime-tab">
                         <h5 class="fw-bold mb-2">
                             <i class="ti ti-activity me-1"></i> Realtime Monitoring
                         </h5>
                         <p class="text-muted mb-0">
                             Live data feed and instant parameter updates.
                         </p>
-                        <div class="tab-pane fade show active" id="realtime" role="tabpanel"
-                            aria-labelledby="energy-tab">
+                        <div class="tab-pane fade show active" id="realtime" role="tabpanel" aria-labelledby="energy-tab">
                             <div class="card shadow-sm border-0">
                                 <div class="card-body">
                                     <!-- === Time Frame Selection === -->
@@ -252,8 +129,8 @@
                                             <label class="form-label fw-semibold mb-0">Select a Parameter:</label>
                                         </div>
                                         <div class="col-md-10 d-flex flex-wrap align-items-center gap-4">
-                                            <div class="btn-group flex-wrap" role="group"
-                                                aria-label="Parameter Buttons" id="paramButtons">
+                                            <div class="btn-group flex-wrap" role="group" aria-label="Parameter Buttons"
+                                                id="paramButtons">
                                                 <ul class="nav nav-pills">
                                                     <style>
                                                         .nav-item {
@@ -306,7 +183,7 @@
                                                 </ul>
                                             </div>
 
-                                            <span class="vr mx-3"></span>
+                                            <span class="vr mx-3" style="background-color:#E6E6E8;"></span>
 
                                             <div class="form-check form-check-inline m-0">
                                                 <input class="form-check-input" type="radio" name="systemTypeRealtime"
@@ -337,12 +214,6 @@
                                                 <option value="30">30 Minutes</option>
                                                 <option value="60">60 Minutes</option>
                                             </select>
-
-                                            {{-- <div class="form-check ms-auto">
-                                                <input class="form-check-input" type="checkbox" id="showTemperature" />
-                                                <label class="form-check-label" for="showTemperature">Show
-                                                    Temperature</label>
-                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -350,7 +221,6 @@
                         </div>
                         <!-- Chart -->
                         <div class="card mt-6">
-                            {{-- <h5 class="card-header">Delete Account</h5> --}}
                             <div class="card-body p-0">
                                 <style>
                                     body {
@@ -369,903 +239,6 @@
                                     }
                                 </style>
                                 <div id="Chart" style="height: 515px; width: 100%;"></div>
-
-                                {{-- <script>
-                                    document.addEventListener("DOMContentLoaded", function() {
-                                        const chartDom = document.getElementById('Chart');
-                                        const myChart = echarts.init(chartDom);
-
-                                        // 🔹 Generate timeline dynamically (based on interval in minutes)
-                                        let selectedInterval = 5; // default 5 minute
-                                        let fullChart = generateFullChart(selectedInterval);
-
-                                        function generateFullChart(interval = 5) {
-                                            const times = [];
-                                            for (let h = 0; h < 24; h++) {
-                                                for (let m = 0; m < 60; m += interval) {
-                                                    const hh = h.toString().padStart(2, '0');
-                                                    const mm = m.toString().padStart(2, '0');
-                                                    times.push(`${hh}:${mm}`);
-                                                }
-                                            }
-                                            return times;
-                                        }
-
-                                        // 🔹 Determine parameters
-                                        function getParameters(paramType) {
-                                            const systemType = document.querySelector('input[name="systemTypeRealtime"]:checked').value;
-                                            let params = [];
-
-                                            if (systemType === 'system') {
-                                                switch (paramType) {
-                                                    case 'VLN':
-                                                        params = ['Vnavg_V'];
-                                                        break;
-                                                    case 'VLL':
-                                                        params = ['Vlavg_V'];
-                                                        break;
-                                                    case 'Current':
-                                                        params = ['Iavg_A'];
-                                                        break;
-                                                    case 'Active':
-                                                        params = ['Psum_kW'];
-                                                        break;
-                                                    case 'Reactive':
-                                                        params = ['Qsum_kvar'];
-                                                        break;
-                                                    case 'Apparent':
-                                                        params = ['Ssum_kVA'];
-                                                        break;
-                                                    case 'PF':
-                                                        params = ['PF'];
-                                                        break;
-                                                }
-                                            } else {
-                                                switch (paramType) {
-                                                    case 'VLN':
-                                                        params = ['V1', 'V2', 'V3'];
-                                                        break;
-                                                    case 'VLL':
-                                                        params = ['V12', 'V23', 'V31'];
-                                                        break;
-                                                    case 'Current':
-                                                        params = ['I1', 'I2', 'I3'];
-                                                        break;
-                                                    case 'Active':
-                                                        params = ['P1', 'P2', 'P3'];
-                                                        break;
-                                                    case 'Reactive':
-                                                        params = ['Q1', 'Q2', 'Q3'];
-                                                        break;
-                                                    case 'Apparent':
-                                                        params = ['S1', 'S2', 'S3'];
-                                                        break;
-                                                    case 'PF':
-                                                        params = ['PF1', 'PF2', 'PF3'];
-                                                        break;
-                                                }
-                                            }
-                                            return params;
-                                        }
-
-                                        // === Fetch data ===
-                                        function fetchData(params) {
-                                            if (!params.length) return;
-
-                                            const query = params.map(p => `parameters[]=${p}`).join('&');
-                                            const url = `http://127.0.0.1:8000/api/v1/data/today?${query}`;
-
-                                            fetch(url)
-                                                .then(res => res.json())
-                                                .then(data => {
-                                                    if (!data.length) {
-                                                        myChart.setOption({
-                                                            series: [],
-                                                            xAxis: {
-                                                                data: []
-                                                            },
-                                                            legend: {
-                                                                data: []
-                                                            }
-                                                        }, true);
-                                                        return;
-                                                    }
-
-                                                    // 🔹 Create lookup for quick access
-                                                    const lookup = {};
-                                                    data.forEach(d => {
-                                                        // Normalize time format to HH:MM (even if API returns HH:MM:SS or full timestamp)
-                                                        const timeKey = d.time.slice(-5);
-                                                        lookup[timeKey] = d;
-                                                    });
-
-                                                    // 🔹 Align data values to full 1-minute timeline (fill missing time with null)
-                                                    const series = params.map(p => ({
-                                                        name: p,
-                                                        type: 'line',
-                                                        smooth: true,
-                                                        symbol: 'circle',
-                                                        symbolSize: 6,
-                                                        data: fullChart.map(time => lookup[time] ? lookup[time][p] : null),
-                                                        lineStyle: {
-                                                            width: 2,
-                                                            color: randomColor(p)
-                                                        },
-                                                        itemStyle: {
-                                                            color: randomColor(p)
-                                                        }
-                                                    }));
-
-                                                    // 🔹 Calculate Y range safely
-                                                    const allY = series.flatMap(s => s.data.filter(v => v !== null));
-                                                    const yMin = allY.length ? Math.min(...allY) : 0;
-                                                    const yMax = allY.length ? Math.max(...allY) : 1;
-                                                    const yMargin = (yMax - yMin) * 0.1;
-
-                                                    // 🔹 Apply chart options
-                                                    myChart.setOption({
-                                                        title: {
-                                                            text: `${params.join(', ')} (Today)`,
-                                                            left: 'center',
-                                                            textStyle: {
-                                                                fontSize: 14,
-                                                                fontWeight: 'normal'
-                                                            }
-                                                        },
-                                                        tooltip: {
-                                                            trigger: 'axis'
-                                                        },
-                                                        grid: {
-                                                            left: '1%',
-                                                            right: '5%',
-                                                            bottom: '15%',
-                                                            top: '10%',
-                                                            containLabel: true
-                                                        },
-                                                        xAxis: {
-                                                            type: 'category',
-                                                            boundaryGap: false,
-                                                            data: fullChart,
-                                                            name: 'Time',
-                                                            nameGap: 30
-                                                        },
-                                                        yAxis: {
-                                                            type: 'value',
-                                                            splitLine: {
-                                                                show: true,
-                                                                lineStyle: {
-                                                                    color: '#eee'
-                                                                }
-                                                            },
-                                                            min: parseFloat((yMin - yMargin).toFixed(2)),
-                                                            max: parseFloat((yMax + yMargin).toFixed(2))
-                                                        },
-                                                        dataZoom: [{
-                                                                type: 'slider',
-                                                                show: true,
-                                                                xAxisIndex: [0],
-                                                                bottom: 5,
-                                                                height: 20
-                                                            },
-                                                            {
-                                                                type: 'inside',
-                                                                xAxisIndex: [0]
-                                                            }
-                                                        ],
-                                                        toolbox: {
-                                                            feature: {
-                                                                saveAsImage: {
-                                                                    title: 'Download'
-                                                                },
-                                                                dataZoom: {
-                                                                    title: {
-                                                                        zoom: 'Zoom',
-                                                                        back: 'Reset'
-                                                                    }
-                                                                }
-                                                            },
-                                                            right: 20
-                                                        },
-                                                        legend: {
-                                                            top: 25,
-                                                            data: params
-                                                        },
-                                                        series: series
-                                                    }, true);
-                                                })
-
-                                                .catch(err => console.error('Error fetching data:', err));
-                                        }
-
-                                        // 🔹 Button click handler
-                                        document.querySelectorAll('#paramButtons button').forEach(button => {
-                                            button.addEventListener('click', function() {
-                                                const paramType = this.dataset.param;
-                                                document.querySelectorAll('#paramButtons button').forEach(btn => btn.classList
-                                                    .remove('active'));
-                                                this.classList.add('active');
-                                                const params = getParameters(paramType);
-                                                fetchData(params);
-                                            });
-                                        });
-
-                                        // 🔹 System/Phase change handler
-                                        document.querySelectorAll('input[name="systemTypeRealtime"]').forEach(radio => {
-                                            radio.addEventListener('change', () => {
-                                                const activeBtn = document.querySelector('#paramButtons .active');
-                                                if (activeBtn) {
-                                                    const paramType = activeBtn.dataset.param;
-                                                    const params = getParameters(paramType);
-                                                    fetchData(params);
-                                                }
-                                            });
-                                        });
-
-                                        // 🔹 Interval selection handler (styled like paramButtons logic)
-                                        const intervalSelect = document.getElementById('intervalSelect');
-                                        if (intervalSelect) {
-                                            intervalSelect.addEventListener('change', function() {
-                                                const intervalValue = parseInt(this.value);
-
-                                                // update interval value
-                                                selectedInterval = intervalValue;
-                                                fullChart = generateFullChart(selectedInterval);
-
-                                                // visually indicate selection (optional)
-                                                // console.log(`Interval set to ${intervalValue} minute(s)`);
-
-                                                // determine which parameter is currently active
-                                                const activeBtn = document.querySelector('#paramButtons .active');
-                                                let params;
-
-                                                if (activeBtn) {
-                                                    const paramType = activeBtn.dataset.param;
-                                                    params = getParameters(paramType);
-                                                } else {
-                                                    params = getParameters('VLN'); // fallback if nothing selected
-                                                }
-
-                                                // re-fetch data based on the same parameter but new interval
-                                                fetchData(params);
-                                            });
-                                        }
-
-                                        // 🔹 Colors simplified
-                                        function randomColor(param) {
-                                            const phaseR = ['V1', 'V12', 'I1', 'P1', 'Q1', 'S1', 'PF1'];
-                                            const phaseS = ['V2', 'V23', 'I2', 'P2', 'Q2', 'S2', 'PF2'];
-                                            const phaseT = ['V3', 'V31', 'I3', 'P3', 'Q3', 'S3', 'PF3'];
-                                            const system = ['Vnavg_V', 'Vlavg_V', 'Iavg_A', 'Psum_kW', 'Qsum_kvar', 'Ssum_kVA', 'PF'];
-
-                                            if (phaseR.includes(param)) return '#FF4560'; // 🔴 Red
-                                            if (phaseS.includes(param)) return '#FEB019'; // 🟡 Yellow
-                                            if (phaseT.includes(param)) return '#008FFB'; // 🔵 Blue
-                                            if (system.includes(param)) return '#7367F0'; // 🟣 Violet (System)
-                                            return '#FFA500'; // 🟠 Default fallback (Orange)
-                                        }
-
-                                        // 🔹 Load default
-                                        const defaultParams = getParameters('VLN');
-                                        fetchData(defaultParams);
-
-                                        window.addEventListener('resize', () => myChart.resize());
-                                    });
-                                </script> --}}
-
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", function() {
-                                        const chartDom = document.getElementById('Chart');
-                                        const myChart = echarts.init(chartDom);
-
-                                        $.getJSON('/monitoring/analysis/data', function(data) {
-                                            $('#tree').jstree({
-                                                core: {
-                                                    themes: {
-                                                        name: 'default' // Set a valid theme name
-                                                    },
-                                                    data: data
-                                                },
-                                                plugins: ['types',
-                                                    // 'checkbox',
-                                                    'wholerow'
-                                                ],
-                                                types: {
-                                                    default: {
-                                                        icon: 'ti ti-folder'
-                                                    },
-                                                    html: {
-                                                        icon: 'ti ti-brand-html5 text-danger'
-                                                    },
-                                                    css: {
-                                                        icon: 'ti ti-brand-css3 text-info'
-                                                    },
-                                                    img: {
-                                                        icon: 'ti ti-photo text-success'
-                                                    },
-                                                    js: {
-                                                        icon: 'ti ti-brand-javascript text-warning'
-                                                    },
-                                                    facility: {
-                                                        icon: 'ti ti-building-community text-warning'
-                                                    },
-                                                    location: {
-                                                        icon: 'ti ti-building text-success'
-                                                    },
-                                                    file: {
-                                                        icon: 'ti ti-activity-heartbeat text-primary'
-                                                    }
-                                                }
-                                            });
-                                        });
-
-                                        // ✅ 2. Ensure jsTree is fully ready
-                                        $('#tree').on('ready.jstree', function() {
-                                            // console.log("✅ jsTree Loaded");
-                                        });
-
-                                        // ✅ 3. Detect device selection
-                                        $('#tree').on('select_node.jstree', function(e, data) {
-                                            if (data.node.id.startsWith('model_')) {
-                                                updateChart();
-                                            }
-                                        });
-
-                                        // ✅ 4. Safe function to get selected device
-                                        function getSelectedDevice() {
-                                            const tree = $('#tree').jstree(true);
-                                            if (!tree || typeof tree.get_selected !== 'function') return null;
-
-                                            const selected = tree.get_selected(true);
-                                            if (selected.length > 0) {
-                                                const node = selected[0];
-                                                if (node.type === 'file' || node.id.startsWith('model_')) {
-                                                    return node.text; // <-- this is device_name
-                                                }
-                                            }
-                                            return null;
-                                        }
-
-                                        // =========================================================
-                                        // 1️⃣ TIME AXIS (Start-End Date + Interval)
-                                        // =========================================================
-                                        function generateTimeAxis(start, end, interval) {
-                                            const times = [];
-                                            let current = new Date(start);
-
-                                            while (current <= end) {
-                                                const yyyy = current.getFullYear();
-                                                const mm = String(current.getMonth() + 1).padStart(2, '0');
-                                                const dd = String(current.getDate()).padStart(2, '0');
-                                                const hh = String(current.getHours()).padStart(2, '0');
-                                                const min = String(current.getMinutes()).padStart(2, '0');
-
-                                                times.push(`${yyyy}-${mm}-${dd} ${hh}:${min}`);
-                                                current.setMinutes(current.getMinutes() + interval);
-                                            }
-                                            return times;
-                                        }
-
-                                        // ✅ Full-day timestamp (00:00 to 23:59) for Today
-                                        function getSelectedDateRange() {
-                                            const selection = document.getElementById('dateRangeSelect').value;
-                                            const today = new Date();
-                                            let start = new Date();
-                                            let end = new Date();
-
-                                            switch (selection) {
-                                                case "today":
-                                                    start.setHours(0, 0, 0, 0);
-                                                    end.setHours(23, 59, 0, 0);
-                                                    break;
-
-                                                case "yesterday":
-                                                    start.setDate(today.getDate() - 1);
-                                                    end.setDate(today.getDate() - 1);
-                                                    start.setHours(0, 0, 0, 0);
-                                                    end.setHours(23, 59, 0, 0);
-                                                    break;
-
-                                                case "this_week":
-                                                    const day = today.getDay(); // 0 = Sunday
-                                                    const diff = today.getDate() - (day === 0 ? 6 : day - 1);
-                                                    start = new Date(today.setDate(diff));
-                                                    start.setHours(0, 0, 0, 0);
-                                                    end = new Date();
-                                                    end.setHours(23, 59, 0, 0);
-                                                    break;
-
-                                                case "custom":
-                                                    const startInput = document.getElementById('startDate').value;
-                                                    const endInput = document.getElementById('endDate').value;
-                                                    if (!startInput || !endInput) return null; // 🛑 IMPORTANT FIX
-                                                    start = new Date(startInput);
-                                                    start.setHours(0, 0, 0, 0);
-                                                    end = new Date(endInput);
-                                                    end.setHours(23, 59, 0, 0);
-                                                    break;
-                                            }
-
-                                            return {
-                                                start,
-                                                end
-                                            };
-                                        }
-
-                                        // =========================================================
-                                        // 2️⃣ GET SELECTED PARAMETERS & SYSTEM TYPE
-                                        // =========================================================
-                                        function getSelectedParams() {
-                                            const activeBtn = document.querySelector('#paramButtons .active');
-                                            if (!activeBtn) return ['V1', 'V2', 'V3']; // fallback
-                                            return getParameters(activeBtn.dataset.param);
-                                        }
-
-                                        function getSystemType() {
-                                            return document.querySelector('input[name="systemTypeRealtime"]:checked')?.value || 'phase';
-                                        }
-
-                                        function getParameters(paramType) {
-                                            const systemType = getSystemType();
-                                            const map = {
-                                                phase: {
-                                                    VLN: [{
-                                                            key: 'V1',
-                                                            label: 'Phase 1 Line-to-Neutral Voltage'
-                                                        },
-                                                        {
-                                                            key: 'V2',
-                                                            label: 'Phase 2 Line-to-Neutral Voltage'
-                                                        },
-                                                        {
-                                                            key: 'V3',
-                                                            label: 'Phase 3 Line-to-Neutral Voltage'
-                                                        }
-                                                    ],
-                                                    VLL: [{
-                                                            key: 'V12',
-                                                            label: 'Phase 1-2 Line-to-Line Voltage'
-                                                        },
-                                                        {
-                                                            key: 'V23',
-                                                            label: 'Phase 2-3 Line-to-Line Voltage'
-                                                        },
-                                                        {
-                                                            key: 'V31',
-                                                            label: 'Phase 3-1 Line-to-Line Voltage'
-                                                        }
-                                                    ],
-                                                    Current: [{
-                                                            key: 'I1',
-                                                            label: 'Phase 1 Current'
-                                                        },
-                                                        {
-                                                            key: 'I2',
-                                                            label: 'Phase 2 Current'
-                                                        },
-                                                        {
-                                                            key: 'I3',
-                                                            label: 'Phase 3 Current'
-                                                        }
-                                                    ],
-                                                    Active: [{
-                                                            key: 'P1',
-                                                            label: 'Phase 1 Active Power'
-                                                        },
-                                                        {
-                                                            key: 'P2',
-                                                            label: 'Phase 2 Active Power'
-                                                        },
-                                                        {
-                                                            key: 'P3',
-                                                            label: 'Phase 3 Active Power'
-                                                        }
-                                                    ],
-                                                    Reactive: [{
-                                                            key: 'Q1',
-                                                            label: 'Phase 1 Reactive Power'
-                                                        },
-                                                        {
-                                                            key: 'Q2',
-                                                            label: 'Phase 2 Reactive Power'
-                                                        },
-                                                        {
-                                                            key: 'Q3',
-                                                            label: 'Phase 3 Reactive Power'
-                                                        }
-                                                    ],
-                                                    Apparent: [{
-                                                            key: 'S1',
-                                                            label: 'Phase 1 Apparent Power'
-                                                        },
-                                                        {
-                                                            key: 'S2',
-                                                            label: 'Phase 2 Apparent Power'
-                                                        },
-                                                        {
-                                                            key: 'S3',
-                                                            label: 'Phase 3 Apparent Power'
-                                                        }
-                                                    ],
-                                                    PF: [{
-                                                            key: 'PF1',
-                                                            label: 'Phase 1 Power Factor'
-                                                        },
-                                                        {
-                                                            key: 'PF2',
-                                                            label: 'Phase 2 Power Factor'
-                                                        },
-                                                        {
-                                                            key: 'PF3',
-                                                            label: 'Phase 3 Power Factor'
-                                                        }
-                                                    ]
-                                                },
-
-                                                system: {
-                                                    VLN: [{
-                                                        key: 'Vnavg_V',
-                                                        label: 'System Average Line-to-Neutral Voltage'
-                                                    }],
-                                                    VLL: [{
-                                                        key: 'Vlavg_V',
-                                                        label: 'System Average Line-to-Line Voltage'
-                                                    }],
-                                                    Current: [{
-                                                        key: 'Iavg_A',
-                                                        label: 'System Average Current'
-                                                    }],
-                                                    Active: [{
-                                                        key: 'Psum_kW',
-                                                        label: 'System Active Power (kW)'
-                                                    }],
-                                                    Reactive: [{
-                                                        key: 'Qsum_kvar',
-                                                        label: 'System Reactive Power (kVAR)'
-                                                    }],
-                                                    Apparent: [{
-                                                        key: 'Ssum_kVA',
-                                                        label: 'System Apparent Power (kVA)'
-                                                    }],
-                                                    PF: [{
-                                                        key: 'PF',
-                                                        label: 'System Power Factor'
-                                                    }]
-                                                }
-                                            };
-
-                                            return map[systemType][paramType] || [];
-                                        }
-
-                                        function getYAxisLabel(params) {
-                                            if (!params || params.length === 0) return '';
-
-                                            const firstKey = params[0].key; // Check first selected parameter
-
-                                            if (firstKey.startsWith('V')) return 'V';
-                                            if (firstKey.startsWith('I')) return 'A';
-                                            if (firstKey.startsWith('PF')) return 'PF';
-                                            if (firstKey.startsWith('Psum') || firstKey.startsWith('P')) return 'kW';
-                                            if (firstKey.startsWith('Qsum') || firstKey.startsWith('Q')) return 'kVAR';
-                                            if (firstKey.startsWith('Ssum') || firstKey.startsWith('S')) return 'kVA';
-
-                                            return ''; // default
-                                        }
-
-                                        // =========================================================
-                                        // 3️⃣ GET SELECTED INTERVAL
-                                        // =========================================================
-                                        function getSelectedInterval() {
-                                            const intervalSelect = document.getElementById('intervalSelect');
-                                            return intervalSelect ? parseInt(intervalSelect.value) : 5;
-                                        }
-
-                                        // =========================================================
-                                        // 4️⃣ COLOR CONFIGURATION
-                                        // =========================================================
-                                        function getColor(param) {
-                                            const phaseR = ['V1', 'V12', 'I1', 'P1', 'Q1', 'S1', 'PF1'];
-                                            const phaseS = ['V2', 'V23', 'I2', 'P2', 'Q2', 'S2', 'PF2'];
-                                            const phaseT = ['V3', 'V31', 'I3', 'P3', 'Q3', 'S3', 'PF3'];
-                                            const system = ['Vnavg_V', 'Vlavg_V', 'Iavg_A', 'Psum_kW', 'Qsum_kvar', 'Ssum_kVA', 'PF'];
-
-                                            if (phaseR.includes(param)) return '#FF4560';
-                                            if (phaseS.includes(param)) return '#FEB019';
-                                            if (phaseT.includes(param)) return '#008FFB';
-                                            if (system.includes(param)) return '#7367F0';
-                                            return '#FFA500';
-                                        }
-
-                                        // =========================================================
-                                        // 5️⃣ FETCH API DATA
-                                        // =========================================================
-
-                                        async function fetchChartData(params, start, end, deviceName) {
-                                            if (!params.length) return [];
-
-                                            // const queryParams = params.map(p => `parameters[]=${p}`).join('&');
-                                            const queryParams = params.map(p => `parameters[]=${p.key}`).join('&');
-
-                                            let url = "";
-
-                                            const startDate = start.toISOString().split('T')[0];
-                                            const endDate = end.toISOString().split('T')[0];
-
-                                            // ✅ If 1 day
-                                            if (startDate === endDate) {
-                                                url =
-                                                    `http://127.0.0.1:8000/api/v1/data?date=${startDate}&device_name=${encodeURIComponent(deviceName)}&${queryParams}`;
-                                            }
-                                            // ✅ If multiple days
-                                            else {
-                                                url =
-                                                    `http://127.0.0.1:8000/api/v1/data?start_date=${startDate}&end_date=${endDate}&device_name=${encodeURIComponent(deviceName)}&${queryParams}`;
-                                            }
-
-                                            // console.log("API Request:", url); // ← See it in browser console
-
-                                            try {
-                                                const response = await fetch(url);
-                                                return await response.json();
-                                            } catch (err) {
-                                                console.error("API Fetch Error:", err);
-                                                return [];
-                                            }
-                                        }
-
-                                        // =========================================================
-                                        // 6️⃣ BUILD SERIES (Align Data to Time Axis)
-                                        // =========================================================
-                                        function buildSeriesData(apiData, timeAxis, params) {
-                                            const lookup = {};
-                                            apiData.forEach(d => {
-                                                const timeKey = d.time.slice(0, 16); // "YYYY-MM-DD HH:mm"
-                                                lookup[timeKey] = d;
-                                            });
-
-                                            return params.map(p => ({
-                                                name: p.label, // ← Show readable text on legend
-                                                type: 'line',
-                                                smooth: true,
-                                                symbol: 'circle',
-                                                symbolSize: 6,
-                                                data: timeAxis.map(t => lookup[t] ? lookup[t][p.key] : null), // ✅ Use API key
-
-                                                lineStyle: {
-                                                    width: 2,
-                                                    color: getColor(p.key) // ← Use key for color
-                                                },
-                                                itemStyle: {
-                                                    color: '#ffffff', // ✅ White fill inside the circle
-                                                    borderColor: getColor(p.key),
-                                                    borderWidth: 2 // ✅ Outline thickness
-                                                }
-                                            }));
-                                        }
-
-                                        // =========================================================
-                                        // 7️⃣ RENDER CHART
-                                        // =========================================================
-                                        function renderChart(timeAxis, series, params) {
-                                            const allValues = series.flatMap(s => s.data.filter(v => v !== null));
-                                            const yMin = allValues.length ? Math.min(...allValues) : 0;
-                                            const yMax = allValues.length ? Math.max(...allValues) : 1;
-                                            const yMargin = (yMax - yMin) * 0.1;
-
-                                            myChart.clear(); // ✅ Remove all old series, axes, zoom, events
-                                            myChart.setOption({
-                                                title: {
-                                                    // text: `${params.join(', ')} (Today)`,
-                                                    left: 'center'
-                                                },
-                                                tooltip: {
-                                                    trigger: 'axis'
-                                                },
-                                                legend: {
-                                                    type: 'plain', // 'plain' or 'scroll' for many items
-                                                    orient: 'horizontal', // 'horizontal' or 'vertical'
-                                                    top: 20, // Position from top
-                                                    left: 20, // 'left' | 'right' | 'center' | 'number'
-                                                    // left: 'left', // 'left' | 'right' | 'center' | 'number'
-                                                    data: params.map(p => p.label), // ✅ Show readable names
-                                                },
-                                                grid: {
-                                                    left: '2%',
-                                                    right: '2%',
-                                                    top: '15%',
-                                                    bottom: '10%',
-                                                    containLabel: true
-                                                },
-                                                xAxis: {
-                                                    type: 'category',
-                                                    boundaryGap: false,
-                                                    data: timeAxis
-                                                },
-                                                yAxis: {
-                                                    name: getYAxisLabel(params), // ✅ Dynamic label here
-                                                    nameTextStyle: {
-                                                        fontWeight: 'bold', // ✅ Make it bold
-                                                        fontSize: 14 // (optional) adjust size
-                                                    },
-                                                    type: 'value',
-                                                    axisLine: {
-                                                        show: true, // ✅ Show the Y-axis vertical line
-                                                    },
-                                                    splitLine: {
-                                                        show: true,
-                                                        lineStyle: {
-                                                            color: '#eee'
-                                                        }
-                                                    },
-                                                    min: parseFloat((yMin - yMargin).toFixed(2)),
-                                                    max: parseFloat((yMax + yMargin).toFixed(2))
-                                                },
-                                                series: series,
-                                                dataZoom: [{
-                                                    type: 'slider',
-                                                    bottom: 5
-                                                }, {
-                                                    type: 'inside'
-                                                }],
-                                                toolbox: {
-                                                    itemSize: 24, // ✅ Default is 15 — increase to make icons bigger
-                                                    feature: {
-                                                        saveAsImage: {
-                                                            title: 'Download'
-                                                        },
-                                                        dataZoom: {
-                                                            // title: {
-                                                            //     zoom: 'Zoom',
-                                                            //     back: 'Reset'
-                                                            // },
-                                                            yAxisIndex: false // ✅ Disable zoom for Y-axis inside toolbox
-                                                        },
-                                                        // ✅ Add Data View
-                                                        dataView: {
-                                                            title: 'Data View',
-                                                            readOnly: true,
-                                                            optionToContent: function(opt) {
-                                                                const axisData = opt.xAxis[0].data;
-                                                                const series = opt.series;
-
-                                                                let table =
-                                                                    '<button id="downloadCSV" style="margin-bottom:8px;">Download CSV</button>';
-                                                                table +=
-                                                                    '<table border="1" style="width:100%;text-align:center"><tr><th>Time</th>';
-
-                                                                series.forEach(s => {
-                                                                    table += `<th>${s.name}</th>`;
-                                                                });
-                                                                table += '</tr>';
-
-                                                                axisData.forEach((time, i) => {
-                                                                    table += `<tr><td>${time}</td>`;
-                                                                    series.forEach(s => {
-                                                                        table +=
-                                                                            `<td>${s.data[i] !== undefined ? s.data[i] : ''}</td>`;
-                                                                    });
-                                                                    table += '</tr>';
-                                                                });
-                                                                table += '</table>';
-
-                                                                setTimeout(() => {
-                                                                    document.getElementById('downloadCSV').onclick =
-                                                                        function() {
-                                                                            let csv = 'Time,' + series.map(s => s.name)
-                                                                                .join(',') + '\n';
-                                                                            axisData.forEach((time, i) => {
-                                                                                csv += time + ',' + series.map(s =>
-                                                                                    s.data[i]).join(',') + '\n';
-                                                                            });
-
-                                                                            const blob = new Blob([csv], {
-                                                                                type: 'text/csv'
-                                                                            });
-                                                                            const url = URL.createObjectURL(blob);
-
-                                                                            const a = document.createElement('a');
-                                                                            a.href = url;
-                                                                            a.download = 'chart-data.csv';
-                                                                            a.click();
-                                                                            URL.revokeObjectURL(url);
-                                                                        };
-                                                                });
-
-                                                                return table;
-                                                            }
-                                                        },
-                                                        restore: {
-                                                            title: 'Restore' // ✅ Add the restore feature
-                                                        }
-                                                    },
-                                                    right: 20
-                                                },
-                                            }, true);
-                                        }
-
-                                        // =========================================================
-                                        // 🔄 MAIN CONTROL FUNCTION
-                                        // =========================================================
-                                        async function updateChart() {
-                                            const deviceName = getSelectedDevice(); // ✅ from jsTree
-                                            if (!deviceName) {
-                                                // console.warn("No device selected");
-                                                return;
-                                            }
-
-                                            // console.log("Selected device:", deviceName);
-
-                                            const range = getSelectedDateRange();
-                                            if (!range) return;
-
-                                            const {
-                                                start,
-                                                end
-                                            } = range;
-                                            const interval = getSelectedInterval();
-                                            const timeAxis = generateTimeAxis(start, end, interval);
-                                            const params = getSelectedParams();
-
-                                            // ✅ Pass start & end to API
-                                            const apiData = await fetchChartData(params, start, end, deviceName);
-
-                                            const series = buildSeriesData(apiData, timeAxis, params);
-                                            renderChart(timeAxis, series, params);
-                                        }
-
-                                        // =========================================================
-                                        // EVENT LISTENERS
-                                        // =========================================================
-                                        // 📌 Show/Hide Custom Date Inputs
-                                        document.getElementById('dateRangeSelect').addEventListener('change', function() {
-                                            const isCustom = this.value === 'custom';
-                                            document.getElementById('startDate').classList.toggle('d-none', !isCustom);
-                                            document.getElementById('endDate').classList.toggle('d-none', !isCustom);
-
-                                            // If not custom, update chart directly
-                                            if (!isCustom) {
-                                                updateChart();
-                                            }
-                                        });
-
-                                        // 📌 Make date input fully clickable (open picker on click)
-                                        ['startDate', 'endDate'].forEach(id => {
-                                            const input = document.getElementById(id);
-                                            input.addEventListener('click', function() {
-                                                this.showPicker?.(); // Open calendar when clicking anywhere
-                                            });
-                                        });
-
-                                        // If custom date is selected, trigger chart update when both dates picked
-                                        ['startDate', 'endDate'].forEach(id => {
-                                            document.getElementById(id).addEventListener('change', function() {
-                                                const range = getSelectedDateRange();
-                                                if (range) updateChart();
-                                            });
-                                        });
-
-                                        document.querySelectorAll('#paramButtons button').forEach(btn => {
-                                            btn.addEventListener('click', () => {
-                                                document.querySelectorAll('#paramButtons button').forEach(b => b.classList
-                                                    .remove('active'));
-                                                btn.classList.add('active');
-                                                updateChart();
-                                            });
-                                        });
-
-                                        document.querySelectorAll('input[name="systemTypeRealtime"]').forEach(r => {
-                                            r.addEventListener('change', updateChart);
-                                        });
-
-                                        const intervalSelect = document.getElementById('intervalSelect');
-                                        if (intervalSelect) intervalSelect.addEventListener('change', updateChart);
-
-                                        window.addEventListener('resize', () => myChart.resize());
-
-                                        // ✅ Load Chart First Time
-                                        updateChart();
-                                    });
-                                </script>
-
 
                             </div>
                         </div>
@@ -1295,6 +268,655 @@
                         </div>
                     </div>
                 </div>
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        const chartDom = document.getElementById('Chart');
+                        const myChart = echarts.init(chartDom);
+
+                        // ✅ 1. Call JsTree API
+                        $.getJSON('/monitoring/analysis/data', function(data) {
+                            $('#tree').jstree({
+                                core: {
+                                    themes: {
+                                        name: 'default' // Set a valid theme name
+                                    },
+                                    data: data
+                                },
+                                plugins: ['types',
+                                    // 'checkbox',
+                                    'wholerow'
+                                ],
+                                types: {
+                                    default: {
+                                        icon: 'ti ti-folder'
+                                    },
+                                    html: {
+                                        icon: 'ti ti-brand-html5 text-danger'
+                                    },
+                                    css: {
+                                        icon: 'ti ti-brand-css3 text-info'
+                                    },
+                                    img: {
+                                        icon: 'ti ti-photo text-success'
+                                    },
+                                    js: {
+                                        icon: 'ti ti-brand-javascript text-warning'
+                                    },
+                                    facility: {
+                                        icon: 'ti ti-building-community text-warning'
+                                    },
+                                    location: {
+                                        icon: 'ti ti-building text-success'
+                                    },
+                                    file: {
+                                        icon: 'ti ti-activity-heartbeat text-primary'
+                                    }
+                                }
+                            });
+                        });
+
+                        // ✅ 2. Ensure jsTree is fully ready
+                        $('#tree').on('ready.jstree', function() {
+                            // console.log("✅ jsTree Loaded");
+                        });
+
+                        // ✅ 3. Detect device selection
+                        $('#tree').on('select_node.jstree', function(e, data) {
+                            if (data.node.id.startsWith('model_')) {
+                                updateChart(); // 🔵 Realtime Chart
+                                updateEnergyChart(); // 🟠 Energy Chart
+                            }
+                        });
+
+                        // ✅ 4. Safe function to get selected device
+                        function getSelectedDevice() {
+                            const tree = $('#tree').jstree(true);
+                            if (!tree || typeof tree.get_selected !== 'function') return null;
+
+                            const selected = tree.get_selected(true);
+                            if (selected.length > 0) {
+                                const node = selected[0];
+                                if (node.type === 'file' || node.id.startsWith('model_')) {
+                                    return node.text; // <-- this is device_name
+                                }
+                            }
+                            return null;
+                        }
+
+                        // =========================================================
+                        // 1️⃣ TIME AXIS (Start-End Date + Interval)
+                        // =========================================================
+                        function generateTimeAxis(start, end, interval) {
+                            const times = [];
+                            let current = new Date(start);
+
+                            while (current <= end) {
+                                const yyyy = current.getFullYear();
+                                const mm = String(current.getMonth() + 1).padStart(2, '0');
+                                const dd = String(current.getDate()).padStart(2, '0');
+                                const hh = String(current.getHours()).padStart(2, '0');
+                                const min = String(current.getMinutes()).padStart(2, '0');
+
+                                times.push(`${yyyy}-${mm}-${dd} ${hh}:${min}`);
+                                current.setMinutes(current.getMinutes() + interval);
+                            }
+                            return times;
+                        }
+
+                        // ✅ Full-day timestamp (00:00 to 23:59) for Today
+                        function getSelectedDateRange() {
+                            const selection = document.getElementById('dateRangeSelect').value;
+                            const today = new Date();
+                            let start = new Date();
+                            let end = new Date();
+
+                            switch (selection) {
+                                case "today":
+                                    start.setHours(0, 0, 0, 0);
+                                    end.setHours(23, 59, 0, 0);
+                                    break;
+
+                                case "yesterday":
+                                    start.setDate(today.getDate() - 1);
+                                    end.setDate(today.getDate() - 1);
+                                    start.setHours(0, 0, 0, 0);
+                                    end.setHours(23, 59, 0, 0);
+                                    break;
+
+                                case "this_week":
+                                    const day = today.getDay(); // 0 = Sunday
+                                    const diff = today.getDate() - (day === 0 ? 6 : day - 1);
+                                    start = new Date(today.setDate(diff));
+                                    start.setHours(0, 0, 0, 0);
+                                    end = new Date();
+                                    end.setHours(23, 59, 0, 0);
+                                    break;
+
+                                case "custom":
+                                    const startInput = document.getElementById('startDate').value;
+                                    const endInput = document.getElementById('endDate').value;
+                                    if (!startInput || !endInput) return null; // 🛑 IMPORTANT FIX
+                                    start = new Date(startInput);
+                                    start.setHours(0, 0, 0, 0);
+                                    end = new Date(endInput);
+                                    end.setHours(23, 59, 0, 0);
+                                    break;
+                            }
+
+                            return {
+                                start,
+                                end
+                            };
+                        }
+
+                        // =========================================================
+                        // 2️⃣ GET SELECTED PARAMETERS & SYSTEM TYPE
+                        // =========================================================
+                        function getSelectedParams() {
+                            const activeBtn = document.querySelector('#paramButtons .active');
+                            if (!activeBtn) return ['V1', 'V2', 'V3']; // fallback
+                            return getParameters(activeBtn.dataset.param);
+                        }
+
+                        function getSystemType() {
+                            return document.querySelector('input[name="systemTypeRealtime"]:checked')?.value || 'phase';
+                        }
+
+                        function getParameters(paramType) {
+                            const systemType = getSystemType();
+                            const map = {
+                                phase: {
+                                    VLN: [{
+                                            key: 'V1',
+                                            label: 'Phase 1 Line-to-Neutral Voltage'
+                                        },
+                                        {
+                                            key: 'V2',
+                                            label: 'Phase 2 Line-to-Neutral Voltage'
+                                        },
+                                        {
+                                            key: 'V3',
+                                            label: 'Phase 3 Line-to-Neutral Voltage'
+                                        }
+                                    ],
+                                    VLL: [{
+                                            key: 'V12',
+                                            label: 'Phase 1-2 Line-to-Line Voltage'
+                                        },
+                                        {
+                                            key: 'V23',
+                                            label: 'Phase 2-3 Line-to-Line Voltage'
+                                        },
+                                        {
+                                            key: 'V31',
+                                            label: 'Phase 3-1 Line-to-Line Voltage'
+                                        }
+                                    ],
+                                    Current: [{
+                                            key: 'I1',
+                                            label: 'Phase 1 Current'
+                                        },
+                                        {
+                                            key: 'I2',
+                                            label: 'Phase 2 Current'
+                                        },
+                                        {
+                                            key: 'I3',
+                                            label: 'Phase 3 Current'
+                                        }
+                                    ],
+                                    Active: [{
+                                            key: 'P1',
+                                            label: 'Phase 1 Active Power'
+                                        },
+                                        {
+                                            key: 'P2',
+                                            label: 'Phase 2 Active Power'
+                                        },
+                                        {
+                                            key: 'P3',
+                                            label: 'Phase 3 Active Power'
+                                        }
+                                    ],
+                                    Reactive: [{
+                                            key: 'Q1',
+                                            label: 'Phase 1 Reactive Power'
+                                        },
+                                        {
+                                            key: 'Q2',
+                                            label: 'Phase 2 Reactive Power'
+                                        },
+                                        {
+                                            key: 'Q3',
+                                            label: 'Phase 3 Reactive Power'
+                                        }
+                                    ],
+                                    Apparent: [{
+                                            key: 'S1',
+                                            label: 'Phase 1 Apparent Power'
+                                        },
+                                        {
+                                            key: 'S2',
+                                            label: 'Phase 2 Apparent Power'
+                                        },
+                                        {
+                                            key: 'S3',
+                                            label: 'Phase 3 Apparent Power'
+                                        }
+                                    ],
+                                    PF: [{
+                                            key: 'PF1',
+                                            label: 'Phase 1 Power Factor'
+                                        },
+                                        {
+                                            key: 'PF2',
+                                            label: 'Phase 2 Power Factor'
+                                        },
+                                        {
+                                            key: 'PF3',
+                                            label: 'Phase 3 Power Factor'
+                                        }
+                                    ]
+                                },
+
+                                system: {
+                                    VLN: [{
+                                        key: 'Vnavg_V',
+                                        label: 'System Average Line-to-Neutral Voltage'
+                                    }],
+                                    VLL: [{
+                                        key: 'Vlavg_V',
+                                        label: 'System Average Line-to-Line Voltage'
+                                    }],
+                                    Current: [{
+                                        key: 'Iavg_A',
+                                        label: 'System Average Current'
+                                    }],
+                                    Active: [{
+                                        key: 'Psum_kW',
+                                        label: 'System Active Power (kW)'
+                                    }],
+                                    Reactive: [{
+                                        key: 'Qsum_kvar',
+                                        label: 'System Reactive Power (kVAR)'
+                                    }],
+                                    Apparent: [{
+                                        key: 'Ssum_kVA',
+                                        label: 'System Apparent Power (kVA)'
+                                    }],
+                                    PF: [{
+                                        key: 'PF',
+                                        label: 'System Power Factor'
+                                    }]
+                                }
+                            };
+
+                            return map[systemType][paramType] || [];
+                        }
+
+                        function getYAxisLabel(params) {
+                            if (!params || params.length === 0) return '';
+
+                            const firstKey = params[0].key; // Check first selected parameter
+
+                            if (firstKey.startsWith('V')) return 'V';
+                            if (firstKey.startsWith('I')) return 'A';
+                            if (firstKey.startsWith('PF')) return 'PF';
+                            if (firstKey.startsWith('Psum') || firstKey.startsWith('P')) return 'kW';
+                            if (firstKey.startsWith('Qsum') || firstKey.startsWith('Q')) return 'kVAR';
+                            if (firstKey.startsWith('Ssum') || firstKey.startsWith('S')) return 'kVA';
+
+                            return ''; // default
+                        }
+
+                        // =========================================================
+                        // 3️⃣ GET SELECTED INTERVAL
+                        // =========================================================
+                        function getSelectedInterval() {
+                            const intervalSelect = document.getElementById('intervalSelect');
+                            return intervalSelect ? parseInt(intervalSelect.value) : 5;
+                        }
+
+                        // =========================================================
+                        // 4️⃣ COLOR CONFIGURATION
+                        // =========================================================
+                        function getColor(param) {
+                            const phaseR = ['V1', 'V12', 'I1', 'P1', 'Q1', 'S1', 'PF1'];
+                            const phaseS = ['V2', 'V23', 'I2', 'P2', 'Q2', 'S2', 'PF2'];
+                            const phaseT = ['V3', 'V31', 'I3', 'P3', 'Q3', 'S3', 'PF3'];
+                            const system = ['Vnavg_V', 'Vlavg_V', 'Iavg_A', 'Psum_kW', 'Qsum_kvar', 'Ssum_kVA', 'PF'];
+
+                            if (phaseR.includes(param)) return '#FF4560';
+                            if (phaseS.includes(param)) return '#FEB019';
+                            if (phaseT.includes(param)) return '#008FFB';
+                            if (system.includes(param)) return '#7367F0';
+                            return '#FFA500';
+                        }
+
+                        // =========================================================
+                        // 5️⃣ FETCH API DATA
+                        // =========================================================
+
+                        async function fetchChartData(params, start, end, deviceName) {
+                            if (!params.length) return [];
+
+                            // const queryParams = params.map(p => `parameters[]=${p}`).join('&');
+                            const queryParams = params.map(p => `parameters[]=${p.key}`).join('&');
+
+                            let url = "";
+
+                            const startDate = start.toISOString().split('T')[0];
+                            const endDate = end.toISOString().split('T')[0];
+
+                            // ✅ If 1 day
+                            if (startDate === endDate) {
+                                url =
+                                    `http://127.0.0.1:8000/api/v1/data?date=${startDate}&device_name=${encodeURIComponent(deviceName)}&${queryParams}`;
+                            }
+                            // ✅ If multiple days
+                            else {
+                                url =
+                                    `http://127.0.0.1:8000/api/v1/data?start_date=${startDate}&end_date=${endDate}&device_name=${encodeURIComponent(deviceName)}&${queryParams}`;
+                            }
+
+                            // console.log("API Request:", url); // ← See it in browser console
+
+                            try {
+                                const response = await fetch(url);
+                                return await response.json();
+                            } catch (err) {
+                                console.error("API Fetch Error:", err);
+                                return [];
+                            }
+                        }
+
+                        // =========================================================
+                        // 6️⃣ BUILD SERIES (Align Data to Time Axis)
+                        // =========================================================
+                        function buildSeriesData(apiData, timeAxis, params) {
+                            const lookup = {};
+                            apiData.forEach(d => {
+                                const timeKey = d.time.slice(0, 16); // "YYYY-MM-DD HH:mm"
+                                lookup[timeKey] = d;
+                            });
+
+                            return params.map(p => ({
+                                name: p.label, // ← Show readable text on legend
+                                type: 'line',
+                                smooth: true,
+                                symbol: 'circle',
+                                symbolSize: 6,
+                                data: timeAxis.map(t => lookup[t] ? lookup[t][p.key] : null), // ✅ Use API key
+
+                                lineStyle: {
+                                    width: 2,
+                                    color: getColor(p.key) // ← Use key for color
+                                },
+                                itemStyle: {
+                                    color: '#ffffff', // ✅ White fill inside the circle
+                                    borderColor: getColor(p.key),
+                                    borderWidth: 2 // ✅ Outline thickness
+                                }
+                            }));
+                        }
+
+                        // =========================================================
+                        // 7️⃣ RENDER CHART
+                        // =========================================================
+                        function renderChart(timeAxis, series, params) {
+                            const allValues = series.flatMap(s => s.data.filter(v => v !== null));
+                            const yMin = allValues.length ? Math.min(...allValues) : 0;
+                            const yMax = allValues.length ? Math.max(...allValues) : 1;
+                            const yMargin = (yMax - yMin) * 0.1;
+
+                            myChart.clear(); // ✅ Remove all old series, axes, zoom, events
+                            myChart.setOption({
+                                title: {
+                                    // text: `${params.join(', ')} (Today)`,
+                                    left: 'center'
+                                },
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    type: 'plain', // 'plain' or 'scroll' for many items
+                                    orient: 'horizontal', // 'horizontal' or 'vertical'
+                                    top: 20, // Position from top
+                                    left: 20, // 'left' | 'right' | 'center' | 'number'
+                                    // left: 'left', // 'left' | 'right' | 'center' | 'number'
+                                    data: params.map(p => p.label), // ✅ Show readable names
+                                },
+                                grid: {
+                                    left: '2%',
+                                    right: '2%',
+                                    top: '15%',
+                                    bottom: '10%',
+                                    containLabel: true
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: timeAxis
+                                },
+                                yAxis: {
+                                    name: getYAxisLabel(params), // ✅ Dynamic label here
+                                    nameTextStyle: {
+                                        fontWeight: 'bold', // ✅ Make it bold
+                                        fontSize: 14 // (optional) adjust size
+                                    },
+                                    type: 'value',
+                                    axisLine: {
+                                        show: true, // ✅ Show the Y-axis vertical line
+                                    },
+                                    splitLine: {
+                                        show: true,
+                                        lineStyle: {
+                                            color: '#eee'
+                                        }
+                                    },
+                                    min: parseFloat((yMin - yMargin).toFixed(2)),
+                                    max: parseFloat((yMax + yMargin).toFixed(2))
+                                },
+                                series: series,
+                                dataZoom: [{
+                                    type: 'slider',
+                                    bottom: 5
+                                }, {
+                                    type: 'inside'
+                                }],
+                                toolbox: {
+                                    itemSize: 24, // ✅ Default is 15 — increase to make icons bigger
+                                    feature: {
+                                        saveAsImage: {
+                                            title: 'Download'
+                                        },
+                                        dataZoom: {
+                                            // title: {
+                                            //     zoom: 'Zoom',
+                                            //     back: 'Reset'
+                                            // },
+                                            yAxisIndex: false // ✅ Disable zoom for Y-axis inside toolbox
+                                        },
+                                        // ✅ Add Data View
+                                        dataView: {
+                                            title: 'Data View',
+                                            readOnly: true,
+                                            optionToContent: function(opt) {
+                                                const axisData = opt.xAxis[0].data;
+                                                const series = opt.series;
+
+                                                let table =
+                                                    '<button id="downloadCSV" style="margin-bottom:8px;">Download CSV</button>';
+                                                table +=
+                                                    '<table border="1" style="width:100%;text-align:center"><tr><th>Time</th>';
+
+                                                series.forEach(s => {
+                                                    table += `<th>${s.name}</th>`;
+                                                });
+                                                table += '</tr>';
+
+                                                axisData.forEach((time, i) => {
+                                                    table += `<tr><td>${time}</td>`;
+                                                    series.forEach(s => {
+                                                        table +=
+                                                            `<td>${s.data[i] !== undefined ? s.data[i] : ''}</td>`;
+                                                    });
+                                                    table += '</tr>';
+                                                });
+                                                table += '</table>';
+
+                                                setTimeout(() => {
+                                                    document.getElementById('downloadCSV').onclick =
+                                                        function() {
+                                                            let csv = 'Time,' + series.map(s => s.name)
+                                                                .join(',') + '\n';
+                                                            axisData.forEach((time, i) => {
+                                                                csv += time + ',' + series.map(s =>
+                                                                    s.data[i]).join(',') + '\n';
+                                                            });
+
+                                                            const blob = new Blob([csv], {
+                                                                type: 'text/csv'
+                                                            });
+                                                            const url = URL.createObjectURL(blob);
+
+                                                            const a = document.createElement('a');
+                                                            a.href = url;
+                                                            a.download = 'chart-data.csv';
+                                                            a.click();
+                                                            URL.revokeObjectURL(url);
+                                                        };
+                                                });
+
+                                                return table;
+                                            }
+                                        },
+                                        restore: {
+                                            title: 'Restore' // ✅ Add the restore feature
+                                        }
+                                    },
+                                    right: 20
+                                },
+                            }, true);
+                        }
+
+                        // =========================================================
+                        // 🔄 MAIN CONTROL FUNCTION
+                        // =========================================================
+
+                        function getCommonChartInputs() {
+                            const deviceName = getSelectedDevice();
+                            if (!deviceName) return null;
+
+                            const range = getSelectedDateRange();
+                            if (!range) return null;
+
+                            const {
+                                start,
+                                end
+                            } = range;
+                            const interval = getSelectedInterval();
+                            const timeAxis = generateTimeAxis(start, end, interval);
+
+                            return {
+                                deviceName,
+                                start,
+                                end,
+                                interval,
+                                timeAxis
+                            };
+                        }
+
+                        async function updateChart() {
+                            const input = getCommonChartInputs();
+                            if (!input) return;
+
+                            const {
+                                deviceName,
+                                start,
+                                end,
+                                interval,
+                                timeAxis
+                            } = input;
+
+                            const params = getSelectedParams();
+
+                            // ✅ Pass start & end to API
+                            const apiData = await fetchChartData(params, start, end, deviceName);
+
+                            const series = buildSeriesData(apiData, timeAxis, params);
+                            renderChart(timeAxis, series, params);
+                        }
+
+                        async function updateEnergyChart() {
+                            const input = getCommonChartInputs();
+                            if (!input) return;
+
+                            const {
+                                deviceName,
+                                start,
+                                end,
+                                interval,
+                                timeAxis
+                            } = input;
+
+
+                        }
+
+                        // =========================================================
+                        // EVENT LISTENERS
+                        // =========================================================
+                        // 📌 Show/Hide Custom Date Inputs
+                        document.getElementById('dateRangeSelect').addEventListener('change', function() {
+                            const isCustom = this.value === 'custom';
+                            document.getElementById('startDate').classList.toggle('d-none', !isCustom);
+                            document.getElementById('endDate').classList.toggle('d-none', !isCustom);
+
+                            // If not custom, update chart directly
+                            if (!isCustom) {
+                                updateChart();
+                            }
+                        });
+
+                        // 📌 Make date input fully clickable (open picker on click)
+                        ['startDate', 'endDate'].forEach(id => {
+                            const input = document.getElementById(id);
+                            input.addEventListener('click', function() {
+                                this.showPicker?.(); // Open calendar when clicking anywhere
+                            });
+                        });
+
+                        // If custom date is selected, trigger chart update when both dates picked
+                        ['startDate', 'endDate'].forEach(id => {
+                            document.getElementById(id).addEventListener('change', function() {
+                                const range = getSelectedDateRange();
+                                if (range) updateChart();
+                            });
+                        });
+
+                        document.querySelectorAll('#paramButtons button').forEach(btn => {
+                            btn.addEventListener('click', () => {
+                                document.querySelectorAll('#paramButtons button').forEach(b => b.classList
+                                    .remove('active'));
+                                btn.classList.add('active');
+                                updateChart();
+                            });
+                        });
+
+                        document.querySelectorAll('input[name="systemTypeRealtime"]').forEach(r => {
+                            r.addEventListener('change', updateChart);
+                        });
+
+                        const intervalSelect = document.getElementById('intervalSelect');
+                        if (intervalSelect) intervalSelect.addEventListener('change', updateChart);
+
+                        window.addEventListener('resize', () => myChart.resize());
+
+                        // ✅ Load Chart First Time
+                        updateChart();
+                    });
+                </script>
             </div>
         </div>
     </div>

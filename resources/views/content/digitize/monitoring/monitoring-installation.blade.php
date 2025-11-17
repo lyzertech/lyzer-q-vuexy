@@ -92,12 +92,12 @@
                 <div class="card-body">
                     <div class="tab-content p-0">
                         <div class="tab-pane fade show active" id="navs-pills-within-card-Facilities" role="tabpanel">
-                            <h4 class="card-title">Facilities in "Org"</h4>
+                            <h4 class="card-title my-0">Facilities in "Org"</h4>
                             <!-- DataTable with Buttons -->
                             <div class="">
                                 <div class="card-datatable table-responsive pt-0">
                                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                                        <div class="card-header flex-column flex-md-row">
+                                        <div class="card-header flex-column flex-md-row py-0">
                                             <div class="head-label text-center">
                                                 {{-- <h5 class="card-title mb-0">Customer</h5> --}}
                                             </div>
@@ -282,7 +282,7 @@
                             </script>
                         </div>
                         <div class="tab-pane fade " id="navs-pills-within-card-Devices" role="tabpanel">
-                            <h4 class="card-title">Devices in "Org"</h4>
+                            <h4 class="card-title my-0">Devices in "Org"</h4>
                             <!-- DataTable with Buttons -->
                             <div class="">
                                 <div class="card-datatable table-responsive pt-0">

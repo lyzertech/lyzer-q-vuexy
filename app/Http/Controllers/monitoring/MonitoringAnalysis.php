@@ -35,6 +35,54 @@ class MonitoringAnalysis extends Controller
       ]);
   }
 
+  public function energy()
+  {
+      $pageConfigs = ['menuCollapsed' => true];
+
+      // Retrieve the devices passed in the session
+      $selectedDevices = session('devices', []);
+
+      // Check if any devices were selected
+      if (!empty($selectedDevices)) {
+          // Fetch data for the selected devices
+          $allData = monitoring_acuvim::whereIn('device_name', $selectedDevices)->get();
+      } else {
+          // If no devices were selected, fetch all data
+          $allData = collect(); // or $allData = [];
+      }
+
+      // Pass the filtered data to the view
+      return view('content.digitize.monitoring.monitoring-analysis-energy', [
+        'allData' => $allData,
+        'selectedDevices' => $selectedDevices,
+        'pageConfigs' => $pageConfigs
+      ]);
+  }
+
+  public function realtime()
+  {
+      $pageConfigs = ['menuCollapsed' => true];
+
+      // Retrieve the devices passed in the session
+      $selectedDevices = session('devices', []);
+
+      // Check if any devices were selected
+      if (!empty($selectedDevices)) {
+          // Fetch data for the selected devices
+          $allData = monitoring_acuvim::whereIn('device_name', $selectedDevices)->get();
+      } else {
+          // If no devices were selected, fetch all data
+          $allData = collect(); // or $allData = [];
+      }
+
+      // Pass the filtered data to the view
+      return view('content.digitize.monitoring.monitoring-analysis-realtime', [
+        'allData' => $allData,
+        'selectedDevices' => $selectedDevices,
+        'pageConfigs' => $pageConfigs
+      ]);
+  }
+
   public function analysis_getMonitoringTree()
   {
       // Fetch data from the monitoring_acuvim table
@@ -52,7 +100,7 @@ class MonitoringAnalysis extends Controller
               $tree[$row->facility] = [
                   'id' => 'facility' . $row->facility,
                   'text' => $row->facility,
-                  'state' => ['opened' => false],
+                  'state' => ['opened' => true],
                   'type' => 'facility',
                   'children' => []
               ];
@@ -63,7 +111,7 @@ class MonitoringAnalysis extends Controller
               $tree[$row->facility]['children'][$deviceKey] = [
                   'id' => 'location' . $deviceKey,
                   'text' => $row->location,
-                  'state' => ['opened' => false],
+                  'state' => ['opened' => true],
                   'type' => 'location',
                   'children' => []
               ];

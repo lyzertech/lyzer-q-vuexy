@@ -284,6 +284,8 @@ Route::middleware(['role:1'])->group(function () {
     Route::post('/monitoring/installation/device/bulkFacility', [MonitoringInstallation::class, 'installation_device_bulkFacility'])->name('monitoring-installation-device-bulkFacility');
 
     Route::get('/monitoring/analysis', [MonitoringAnalysis::class, 'index'])->name('monitoring-analysis');
+    Route::get('/monitoring/analysis/realtime', [MonitoringAnalysis::class, 'realtime'])->name('monitoring-analysis-realtime');
+    Route::get('/monitoring/analysis/energy', [MonitoringAnalysis::class, 'energy'])->name('monitoring-analysis-energy');
     Route::get('/monitoring/analysis/data', [MonitoringAnalysis::class, 'analysis_getMonitoringTree'])->name('monitoring-analysis-getMonitoringTree');
     Route::post('/monitoring/analysis/selectdata', [MonitoringAnalysis::class, 'analysis_selectdata'])->name('monitoring-analysis-selectdata');
 

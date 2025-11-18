@@ -188,6 +188,7 @@ use App\Http\Controllers\shield\ShieldInsight;
 use App\Http\Controllers\shield\ShieldInsightcrm;
 
 use App\Http\Controllers\school\SchoolStudent;
+use App\Http\Controllers\school\SchoolTeacher;
 
 
 // Login form
@@ -622,4 +623,11 @@ Route::middleware(['role:1,21'])->group(function () {
     Route::post('/student/list/create', [SchoolStudent::class, 'create'])->name('student-list-create');
     Route::get('/student/list/view/{id_label}', [SchoolStudent::class, 'label_view'])->name('student-list-view');
     Route::delete('/student/list/destroy/{id_label}', [SchoolStudent::class, 'label_destroy'])->name('student-list-destroy');
+
+  // Teacher
+    Route::get('/teacher/list', [SchoolTeacher::class, 'index'])->name('teacher-list');
+    Route::get('/teacher/list/data', [SchoolTeacher::class, 'label_data'])->name('teacher-list-data');
+    Route::post('/teacher/list/create', [SchoolTeacher::class, 'create'])->name('teacher-list-create');
+    Route::get('/teacher/list/view/{id_label}', [SchoolTeacher::class, 'label_view'])->name('teacher-list-view');
+    Route::delete('/teacher/list/destroy/{id_label}', [SchoolTeacher::class, 'label_destroy'])->name('teacher-list-destroy');
 });

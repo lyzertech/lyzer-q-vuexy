@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'Student List')
+@section('title', 'Teacher List')
 
 <!-- Vendor Styles -->
 @section('vendor-style')

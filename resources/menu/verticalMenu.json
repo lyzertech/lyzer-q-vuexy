@@ -1347,6 +1347,18 @@
       ]
     },
     {
+      "name": "Teacher",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "teacher",
+      "submenu": [
+        {
+          "url": "teacher/list",
+          "name": "List",
+          "slug": "teacher-list"
+        }
+      ]
+    },
+    {
       "name": "Absense",
       "icon": "menu-icon tf-icons ti ti-user",
       "slug": "absense",

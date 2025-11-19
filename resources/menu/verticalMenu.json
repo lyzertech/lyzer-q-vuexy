@@ -1359,14 +1359,59 @@
       ]
     },
     {
-      "name": "Absense",
+      "name": "Attendance",
       "icon": "menu-icon tf-icons ti ti-user",
-      "slug": "absense",
+      "slug": "attendance",
       "submenu": [
         {
-          "url": "absense/present",
-          "name": "Present",
-          "slug": "absense-present"
+          "url": "attendance/dashboard",
+          "name": "Dashboard",
+          "slug": "attendance-dashboard"
+        },
+        {
+          "url": "attendance/daily",
+          "name": "Daily Attendance",
+          "slug": "attendance-daily"
+        },
+        {
+          "url": "attendance/class",
+          "name": "Class Attendance",
+          "slug": "attendance-class"
+        },
+        {
+          "url": "attendance/student",
+          "name": "Student Attendance",
+          "slug": "attendance-student"
+        },
+        {
+          "url": "attendance/recap",
+          "name": "Attendance Recap",
+          "slug": "attendance-recap"
+        },
+        {
+          "url": "attendance/report",
+          "name": "Attendance Report",
+          "slug": "attendance-report"
+        },
+        {
+          "url": "attendance/analytics",
+          "name": "Attendance Analytics",
+          "slug": "attendance-analytics"
+        },
+        {
+          "url": "attendance/permission",
+          "name": "Absence Requests",
+          "slug": "attendance-permission"
+        },
+        {
+          "url": "attendance/notifications",
+          "name": "Attendance Notifications",
+          "slug": "attendance-notifications"
+        },
+        {
+          "url": "attendance/log",
+          "name": "Attendance Log",
+          "slug": "attendance-log"
         }
       ]
     }

@@ -630,4 +630,7 @@ Route::middleware(['role:1,21'])->group(function () {
     Route::post('/teacher/list/create', [SchoolTeacher::class, 'create'])->name('teacher-list-create');
     Route::get('/teacher/list/view/{id_label}', [SchoolTeacher::class, 'label_view'])->name('teacher-list-view');
     Route::delete('/teacher/list/destroy/{id_label}', [SchoolTeacher::class, 'label_destroy'])->name('teacher-list-destroy');
+
+  // Attendance
+    Route::get('/attendance/daily', [SchoolStudent::class, 'index'])->name('attendance-daily');
 });

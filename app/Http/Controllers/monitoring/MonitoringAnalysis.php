@@ -100,7 +100,7 @@ class MonitoringAnalysis extends Controller
               $tree[$row->facility] = [
                   'id' => 'facility' . $row->facility,
                   'text' => $row->facility,
-                  'state' => ['opened' => true],
+                  'state' => ['opened' => false],
                   'type' => 'facility',
                   'children' => []
               ];
@@ -111,7 +111,7 @@ class MonitoringAnalysis extends Controller
               $tree[$row->facility]['children'][$deviceKey] = [
                   'id' => 'location' . $deviceKey,
                   'text' => $row->location,
-                  'state' => ['opened' => true],
+                  'state' => ['opened' => false],
                   'type' => 'location',
                   'children' => []
               ];

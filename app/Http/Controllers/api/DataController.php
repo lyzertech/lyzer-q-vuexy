@@ -89,6 +89,37 @@ class DataController extends Controller
                 'Q1', 'Q2', 'Q3',
                 'S1', 'S2', 'S3',
                 'PF1', 'PF2', 'PF3',
+
+                // Energy kWh (Active)
+                'EPa_IMP_kWh',
+                'EPb_IMP_kWh',
+                'EPc_IMP_kWh',
+                'EP_IMP_kWh',
+                'EPa_EXP_kWh',
+                'EPb_EXP_kWh',
+                'EPc_EXP_kWh',
+                'EP_EXP_kWh',
+                'EP_TOTAL_kWh',
+                'EP_NET_kWh',
+
+                // Energy kvarh (Reactive)
+                'EQa_IMP_kvarh',
+                'EQb_IMP_kvarh',
+                'EQc_IMP_kvarh',
+                'EQ_IMP_kvarh',
+                'EQa_EXP_kvarh',
+                'EQb_EXP_kvarh',
+                'EQc_EXP_kvarh',
+                'EQ_EXP_kvarh',
+                'EQ_TOTAL_kvarh',
+                'EQ_NET_kvarh',
+
+                // Apparent Energy
+                'ESa_kVAh',
+                'ESb_kVAh',
+                'ESc_kVAh',
+                'ES_kVAh'
+
             ];
             $columns = array_intersect($parameters, $allowed);
 

@@ -90,7 +90,7 @@
                 <!-- Tabs Content -->
                 <div class="tab-content mt-4 p-0" id="energyTabsContent">
 
-                    <!-- Energy -->
+                    {{-- <!-- Energy -->
                     <div class="tab-pane fade show active" id="energy" role="tabpanel" aria-labelledby="energy-tab">
                         <h5 class="fw-bold mb-2">
                             <i class="ti ti-activity me-1"></i> Energy Monitoring
@@ -280,19 +280,17 @@
                             </div>
                         </div>
 
-                    </div>
+                    </div> --}}
 
                     <!-- Realtime -->
-                    <div class="tab-pane fade show active" id="realtime" role="tabpanel"
-                        aria-labelledby="realtime-tab">
+                    <div class="tab-pane fade show active" id="realtime" role="tabpanel" aria-labelledby="realtime-tab">
                         <h5 class="fw-bold mb-2">
                             <i class="ti ti-activity me-1"></i> Realtime Monitoring
                         </h5>
                         <p class="text-muted mb-0">
                             Live data feed and instant parameter updates.
                         </p>
-                        <div class="tab-pane fade show active" id="realtime" role="tabpanel"
-                            aria-labelledby="energy-tab">
+                        <div class="tab-pane fade show active" id="realtime" role="tabpanel" aria-labelledby="energy-tab">
                             <div class="card shadow-sm border-0">
                                 <div class="card-body">
                                     <!-- === Time Frame Selection === -->
@@ -322,8 +320,8 @@
                                             <label class="form-label fw-semibold mb-0">Select a Parameter:</label>
                                         </div>
                                         <div class="col-md-10 d-flex flex-wrap align-items-center gap-4">
-                                            <div class="btn-group flex-wrap" role="group"
-                                                aria-label="Parameter Buttons" id="paramButtonsRealtime">
+                                            <div class="btn-group flex-wrap" role="group" aria-label="Parameter Buttons"
+                                                id="paramButtonsRealtime">
                                                 <ul class="nav nav-pills">
                                                     <style>
                                                         .nav-item {
@@ -412,6 +410,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <!-- Chart -->
                         <div class="card mt-6">
                             <div class="card-body p-0">
@@ -431,14 +430,14 @@
                                         padding: 10px;
                                     }
                                 </style>
-                                <div id="Chart" style="width: 100%; height: 500px;"></div>
+                                <div id="Chart" style="width: 100%; height: 505px;"></div>
 
                             </div>
                         </div>
 
                     </div>
 
-                    <!-- Heatmap -->
+                    {{-- <!-- Heatmap -->
                     <div class="tab-pane fade" id="heatmap" role="tabpanel" aria-labelledby="heatmap-tab">
                         <div class="card border-0 shadow-none">
                             <h5 class="fw-bold mb-2">
@@ -460,12 +459,25 @@
                                 Displays peak demand and usage comparison.
                             </p>
                         </div>
-                    </div>
+                    </div> --}}
+
                 </div>
 
             </div>
         </div>
     </div>
+
+    <style>
+        /* Hover effect */
+        .jstree-anchor:hover .file-node {
+            color: var(--bs-secondary) !important;
+        }
+
+        /* Selected node */
+        .jstree-clicked .file-node {
+            color: #fff !important;
+        }
+    </style>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -489,18 +501,6 @@
                         default: {
                             icon: 'ti ti-folder'
                         },
-                        html: {
-                            icon: 'ti ti-brand-html5 text-danger'
-                        },
-                        css: {
-                            icon: 'ti ti-brand-css3 text-info'
-                        },
-                        img: {
-                            icon: 'ti ti-photo text-success'
-                        },
-                        js: {
-                            icon: 'ti ti-brand-javascript text-warning'
-                        },
                         facility: {
                             icon: 'ti ti-building-community text-warning'
                         },
@@ -508,7 +508,7 @@
                             icon: 'ti ti-building text-success'
                         },
                         file: {
-                            icon: 'ti ti-activity-heartbeat text-primary'
+                            icon: 'ti ti-activity-heartbeat text-primary file-node'
                         }
                     }
                 });
@@ -520,6 +520,13 @@
             });
 
             // ✅ 3. Detect device selection
+            $('#tree').on('click.jstree', '.jstree-anchor', function(e) {
+                const tree = $('#tree').jstree(true);
+                const node = tree.get_node(this);
+
+                tree.toggle_node(node);
+            });
+
             $('#tree').on('select_node.jstree', function(e, data) {
                 if (data.node.id.startsWith('model_')) {
                     updateChart();

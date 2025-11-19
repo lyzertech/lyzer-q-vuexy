@@ -52,39 +52,6 @@
         <div class="row">
             <div class="col-md-12">
                 <!-- Navigation Tabs -->
-                {{-- <div class="nav-align-top mb-4">
-                    <ul class="nav nav-pills flex-column flex-md-row gap-2 gap-lg-0" id="energyTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link " id="energy-tab" data-bs-toggle="tab" data-bs-target="#energy"
-                                type="button" role="tab" aria-controls="energy" aria-selected="true">
-                                <i class="ti-sm ti ti-bolt me-1_5"></i> Energy
-                            </button>
-                        </li>
-
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="realtime-tab" data-bs-toggle="tab"
-                                data-bs-target="#realtime" type="button" role="tab" aria-controls="realtime"
-                                aria-selected="false">
-                                <i class="ti-sm ti ti-activity me-1_5"></i> Realtime
-                            </button>
-                        </li>
-
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="heatmap-tab" data-bs-toggle="tab" data-bs-target="#heatmap"
-                                type="button" role="tab" aria-controls="heatmap" aria-selected="false">
-                                <i class="ti-sm ti ti-flame me-1_5"></i> Heatmap
-                            </button>
-                        </li>
-
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="demand-tab" data-bs-toggle="tab" data-bs-target="#demand"
-                                type="button" role="tab" aria-controls="demand" aria-selected="false">
-                                <i class="ti-sm ti ti-trending-up me-1_5"></i> Demand
-                            </button>
-                        </li>
-                    </ul>
-                </div> --}}
-
                 @include('content.digitize.monitoring.monitoring-analysis-nav')
 
                 <!-- Tabs Content -->
@@ -256,6 +223,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <!-- Chart -->
                         <div class="card mt-6">
                             <div class="card-body p-0">
@@ -275,197 +243,30 @@
                                         padding: 10px;
                                     }
                                 </style>
-                                <div id="ChartEnergy" style="width: 100%; height: 500px;"></div>
+                                <div id="Chart" style="width: 100%; height: 505px;"></div>
 
                             </div>
                         </div>
 
                     </div>
 
-                    <!-- Realtime -->
-                    <div class="tab-pane fade show active" id="realtime" role="tabpanel"
-                        aria-labelledby="realtime-tab">
-                        <h5 class="fw-bold mb-2">
-                            <i class="ti ti-activity me-1"></i> Realtime Monitoring
-                        </h5>
-                        <p class="text-muted mb-0">
-                            Live data feed and instant parameter updates.
-                        </p>
-                        <div class="tab-pane fade show active" id="realtime" role="tabpanel"
-                            aria-labelledby="energy-tab">
-                            <div class="card shadow-sm border-0">
-                                <div class="card-body">
-                                    <!-- === Time Frame Selection === -->
-                                    <div class="row align-items-center mb-3">
-                                        <div class="col-md-2 my-3">
-                                            <label class="form-label fw-semibold mb-0">Select a Time Frame:</label>
-                                        </div>
-                                        <div class="col-md-10 d-flex flex-wrap align-items-center gap-2">
-                                            <select id="dateRangeSelect" class="form-select w-auto">
-                                                <option value="today" selected>Today</option>
-                                                <option value="yesterday">Yesterday</option>
-                                                <option value="this_week">This Week</option>
-                                                <option value="custom">Custom</option>
-                                            </select>
-
-                                            <!-- Only visible if user picks Custom -->
-                                            <input type="date" id="startDate" class="form-control w-auto d-none">
-                                            <input type="date" id="endDate" class="form-control w-auto d-none">
-                                        </div>
-                                    </div>
-
-                                    <hr class="my-3" />
-
-                                    <!-- === Parameter Selection === -->
-                                    <div class="row align-items-center mb-3">
-                                        <div class="col-md-2 my-3">
-                                            <label class="form-label fw-semibold mb-0">Select a Parameter:</label>
-                                        </div>
-                                        <div class="col-md-10 d-flex flex-wrap align-items-center gap-4">
-                                            <div class="btn-group flex-wrap" role="group"
-                                                aria-label="Parameter Buttons" id="paramButtonsRealtime">
-                                                <ul class="nav nav-pills">
-                                                    <style>
-                                                        .nav-item {
-                                                            /* Button spacing */
-                                                            border-radius: 6px;
-                                                            /* Rounded edges */
-                                                            margin-right: 6px;
-                                                        }
-
-                                                        .nav-item .param {
-                                                            border: 1px solid #E6E6E8;
-                                                        }
-                                                    </style>
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light active"
-                                                            data-param="VLN">LN Voltage</button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-param="VLL">LL Voltage</button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-param="Current">Current</button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-param="Active">Active</button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-param="Reactive">Reactive</button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-param="Apparent">Apparent</button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-param="PF">Power Factor</button>
-                                                    </li>
-
-                                                </ul>
-                                            </div>
-
-                                            <span class="vr mx-3" style="background-color:#E6E6E8;"></span>
-
-                                            <div class="form-check form-check-inline m-0">
-                                                <input class="form-check-input" type="radio" name="systemTypeRealtime"
-                                                    id="systemRealtime" value="system" checked />
-                                                <label class="form-check-label" for="systemRealtime">System</label>
-                                            </div>
-                                            <div class="form-check form-check-inline m-0">
-                                                <input class="form-check-input" type="radio" name="systemTypeRealtime"
-                                                    id="phaseRealtime" value="phase" />
-                                                <label class="form-check-label" for="phaseRealtime">Phase</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <hr class="my-3" />
-
-                                    <!-- === Time Interval Selection === -->
-                                    <div class="row align-items-center mb-3">
-                                        <div class="col-md-2 my-3">
-                                            <label class="form-label fw-semibold mb-0">Select a Time Interval:</label>
-                                        </div>
-                                        <div class="col-md-10 d-flex align-items-center gap-3">
-                                            <select id="intervalSelect" class="form-select w-auto">
-                                                <option value="1">1 Minute</option>
-                                                <option value="5" selected>5 Minutes</option>
-                                                <option value="10">10 Minutes</option>
-                                                <option value="15">15 Minutes</option>
-                                                <option value="30">30 Minutes</option>
-                                                <option value="60">60 Minutes</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Chart -->
-                        <div class="card mt-6">
-                            <div class="card-body p-0">
-                                <style>
-                                    body {
-                                        font-family: "Inter", sans-serif;
-                                        background: #f8f9fa;
-                                        /* padding: 20px; */
-                                    }
-
-                                    #Chart {
-                                        width: 100%;
-                                        height: 100%;
-                                        background: #fff;
-                                        border-radius: 8px;
-                                        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-                                        padding: 10px;
-                                    }
-                                </style>
-                                <div id="Chart" style="width: 100%; height: 500px;"></div>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- Heatmap -->
-                    <div class="tab-pane fade" id="heatmap" role="tabpanel" aria-labelledby="heatmap-tab">
-                        <div class="card border-0 shadow-none">
-                            <h5 class="fw-bold mb-2">
-                                <i class="ti ti-flame me-1"></i> Heatmap Visualization
-                            </h5>
-                            <p class="text-muted mb-0">
-                                Color-coded temperature or load intensity mapping.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Demand -->
-                    <div class="tab-pane fade" id="demand" role="tabpanel" aria-labelledby="demand-tab">
-                        <div class="card border-0 shadow-none">
-                            <h5 class="fw-bold mb-2">
-                                <i class="ti ti-trending-up me-1"></i> Demand Analysis
-                            </h5>
-                            <p class="text-muted mb-0">
-                                Displays peak demand and usage comparison.
-                            </p>
-                        </div>
-                    </div>
                 </div>
 
             </div>
         </div>
     </div>
+
+    <style>
+        /* Hover effect */
+        .jstree-anchor:hover .file-node {
+            color: var(--bs-secondary) !important;
+        }
+
+        /* Selected node */
+        .jstree-clicked .file-node {
+            color: #fff !important;
+        }
+    </style>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -489,18 +290,6 @@
                         default: {
                             icon: 'ti ti-folder'
                         },
-                        html: {
-                            icon: 'ti ti-brand-html5 text-danger'
-                        },
-                        css: {
-                            icon: 'ti ti-brand-css3 text-info'
-                        },
-                        img: {
-                            icon: 'ti ti-photo text-success'
-                        },
-                        js: {
-                            icon: 'ti ti-brand-javascript text-warning'
-                        },
                         facility: {
                             icon: 'ti ti-building-community text-warning'
                         },
@@ -508,7 +297,7 @@
                             icon: 'ti ti-building text-success'
                         },
                         file: {
-                            icon: 'ti ti-activity-heartbeat text-primary'
+                            icon: 'ti ti-activity-heartbeat text-primary file-node'
                         }
                     }
                 });
@@ -520,9 +309,16 @@
             });
 
             // ✅ 3. Detect device selection
+            $('#tree').on('click.jstree', '.jstree-anchor', function(e) {
+                const tree = $('#tree').jstree(true);
+                const node = tree.get_node(this);
+
+                tree.toggle_node(node);
+            });
+
             $('#tree').on('select_node.jstree', function(e, data) {
                 if (data.node.id.startsWith('model_')) {
-                    updateChart();
+                    updateEnergyIncrementChart();
                 }
             });
 
@@ -608,149 +404,350 @@
             }
 
             // =========================================================
-            // 2️⃣ GET SELECTED PARAMETERS & SYSTEM TYPE
+            // ENERGY — GET SELECTED PARAM TYPE (Active / Reactive / Apparent)
             // =========================================================
-            function getSelectedParams() {
-                const activeBtn = document.querySelector('#paramButtonsRealtime .active');
-                if (!activeBtn) return ['V1', 'V2', 'V3']; // fallback
-                return getParameters(activeBtn.dataset.param);
+            function getSelectedEnergyParamType() {
+                const btn = document.querySelector('#paramButtonsEnergy .active');
+                return btn ? btn.dataset.param : 'Active';
             }
 
-            function getSystemType() {
-                return document.querySelector('input[name="systemTypeRealtime"]:checked')?.value || 'phase';
+            // =========================================================
+            // ENERGY — GET SELECTED DIRECTION (Import / Export / Net / Total)
+            // =========================================================
+            function getSelectedEnergyDirection() {
+                const btn = document.querySelector('#directionButtonsEnergy .active');
+                return btn ? btn.dataset.direction : 'Import';
             }
 
-            function getParameters(paramType) {
-                const systemType = getSystemType();
+            // =========================================================
+            // ENERGY — GET SYSTEM TYPE (Phase / System)
+            // =========================================================
+            function getEnergySystemType() {
+                return document.querySelector('input[name="systemTypeEnergy"]:checked')?.value || 'system';
+            }
+
+            // =========================================================
+            // ENERGY — PARAMETER MAPPING
+            // =========================================================
+
+            function getEnergyParameters(paramType, direction, systemType) {
+
                 const map = {
                     phase: {
-                        VLN: [{
-                                key: 'V1',
-                                label: 'Phase 1 Line-to-Neutral Voltage'
-                            },
-                            {
-                                key: 'V2',
-                                label: 'Phase 2 Line-to-Neutral Voltage'
-                            },
-                            {
-                                key: 'V3',
-                                label: 'Phase 3 Line-to-Neutral Voltage'
-                            }
-                        ],
-                        VLL: [{
-                                key: 'V12',
-                                label: 'Phase 1-2 Line-to-Line Voltage'
-                            },
-                            {
-                                key: 'V23',
-                                label: 'Phase 2-3 Line-to-Line Voltage'
-                            },
-                            {
-                                key: 'V31',
-                                label: 'Phase 3-1 Line-to-Line Voltage'
-                            }
-                        ],
-                        Current: [{
-                                key: 'I1',
-                                label: 'Phase 1 Current'
-                            },
-                            {
-                                key: 'I2',
-                                label: 'Phase 2 Current'
-                            },
-                            {
-                                key: 'I3',
-                                label: 'Phase 3 Current'
-                            }
-                        ],
-                        Active: [{
-                                key: 'P1',
-                                label: 'Phase 1 Active Power'
-                            },
-                            {
-                                key: 'P2',
-                                label: 'Phase 2 Active Power'
-                            },
-                            {
-                                key: 'P3',
-                                label: 'Phase 3 Active Power'
-                            }
-                        ],
-                        Reactive: [{
-                                key: 'Q1',
-                                label: 'Phase 1 Reactive Power'
-                            },
-                            {
-                                key: 'Q2',
-                                label: 'Phase 2 Reactive Power'
-                            },
-                            {
-                                key: 'Q3',
-                                label: 'Phase 3 Reactive Power'
-                            }
-                        ],
-                        Apparent: [{
-                                key: 'S1',
-                                label: 'Phase 1 Apparent Power'
-                            },
-                            {
-                                key: 'S2',
-                                label: 'Phase 2 Apparent Power'
-                            },
-                            {
-                                key: 'S3',
-                                label: 'Phase 3 Apparent Power'
-                            }
-                        ],
-                        PF: [{
-                                key: 'PF1',
-                                label: 'Phase 1 Power Factor'
-                            },
-                            {
-                                key: 'PF2',
-                                label: 'Phase 2 Power Factor'
-                            },
-                            {
-                                key: 'PF3',
-                                label: 'Phase 3 Power Factor'
-                            }
-                        ]
+                        Active: {
+                            Import: [{
+                                    key: 'EPa_IMP_kWh',
+                                    label: 'Phase A Import Active Energy'
+                                },
+                                {
+                                    key: 'EPb_IMP_kWh',
+                                    label: 'Phase B Import Active Energy'
+                                },
+                                {
+                                    key: 'EPc_IMP_kWh',
+                                    label: 'Phase C Import Active Energy'
+                                }
+                            ],
+                            Export: [{
+                                    key: 'EPa_EXP_kWh',
+                                    label: 'Phase A Export Active Energy'
+                                },
+                                {
+                                    key: 'EPb_EXP_kWh',
+                                    label: 'Phase B Export Active Energy'
+                                },
+                                {
+                                    key: 'EPc_EXP_kWh',
+                                    label: 'Phase C Export Active Energy'
+                                }
+                            ],
+                            Net: [],
+                            Total: [] // no per-phase total
+                        },
+
+                        Reactive: {
+                            Import: [{
+                                    key: 'EQa_IMP_kvarh',
+                                    label: 'Phase A Import Reactive Energy'
+                                },
+                                {
+                                    key: 'EQb_IMP_kvarh',
+                                    label: 'Phase B Import Reactive Energy'
+                                },
+                                {
+                                    key: 'EQc_IMP_kvarh',
+                                    label: 'Phase C Import Reactive Energy'
+                                }
+                            ],
+                            Export: [{
+                                    key: 'EQa_EXP_kvarh',
+                                    label: 'Phase A Export Reactive Energy'
+                                },
+                                {
+                                    key: 'EQb_EXP_kvarh',
+                                    label: 'Phase B Export Reactive Energy'
+                                },
+                                {
+                                    key: 'EQc_EXP_kvarh',
+                                    label: 'Phase C Export Reactive Energy'
+                                }
+                            ],
+                            Net: [],
+                            Total: [] // no per-phase total
+                        },
+
+                        Apparent: {
+                            Import: [], // no import/export per-phase
+                            Export: [],
+                            Net: [],
+                            Total: [{
+                                    key: 'ESa_kVAh',
+                                    label: 'Phase A Apparent Energy'
+                                },
+                                {
+                                    key: 'ESb_kVAh',
+                                    label: 'Phase B Apparent Energy'
+                                },
+                                {
+                                    key: 'ESc_kVAh',
+                                    label: 'Phase C Apparent Energy'
+                                }
+                            ]
+                        }
                     },
 
                     system: {
-                        VLN: [{
-                            key: 'Vnavg_V',
-                            label: 'System Average Line-to-Neutral Voltage'
-                        }],
-                        VLL: [{
-                            key: 'Vlavg_V',
-                            label: 'System Average Line-to-Line Voltage'
-                        }],
-                        Current: [{
-                            key: 'Iavg_A',
-                            label: 'System Average Current'
-                        }],
-                        Active: [{
-                            key: 'Psum_kW',
-                            label: 'System Active Power (kW)'
-                        }],
-                        Reactive: [{
-                            key: 'Qsum_kvar',
-                            label: 'System Reactive Power (kVAR)'
-                        }],
-                        Apparent: [{
-                            key: 'Ssum_kVA',
-                            label: 'System Apparent Power (kVA)'
-                        }],
-                        PF: [{
-                            key: 'PF',
-                            label: 'System Power Factor'
-                        }]
+                        Active: {
+                            Import: [{
+                                key: 'EP_IMP_kWh',
+                                label: 'System Import Active Energy'
+                            }],
+                            Export: [{
+                                key: 'EP_EXP_kWh',
+                                label: 'System Export Active Energy'
+                            }],
+                            Net: [{
+                                key: 'EP_NET_kWh',
+                                label: 'System Net Active Energy'
+                            }],
+                            Total: [{
+                                key: 'EP_TOTAL_kWh',
+                                label: 'System Total Active Energy'
+                            }]
+                        },
+
+                        Reactive: {
+                            Import: [{
+                                key: 'EQ_IMP_kvarh',
+                                label: 'System Import Reactive Energy'
+                            }],
+                            Export: [{
+                                key: 'EQ_EXP_kvarh',
+                                label: 'System Export Reactive Energy'
+                            }],
+                            Net: [{
+                                key: 'EQ_NET_kvarh',
+                                label: 'System Net Reactive Energy'
+                            }],
+                            Total: [{
+                                key: 'EQ_TOTAL_kvarh',
+                                label: 'System Total Reactive Energy'
+                            }]
+                        },
+
+                        Apparent: {
+                            Import: [],
+                            Export: [],
+                            Net: [],
+                            Total: [{
+                                key: 'ES_kVAh',
+                                label: 'System Apparent Energy'
+                            }]
+                        }
                     }
                 };
 
-                return map[systemType][paramType] || [];
+                return map[systemType]?.[paramType]?.[direction] || [];
             }
+
+            function updateDirectionButtonsEnergy() {
+                const paramBtn = document.querySelector('#paramButtonsEnergy .nav-link.active');
+                const directionBtns = document.querySelectorAll('#directionButtonsEnergy .nav-link');
+                const systemType = document.querySelector('input[name="systemTypeEnergy"]:checked').value;
+
+                if (!paramBtn) return;
+                const paramType = paramBtn.dataset.param;
+
+                directionBtns.forEach(btn => {
+                    const direction = btn.dataset.direction;
+
+                    const available = getEnergyParameters(paramType, direction, systemType);
+
+                    const valid = Array.isArray(available) && available.length > 0;
+
+                    if (!valid) {
+                        btn.classList.add('disabled');
+                        btn.setAttribute('disabled', true);
+
+                        if (btn.classList.contains('active')) {
+                            btn.classList.remove('active');
+                        }
+                    } else {
+                        btn.classList.remove('disabled');
+                        btn.removeAttribute('disabled');
+                    }
+                });
+            }
+
+            // Param buttons (Active / Reactive / Apparent)
+            document.querySelectorAll('#paramButtonsEnergy .nav-link').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelector('#paramButtonsEnergy .active')?.classList.remove(
+                        'active');
+                    btn.classList.add('active');
+                    updateDirectionButtonsEnergy();
+                });
+            });
+
+            // System / Phase toggle
+            document.querySelectorAll('input[name="systemTypeEnergy"]').forEach(radio => {
+                radio.addEventListener('change', updateDirectionButtonsEnergy);
+            });
+
+            // Initial run
+            updateDirectionButtonsEnergy();
+
+            // function getParameters(paramType) {
+            //     const systemType = getSystemType();
+            //     const map = {
+            //         phase: {
+            //             VLN: [{
+            //                     key: 'V1',
+            //                     label: 'Phase 1 Line-to-Neutral Voltage'
+            //                 },
+            //                 {
+            //                     key: 'V2',
+            //                     label: 'Phase 2 Line-to-Neutral Voltage'
+            //                 },
+            //                 {
+            //                     key: 'V3',
+            //                     label: 'Phase 3 Line-to-Neutral Voltage'
+            //                 }
+            //             ],
+            //             VLL: [{
+            //                     key: 'V12',
+            //                     label: 'Phase 1-2 Line-to-Line Voltage'
+            //                 },
+            //                 {
+            //                     key: 'V23',
+            //                     label: 'Phase 2-3 Line-to-Line Voltage'
+            //                 },
+            //                 {
+            //                     key: 'V31',
+            //                     label: 'Phase 3-1 Line-to-Line Voltage'
+            //                 }
+            //             ],
+            //             Current: [{
+            //                     key: 'I1',
+            //                     label: 'Phase 1 Current'
+            //                 },
+            //                 {
+            //                     key: 'I2',
+            //                     label: 'Phase 2 Current'
+            //                 },
+            //                 {
+            //                     key: 'I3',
+            //                     label: 'Phase 3 Current'
+            //                 }
+            //             ],
+            //             Active: [{
+            //                     key: 'P1',
+            //                     label: 'Phase 1 Active Power'
+            //                 },
+            //                 {
+            //                     key: 'P2',
+            //                     label: 'Phase 2 Active Power'
+            //                 },
+            //                 {
+            //                     key: 'P3',
+            //                     label: 'Phase 3 Active Power'
+            //                 }
+            //             ],
+            //             Reactive: [{
+            //                     key: 'Q1',
+            //                     label: 'Phase 1 Reactive Power'
+            //                 },
+            //                 {
+            //                     key: 'Q2',
+            //                     label: 'Phase 2 Reactive Power'
+            //                 },
+            //                 {
+            //                     key: 'Q3',
+            //                     label: 'Phase 3 Reactive Power'
+            //                 }
+            //             ],
+            //             Apparent: [{
+            //                     key: 'S1',
+            //                     label: 'Phase 1 Apparent Power'
+            //                 },
+            //                 {
+            //                     key: 'S2',
+            //                     label: 'Phase 2 Apparent Power'
+            //                 },
+            //                 {
+            //                     key: 'S3',
+            //                     label: 'Phase 3 Apparent Power'
+            //                 }
+            //             ],
+            //             PF: [{
+            //                     key: 'PF1',
+            //                     label: 'Phase 1 Power Factor'
+            //                 },
+            //                 {
+            //                     key: 'PF2',
+            //                     label: 'Phase 2 Power Factor'
+            //                 },
+            //                 {
+            //                     key: 'PF3',
+            //                     label: 'Phase 3 Power Factor'
+            //                 }
+            //             ]
+            //         },
+
+            //         system: {
+            //             VLN: [{
+            //                 key: 'Vnavg_V',
+            //                 label: 'System Average Line-to-Neutral Voltage'
+            //             }],
+            //             VLL: [{
+            //                 key: 'Vlavg_V',
+            //                 label: 'System Average Line-to-Line Voltage'
+            //             }],
+            //             Current: [{
+            //                 key: 'Iavg_A',
+            //                 label: 'System Average Current'
+            //             }],
+            //             Active: [{
+            //                 key: 'Psum_kW',
+            //                 label: 'System Active Power (kW)'
+            //             }],
+            //             Reactive: [{
+            //                 key: 'Qsum_kvar',
+            //                 label: 'System Reactive Power (kVAR)'
+            //             }],
+            //             Apparent: [{
+            //                 key: 'Ssum_kVA',
+            //                 label: 'System Apparent Power (kVA)'
+            //             }],
+            //             PF: [{
+            //                 key: 'PF',
+            //                 label: 'System Power Factor'
+            //             }]
+            //         }
+            //     };
+
+            //     return map[systemType][paramType] || [];
+            // }
 
             function getYAxisLabel(params) {
                 if (!params || params.length === 0) return '';
@@ -763,6 +760,10 @@
                 if (firstKey.startsWith('Psum') || firstKey.startsWith('P')) return 'kW';
                 if (firstKey.startsWith('Qsum') || firstKey.startsWith('Q')) return 'kVAR';
                 if (firstKey.startsWith('Ssum') || firstKey.startsWith('S')) return 'kVA';
+
+                if (firstKey.startsWith('EP')) return 'kWh';
+                if (firstKey.startsWith('EQ')) return 'kVARh';
+                if (firstKey.startsWith('ES')) return 'kVAh';
 
                 return ''; // default
             }
@@ -779,10 +780,40 @@
             // 4️⃣ COLOR CONFIGURATION
             // =========================================================
             function getColor(param) {
-                const phaseR = ['V1', 'V12', 'I1', 'P1', 'Q1', 'S1', 'PF1'];
-                const phaseS = ['V2', 'V23', 'I2', 'P2', 'Q2', 'S2', 'PF2'];
-                const phaseT = ['V3', 'V31', 'I3', 'P3', 'Q3', 'S3', 'PF3'];
-                const system = ['Vnavg_V', 'Vlavg_V', 'Iavg_A', 'Psum_kW', 'Qsum_kvar', 'Ssum_kVA', 'PF'];
+                const phaseR = [
+                    'V1', 'V12', 'I1',
+                    'P1', 'Q1', 'S1',
+                    'PF1',
+                    'EPa_IMP_kWh', 'EPa_EXP_kWh',
+                    'EQa_IMP_kvarh', 'EQa_EXP_kvarh',
+                    'ESa_kVAh',
+                ];
+                const phaseS = [
+                    'V2', 'V23', 'I2',
+                    'P2', 'Q2', 'S2',
+                    'PF2',
+                    'EPb_IMP_kWh', 'EPb_EXP_kWh',
+                    'EQb_IMP_kvarh', 'EQb_EXP_kvarh',
+                    'ESb_kVAh',
+                ];
+                const phaseT = [
+                    'V3', 'V31', 'I3',
+                    'P3', 'Q3', 'S3',
+                    'PF3',
+                    'EPc_IMP_kWh', 'EPc_EXP_kWh',
+                    'EQc_IMP_kvarh', 'EQc_EXP_kvarh',
+                    'ESc_kVAh',
+                ];
+                const system = [
+                    'Vnavg_V', 'Vlavg_V', 'Iavg_A',
+                    'Psum_kW', 'Qsum_kvar', 'Ssum_kVA',
+                    'PF',
+                    'EP_IMP_kWh', 'EP_EXP_kWh',
+                    'EP_TOTAL_kWh', 'EP_NET_kWh',
+                    'EQ_IMP_kvarh', 'EQ_EXP_kvarh',
+                    'EQ_TOTAL_kvarh', 'EQ_NET_kvarh',
+                    'ES_kVAh'
+                ];
 
                 if (phaseR.includes(param)) return '#FF4560';
                 if (phaseS.includes(param)) return '#FEB019';
@@ -858,24 +889,215 @@
                 }));
             }
 
+            function buildEnergyIncrementSeries(apiData, timeAxis, params, systemType) {
+                // Convert API rows into a lookup table: "YYYY-MM-DD HH:mm" → row
+                const lookup = {};
+                apiData.forEach(r => {
+                    const key = (r.time || '').slice(0, 16); // "YYYY-MM-DD HH:mm"
+                    lookup[key] = r;
+                });
+
+                return params.map(p => {
+                    const data = [];
+                    let prev = null; // previous cumulative value
+
+                    timeAxis.forEach(t => {
+                        const row = lookup[t];
+                        const cur = row ? parseFloat(row[p.key]) : null;
+
+                        if (cur === null || isNaN(cur)) {
+                            data.push(null);
+                            return;
+                        }
+
+                        if (prev === null) {
+                            // first valid point → no delta
+                            data.push(null);
+                        } else {
+                            const diff = cur - prev;
+                            data.push(diff >= 0 ? diff : null); // reset? negative? → null
+                        }
+
+                        prev = cur; // update previous
+                    });
+
+                    return {
+                        name: p.label,
+                        type: 'bar',
+                        data: data,
+                        itemStyle: {
+                            color: getColor(p.key) // 🟦 this applies your phase color
+                        },
+                        barWidth: systemType === 'phase' ? '25%' : '50%',
+                        barGap: systemType === 'phase' ? '10%' : '30%',
+                        barCategoryGap: systemType === 'phase' ? '30%' : '40%'
+                    };
+
+                });
+            }
+
             // =========================================================
             // 7️⃣ RENDER CHART
             // =========================================================
-            function renderChart(timeAxis, series, params) {
-                const allValues = series.flatMap(s => s.data.filter(v => v !== null));
-                const yMin = allValues.length ? Math.min(...allValues) : 0;
-                const yMax = allValues.length ? Math.max(...allValues) : 1;
-                const yMargin = (yMax - yMin) * 0.1;
+            // function renderChart(timeAxis, series, params) {
+            //     const allValues = series.flatMap(s => s.data.filter(v => v !== null));
+            //     const yMin = allValues.length ? Math.min(...allValues) : 0;
+            //     const yMax = allValues.length ? Math.max(...allValues) : 1;
+            //     const yMargin = (yMax - yMin) * 0.1;
 
-                myChart.clear(); // ✅ Remove all old series, axes, zoom, events
+            //     myChart.clear(); // ✅ Remove all old series, axes, zoom, events
+            //     myChart.setOption({
+            //         title: {
+            //             // text: `${params.join(', ')} (Today)`,
+            //             left: 'center'
+            //         },
+            //         tooltip: {
+            //             trigger: 'axis'
+            //         },
+            //         legend: {
+            //             type: 'plain', // 'plain' or 'scroll' for many items
+            //             orient: 'horizontal', // 'horizontal' or 'vertical'
+            //             top: 20, // Position from top
+            //             left: 20, // 'left' | 'right' | 'center' | 'number'
+            //             // left: 'left', // 'left' | 'right' | 'center' | 'number'
+            //             data: params.map(p => p.label), // ✅ Show readable names
+            //         },
+            //         grid: {
+            //             left: '2%',
+            //             right: '2%',
+            //             top: '15%',
+            //             bottom: '10%',
+            //             containLabel: true
+            //         },
+            //         xAxis: {
+            //             type: 'category',
+            //             boundaryGap: false,
+            //             data: timeAxis
+            //         },
+            //         yAxis: {
+            //             name: getYAxisLabel(params), // ✅ Dynamic label here
+            //             nameTextStyle: {
+            //                 fontWeight: 'bold', // ✅ Make it bold
+            //                 fontSize: 14 // (optional) adjust size
+            //             },
+            //             type: 'value',
+            //             axisLine: {
+            //                 show: true, // ✅ Show the Y-axis vertical line
+            //             },
+            //             splitLine: {
+            //                 show: true,
+            //                 lineStyle: {
+            //                     color: '#eee'
+            //                 }
+            //             },
+            //             min: parseFloat((yMin - yMargin).toFixed(2)),
+            //             max: parseFloat((yMax + yMargin).toFixed(2))
+            //         },
+            //         series: series,
+            //         dataZoom: [{
+            //             type: 'slider',
+            //             bottom: 5
+            //         }, {
+            //             type: 'inside'
+            //         }],
+            //         toolbox: {
+            //             itemSize: 24, // ✅ Default is 15 — increase to make icons bigger
+            //             feature: {
+            //                 saveAsImage: {
+            //                     title: 'Download'
+            //                 },
+            //                 dataZoom: {
+            //                     // title: {
+            //                     //     zoom: 'Zoom',
+            //                     //     back: 'Reset'
+            //                     // },
+            //                     yAxisIndex: false // ✅ Disable zoom for Y-axis inside toolbox
+            //                 },
+            //                 // ✅ Add Data View
+            //                 dataView: {
+            //                     title: 'Data View',
+            //                     readOnly: true,
+            //                     optionToContent: function(opt) {
+            //                         const axisData = opt.xAxis[0].data;
+            //                         const series = opt.series;
+
+            //                         let table =
+            //                             '<button id="downloadCSV" style="margin-bottom:8px;">Download CSV</button>';
+            //                         table +=
+            //                             '<table border="1" style="width:100%;text-align:center"><tr><th>Time</th>';
+
+            //                         series.forEach(s => {
+            //                             table += `<th>${s.name}</th>`;
+            //                         });
+            //                         table += '</tr>';
+
+            //                         axisData.forEach((time, i) => {
+            //                             table += `<tr><td>${time}</td>`;
+            //                             series.forEach(s => {
+            //                                 table +=
+            //                                     `<td>${s.data[i] !== undefined ? s.data[i] : ''}</td>`;
+            //                             });
+            //                             table += '</tr>';
+            //                         });
+            //                         table += '</table>';
+
+            //                         setTimeout(() => {
+            //                             document.getElementById('downloadCSV').onclick =
+            //                                 function() {
+            //                                     let csv = 'Time,' + series.map(s => s.name)
+            //                                         .join(',') + '\n';
+            //                                     axisData.forEach((time, i) => {
+            //                                         csv += time + ',' + series.map(s =>
+            //                                             s.data[i]).join(',') + '\n';
+            //                                     });
+
+            //                                     const blob = new Blob([csv], {
+            //                                         type: 'text/csv'
+            //                                     });
+            //                                     const url = URL.createObjectURL(blob);
+
+            //                                     const a = document.createElement('a');
+            //                                     a.href = url;
+            //                                     a.download = 'chart-data.csv';
+            //                                     a.click();
+            //                                     URL.revokeObjectURL(url);
+            //                                 };
+            //                         });
+
+            //                         return table;
+            //                     }
+            //                 },
+            //                 restore: {
+            //                     title: 'Restore' // ✅ Add the restore feature
+            //                 }
+            //             },
+            //             right: 20
+            //         },
+            //     }, true);
+            // }
+
+            function renderEnergyIncrementChart(timeAxis, series, params) {
+                myChart.clear();
                 myChart.setOption({
                     title: {
-                        // text: `${params.join(', ')} (Today)`,
                         left: 'center'
                     },
+
                     tooltip: {
-                        trigger: 'axis'
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        },
+                        formatter: function(items) {
+                            let text = items[0].axisValue + "<br/>";
+                            items.forEach(it => {
+                                text +=
+                                    `${it.marker} ${it.seriesName}: ${it.value ?? '-'}<br/>`;
+                            });
+                            return text;
+                        }
                     },
+
                     legend: {
                         type: 'plain', // 'plain' or 'scroll' for many items
                         orient: 'horizontal', // 'horizontal' or 'vertical'
@@ -884,6 +1106,7 @@
                         // left: 'left', // 'left' | 'right' | 'center' | 'number'
                         data: params.map(p => p.label), // ✅ Show readable names
                     },
+
                     grid: {
                         left: '2%',
                         right: '2%',
@@ -891,11 +1114,19 @@
                         bottom: '10%',
                         containLabel: true
                     },
+
                     xAxis: {
                         type: 'category',
-                        boundaryGap: false,
-                        data: timeAxis
+                        data: timeAxis,
+                        axisLabel: {
+                            rotate: 45,
+                            formatter: v => v.slice(11) // show only HH:mm
+                        },
+                        axisTick: {
+                            alignWithLabel: true
+                        }
                     },
+
                     yAxis: {
                         name: getYAxisLabel(params), // ✅ Dynamic label here
                         nameTextStyle: {
@@ -912,16 +1143,18 @@
                                 color: '#eee'
                             }
                         },
-                        min: parseFloat((yMin - yMargin).toFixed(2)),
-                        max: parseFloat((yMax + yMargin).toFixed(2))
+                        min: 0,
                     },
-                    series: series,
+
                     dataZoom: [{
-                        type: 'slider',
-                        bottom: 5
-                    }, {
-                        type: 'inside'
-                    }],
+                            type: 'slider',
+                            start: 0,
+                            end: 100
+                        },
+                        {
+                            type: 'inside'
+                        }
+                    ],
                     toolbox: {
                         itemSize: 24, // ✅ Default is 15 — increase to make icons bigger
                         feature: {
@@ -995,6 +1228,8 @@
                         },
                         right: 20
                     },
+
+                    series: series
                 }, true);
             }
 
@@ -1025,7 +1260,7 @@
                 };
             }
 
-            async function updateChart() {
+            async function updateEnergyChart() {
                 const input = getCommonChartInputs();
                 if (!input) return;
 
@@ -1033,23 +1268,66 @@
                     deviceName,
                     start,
                     end,
-                    interval,
                     timeAxis
                 } = input;
 
-                const params = getSelectedParams();
+                const paramType = getSelectedEnergyParamType();
+                const direction = getSelectedEnergyDirection();
+                const systemType = getEnergySystemType();
 
-                // ✅ Pass start & end to API
+                const params = getEnergyParameters(paramType, direction, systemType);
+
                 const apiData = await fetchChartData(params, start, end, deviceName);
 
                 const series = buildSeriesData(apiData, timeAxis, params);
+
                 renderChart(timeAxis, series, params);
+            }
+
+            async function updateEnergyIncrementChart() {
+                // Common inputs (device, start, end, interval, timeAxis)
+                const input = getCommonChartInputs();
+                if (!input) return;
+
+                const {
+                    deviceName,
+                    start,
+                    end,
+                    timeAxis
+                } = input;
+
+                // Get selected Energy options
+                const paramType = getSelectedEnergyParamType(); // Active / Reactive / Apparent
+                const direction = getSelectedEnergyDirection(); // Import / Export / Net / Total
+                const systemType = getEnergySystemType(); // system / phase
+
+                // What parameters do we need?
+                const params = getEnergyParameters(paramType, direction, systemType);
+                if (!params.length) {
+                    myChart.clear();
+                    return;
+                }
+
+                // Fetch cumulative data from your API
+                const apiData = await fetchChartData(params, start, end, deviceName);
+                if (!apiData || apiData.length === 0) {
+                    myChart.clear();
+                    return;
+                }
+
+                // Convert cumulative → incremental (delta)
+                const series = buildEnergyIncrementSeries(apiData, timeAxis, params, systemType);
+
+                // Render bar chart
+                renderEnergyIncrementChart(timeAxis, series, params);
             }
 
             // =========================================================
             // EVENT LISTENERS
             // =========================================================
+
             // 📌 Show/Hide Custom Date Inputs
+
             document.getElementById('dateRangeSelect').addEventListener('change', function() {
                 const isCustom = this.value === 'custom';
                 document.getElementById('startDate').classList.toggle('d-none', !isCustom);
@@ -1057,7 +1335,8 @@
 
                 // If not custom, update chart directly
                 if (!isCustom) {
-                    updateChart();
+                    // updateChart();
+                    updateEnergyChart();
                 }
             });
 
@@ -1070,10 +1349,18 @@
             });
 
             // If custom date is selected, trigger chart update when both dates picked
+            // ['startDate', 'endDate'].forEach(id => {
+            //     document.getElementById(id).addEventListener('change', function() {
+            //         const range = getSelectedDateRange();
+            //         if (range)
+            //             // updateChart();
+            //             updateEnergyChart();
+            //     });
+            // });
+
             ['startDate', 'endDate'].forEach(id => {
-                document.getElementById(id).addEventListener('change', function() {
-                    const range = getSelectedDateRange();
-                    if (range) updateChart();
+                document.getElementById(id).addEventListener('change', () => {
+                    updateEnergyIncrementChart();
                 });
             });
 
@@ -1083,23 +1370,88 @@
                         .classList
                         .remove('active'));
                     btn.classList.add('active');
-                    updateChart();
+                    // updateChart();
+                    updateEnergyChart();
                 });
             });
 
             document.querySelectorAll('input[name="systemTypeRealtime"]').forEach(r => {
-                r.addEventListener('change', updateChart);
+                r.addEventListener('change',
+                    // updateChart
+                    updateEnergyChart
+                );
             });
 
+            // Energy Param Type Buttons
+            // document.querySelectorAll('#paramButtonsEnergy button').forEach(btn => {
+            //     btn.addEventListener('click', () => {
+            //         document.querySelectorAll('#paramButtonsEnergy button').forEach(b => b.classList
+            //             .remove('active'));
+            //         btn.classList.add('active');
+            //         updateEnergyChart();
+            //     });
+            // });
+
+            document.querySelectorAll('#paramButtonsEnergy button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('#paramButtonsEnergy button')
+                        .forEach(b => b.classList.remove('active'));
+
+                    btn.classList.add('active');
+                    updateEnergyIncrementChart();
+                });
+            });
+
+            // Energy Direction Buttons
+            // document.querySelectorAll('#directionButtonsEnergy button').forEach(btn => {
+            //     btn.addEventListener('click', () => {
+            //         document.querySelectorAll('#directionButtonsEnergy button').forEach(b => b
+            //             .classList.remove('active'));
+            //         btn.classList.add('active');
+            //         updateEnergyChart();
+            //     });
+            // });
+
+            document.querySelectorAll('#directionButtonsEnergy button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('#directionButtonsEnergy button')
+                        .forEach(b => b.classList.remove('active'));
+
+                    btn.classList.add('active');
+                    updateEnergyIncrementChart();
+                });
+            });
+
+            // Energy System Type (System / Phase)
+            // document.querySelectorAll('input[name="systemTypeEnergy"]').forEach(r => {
+            //     r.addEventListener('change', updateEnergyChart);
+            // });
+
+            document.querySelectorAll('input[name="systemTypeEnergy"]').forEach(radio => {
+                radio.addEventListener('change', updateEnergyIncrementChart);
+            });
+
+            document.getElementById('dateRangeSelect').addEventListener('change', () => {
+                updateEnergyIncrementChart();
+            });
+
+            // const intervalSelect = document.getElementById('intervalSelect');
+            // if (intervalSelect) intervalSelect.addEventListener('change',
+            //     // updateChart
+            //     updateEnergyChart
+            // );
+
             const intervalSelect = document.getElementById('intervalSelect');
-            if (intervalSelect) intervalSelect.addEventListener('change', updateChart);
+            if (intervalSelect) intervalSelect.addEventListener('change', updateEnergyIncrementChart);
 
             window.addEventListener('resize', () => myChart.resize());
 
             // ✅ Load Chart First Time
-            updateChart();
+            // updateChart();
+            // updateEnergyChart();
+            updateEnergyIncrementChart();
+
         });
     </script>
-
 
 @endsection

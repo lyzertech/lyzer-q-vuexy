@@ -1394,7 +1394,7 @@
       "slug": "monitoring-installation"
     },
     {
-      "url": "monitoring/analysis",
+      "url": "monitoring/analysis/realtime",
       "name": "Analysis",
       "icon": "menu-icon tf-icons ti ti-chart-pie",
       "slug": "monitoring-analysis"

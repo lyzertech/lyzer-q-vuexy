@@ -114,6 +114,23 @@
       "slug": "monitoring-dashboard"
     },
     {
+      "name": "Modbus",
+      "icon": "menu-icon tf-icons ti ti-user-check",
+      "slug": "modbus",
+      "submenu": [
+        {
+          "url": "modbus/read",
+          "name": "Read",
+          "slug": "modbus-read"
+        },
+        {
+          "url": "modbus/label",
+          "name": "Label Generator",
+          "slug": "modbus-label"
+        }
+      ]
+    },
+    {
       "url": "product",
       "name": "Product",
       "icon": "menu-icon tf-icons ti ti-barcode",

@@ -89,207 +89,12 @@
 
                 <!-- Tabs Content -->
                 <div class="tab-content mt-4 p-0" id="energyTabsContent">
-
-                    {{-- <!-- Energy -->
-                    <div class="tab-pane fade show active" id="energy" role="tabpanel" aria-labelledby="energy-tab">
-                        <h5 class="fw-bold mb-2">
-                            <i class="ti ti-activity me-1"></i> Energy Monitoring
-                        </h5>
-                        <p class="text-muted mb-0">
-                            Live data Energy feed updates.
-                        </p>
-                        <div class="tab-pane fade show active" id="energy" role="tabpanel" aria-labelledby="energy-tab">
-                            <div class="card shadow-sm border-0">
-                                <div class="card-body">
-                                    <!-- === Time Frame Selection === -->
-                                    <div class="row align-items-center mb-3">
-                                        <div class="col-md-2 my-3">
-                                            <label class="form-label fw-semibold mb-0">Select a Time Frame:</label>
-                                        </div>
-                                        <div class="col-md-10 d-flex flex-wrap align-items-center gap-2">
-                                            <select id="dateRangeSelect" class="form-select w-auto">
-                                                <option value="today" selected>Today</option>
-                                                <option value="yesterday">Yesterday</option>
-                                                <option value="this_week">This Week</option>
-                                                <option value="custom">Custom</option>
-                                            </select>
-
-                                            <!-- Only visible if user picks Custom -->
-                                            <input type="date" id="startDate" class="form-control w-auto d-none">
-                                            <input type="date" id="endDate" class="form-control w-auto d-none">
-                                        </div>
-                                    </div>
-
-                                    <hr class="my-3" />
-
-                                    <!-- === Parameter Selection === -->
-                                    <div class="row align-items-center mb-3">
-                                        <div class="col-md-2 my-3">
-                                            <label class="form-label fw-semibold mb-0">Select a Parameter:</label>
-                                        </div>
-                                        <div class="col-md-10 d-flex flex-wrap align-items-center gap-4">
-
-                                            <style>
-                                                .nav-item {
-                                                    /* Button spacing */
-                                                    border-radius: 6px;
-                                                    /* Rounded edges */
-                                                    margin-right: 6px;
-                                                }
-
-                                                .nav-item .param {
-                                                    border: 1px solid #E6E6E8;
-                                                }
-                                            </style>
-
-                                            <!-- === PARAM TYPE BUTTONS (Active, Reactive, Apparent) === -->
-                                            <div class="btn-group flex-wrap" role="group" id="paramButtonsEnergy">
-                                                <ul class="nav nav-pills gap-2">
-
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light active"
-                                                            data-param="Active">
-                                                            Active
-                                                        </button>
-                                                    </li>
-
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-param="Reactive">
-                                                            Reactive
-                                                        </button>
-                                                    </li>
-
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-param="Apparent">
-                                                            Apparent
-                                                        </button>
-                                                    </li>
-
-                                                </ul>
-                                            </div>
-
-                                            <!-- Divider -->
-                                            <span class="vr mx-3" style="background-color:#E6E6E8;"></span>
-
-                                            <!-- === DIRECTION BUTTONS (Import, Export, Net, Total) === -->
-                                            <div class="btn-group flex-wrap" role="group" id="directionButtonsEnergy">
-                                                <ul class="nav nav-pills gap-2">
-
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light active"
-                                                            data-direction="Import">
-                                                            Import
-                                                        </button>
-                                                    </li>
-
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-direction="Export">
-                                                            Export
-                                                        </button>
-                                                    </li>
-
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-direction="Net">
-                                                            Net
-                                                        </button>
-                                                    </li>
-
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-direction="Total">
-                                                            Total
-                                                        </button>
-                                                    </li>
-
-                                                </ul>
-                                            </div>
-
-                                            <!-- Divider -->
-                                            <span class="vr mx-3" style="background-color:#E6E6E8;"></span>
-
-                                            <!-- === SYSTEM / PHASE === -->
-                                            <div class="form-check form-check-inline m-0">
-                                                <input class="form-check-input" type="radio" name="systemTypeEnergy"
-                                                    id="systemEnergy" value="system" checked />
-                                                <label class="form-check-label" for="systemEnergy">System</label>
-                                            </div>
-
-                                            <div class="form-check form-check-inline m-0">
-                                                <input class="form-check-input" type="radio" name="systemTypeEnergy"
-                                                    id="phaseEnergy" value="phase" />
-                                                <label class="form-check-label" for="phaseEnergy">Phase</label>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <hr class="my-3" />
-
-                                    <!-- === Time Interval Selection === -->
-                                    <div class="row align-items-center mb-3">
-                                        <div class="col-md-2 my-3">
-                                            <label class="form-label fw-semibold mb-0">Select a Time Interval:</label>
-                                        </div>
-                                        <div class="col-md-10 d-flex align-items-center gap-3">
-                                            <select id="intervalSelect" class="form-select w-auto">
-                                                <option value="1">1 Minute</option>
-                                                <option value="5" selected>5 Minutes</option>
-                                                <option value="10">10 Minutes</option>
-                                                <option value="15">15 Minutes</option>
-                                                <option value="30">30 Minutes</option>
-                                                <option value="60">60 Minutes</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Chart -->
-                        <div class="card mt-6">
-                            <div class="card-body p-0">
-                                <style>
-                                    body {
-                                        font-family: "Inter", sans-serif;
-                                        background: #f8f9fa;
-                                        /* padding: 20px; */
-                                    }
-
-                                    #ChartEnergy {
-                                        width: 100%;
-                                        height: 100%;
-                                        background: #fff;
-                                        border-radius: 8px;
-                                        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-                                        padding: 10px;
-                                    }
-                                </style>
-                                <div id="ChartEnergy" style="width: 100%; height: 500px;"></div>
-
-                            </div>
-                        </div>
-
-                    </div> --}}
-
-                    <!-- Realtime -->
+                    <!-- Power Quality -->
                     <div class="tab-pane fade show active" id="realtime" role="tabpanel" aria-labelledby="realtime-tab">
                         <h5 class="fw-bold mb-2">
-                            <i class="ti ti-activity me-1"></i> Realtime Monitoring
+                            <i class="ti ti-chart-line me-1"></i> Voltage & Current Harmonic Stability
                         </h5>
-                        <p class="text-muted mb-0">
-                            Live data feed and instant parameter updates.
-                        </p>
+                        <p class="text-muted mb-0">Instant detection of imbalance, distortion, and fluctuation. </p>
                         <div class="tab-pane fade show active" id="realtime" role="tabpanel" aria-labelledby="energy-tab">
                             <div class="card shadow-sm border-0">
                                 <div class="card-body">
@@ -321,7 +126,7 @@
                                         </div>
                                         <div class="col-md-10 d-flex flex-wrap align-items-center gap-4">
                                             <div class="btn-group flex-wrap" role="group" aria-label="Parameter Buttons"
-                                                id="paramButtonsRealtime">
+                                                id="paramButtonsPowerquality">
                                                 <ul class="nav nav-pills">
                                                     <style>
                                                         .nav-item {
@@ -338,37 +143,12 @@
                                                     <li class="nav-item">
                                                         <button type="button"
                                                             class="nav-link param waves-effect waves-light active"
-                                                            data-param="VLN">LN Voltage</button>
+                                                            data-param="THDV">THD V</button>
                                                     </li>
                                                     <li class="nav-item">
                                                         <button type="button"
                                                             class="nav-link param waves-effect waves-light"
-                                                            data-param="VLL">LL Voltage</button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-param="Current">Current</button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-param="Active">Active</button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-param="Reactive">Reactive</button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-param="Apparent">Apparent</button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button type="button"
-                                                            class="nav-link param waves-effect waves-light"
-                                                            data-param="PF">Power Factor</button>
+                                                            data-param="THDI">THD I</button>
                                                     </li>
 
                                                 </ul>
@@ -377,12 +157,12 @@
                                             <span class="vr mx-3" style="background-color:#E6E6E8;"></span>
 
                                             <div class="form-check form-check-inline m-0">
-                                                <input class="form-check-input" type="radio" name="systemTypeRealtime"
+                                                <input class="form-check-input" type="radio" name="systemTypePowerquality"
                                                     id="systemRealtime" value="system" checked />
                                                 <label class="form-check-label" for="systemRealtime">System</label>
                                             </div>
                                             <div class="form-check form-check-inline m-0">
-                                                <input class="form-check-input" type="radio" name="systemTypeRealtime"
+                                                <input class="form-check-input" type="radio" name="systemTypePowerquality"
                                                     id="phaseRealtime" value="phase" />
                                                 <label class="form-check-label" for="phaseRealtime">Phase</label>
                                             </div>
@@ -436,30 +216,6 @@
                         </div>
 
                     </div>
-
-                    {{-- <!-- Heatmap -->
-                    <div class="tab-pane fade" id="heatmap" role="tabpanel" aria-labelledby="heatmap-tab">
-                        <div class="card border-0 shadow-none">
-                            <h5 class="fw-bold mb-2">
-                                <i class="ti ti-flame me-1"></i> Heatmap Visualization
-                            </h5>
-                            <p class="text-muted mb-0">
-                                Color-coded temperature or load intensity mapping.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Demand -->
-                    <div class="tab-pane fade" id="demand" role="tabpanel" aria-labelledby="demand-tab">
-                        <div class="card border-0 shadow-none">
-                            <h5 class="fw-bold mb-2">
-                                <i class="ti ti-trending-up me-1"></i> Demand Analysis
-                            </h5>
-                            <p class="text-muted mb-0">
-                                Displays peak demand and usage comparison.
-                            </p>
-                        </div>
-                    </div> --}}
 
                 </div>
 
@@ -623,140 +379,55 @@
             // 2️⃣ GET SELECTED PARAMETERS & SYSTEM TYPE
             // =========================================================
             function getSelectedParams() {
-                const activeBtn = document.querySelector('#paramButtonsRealtime .active');
-                if (!activeBtn) return ['V1', 'V2', 'V3']; // fallback
+                const activeBtn = document.querySelector('#paramButtonsPowerquality .active');
+                if (!activeBtn) return ['THD_Va', 'THD_Vb', 'THD_Vc']; // fallback
                 return getParameters(activeBtn.dataset.param);
             }
 
             function getSystemType() {
-                return document.querySelector('input[name="systemTypeRealtime"]:checked')?.value || 'phase';
+                return document.querySelector('input[name="systemTypePowerquality"]:checked')?.value || 'phase';
             }
 
             function getParameters(paramType) {
                 const systemType = getSystemType();
                 const map = {
                     phase: {
-                        VLN: [{
-                                key: 'V1',
+                        THDV: [{
+                                key: 'THD_Va',
                                 label: 'Phase 1 Line-to-Neutral Voltage'
                             },
                             {
-                                key: 'V2',
+                                key: 'THD_Vb',
                                 label: 'Phase 2 Line-to-Neutral Voltage'
                             },
                             {
-                                key: 'V3',
+                                key: 'THD_Vc',
                                 label: 'Phase 3 Line-to-Neutral Voltage'
                             }
                         ],
-                        VLL: [{
-                                key: 'V12',
-                                label: 'Phase 1-2 Line-to-Line Voltage'
+                        THDI: [{
+                                key: 'THD_Ia',
+                                label: 'Phase 1 Line-to-Neutral Voltage'
                             },
                             {
-                                key: 'V23',
-                                label: 'Phase 2-3 Line-to-Line Voltage'
+                                key: 'THD_Ib',
+                                label: 'Phase 2 Line-to-Neutral Voltage'
                             },
                             {
-                                key: 'V31',
-                                label: 'Phase 3-1 Line-to-Line Voltage'
+                                key: 'THD_Ic',
+                                label: 'Phase 3 Line-to-Neutral Voltage'
                             }
                         ],
-                        Current: [{
-                                key: 'I1',
-                                label: 'Phase 1 Current'
-                            },
-                            {
-                                key: 'I2',
-                                label: 'Phase 2 Current'
-                            },
-                            {
-                                key: 'I3',
-                                label: 'Phase 3 Current'
-                            }
-                        ],
-                        Active: [{
-                                key: 'P1',
-                                label: 'Phase 1 Active Power'
-                            },
-                            {
-                                key: 'P2',
-                                label: 'Phase 2 Active Power'
-                            },
-                            {
-                                key: 'P3',
-                                label: 'Phase 3 Active Power'
-                            }
-                        ],
-                        Reactive: [{
-                                key: 'Q1',
-                                label: 'Phase 1 Reactive Power'
-                            },
-                            {
-                                key: 'Q2',
-                                label: 'Phase 2 Reactive Power'
-                            },
-                            {
-                                key: 'Q3',
-                                label: 'Phase 3 Reactive Power'
-                            }
-                        ],
-                        Apparent: [{
-                                key: 'S1',
-                                label: 'Phase 1 Apparent Power'
-                            },
-                            {
-                                key: 'S2',
-                                label: 'Phase 2 Apparent Power'
-                            },
-                            {
-                                key: 'S3',
-                                label: 'Phase 3 Apparent Power'
-                            }
-                        ],
-                        PF: [{
-                                key: 'PF1',
-                                label: 'Phase 1 Power Factor'
-                            },
-                            {
-                                key: 'PF2',
-                                label: 'Phase 2 Power Factor'
-                            },
-                            {
-                                key: 'PF3',
-                                label: 'Phase 3 Power Factor'
-                            }
-                        ]
                     },
 
                     system: {
-                        VLN: [{
-                            key: 'Vnavg_V',
+                        THDV: [{
+                            key: 'THD_Vavg',
                             label: 'System Average Line-to-Neutral Voltage'
                         }],
-                        VLL: [{
-                            key: 'Vlavg_V',
-                            label: 'System Average Line-to-Line Voltage'
-                        }],
-                        Current: [{
-                            key: 'Iavg_A',
-                            label: 'System Average Current'
-                        }],
-                        Active: [{
-                            key: 'Psum_kW',
-                            label: 'System Active Power (kW)'
-                        }],
-                        Reactive: [{
-                            key: 'Qsum_kvar',
-                            label: 'System Reactive Power (kVAR)'
-                        }],
-                        Apparent: [{
-                            key: 'Ssum_kVA',
-                            label: 'System Apparent Power (kVA)'
-                        }],
-                        PF: [{
-                            key: 'PF',
-                            label: 'System Power Factor'
+                        THDI: [{
+                            key: 'THD_Iavg',
+                            label: 'System Average Line-to-Neutral Voltage'
                         }]
                     }
                 };
@@ -775,6 +446,7 @@
                 if (firstKey.startsWith('Psum') || firstKey.startsWith('P')) return 'kW';
                 if (firstKey.startsWith('Qsum') || firstKey.startsWith('Q')) return 'kVAR';
                 if (firstKey.startsWith('Ssum') || firstKey.startsWith('S')) return 'kVA';
+                if (firstKey.startsWith('THD')) return '%';
 
                 return ''; // default
             }
@@ -791,10 +463,10 @@
             // 4️⃣ COLOR CONFIGURATION
             // =========================================================
             function getColor(param) {
-                const phaseR = ['V1', 'V12', 'I1', 'P1', 'Q1', 'S1', 'PF1'];
-                const phaseS = ['V2', 'V23', 'I2', 'P2', 'Q2', 'S2', 'PF2'];
-                const phaseT = ['V3', 'V31', 'I3', 'P3', 'Q3', 'S3', 'PF3'];
-                const system = ['Vnavg_V', 'Vlavg_V', 'Iavg_A', 'Psum_kW', 'Qsum_kvar', 'Ssum_kVA', 'PF'];
+                const phaseR = ['V1', 'V12', 'I1', 'P1', 'Q1', 'S1', 'PF1', 'THD_Va', 'THD_Ia'];
+                const phaseS = ['V2', 'V23', 'I2', 'P2', 'Q2', 'S2', 'PF2', 'THD_Vb', 'THD_Ib'];
+                const phaseT = ['V3', 'V31', 'I3', 'P3', 'Q3', 'S3', 'PF3', 'THD_Vc', 'THD_Ic'];
+                const system = ['THD_Vavg', 'THD_Iavg'];
 
                 if (phaseR.includes(param)) return '#FF4560';
                 if (phaseS.includes(param)) return '#FEB019';
@@ -1160,9 +832,9 @@
                 });
             });
 
-            document.querySelectorAll('#paramButtonsRealtime button').forEach(btn => {
+            document.querySelectorAll('#paramButtonsPowerquality button').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    document.querySelectorAll('#paramButtonsRealtime button').forEach(b => b
+                    document.querySelectorAll('#paramButtonsPowerquality button').forEach(b => b
                         .classList
                         .remove('active'));
                     btn.classList.add('active');
@@ -1170,7 +842,7 @@
                 });
             });
 
-            document.querySelectorAll('input[name="systemTypeRealtime"]').forEach(r => {
+            document.querySelectorAll('input[name="systemTypePowerquality"]').forEach(r => {
                 r.addEventListener('change', updateChart);
             });
 

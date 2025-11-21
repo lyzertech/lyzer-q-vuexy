@@ -17,6 +17,13 @@
         </li>
 
         <li class="nav-item" role="presentation">
+            <a class="nav-link {{ request()->is('monitoring/analysis/powerquality') ? 'active' : '' }}"
+                href="{{ url('monitoring/analysis/powerquality') }}">
+                <i class="ti-sm ti ti-chart-line me-1_5"></i> Power Quality
+            </a>
+        </li>
+
+        <li class="nav-item" role="presentation">
             <a class="nav-link {{ request()->is('monitoring/analysis/heatmap') ? 'active' : '' }}"
                 href="{{ url('monitoring/analysis/heatmap') }}">
                 <i class="ti-sm ti ti-flame me-1_5"></i> Heatmap

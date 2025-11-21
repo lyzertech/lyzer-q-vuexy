@@ -60,7 +60,7 @@
                     <!-- Energy -->
                     <div class="tab-pane fade show active" id="energy" role="tabpanel" aria-labelledby="energy-tab">
                         <h5 class="fw-bold mb-2">
-                            <i class="ti ti-activity me-1"></i> Energy Monitoring
+                            <i class="ti ti-bolt me-1"></i> Energy Monitoring
                         </h5>
                         <p class="text-muted mb-0">
                             Live data Energy feed updates.
@@ -267,6 +267,10 @@
             color: #fff !important;
         }
     </style>
+
+    <script>
+        window.APP_URL = "{{ config('app.url') }}";
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -837,15 +841,17 @@
                 const startDate = start.toISOString().split('T')[0];
                 const endDate = end.toISOString().split('T')[0];
 
+                const API = window.APP_URL;
+
                 // ✅ If 1 day
                 if (startDate === endDate) {
                     url =
-                        `http://127.0.0.1:8000/api/v1/data?date=${startDate}&device_name=${encodeURIComponent(deviceName)}&${queryParams}`;
+                        `${API}/api/v1/data?date=${startDate}&device_name=${encodeURIComponent(deviceName)}&${queryParams}`;
                 }
                 // ✅ If multiple days
                 else {
                     url =
-                        `http://127.0.0.1:8000/api/v1/data?start_date=${startDate}&end_date=${endDate}&device_name=${encodeURIComponent(deviceName)}&${queryParams}`;
+                        `${API}/api/v1/data?start_date=${startDate}&end_date=${endDate}&device_name=${encodeURIComponent(deviceName)}&${queryParams}`;
                 }
 
                 // console.log("API Request:", url); // ← See it in browser console
@@ -899,7 +905,7 @@
 
                 return params.map(p => {
                     const data = [];
-                    let prev = null; // previous cumulative value
+                    let prev = null;
 
                     timeAxis.forEach(t => {
                         const row = lookup[t];
@@ -911,14 +917,20 @@
                         }
 
                         if (prev === null) {
-                            // first valid point → no delta
-                            data.push(null);
+                            data.push(null); // first point → null
                         } else {
                             const diff = cur - prev;
-                            data.push(diff >= 0 ? diff : null); // reset? negative? → null
+
+                            if (diff >= 0) {
+                                // round safely to 2 decimals
+                                const rounded = parseFloat(diff.toFixed(2));
+                                data.push(rounded);
+                            } else {
+                                data.push(null);
+                            }
                         }
 
-                        prev = cur; // update previous
+                        prev = cur;
                     });
 
                     return {
@@ -926,13 +938,12 @@
                         type: 'bar',
                         data: data,
                         itemStyle: {
-                            color: getColor(p.key) // 🟦 this applies your phase color
+                            color: getColor(p.key)
                         },
-                        barWidth: systemType === 'phase' ? '25%' : '50%',
+                        barWidth: systemType === 'phase' ? '25%' : '80%',
                         barGap: systemType === 'phase' ? '10%' : '30%',
                         barCategoryGap: systemType === 'phase' ? '30%' : '40%'
                     };
-
                 });
             }
 
@@ -1077,9 +1088,12 @@
             // }
 
             function renderEnergyIncrementChart(timeAxis, series, params) {
+                const deviceName = getSelectedDevice();
+
                 myChart.clear();
                 myChart.setOption({
                     title: {
+                        text: deviceName,
                         left: 'center'
                     },
 
@@ -1089,12 +1103,21 @@
                             type: 'shadow'
                         },
                         formatter: function(items) {
-                            let text = items[0].axisValue + "<br/>";
-                            items.forEach(it => {
-                                text +=
-                                    `${it.marker} ${it.seriesName}: ${it.value ?? '-'}<br/>`;
+                            // items = array of data points (ECharts format)
+
+                            const unit = getYAxisLabel(params); // 👈 use your existing logic
+
+                            let html = `${items[0].axisValue}<br/>`;
+
+                            items.forEach(p => {
+                                const value = (p.value !== null) ?
+                                    Number(p.value).toFixed(2) :
+                                    '0.00';
+
+                                html += `${p.marker} ${p.seriesName}: ${value} ${unit}<br/>`;
                             });
-                            return text;
+
+                            return html;
                         }
                     },
 
@@ -1176,36 +1199,83 @@
                                     const axisData = opt.xAxis[0].data;
                                     const series = opt.series;
 
-                                    let table =
-                                        '<button id="downloadCSV" style="margin-bottom:8px;">Download CSV</button>';
-                                    table +=
-                                        '<table border="1" style="width:100%;text-align:center"><tr><th>Time</th>';
+                                    // Device name
+                                    const device = getSelectedDevice() || "Unknown Device";
+
+                                    // Parameter & unit
+                                    const paramName = series[0]?.name || "Parameter";
+                                    const unit = getYAxisLabel(params) || "";
+
+                                    // Build table with title + 2 decimals
+                                    let html = `
+                                          <button id="downloadCSV" style="margin-bottom:8px;">Download CSV</button>
+
+                                          <table border="1" style="width:100%;text-align:center;border-collapse:collapse;">
+                                              <tr>
+                                                  <th colspan="${series.length + 1}" style="background:#f2f2f2;">
+                                                      Device: ${device}
+                                                  </th>
+                                              </tr>
+                                              <tr>
+                                                  <th colspan="${series.length + 1}" style="background:#f9f9f9;">
+                                                      Parameter: ${paramName} (${unit})
+                                                  </th>
+                                              </tr>
+
+                                              <tr>
+                                                  <th>Time</th>
+                                      `;
 
                                     series.forEach(s => {
-                                        table += `<th>${s.name}</th>`;
+                                        html += `<th>${s.name} (${unit})</th>`;
                                     });
-                                    table += '</tr>';
+
+                                    html += `</tr>`;
 
                                     axisData.forEach((time, i) => {
-                                        table += `<tr><td>${time}</td>`;
-                                        series.forEach(s => {
-                                            table +=
-                                                `<td>${s.data[i] !== undefined ? s.data[i] : ''}</td>`;
-                                        });
-                                        table += '</tr>';
-                                    });
-                                    table += '</table>';
+                                        html += `<tr><td>${time}</td>`;
 
+                                        series.forEach(s => {
+                                            let val = s.data[i];
+                                            let formatted = (val != null && !isNaN(
+                                                    val)) ? Number(val).toFixed(2) :
+                                                'null';
+                                            html += `<td>${formatted}</td>`;
+                                        });
+
+                                        html += `</tr>`;
+                                    });
+
+                                    html += `</table>`;
+
+                                    // CSV Export (also 2 decimals)
                                     setTimeout(() => {
                                         document.getElementById('downloadCSV').onclick =
                                             function() {
-                                                let csv = 'Time,' + series.map(s => s.name)
-                                                    .join(',') + '\n';
+                                                let csv = "";
+
+                                                // Metadata
+                                                csv += `Device,${device}\n`;
+                                                csv += `Parameter,${paramName} (${unit})\n\n`;
+
+                                                // Header
+                                                csv += 'Time,' + series.map(s =>
+                                                    `${s.name} (${unit})`).join(',') + '\n';
+
+                                                // Rows
                                                 axisData.forEach((time, i) => {
-                                                    csv += time + ',' + series.map(s =>
-                                                        s.data[i]).join(',') + '\n';
+                                                    const row = series.map(s => {
+                                                        let val = s.data[i];
+                                                        return (val != null && !
+                                                                isNaN(val)) ?
+                                                            Number(val).toFixed(
+                                                                2) : 'null';
+                                                    });
+                                                    csv += time + ',' + row.join(',') +
+                                                        '\n';
                                                 });
 
+                                                // Download
                                                 const blob = new Blob([csv], {
                                                     type: 'text/csv'
                                                 });
@@ -1213,13 +1283,14 @@
 
                                                 const a = document.createElement('a');
                                                 a.href = url;
-                                                a.download = 'chart-data.csv';
+                                                a.download =
+                                                    `data_${device.replace(/\s+/g,'_')}.csv`;
                                                 a.click();
                                                 URL.revokeObjectURL(url);
                                             };
                                     });
 
-                                    return table;
+                                    return html;
                                 }
                             },
                             restore: {

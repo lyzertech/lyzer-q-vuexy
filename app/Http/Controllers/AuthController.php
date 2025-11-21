@@ -43,6 +43,9 @@ class AuthController extends Controller
                 case 6: // Labs Team
                     return redirect('/labs/label');
 
+                case 7: // Monitoring Team
+                    return redirect('/monitoring/analysis/realtime');
+
                 case 21: // Teacher
                     return redirect('/student/list');
 

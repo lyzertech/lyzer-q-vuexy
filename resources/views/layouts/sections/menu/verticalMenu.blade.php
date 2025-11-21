@@ -34,6 +34,8 @@
                 $menusToDisplay = $menuData[0]->menuAdmin;
             } elseif (auth()->user()->role_id == '6') {
                 $menusToDisplay = $menuData[0]->labs;
+            } elseif (auth()->user()->role_id == '7') {
+                $menusToDisplay = $menuData[0]->menuMonitoring;
             } elseif (auth()->user()->role_id == '11') {
                 $menusToDisplay = $menuData[0]->menuFamilia;
             } elseif (auth()->user()->role_id == '21') {

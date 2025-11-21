@@ -118,7 +118,12 @@ class DataController extends Controller
                 'ESa_kVAh',
                 'ESb_kVAh',
                 'ESc_kVAh',
-                'ES_kVAh'
+                'ES_kVAh',
+
+                'THD_Va', 'THD_Ia',
+                'THD_Vb', 'THD_Ib',
+                'THD_Vc', 'THD_Ic',
+                'THD_Vavg', 'THD_Iavg'
 
             ];
             $columns = array_intersect($parameters, $allowed);

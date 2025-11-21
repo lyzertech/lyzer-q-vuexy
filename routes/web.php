@@ -190,6 +190,8 @@ use App\Http\Controllers\shield\ShieldInsightcrm;
 use App\Http\Controllers\school\SchoolStudent;
 use App\Http\Controllers\school\SchoolTeacher;
 
+use App\Http\Controllers\modbus\ModbusRishabh;
+
 
 // Login form
 Route::view('/login', 'auth.login')->name('login');
@@ -285,14 +287,20 @@ Route::middleware(['role:1'])->group(function () {
     Route::post('/monitoring/installation/device/bulkFacility', [MonitoringInstallation::class, 'installation_device_bulkFacility'])->name('monitoring-installation-device-bulkFacility');
 
     Route::get('/monitoring/analysis', [MonitoringAnalysis::class, 'index'])->name('monitoring-analysis');
-    Route::get('/monitoring/analysis/realtime', [MonitoringAnalysis::class, 'realtime'])->name('monitoring-analysis-realtime');
     Route::get('/monitoring/analysis/energy', [MonitoringAnalysis::class, 'energy'])->name('monitoring-analysis-energy');
+    Route::get('/monitoring/analysis/realtime', [MonitoringAnalysis::class, 'realtime'])->name('monitoring-analysis-realtime');
+    Route::get('/monitoring/analysis/powerquality', [MonitoringAnalysis::class, 'powerquality'])->name('monitoring-analysis-powerquality');
     Route::get('/monitoring/analysis/data', [MonitoringAnalysis::class, 'analysis_getMonitoringTree'])->name('monitoring-analysis-getMonitoringTree');
     Route::post('/monitoring/analysis/selectdata', [MonitoringAnalysis::class, 'analysis_selectdata'])->name('monitoring-analysis-selectdata');
 
     Route::get('/monitoring/datalog', [MonitoringDatalog::class, 'index'])->name('monitoring-datalog');
     Route::get('/monitoring/datalog/data', [MonitoringDatalog::class, 'datalog_getMonitoringTree'])->name('monitoring-datalog-getMonitoringTree');
     Route::post('/monitoring/datalog/selectdata', [MonitoringDatalog::class, 'datalog_selectdata'])->name('monitoring-datalog-selectdata');
+
+  // Modbus
+    Route::get('/modbus/read', [ModbusRishabh::class, 'read'])->name('labs-label');
+    Route::get('/modbus/read/data', [ModbusRishabh::class, 'read_data'])->name('labs-read-data');
+    Route::post('/modbus/write', [ModbusRishabh::class, 'write'])->name('labs-read-data');
 
   // Users
     Route::get('/users', [Users::class, 'index'])->name('users');
@@ -633,4 +641,31 @@ Route::middleware(['role:1,21'])->group(function () {
 
   // Attendance
     Route::get('/attendance/daily', [SchoolStudent::class, 'index'])->name('attendance-daily');
+});
+
+Route::middleware(['role:1,7'])->group(function () {
+  // Monitoring
+    Route::get('/monitoring/dashboard', [MonitoringDashboard::class, 'index'])->name('monitoring-dashboard');
+    // Route::get('/dashboard', [MonitoringDashboard::class, 'dashboard']);
+
+    Route::get('/monitoring/installation', [MonitoringInstallation::class, 'index'])->name('monitoring-installation');
+    Route::get('/monitoring/installation/facility/data', [MonitoringInstallation::class, 'installation_facility_data'])->name('monitoring-installation-facility-data');
+    Route::post('/monitoring/installation/facility/create', [MonitoringInstallation::class, 'installation_facility_create'])->name('monitoring-installation-facility-create');
+    Route::get('/monitoring/installation/device/data', [MonitoringInstallation::class, 'installation_device_data'])->name('monitoring-installation-device-data');
+    Route::get('/monitoring/installation/device/data/notListed', [MonitoringInstallation::class, 'installation_device_data_not_listed'])->name('monitoring-installation-device-data-not-listed');
+    Route::post('/monitoring/installation/device/create', [MonitoringInstallation::class, 'installation_device_create'])->name('monitoring-installation-device-create');
+    Route::post('/monitoring/installation/device/bulkFacility', [MonitoringInstallation::class, 'installation_device_bulkFacility'])->name('monitoring-installation-device-bulkFacility');
+
+    Route::get('/monitoring/analysis', [MonitoringAnalysis::class, 'index'])->name('monitoring-analysis');
+    Route::get('/monitoring/analysis/energy', [MonitoringAnalysis::class, 'energy'])->name('monitoring-analysis-energy');
+    Route::get('/monitoring/analysis/realtime', [MonitoringAnalysis::class, 'realtime'])->name('monitoring-analysis-realtime');
+    Route::get('/monitoring/analysis/powerquality', [MonitoringAnalysis::class, 'powerquality'])->name('monitoring-analysis-powerquality');
+    Route::get('/monitoring/analysis/data', [MonitoringAnalysis::class, 'analysis_getMonitoringTree'])->name('monitoring-analysis-getMonitoringTree');
+    Route::post('/monitoring/analysis/selectdata', [MonitoringAnalysis::class, 'analysis_selectdata'])->name('monitoring-analysis-selectdata');
+
+    Route::get('/monitoring/datalog', [MonitoringDatalog::class, 'index'])->name('monitoring-datalog');
+    Route::get('/monitoring/datalog/data', [MonitoringDatalog::class, 'datalog_getMonitoringTree'])->name('monitoring-datalog-getMonitoringTree');
+    Route::post('/monitoring/datalog/selectdata', [MonitoringDatalog::class, 'datalog_selectdata'])->name('monitoring-datalog-selectdata');
+
+
 });

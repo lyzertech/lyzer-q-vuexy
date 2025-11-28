@@ -119,14 +119,31 @@
       "slug": "modbus",
       "submenu": [
         {
-          "url": "modbus/read",
-          "name": "Read",
-          "slug": "modbus-read"
+          "url": "modbus/rish-con-m+",
+          "name": "Rish Con M+",
+          "slug": "modbus-rish-con-m+"
         },
         {
           "url": "modbus/label",
           "name": "Label Generator",
           "slug": "modbus-label"
+        }
+      ]
+    },
+    {
+      "name": "Tech Vault",
+      "icon": "menu-icon tf-icons ti ti-user-check",
+      "slug": "techvault",
+      "submenu": [
+        {
+          "url": "techvault/internalwiki",
+          "name": "Internal Wiki",
+          "slug": "techvault-internalwiki"
+        },
+        {
+          "url": "techvault/modbusregisters",
+          "name": "Modbus Registers",
+          "slug": "techvault-modbusregisters"
         }
       ]
     },

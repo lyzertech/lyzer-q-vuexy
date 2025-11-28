@@ -34,64 +34,72 @@
                 </div>
                 <div class="card-body">
                     <div class="border rounded p-5 mt-5">
-                        <div class="row gap-4 gap-sm-0">
+                        <div class="row">
 
-                            @if (!$data)
+                            @if (!$results)
                                 <div class="alert alert-danger shadow-sm">
                                     <i class="ti ti-alert-triangle me-2"></i>
                                     No data returned from python script.
                                 </div>
                             @else
-                                <div class="card p-4 shadow-sm border-0 rounded-4">
-                                    <div class="row g-4">
-
-                                        @foreach ($data as $key => $item)
-                                            <div class="col-12 col-sm-4 mb-2">
-                                                <div class="d-flex gap-2 align-items-center">
-                                                    <div class="badge rounded bg-label-primary p-1"><i
-                                                            class="ti ti-currency-dollar ti-sm"></i></div>
-                                                    <h6 class="mb-0 fw-normal">{{ $key }}</h6>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <h4 class="my-2">{{ $item['value'] }}</h4>
+                                @foreach ($results as $group)
+                                    <div class="col-12">
+                                        <h3 class="mt-4">{{ $group['title'] }}</h3>
+                                        <div class="row">
+                                            @foreach ($group['data'] as $key => $item)
+                                                <div class="col-12 col-sm-4 mb-4">
+                                                    <div class="d-flex gap-2 align-items-center">
+                                                        <div class="badge rounded bg-label-primary p-1">
+                                                            <i class="ti ti-activity ti-sm"></i>
+                                                        </div>
+                                                        <h6 class="mb-0 fw-normal">{{ $key }}</h6>
                                                     </div>
-                                                    <div class="col">
-                                                        <form action="{{ url('modbus/write') }}" method="POST">
-                                                            @csrf
 
-                                                            <div class="row">
-                                                                <div class="col-md-4 mb-3">
-                                                                    <label class="form-label">Register Address</label>
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <h4 class="my-2">{{ $item['value'] }}</h4>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <form action="{{ url('modbus/write/rish-con-m+') }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                <div class="row">
+
+                                                                    {{-- Hidden MODBUS Address --}}
                                                                     <input hidden type="number" name="address"
                                                                         value="{{ $item['address'] }}" class="form-control"
                                                                         required>
-                                                                </div>
 
-                                                                <div class="col-md-4 mb-3">
-                                                                    <label class="form-label">Value (Float)</label>
-                                                                    <input type="text" name="value"
-                                                                        class="form-control" required>
-                                                                </div>
+                                                                    {{-- Write Value --}}
+                                                                    <div class="col-md-5 mb-3">
+                                                                        <label class="form-label">Value (Float)</label>
+                                                                        <input type="text" name="value"
+                                                                            class="form-control" required>
+                                                                    </div>
 
-                                                                <div class="col-md-4 mb-3 d-flex align-items-end">
-                                                                    <button class="btn btn-primary w-100">Write to
-                                                                        Modbus</button>
+                                                                    {{-- Submit Button --}}
+                                                                    <div class="col-md-5 mb-3 d-flex align-items-end">
+                                                                        <button class="btn btn-primary w-100">Write</button>
+                                                                    </div>
+
                                                                 </div>
-                                                            </div>
-                                                        </form>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="progress w-75" style="height:6px">
+                                                        <div class="progress-bar" role="progressbar" style="width: 100%"
+                                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
-                                                <div class="progress w-75" style="height:4px">
-                                                    <div class="progress-bar" role="progressbar" style="width: 100%"
-                                                        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
+                                            @endforeach
+                                        </div>
 
-                                            </div>
-                                        @endforeach
-
+                                        <hr>
                                     </div>
-                                </div>
+                                @endforeach
+
                             @endif
 
 

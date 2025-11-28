@@ -191,6 +191,7 @@ use App\Http\Controllers\school\SchoolStudent;
 use App\Http\Controllers\school\SchoolTeacher;
 
 use App\Http\Controllers\modbus\ModbusRishabh;
+use App\Http\Controllers\techvault\TechvaultInternalwiki;
 
 
 // Login form
@@ -298,9 +299,13 @@ Route::middleware(['role:1'])->group(function () {
     Route::post('/monitoring/datalog/selectdata', [MonitoringDatalog::class, 'datalog_selectdata'])->name('monitoring-datalog-selectdata');
 
   // Modbus
-    Route::get('/modbus/read', [ModbusRishabh::class, 'read'])->name('labs-label');
-    Route::get('/modbus/read/data', [ModbusRishabh::class, 'read_data'])->name('labs-read-data');
-    Route::post('/modbus/write', [ModbusRishabh::class, 'write'])->name('labs-read-data');
+    Route::get('/modbus/rish-con-m+', [ModbusRishabh::class, 'rish_con_m_plus'])->name('modbus-rish-con-m+');
+    Route::get('/modbus/AO1', [ModbusRishabh::class, 'AO1'])->name('modbus-ao1');
+    Route::get('/modbus/read/data/{address}/{count}', [ModbusRishabh::class, 'read_data'])->name('modbus-read-data');
+    Route::post('/modbus/write/rish-con-m+', [ModbusRishabh::class, 'rish_con_m_plus_write'])->name('modbus-rish-con-m+-write');
+
+  // TechVault
+    Route::get('/techvault/internalwiki', [TechvaultInternalwiki::class, 'index'])->name('techvault-internalwiki');
 
   // Users
     Route::get('/users', [Users::class, 'index'])->name('users');

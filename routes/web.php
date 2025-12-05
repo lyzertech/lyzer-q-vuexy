@@ -174,6 +174,7 @@ use App\Http\Controllers\crm\CrmProject;
 use App\Http\Controllers\crm\CrmQuotation;
 use App\Http\Controllers\labs\LabsDashboard;
 use App\Http\Controllers\labs\LabsLabel;
+use App\Http\Controllers\monitoring\MonitoringHome;
 use App\Http\Controllers\monitoring\MonitoringDashboard;
 use App\Http\Controllers\monitoring\MonitoringInstallation;
 use App\Http\Controllers\monitoring\MonitoringAnalysis;
@@ -276,6 +277,9 @@ Route::middleware(['role:1'])->group(function () {
     Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
 
   // Monitoring
+
+    Route::resource('/monitoring/home', MonitoringHome::class);
+
     Route::get('/monitoring/dashboard', [MonitoringDashboard::class, 'index'])->name('monitoring-dashboard');
     // Route::get('/dashboard', [MonitoringDashboard::class, 'dashboard']);
 

@@ -631,6 +631,13 @@ Route::middleware(['role:1,6'])->group(function () {
     Route::post('/labs/label/create', [LabsLabel::class, 'create'])->name('labs-label-create');
     Route::get('/labs/label/view/{id_label}', [LabsLabel::class, 'label_view'])->name('labs-label-view');
     Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
+
+  // Modbus
+    Route::get('/modbus/rish-con-m+', [ModbusRishabh::class, 'rish_con_m_plus'])->name('modbus-rish-con-m+');
+    Route::get('/modbus/AO1', [ModbusRishabh::class, 'AO1'])->name('modbus-ao1');
+    Route::get('/modbus/read/data/{address}/{count}', [ModbusRishabh::class, 'read_data'])->name('modbus-read-data');
+    Route::post('/modbus/write/rish-con-m+', [ModbusRishabh::class, 'rish_con_m_plus_write'])->name('modbus-rish-con-m+-write');
+
 });
 
 Route::middleware(['role:1,21'])->group(function () {

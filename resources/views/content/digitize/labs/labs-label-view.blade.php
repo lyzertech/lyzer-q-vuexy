@@ -117,7 +117,7 @@
         <script>
             function printArea() {
                 document.title =
-                    "{{ '26' . $labs_label->first()->id_label . '_' . $labs_label->first()->customer . '_' . $labs_label->first()->PO . '_' . $labs_label->first()->type ?? 'DefaultFileName' }}";
+                    "{{ $labs_label->isNotEmpty() ? substr(date('Y'), 2) . '-' . sprintf('%04d', $labs_label->first()->id_label) . '_' . $labs_label->first()->customer . '_' . $labs_label->first()->PO . '_' . $labs_label->first()->type : 'DefaultFileName' }}";
                 window.print();
             }
         </script>
@@ -194,7 +194,8 @@
                                                         </div>
                                                         <div class="col-3">
                                                             <p class="mb-0 small-font d-flex justify-content-end">
-                                                                {{ substr(date('Y'), 2) }}{{ $Label->id_label }}</p>
+                                                                {{ substr(date('Y'), 2) . '-' . sprintf('%04d', $Label->id_label) }}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>

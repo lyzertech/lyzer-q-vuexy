@@ -117,7 +117,7 @@
         <script>
             function printArea() {
                 document.title =
-                    "{{ '25' . $labs_label->first()->id_label . '_' . $labs_label->first()->customer . '_' . $labs_label->first()->PO . '_' . $labs_label->first()->type ?? 'DefaultFileName' }}";
+                    "{{ '26' . $labs_label->first()->id_label . '_' . $labs_label->first()->customer . '_' . $labs_label->first()->PO . '_' . $labs_label->first()->type ?? 'DefaultFileName' }}";
                 window.print();
             }
         </script>
@@ -158,19 +158,13 @@
                                                                         <p class="mb-0 small-font">{{ $Label->scale }}</p>
                                                                         <p class="mb-0 small-font">
                                                                             {{-- AC {{ $Label->input }} --}}
-                                                                            {{
-                                                                                Str::startsWith($Label->type, ['DE', 'RDVP', 'RDFP'])
-                                                                                  ? 'AC ' . $Label->input
-                                                                                  : (
-                                                                                      Str::contains($Label->type, 'DS')
-                                                                                          ? 'DC ' . $Label->input
-                                                                                          : (
-                                                                                              $Label->scale === 'LED DISPLAY'
-                                                                                                  ? $Label->input
-                                                                                                  : 'INPUT: '
-                                                                                          )
-                                                                                  )
-                                                                            }}
+                                                                            {{ Str::startsWith($Label->type, ['DE', 'RDVP', 'RDFP'])
+                                                                                ? 'AC ' . $Label->input
+                                                                                : (Str::contains($Label->type, 'DS')
+                                                                                    ? 'DC ' . $Label->input
+                                                                                    : ($Label->scale === 'LED DISPLAY'
+                                                                                        ? $Label->input
+                                                                                        : 'INPUT: ')) }}
                                                                         </p>
                                                                     </div>
                                                                 </div>

@@ -550,7 +550,7 @@ Route::middleware(['role:1'])->group(function () {
     Route::resource('/user-list', UserManagement::class);
 });
 
-Route::middleware(['role:1,2,4,5'])->group(function () {
+Route::middleware(['role:1,2,4,5,45'])->group(function () {
   // Digitize
     Route::get('/crm/dashboard', [CrmDashboard::class, 'index'])->name('crm-dashboard');
 

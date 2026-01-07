@@ -227,6 +227,33 @@
         .jstree-clicked .file-node {
             color: #fff !important;
         }
+
+        /* Sidebar stays visible and aligns with the main content */
+        .layout-example-sidebar {
+            position: sticky;
+            top: 1rem;
+            align-self: flex-start;
+        }
+
+        /* Limit height to viewport and enable internal scroll only */
+        #tree {
+            max-height: calc(100vh - 280px);
+            /* user preferred sizing */
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 6px;
+            /* small padding to avoid scrollbar overlap */
+        }
+
+        /* Optional: nicer thin scrollbar for wide screens */
+        #tree::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #tree::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.12);
+            border-radius: 6px;
+        }
     </style>
 
     <script>
@@ -286,6 +313,23 @@
                     updateChart();
                 }
             });
+
+            // Prevent page scrolling when using mouse wheel over the tree (keeps right pane stable)
+            (function() {
+                const treeEl = document.getElementById('tree');
+                if (!treeEl) return;
+                treeEl.addEventListener('wheel', function(e) {
+                    const delta = e.deltaY;
+                    const atTop = treeEl.scrollTop === 0;
+                    const atBottom = Math.abs(treeEl.scrollHeight - treeEl.clientHeight - treeEl
+                        .scrollTop) < 1;
+                    if ((delta < 0 && atTop) || (delta > 0 && atBottom)) {
+                        e.preventDefault();
+                    }
+                }, {
+                    passive: false
+                });
+            })();
 
             // ✅ 4. Safe function to get selected device
             function getSelectedDevice() {

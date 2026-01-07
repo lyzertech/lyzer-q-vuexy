@@ -9,15 +9,19 @@ use Carbon\Carbon;
 
 class DataController extends Controller
 {
-    public function latest()
+    public function latest(Request $request)
     {
-        // Fetch latest 10 rows (or adjust as you wish)
-        $data = DB::table('monitoring_acuvim')
-            ->orderBy('Timestamp', 'desc')
-            ->limit(1)
-            ->get();
+        // Build base query ordered by Timestamp descending
+        $query = DB::table('monitoring_acuvim')->orderBy('Timestamp', 'desc');
 
-        // Optionally clean/transform field names before sending
+        // If a specific device serial is provided, filter by it
+        if ($request->has('device_serial') && $request->device_serial) {
+            $query->where('device_serial', $request->device_serial);
+        }
+
+        // Return the most recent row (optionally filtered)
+        $data = $query->limit(1)->get();
+
         return response()->json($data);
     }
 

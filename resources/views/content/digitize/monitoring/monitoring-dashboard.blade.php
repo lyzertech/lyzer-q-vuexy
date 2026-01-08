@@ -111,15 +111,8 @@
         async function fetchOverallLatest() {
             // If user selected a device, don't fetch the overall latest (avoids flicker)
             if (selectedSerial) return;
-            const token = ++fetchCounter;
-            try {
-                const res = await fetch('/api/v1/data/latest');
-                const data = await res.json();
-                // Only render if no newer fetch started and user still has no selection
-                if (token === fetchCounter && !selectedSerial) renderData(data);
-            } catch (err) {
-                console.error('Error fetching overall latest:', err);
-            }
+            // Instead of fetching and rendering data, show note to select device
+            renderData(null, true);
         }
 
         async function fetchLatestForDevice(serial) {
@@ -168,7 +161,14 @@
 
         function renderData(data) {
             const container = document.getElementById('data-cards');
-            container.innerHTML = ''; // clear current cards
+            container.innerHTML = '';
+
+            // If called with second argument true, show select device note
+            if (arguments.length > 1 && arguments[1] === true) {
+                container.innerHTML =
+                    `<div class="text-center text-muted py-5">Please select a Meter Point to proceed.</div>`;
+                return;
+            }
 
             if (!data || data.length === 0) {
                 container.innerHTML = `<div class="text-center text-muted py-5">No data available.</div>`;
@@ -183,7 +183,7 @@
                 card.innerHTML = `
           <div class="acuvim-full p-3 rounded shadow-sm bg-light small">
             <div class="d-flex justify-content-between align-items-center mb-2">
-              <h6 class="fw-bold m-0">⚡ Acuvim Measurement Summary <small class="text-muted ms-2">${item.device_name ?? item.device_serial ?? ''}</small></h6>
+              <h6 class="fw-bold m-0">⚡ Acuvim Measurement Summary |<small class=" ms-2">${item.device_name ?? item.device_serial ?? ''}</small></h6>
               <small class="text-muted">Last Update: <b>${item.Timestamp ?? '-'}</b></small>
             </div>
 

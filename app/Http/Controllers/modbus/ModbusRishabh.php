@@ -135,6 +135,10 @@ class ModbusRishabh extends Controller
             $data = ['status' => 'error', 'message' => 'Invalid JSON from python script', 'raw' => $output];
         }
 
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json($data);
+        }
+
         return back()->with('result', $data);
     }
 }

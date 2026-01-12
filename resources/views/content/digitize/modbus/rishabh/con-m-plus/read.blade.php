@@ -72,6 +72,47 @@
                                                         {{-- group content moved inside accordion body --}}
                                                         <div class="row">
                                                             @if (is_array($group['data']))
+                                                                {{-- Group write form: select a parameter input below, edit inline and press Write --}}
+                                                                @php
+                                                                    $firstItem = reset($group['data']);
+                                                                    $firstAddr = isset($firstItem['address'])
+                                                                        ? (int) $firstItem['address']
+                                                                        : null;
+                                                                    $firstVal =
+                                                                        isset($firstItem['value']) &&
+                                                                        !is_array($firstItem['value'])
+                                                                            ? (string) $firstItem['value']
+                                                                            : '';
+                                                                @endphp
+                                                                <div class="col-12 mb-3">
+                                                                    <form
+                                                                        action="{{ url('modbus/write/' . urlencode('rish-con-m+')) }}"
+                                                                        method="POST" class="modbus-group-write-form">
+                                                                        @csrf
+                                                                        <input type="hidden" name="address"
+                                                                            class="modbus-group-address"
+                                                                            value="{{ $firstAddr }}">
+                                                                        <input type="hidden" name="value"
+                                                                            class="modbus-group-value"
+                                                                            value="{{ $firstVal }}">
+
+                                                                        <div class="row g-2 align-items-end">
+                                                                            <div class="col-md-10 mb-2">
+                                                                                <div class="text-muted small">Click any
+                                                                                    parameter input below to select it, edit
+                                                                                    the value, then press
+                                                                                    <strong>Write</strong>.
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="col-md-2 mb-2 d-flex align-items-end">
+                                                                                <button
+                                                                                    class="btn btn-primary w-100">Write</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+
                                                                 @foreach ($group['data'] as $key => $item)
                                                                     <div class="col-12 col-sm-4 mb-4">
                                                                         <div class="d-flex gap-2 align-items-center">
@@ -218,9 +259,9 @@
 
                                                                                             @if (isset($item['address']) && (int) $item['address'] === 6002)
                                                                                                 @php $currentValue = isset($item['value']) ? (string)$item['value'] : ''; @endphp
-                                                                                                <select name="value"
-                                                                                                    class="form-control"
-                                                                                                    required>
+                                                                                                <select
+                                                                                                    class="form-control modbus-param-input"
+                                                                                                    data-address="{{ $item['address'] }}">
                                                                                                     @foreach ($systemTypeOptions as $val => $label)
                                                                                                         <option
                                                                                                             value="{{ $val }}"
@@ -231,7 +272,9 @@
                                                                                                 </select>
                                                                                             @elseif(isset($item['address']) && in_array((int) $item['address'], [6250, 6268, 6286, 6304]))
                                                                                                 @php $currentValue = isset($item['value']) ? (string)$item['value'] : ''; @endphp
-                                                                                                <select name="value"
+                                                                                                <select
+                                                                                                    class="form-control modbus-param-input"
+                                                                                                    data-address="{{ $item['address'] }}"
                                                                                                     class="form-control"
                                                                                                     required>
                                                                                                     @foreach ($paramSelectOptions as $val => $label)
@@ -277,13 +320,14 @@
                                                                                                 @endphp
                                                                                                 <input
                                                                                                     type="{{ $inputType }}"
-                                                                                                    name="value"
-                                                                                                    class="form-control"
-                                                                                                    required step="any">
+                                                                                                    class="form-control modbus-param-input"
+                                                                                                    data-address="{{ $item['address'] }}"
+                                                                                                    value="{{ $prefill }}"
+                                                                                                    step="any">
                                                                                             @endif
                                                                                         </div>
 
-                                                                                        {{-- Submit Button --}}
+
                                                                                         <div
                                                                                             class="col-md-5 mb-3 d-flex align-items-end">
                                                                                             <button
@@ -333,14 +377,28 @@
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.querySelector('.border.rounded.p-5') || document;
 
+            // Snapshot initial values for inline inputs so we can detect changes later
+            document.querySelectorAll('.modbus-param-input').forEach(function(el) {
+                const v = (el.tagName === 'SELECT') ? (el.options[el.selectedIndex] ? el.options[el
+                    .selectedIndex].value : '') : el.value;
+                el.dataset.original = v !== undefined && v !== null ? String(v) : '';
+            });
+
             container.addEventListener('submit', function(e) {
                 const form = e.target;
-                if (!form || !form.classList || !form.classList.contains('modbus-write-form')) return;
+                if (!form || !form.classList) return;
+                if (!(form.classList.contains('modbus-write-form') || form.classList.contains(
+                        'modbus-group-write-form'))) return;
                 e.preventDefault();
 
                 const btn = form.querySelector('button[type="submit"]') || form.querySelector('button');
-                const addr = form.dataset.address;
-                const valueField = form.querySelector('[name="value"]');
+                const addrInput = form.querySelector('.modbus-group-address') || form.querySelector(
+                    '[name="address"]');
+                const addr = addrInput ? addrInput.value : (form.dataset.address || null);
+                const valueField = form.querySelector('.modbus-group-value') || form.querySelector(
+                    '[name="value"]');
+
+
                 const originalBtnHtml = btn ? btn.innerHTML : null;
                 if (btn) {
                     btn.disabled = true;
@@ -385,6 +443,25 @@
                         '"]');
                     if (displayEl) displayEl.textContent = displayValue;
 
+                    // Update per-parameter inline input/select if present
+                    const inputEl = document.querySelector('.modbus-param-input[data-address="' +
+                        addr + '"]');
+                    if (inputEl) {
+                        const valToSet = (data && data.value !== undefined) ? ('' + data.value) : fd
+                            .get('value');
+                        if (inputEl.tagName === 'SELECT') {
+                            for (let i = 0; i < inputEl.options.length; i++) {
+                                if (String(inputEl.options[i].value) === String(valToSet) || inputEl
+                                    .options[i].text === displayValue) {
+                                    inputEl.selectedIndex = i;
+                                    break;
+                                }
+                            }
+                        } else {
+                            inputEl.value = fd.get('value');
+                        }
+                    }
+
                     showAlert(msg, ok ? 'success' : 'danger');
                 }).catch(function(err) {
                     showAlert('Write failed: ' + (err && err.message ? err.message :
@@ -395,6 +472,150 @@
                         btn.innerHTML = originalBtnHtml;
                     }
                 });
+            });
+
+            // New: capture-phase submit handler for group Write that batches changed inputs and stops the default handler
+            container.addEventListener('submit', async function(e) {
+                const form = e.target;
+                if (!form || !form.classList || !form.classList.contains('modbus-group-write-form'))
+                    return;
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                const btn = form.querySelector('button[type="submit"]') || form.querySelector('button');
+                const originalBtnHtml = btn ? btn.innerHTML : null;
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML =
+                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+                }
+
+                const groupBody = form.closest('.accordion-body');
+                const inputs = groupBody ? Array.from(groupBody.querySelectorAll(
+                    '.modbus-param-input')) : [];
+
+                inputs.forEach(function(el) {
+                    if (el.dataset.original === undefined) {
+                        const v = (el.tagName === 'SELECT') ? (el.options[el.selectedIndex] ? el
+                            .options[el.selectedIndex].value : '') : el.value;
+                        el.dataset.original = v !== undefined && v !== null ? String(v) : '';
+                    }
+                });
+
+                const changes = inputs.map(function(el) {
+                    const cur = (el.tagName === 'SELECT') ? (el.options[el.selectedIndex] ? el
+                        .options[el.selectedIndex].value : '') : el.value;
+                    if (String(cur) !== String(el.dataset.original)) return {
+                        el: el,
+                        address: el.dataset.address,
+                        value: String(cur)
+                    };
+                    return null;
+                }).filter(Boolean);
+
+                if (changes.length === 0) {
+                    showAlert('No changes to save', 'warning');
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = originalBtnHtml;
+                    }
+                    return;
+                }
+
+                const token = form.querySelector('input[name="_token"]') ? form.querySelector(
+                    'input[name="_token"]').value : null;
+                let success = 0,
+                    fail = 0;
+
+                for (let c of changes) {
+                    const fd = new FormData();
+                    if (token) fd.append('_token', token);
+                    fd.append('address', c.address);
+                    fd.append('value', c.value);
+
+                    try {
+                        const resp = await fetch(form.action, {
+                            method: 'POST',
+                            body: fd,
+                            credentials: 'same-origin',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Accept': 'application/json'
+                            }
+                        });
+                        const ct = resp.headers.get('content-type') || '';
+                        let data;
+                        if (ct.indexOf('application/json') !== -1) data = await resp.json();
+                        else {
+                            const txt = await resp.text();
+                            try {
+                                data = JSON.parse(txt);
+                            } catch (err) {
+                                data = {
+                                    ok: true
+                                };
+                            }
+                        }
+
+                        const ok = !!(data && (data.status === 'ok' || data.success === true || data
+                            .ok === true));
+                        if (ok) {
+                            success++;
+                            const displayEl = document.querySelector('.modbus-value[data-address="' + c
+                                .address + '"]');
+                            const displayText = (data && data.value !== undefined) ? data.value : ((c.el
+                                    .tagName === 'SELECT') ? c.el.options[c.el.selectedIndex].text :
+                                c.value);
+                            if (displayEl) displayEl.textContent = displayText;
+                            if (c.el.tagName !== 'SELECT') c.el.value = c.value;
+                            c.el.dataset.original = String(c.value);
+                        } else {
+                            fail++;
+                        }
+                    } catch (err) {
+                        fail++;
+                    }
+                }
+
+                showAlert('Saved ' + success + ' updates' + (fail ? (', ' + fail + ' failed') : ''),
+                    fail ? 'danger' : 'success');
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = originalBtnHtml;
+                }
+            }, true);
+            document.querySelectorAll('.modbus-write-form button').forEach(function(b) {
+                b.remove();
+            });
+
+            // When inline parameter inputs receive focus, mark active and update group's hidden fields
+            container.addEventListener('focusin', function(e) {
+                const el = e.target;
+                if (!el || !el.classList) return;
+                if (!el.classList.contains('modbus-param-input')) return;
+                const groupBody = el.closest('.accordion-body');
+                if (!groupBody) return;
+                const form = groupBody.querySelector('.modbus-group-write-form');
+                if (!form) return;
+                form.querySelector('.modbus-group-address').value = el.dataset.address;
+                const valueVal = (el.tagName === 'SELECT') ? el.options[el.selectedIndex].value : el.value;
+                form.querySelector('.modbus-group-value').value = valueVal;
+                groupBody.querySelectorAll('.modbus-param-input').forEach(function(x) {
+                    x.classList.remove('active-param');
+                });
+                el.classList.add('active-param');
+            });
+
+            container.addEventListener('input', function(e) {
+                const el = e.target;
+                if (!el || !el.classList) return;
+                if (!el.classList.contains('modbus-param-input')) return;
+                const groupBody = el.closest('.accordion-body');
+                if (!groupBody) return;
+                const form = groupBody.querySelector('.modbus-group-write-form');
+                if (!form) return;
+                const valueVal = (el.tagName === 'SELECT') ? el.options[el.selectedIndex].value : el.value;
+                form.querySelector('.modbus-group-value').value = valueVal;
             });
 
             function showAlert(message, type) {

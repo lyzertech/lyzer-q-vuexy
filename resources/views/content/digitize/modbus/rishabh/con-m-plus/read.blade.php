@@ -26,10 +26,14 @@
         <!-- Earning Reports -->
         <div class="col-lg-12">
             <div class="card h-100">
-                <div class="card-header pb-0 d-flex justify-content-between">
+                <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                     <div class="card-title mb-0">
                         <h5 class="mb-1">Rish Con M+</h5>
                         <p class="card-subtitle">Modbus Reading Result</p>
+                    </div>
+                    <div>
+                        <button type="button" id="btn-reading-measurement" class="btn btn-primary btn-md"
+                            data-bs-toggle="modal" data-bs-target="#readingMeasurementModal">Reading measurement</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -373,10 +377,84 @@
 
     </div>
 
+    <!-- Reading measurement modal - Redesigned -->
+    <style>
+        /* Make the modal wider and allow more columns in the grid */
+        #readingMeasurementModal .modal-dialog {
+            max-width: 1200px;
+            width: 90vw;
+        }
+
+        @media (min-width: 1200px) {
+            #readingMeasurementModal .row.g-4 {
+                display: flex;
+                flex-wrap: nowrap;
+                gap: 1.5rem;
+            }
+
+            /* #readingMeasurementModal .col-xl-3 {
+                                                                                                                                                                                        flex: 0 0 16.6667%;
+                                                                                                                                                                                        max-width: 16.6667%;
+                                                                                                                                                                                    } */
+        }
+    </style>
+    <div class="modal fade" id="readingMeasurementModal" tabindex="-1" aria-labelledby="readingMeasurementModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content shadow-lg rounded-4 border-0">
+                <div class="modal-header bg-primary text-white rounded-top-4 py-3 px-4">
+                    <h4 class="modal-title d-flex align-items-center gap-2" id="readingMeasurementModalLabel">
+                        <i class="ti ti-gauge text-white"></i>
+                        <span class="text-white">Reading Measurement</span>
+                    </h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-0 pb-4 pt-3 bg-light">
+                    <div class="container-fluid">
+                        <div id="reading-measurement-content">
+                            <!-- Loading state -->
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="text-muted mt-3">Loading measurement data...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-white rounded-bottom-4 px-4 py-3">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.querySelector('.border.rounded.p-5') || document;
-
+            // Configuration: addresses and counts for each card to refresh after writes
+            const MODBUS_CARDS = [{
+                    address: 6002,
+                    count: 40
+                },
+                {
+                    address: 6248,
+                    count: 18
+                },
+                {
+                    address: 6266,
+                    count: 18
+                },
+                {
+                    address: 6284,
+                    count: 18
+                },
+                {
+                    address: 6302,
+                    count: 18
+                }
+            ];
             // Snapshot initial values for inline inputs so we can detect changes later
             document.querySelectorAll('.modbus-param-input').forEach(function(el) {
                 const v = (el.tagName === 'SELECT') ? (el.options[el.selectedIndex] ? el.options[el
@@ -463,6 +541,8 @@
                     }
 
                     showAlert(msg, ok ? 'success' : 'danger');
+                    // Refresh all groups to load latest values from device
+                    fetchAllGroups();
                 }).catch(function(err) {
                     showAlert('Write failed: ' + (err && err.message ? err.message :
                         'Unknown error'), 'danger');
@@ -579,6 +659,8 @@
 
                 showAlert('Saved ' + success + ' updates' + (fail ? (', ' + fail + ' failed') : ''),
                     fail ? 'danger' : 'success');
+                // Refresh all groups to load latest values from device
+                fetchAllGroups();
                 if (btn) {
                     btn.disabled = false;
                     btn.innerHTML = originalBtnHtml;
@@ -618,6 +700,68 @@
                 form.querySelector('.modbus-group-value').value = valueVal;
             });
 
+            // Fetch fresh data for each configured card and update displayed values/inputs
+            async function fetchAllGroups() {
+                for (let c of MODBUS_CARDS) {
+                    try {
+                        const resp = await fetch('/modbus/read/data/' + encodeURIComponent(c.address) + '/' +
+                            encodeURIComponent(c.count), {
+                                method: 'GET',
+                                credentials: 'same-origin',
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'Accept': 'application/json'
+                                }
+                            });
+                        if (!resp.ok) continue;
+                        const data = await resp.json();
+                        if (!data || typeof data !== 'object') continue;
+                        for (let key in data) {
+                            if (!data.hasOwnProperty(key)) continue;
+                            const itm = data[key];
+                            const addr = itm.address;
+                            const val = itm.value;
+                            const displayEl = document.querySelector('.modbus-value[data-address="' + addr +
+                                '"]');
+                            if (displayEl) displayEl.textContent = (val === null || val === undefined) ? '' :
+                                String(val);
+                            const inputEl = document.querySelector('.modbus-param-input[data-address="' + addr +
+                                '"]');
+                            if (inputEl) {
+                                if (inputEl.tagName === 'SELECT') {
+                                    let set = false;
+                                    for (let i = 0; i < inputEl.options.length; i++) {
+                                        if (String(inputEl.options[i].value) === String(val) || inputEl.options[
+                                                i].text === String(val)) {
+                                            inputEl.selectedIndex = i;
+                                            set = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!set) {
+                                        for (let i = 0; i < inputEl.options.length; i++) {
+                                            if (inputEl.options[i].text === String(val)) {
+                                                inputEl.selectedIndex = i;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    inputEl.dataset.original = inputEl.options[inputEl.selectedIndex] ? String(
+                                        inputEl.options[inputEl.selectedIndex].value) : '';
+                                } else {
+                                    inputEl.value = (val === null || val === undefined) ? '' : String(val);
+                                    inputEl.dataset.original = inputEl.value;
+                                }
+                            }
+                        }
+                    } catch (err) {
+                        console.error('Failed to refresh card', c, err);
+                    }
+                }
+                // Notify user briefly
+                showAlert('Values refreshed from device', 'success');
+            }
+
             function showAlert(message, type) {
                 const parent = document.getElementById('modbus-alerts') || document.querySelector(
                     '.border.rounded.p-5');
@@ -629,6 +773,697 @@
                 setTimeout(function() {
                     el.remove();
                 }, 4000);
+            }
+
+            // Small helper to escape strings we inject into the DOM
+            function escapeHtml(s) {
+                return String(s === null || s === undefined ? '' : s)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
+            // Populate Reading measurement modal with grouped card layout
+            const READING_LIST = {
+                0: {
+                    name: "Voltage L1",
+                    category: "Voltage",
+                    icon: "ti-bolt",
+                    color: "primary",
+                    unit: "V"
+                },
+                2: {
+                    name: "Voltage L2",
+                    category: "Voltage",
+                    icon: "ti-bolt",
+                    color: "primary",
+                    unit: "V"
+                },
+                4: {
+                    name: "Voltage L3",
+                    category: "Voltage",
+                    icon: "ti-bolt",
+                    color: "primary",
+                    unit: "V"
+                },
+                200: {
+                    name: "Voltage L12",
+                    category: "Voltage",
+                    icon: "ti-bolt",
+                    color: "primary",
+                    unit: "V"
+                },
+                202: {
+                    name: "Voltage L23",
+                    category: "Voltage",
+                    icon: "ti-bolt",
+                    color: "primary",
+                    unit: "V"
+                },
+                204: {
+                    name: "Voltage L31",
+                    category: "Voltage",
+                    icon: "ti-bolt",
+                    color: "primary",
+                    unit: "V"
+                },
+                70: {
+                    name: "Frequency",
+                    category: "Voltage",
+                    icon: "ti-bolt",
+                    color: "primary",
+                    unit: "Hz"
+                },
+                42: {
+                    name: "Voltage System",
+                    category: "Voltage",
+                    icon: "ti-bolt",
+                    color: "primary",
+                    unit: "V"
+                },
+                6: {
+                    name: "Current L1",
+                    category: "Current",
+                    icon: "ti-activity",
+                    color: "info",
+                    unit: "A"
+                },
+                8: {
+                    name: "Current L2",
+                    category: "Current",
+                    icon: "ti-activity",
+                    color: "info",
+                    unit: "A"
+                },
+                10: {
+                    name: "Current L3",
+                    category: "Current",
+                    icon: "ti-activity",
+                    color: "info",
+                    unit: "A"
+                },
+                46: {
+                    name: "Current System",
+                    category: "Current",
+                    icon: "ti-activity",
+                    color: "info",
+                    unit: "A"
+                },
+                12: {
+                    name: "Watt L1",
+                    category: "Power",
+                    icon: "ti-bolt",
+                    color: "warning",
+                    unit: "W"
+                },
+                14: {
+                    name: "Watt L2",
+                    category: "Power",
+                    icon: "ti-bolt",
+                    color: "warning",
+                    unit: "W"
+                },
+                16: {
+                    name: "Watt L3",
+                    category: "Power",
+                    icon: "ti-bolt",
+                    color: "warning",
+                    unit: "W"
+                },
+                52: {
+                    name: "Watt System",
+                    category: "Power",
+                    icon: "ti-bolt",
+                    color: "warning",
+                    unit: "W"
+                },
+                18: {
+                    name: "VA L1",
+                    category: "Power",
+                    icon: "ti-bolt",
+                    color: "success",
+                    unit: "VA"
+                },
+                20: {
+                    name: "VA L2",
+                    category: "Power",
+                    icon: "ti-bolt",
+                    color: "success",
+                    unit: "VA"
+                },
+                22: {
+                    name: "VA L3",
+                    category: "Power",
+                    icon: "ti-bolt",
+                    color: "success",
+                    unit: "VA"
+                },
+                56: {
+                    name: "VA System",
+                    category: "Power",
+                    icon: "ti-bolt",
+                    color: "success",
+                    unit: "VA"
+                },
+                24: {
+                    name: "VAr L1",
+                    category: "Power",
+                    icon: "ti-bolt",
+                    color: "danger",
+                    unit: "VAr"
+                },
+                26: {
+                    name: "VAr L2",
+                    category: "Power",
+                    icon: "ti-bolt",
+                    color: "danger",
+                    unit: "VAr"
+                },
+                28: {
+                    name: "VAr L3",
+                    category: "Power",
+                    icon: "ti-bolt",
+                    color: "danger",
+                    unit: "VAr"
+                },
+                60: {
+                    name: "VAr System",
+                    category: "Power",
+                    icon: "ti-bolt",
+                    color: "danger",
+                    unit: "VAr"
+                },
+                30: {
+                    name: "PF L1",
+                    category: "PF and Angle",
+                    icon: "ti-angle",
+                    color: "secondary",
+                    unit: ""
+                },
+                32: {
+                    name: "PF L2",
+                    category: "PF and Angle",
+                    icon: "ti-angle",
+                    color: "secondary",
+                    unit: ""
+                },
+                34: {
+                    name: "PF L3",
+                    category: "PF and Angle",
+                    icon: "ti-angle",
+                    color: "secondary",
+                    unit: ""
+                },
+                62: {
+                    name: "PF System",
+                    category: "PF and Angle",
+                    icon: "ti-angle",
+                    color: "secondary",
+                    unit: ""
+                },
+                36: {
+                    name: "PA L1",
+                    category: "PF and Angle",
+                    icon: "ti-angle",
+                    color: "secondary",
+                    unit: "°"
+                },
+                38: {
+                    name: "PA L2",
+                    category: "PF and Angle",
+                    icon: "ti-angle",
+                    color: "secondary",
+                    unit: "°"
+                },
+                40: {
+                    name: "PA L3",
+                    category: "PF and Angle",
+                    icon: "ti-angle",
+                    color: "secondary",
+                    unit: "°"
+                },
+                66: {
+                    name: "PA System",
+                    category: "PF and Angle",
+                    icon: "ti-angle",
+                    color: "secondary",
+                    unit: "°"
+                }
+            };
+
+            // const READING_LIST = {
+            //     0: {
+            //         name: "Voltage L1",
+            //         category: "Voltage LN",
+            //         icon: "ti-bolt",
+            //         color: "primary",
+            //         unit: "V"
+            //     },
+            //     2: {
+            //         name: "Voltage L2",
+            //         category: "Voltage LN",
+            //         icon: "ti-bolt",
+            //         color: "primary",
+            //         unit: "V"
+            //     },
+            //     4: {
+            //         name: "Voltage L3",
+            //         category: "Voltage LN",
+            //         icon: "ti-bolt",
+            //         color: "primary",
+            //         unit: "V"
+            //     },
+            //     200: {
+            //         name: "Voltage L12",
+            //         category: "Voltage LL",
+            //         icon: "ti-bolt",
+            //         color: "primary",
+            //         unit: "V"
+            //     },
+            //     202: {
+            //         name: "Voltage L23",
+            //         category: "Voltage LL",
+            //         icon: "ti-bolt",
+            //         color: "primary",
+            //         unit: "V"
+            //     },
+            //     204: {
+            //         name: "Voltage L31",
+            //         category: "Voltage LL",
+            //         icon: "ti-bolt",
+            //         color: "primary",
+            //         unit: "V"
+            //     },
+            //     70: {
+            //         name: "Frequency",
+            //         category: "Voltage LL",
+            //         icon: "ti-bolt",
+            //         color: "primary",
+            //         unit: "Hz"
+            //     },
+            //     42: {
+            //         name: "Voltage System",
+            //         category: "Voltage LN",
+            //         icon: "ti-bolt",
+            //         color: "primary",
+            //         unit: "V"
+            //     },
+            //     6: {
+            //         name: "Current L1",
+            //         category: "Current",
+            //         icon: "ti-activity",
+            //         color: "info",
+            //         unit: "A"
+            //     },
+            //     8: {
+            //         name: "Current L2",
+            //         category: "Current",
+            //         icon: "ti-activity",
+            //         color: "info",
+            //         unit: "A"
+            //     },
+            //     10: {
+            //         name: "Current L3",
+            //         category: "Current",
+            //         icon: "ti-activity",
+            //         color: "info",
+            //         unit: "A"
+            //     },
+            //     46: {
+            //         name: "Current System",
+            //         category: "Current",
+            //         icon: "ti-activity",
+            //         color: "info",
+            //         unit: "A"
+            //     },
+            //     12: {
+            //         name: "Watt L1",
+            //         category: "Active Power",
+            //         icon: "ti-bolt",
+            //         color: "warning",
+            //         unit: "W"
+            //     },
+            //     14: {
+            //         name: "Watt L2",
+            //         category: "Active Power",
+            //         icon: "ti-bolt",
+            //         color: "warning",
+            //         unit: "W"
+            //     },
+            //     16: {
+            //         name: "Watt L3",
+            //         category: "Active Power",
+            //         icon: "ti-bolt",
+            //         color: "warning",
+            //         unit: "W"
+            //     },
+            //     52: {
+            //         name: "Watt System",
+            //         category: "Active Power",
+            //         icon: "ti-bolt",
+            //         color: "warning",
+            //         unit: "W"
+            //     },
+            //     18: {
+            //         name: "VA L1",
+            //         category: "Apparent Power",
+            //         icon: "ti-bolt",
+            //         color: "success",
+            //         unit: "VA"
+            //     },
+            //     20: {
+            //         name: "VA L2",
+            //         category: "Apparent Power",
+            //         icon: "ti-bolt",
+            //         color: "success",
+            //         unit: "VA"
+            //     },
+            //     22: {
+            //         name: "VA L3",
+            //         category: "Apparent Power",
+            //         icon: "ti-bolt",
+            //         color: "success",
+            //         unit: "VA"
+            //     },
+            //     56: {
+            //         name: "VA System",
+            //         category: "Apparent Power",
+            //         icon: "ti-bolt",
+            //         color: "success",
+            //         unit: "VA"
+            //     },
+            //     24: {
+            //         name: "VAr L1",
+            //         category: "Reactive Power",
+            //         icon: "ti-bolt",
+            //         color: "danger",
+            //         unit: "VAr"
+            //     },
+            //     26: {
+            //         name: "VAr L2",
+            //         category: "Reactive Power",
+            //         icon: "ti-bolt",
+            //         color: "danger",
+            //         unit: "VAr"
+            //     },
+            //     28: {
+            //         name: "VAr L3",
+            //         category: "Reactive Power",
+            //         icon: "ti-bolt",
+            //         color: "danger",
+            //         unit: "VAr"
+            //     },
+            //     60: {
+            //         name: "VAr System",
+            //         category: "Reactive Power",
+            //         icon: "ti-bolt",
+            //         color: "danger",
+            //         unit: "VAr"
+            //     },
+            //     30: {
+            //         name: "PF L1",
+            //         category: "Power Factor",
+            //         icon: "ti-angle",
+            //         color: "secondary",
+            //         unit: ""
+            //     },
+            //     32: {
+            //         name: "PF L2",
+            //         category: "Power Factor",
+            //         icon: "ti-angle",
+            //         color: "secondary",
+            //         unit: ""
+            //     },
+            //     34: {
+            //         name: "PF L3",
+            //         category: "Power Factor",
+            //         icon: "ti-angle",
+            //         color: "secondary",
+            //         unit: ""
+            //     },
+            //     62: {
+            //         name: "PF System",
+            //         category: "Power Factor",
+            //         icon: "ti-angle",
+            //         color: "secondary",
+            //         unit: ""
+            //     },
+            //     36: {
+            //         name: "PA L1",
+            //         category: "Phase Angle",
+            //         icon: "ti-angle",
+            //         color: "secondary",
+            //         unit: "°"
+            //     },
+            //     38: {
+            //         name: "PA L2",
+            //         category: "Phase Angle",
+            //         icon: "ti-angle",
+            //         color: "secondary",
+            //         unit: "°"
+            //     },
+            //     40: {
+            //         name: "PA L3",
+            //         category: "Phase Angle",
+            //         icon: "ti-angle",
+            //         color: "secondary",
+            //         unit: "°"
+            //     },
+            //     66: {
+            //         name: "PA System",
+            //         category: "Phase Angle",
+            //         icon: "ti-angle",
+            //         color: "secondary",
+            //         unit: "°"
+            //     }
+            // };
+
+            const readingModal = document.getElementById('readingMeasurementModal');
+            if (readingModal) {
+                readingModal.addEventListener('show.bs.modal', function() {
+                    const contentDiv = document.getElementById('reading-measurement-content');
+                    if (!contentDiv) return;
+
+                    // Group measurements by category
+                    const categories = {};
+                    Object.keys(READING_LIST).map(k => parseInt(k, 10)).sort((a, b) => a - b).forEach(
+                        function(addr) {
+                            const item = READING_LIST[addr];
+                            if (!item || !item.name) return;
+                            const cat = item.category || 'Other';
+                            if (!categories[cat]) categories[cat] = [];
+                            categories[cat].push({
+                                address: addr,
+                                ...item
+                            });
+                        });
+
+                    // Build HTML structure with grouped cards
+                    let html = '';
+                    // Arrange categories: first row: Voltage, Current, Power Factor, Phase Angle; second row: Power, Reactive Power, Apparent Power
+                    const categoryOrder = [
+                        'Voltage', 'Current', 'Power', 'PF and Angle'
+                        // 'Active Power', 'Reactive Power', 'Apparent Power',
+                        // 'System'
+                    ];
+
+                    // const categoryOrder = [
+                    //     'Voltage LN', 'Voltage LL', 'Current', 'Power Factor',
+                    //     'Active Power', 'Reactive Power', 'Apparent Power',
+                    //     'System', 'Phase Angle'
+                    // ];
+
+                    html += '<div class="row g-2">';
+                    categoryOrder.forEach(function(cat) {
+
+                        if (!categories[cat] || categories[cat].length === 0) return;
+                        let items = categories[cat];
+                        const firstItem = items[0];
+                        const colorClass = `bg-label-${firstItem.color}`;
+                        const iconClass = firstItem.icon || 'ti-gauge';
+
+                        // Custom order for Power, PF and Angle: L1, L2, L3, System for Watt, VAr, VA, PF, PA
+                        let orderedItems = items;
+                        if (cat === 'Power' || cat === 'PF and Angle') {
+                            const orderSuffix = ['L1', 'L2', 'L3', 'System'];
+                            // For Power: Watt, VAr, VA; For PF and Angle: PF, PA
+                            const typeOrder = cat === 'Power' ? ['Watt', 'VAr', 'VA'] : ['PF',
+                                'PA'
+                            ];
+                            orderedItems = [];
+                            typeOrder.forEach(type => {
+                                orderSuffix.forEach(suffix => {
+                                    const idx = items.findIndex(i => i.name
+                                        .startsWith(type) && i.name.endsWith(
+                                            suffix));
+                                    if (idx !== -1) {
+                                        orderedItems.push(items[idx]);
+                                    }
+                                });
+                            });
+                            // Add any remaining items (if any)
+                            items.forEach(i => {
+                                if (!orderedItems.includes(i)) orderedItems.push(i);
+                            });
+                        }
+
+                        html += `
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-0">
+                                <div class="card h-100 border-0 shadow rounded-4">
+                                    <div class="card-header bg-white border-0 pb-2 pt-3 px-3 text-center">
+                                        <h6 class="mb-0 d-flex flex-column align-items-center gap-1" style="font-size:1.1rem;">
+                                            <span class="d-flex align-items-center justify-content-center" style="font-size:1.5rem;">
+                                                <i class="ti ${iconClass} text-${firstItem.color}"></i>
+                                            </span>
+                                            <span class="fw-bold">${escapeHtml(cat)}</span>
+                                        </h6>
+                                    </div>
+                                    <div class="card-body pt-2 pb-3 px-3">
+                                        <div class="d-flex flex-column gap-0">
+                        `;
+                        orderedItems.forEach(function(item) {
+                            html += `
+                                            <div class="d-flex align-items-center gap-2 py-1">
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-0 fw-semibold" style="font-size:1rem;">${escapeHtml(item.name)}</h6>
+                                                    <small class="text-muted" style="font-size:0.85rem;">${item.address}</small>
+                                                </div>
+                                                <span class="fw-bold reading-value" data-address="${item.address}" style="font-size:1.25rem; min-width: 56px; display: flex; align-items: center;">
+                                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                    <span class="text-muted">...</span>
+                                                </span>
+                                            </div>
+                            `;
+                        });
+                        html += `
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+
+                    contentDiv.innerHTML = html;
+
+                    // Fetch live values for addresses 0..40 and 40..69, then merge and populate the value column
+                    Promise.all([
+                        fetch('/modbus/read/data/0/40', {
+                            method: 'GET',
+                            credentials: 'same-origin',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Accept': 'application/json'
+                            }
+                        }).then(function(resp) {
+                            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                            return resp.json();
+                        }),
+                        fetch('/modbus/read/data/40/40', {
+                            method: 'GET',
+                            credentials: 'same-origin',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Accept': 'application/json'
+                            }
+                        }).then(function(resp) {
+                            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                            return resp.json();
+                        }),
+                        fetch('/modbus/read/data/200/30', {
+                            method: 'GET',
+                            credentials: 'same-origin',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Accept': 'application/json'
+                            }
+                        }).then(function(resp) {
+                            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                            return resp.json();
+                        })
+                    ]).then(function(results) {
+                        // results[0] = 0..39, results[1] = 40..69
+                        const addrMap = {};
+                        [results[0], results[1], results[2]].forEach(function(data) {
+                            if (Array.isArray(data)) {
+                                data.forEach(function(it) {
+                                    const addr = (it && it.address !== undefined) ?
+                                        String(it.address) : null;
+                                    const val = (it && it.value !== undefined && it
+                                            .value !== null) ? String(it.value) :
+                                        '--';
+                                    if (addr !== null) addrMap[addr] = val;
+                                });
+                            } else if (data && typeof data === 'object') {
+                                for (let k in data) {
+                                    if (!data.hasOwnProperty(k)) continue;
+                                    const it = data[k];
+                                    let addr = null;
+                                    if (it && it.address !== undefined) addr = String(it
+                                        .address);
+                                    else if (!isNaN(Number(k))) addr = String(Number(k));
+                                    const val = (it && it.value !== undefined && it
+                                        .value !== null) ? String(it.value) : '--';
+                                    if (addr !== null) addrMap[addr] = val;
+                                }
+                            }
+                        });
+
+                        // Update value displays
+                        const valueElements = contentDiv.querySelectorAll('.reading-value');
+                        valueElements.forEach(function(el) {
+                            const addr = el.getAttribute('data-address');
+                            const item = READING_LIST[parseInt(addr, 10)];
+                            let val = (addr && addrMap[addr] !== undefined) ? addrMap[
+                                addr] : '--';
+                            let displayUnit = item.unit || '';
+
+                            if (val === '--' || val === 'ERR') {
+                                el.innerHTML = `<span class="text-muted">${val}</span>`;
+                            } else {
+                                // Format numeric values and adjust unit for large values
+                                let numVal = parseFloat(val);
+                                if (!isNaN(numVal)) {
+                                    // Only adjust for W, VA, VAr
+                                    if (["V", "A", "W", "VA", "VAr"].includes(
+                                            displayUnit)) {
+                                        if (Math.abs(numVal) >= 1000) {
+                                            numVal = numVal / 1000;
+                                            displayUnit = 'k' + displayUnit;
+                                        } else if (Math.abs(numVal) >= 1000000) {
+                                            numVal = numVal / 1000000;
+                                            displayUnit = 'M' + displayUnit;
+                                        }
+                                    }
+                                    const formattedVal = numVal.toLocaleString('en-US', {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 4
+                                    });
+                                    el.innerHTML =
+                                        `<span class="fw-bold">${formattedVal}</span>` + (
+                                            displayUnit ?
+                                            `<span class="text-muted ms-1" style="font-size:1rem;">${escapeHtml(displayUnit)}</span>` :
+                                            '');
+                                } else {
+                                    el.innerHTML =
+                                        `<span class="fw-bold">${escapeHtml(val)}</span>` +
+                                        (displayUnit ?
+                                            `<span class="text-muted ms-1" style="font-size:1rem;">${escapeHtml(displayUnit)}</span>` :
+                                            '');
+                                }
+                            }
+                        });
+                    }).catch(function(err) {
+                        console.debug('Reading measurement live fetch failed', err);
+                        // mark failures as ERR
+                        const valueElements = contentDiv.querySelectorAll('.reading-value');
+                        valueElements.forEach(function(el) {
+                            el.innerHTML = '<span class="text-danger">ERR</span>';
+                        });
+                    });
+                });
             }
         });
     </script>

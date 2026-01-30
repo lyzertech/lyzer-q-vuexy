@@ -86,7 +86,7 @@ class DataController extends Controller
         // ✅ 5. Parameters (keep your existing logic)
         $parameters = $request->input('parameters', ['V12']);
             $allowed = [
-                'Vnavg_V', 'Vlavg_V', 'Iavg_A', 'Psum_kW', 'Qsum_kvar', 'Ssum_kVA', 'PF',
+                'Freq_Hz', 'Vnavg_V', 'Vlavg_V', 'Iavg_A', 'Psum_kW', 'Qsum_kvar', 'Ssum_kVA', 'PF',
                 'V1', 'V2', 'V3', 'V12', 'V23', 'V31',
                 'I1', 'I2', 'I3',
                 'P1', 'P2', 'P3',

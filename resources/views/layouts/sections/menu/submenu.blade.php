@@ -11,6 +11,12 @@
                 $active = $configData['layout'] === 'vertical' ? 'active open' : 'active';
                 $currentRouteName = Route::currentRouteName();
 
+                // General: support relatedRoutes array in submenu data
+                if (isset($submenu->relatedRoutes) && is_array($submenu->relatedRoutes)) {
+                    if (in_array($currentRouteName, $submenu->relatedRoutes)) {
+                        $activeClass = $active;
+                    }
+                }
                 if ($currentRouteName === $submenu->slug) {
                     $activeClass = 'active';
                 } elseif (isset($submenu->submenu)) {

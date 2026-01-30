@@ -141,6 +141,17 @@
           "slug": "techvault-internalwiki"
         },
         {
+          "url": "techvault/engineering/wiki",
+          "name": "Engineering Wiki",
+          "slug": "techvault-engineeringwiki",
+          "relatedRoutes": [
+            "techvault-engineeringwiki",
+            "techvault-engineeringwiki.create",
+            "techvault-engineeringwiki.edit",
+            "techvault-engineeringwiki.show"
+          ]
+        },
+        {
           "url": "techvault/modbusregisters",
           "name": "Modbus Registers",
           "slug": "techvault-modbusregisters"
@@ -1494,6 +1505,12 @@
       "name": "Analysis",
       "icon": "menu-icon tf-icons ti ti-chart-pie",
       "slug": "monitoring-analysis"
+    },
+    {
+      "url": "monitoring/trend",
+      "name": "Trend",
+      "icon": "menu-icon tf-icons ti ti-brand-deezer",
+      "slug": "monitoring-trend"
     },
     {
       "url": "monitoring/billing",

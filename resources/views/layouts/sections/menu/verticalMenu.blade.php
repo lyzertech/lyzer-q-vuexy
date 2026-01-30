@@ -59,6 +59,12 @@
                     $activeClass = null;
                     $currentRouteName = Route::currentRouteName();
 
+                    // General: support relatedRoutes array in menu data
+                    if (isset($menu->relatedRoutes) && is_array($menu->relatedRoutes)) {
+                        if (in_array($currentRouteName, $menu->relatedRoutes)) {
+                            $activeClass = 'active';
+                        }
+                    }
                     if ($currentRouteName === $menu->slug) {
                         $activeClass = 'active';
                     } elseif (isset($menu->submenu)) {

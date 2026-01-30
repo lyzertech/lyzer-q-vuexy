@@ -46,24 +46,24 @@ use App\Http\Controllers\apps\EcommerceSettingsCheckout;
 use App\Http\Controllers\apps\EcommerceSettingsShipping;
 use App\Http\Controllers\apps\EcommerceSettingsLocations;
 use App\Http\Controllers\apps\EcommerceSettingsNotifications;
-use App\Http\Controllers\apps\AcademyDashboard;
-use App\Http\Controllers\apps\AcademyCourse;
-use App\Http\Controllers\apps\AcademyCourseDetails;
-use App\Http\Controllers\apps\LogisticsDashboard;
-use App\Http\Controllers\apps\LogisticsFleet;
-use App\Http\Controllers\apps\InvoiceList;
-use App\Http\Controllers\apps\InvoicePreview;
-use App\Http\Controllers\apps\InvoicePrint;
-use App\Http\Controllers\apps\InvoiceEdit;
-use App\Http\Controllers\apps\InvoiceAdd;
-use App\Http\Controllers\apps\UserList;
-use App\Http\Controllers\apps\UserViewAccount;
-use App\Http\Controllers\apps\UserViewSecurity;
-use App\Http\Controllers\apps\UserViewBilling;
-use App\Http\Controllers\apps\UserViewNotifications;
-use App\Http\Controllers\apps\UserViewConnections;
-use App\Http\Controllers\apps\AccessRoles;
-use App\Http\Controllers\apps\AccessPermission;
+use App\Http\Controllers\AcademyDashboard;
+use App\Http\Controllers\AcademyCourse;
+use App\Http\Controllers\AcademyCourseDetails;
+use App\Http\Controllers\LogisticsDashboard;
+use App\Http\Controllers\LogisticsFleet;
+use App\Http\Controllers\InvoiceList;
+use App\Http\Controllers\InvoicePreview;
+use App\Http\Controllers\InvoicePrint;
+use App\Http\Controllers\InvoiceEdit;
+use App\Http\Controllers\InvoiceAdd;
+use App\Http\Controllers\UserList;
+use App\Http\Controllers\UserViewAccount;
+use App\Http\Controllers\UserViewSecurity;
+use App\Http\Controllers\UserViewBilling;
+use App\Http\Controllers\UserViewNotifications;
+use App\Http\Controllers\UserViewConnections;
+use App\Http\Controllers\AccessRoles;
+use App\Http\Controllers\AccessPermission;
 use App\Http\Controllers\pages\UserProfile;
 use App\Http\Controllers\pages\UserTeams;
 use App\Http\Controllers\pages\UserProjects;
@@ -73,12 +73,12 @@ use App\Http\Controllers\pages\AccountSettingsSecurity;
 use App\Http\Controllers\pages\AccountSettingsBilling;
 use App\Http\Controllers\pages\AccountSettingsNotifications;
 use App\Http\Controllers\pages\AccountSettingsConnections;
-use App\Http\Controllers\pages\Faq;
-use App\Http\Controllers\pages\Pricing as PagesPricing;
-use App\Http\Controllers\pages\MiscError;
-use App\Http\Controllers\pages\MiscUnderMaintenance;
-use App\Http\Controllers\pages\MiscComingSoon;
-use App\Http\Controllers\pages\MiscNotAuthorized;
+use App\Http\Controllers\Faq;
+use App\Http\Controllers\Pricing as PagesPricing;
+use App\Http\Controllers\MiscError;
+use App\Http\Controllers\MiscUnderMaintenance;
+use App\Http\Controllers\MiscComingSoon;
+use App\Http\Controllers\MiscNotAuthorized;
 use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\authentications\LoginCover;
 use App\Http\Controllers\authentications\RegisterBasic;
@@ -178,6 +178,7 @@ use App\Http\Controllers\monitoring\MonitoringHome;
 use App\Http\Controllers\monitoring\MonitoringDashboard;
 use App\Http\Controllers\monitoring\MonitoringInstallation;
 use App\Http\Controllers\monitoring\MonitoringAnalysis;
+use App\Http\Controllers\monitoring\MonitoringTrend;
 use App\Http\Controllers\monitoring\MonitoringDatalog;
 use App\Http\Controllers\users\Users;
 use App\Http\Controllers\dev\DevZerotest;
@@ -281,7 +282,7 @@ Route::middleware(['role:1'])->group(function () {
     Route::resource('/monitoring/home', MonitoringHome::class);
 
     Route::get('/monitoring/dashboard', [MonitoringDashboard::class, 'index'])->name('monitoring-dashboard');
-    // Route::get('/dashboard', [MonitoringDashboard::class, 'dashboard']);
+    Route::get('/dashboard', [MonitoringDashboard::class, 'dashboard']);
 
     Route::get('/monitoring/installation', [MonitoringInstallation::class, 'index'])->name('monitoring-installation');
     Route::get('/monitoring/installation/facility/data', [MonitoringInstallation::class, 'installation_facility_data'])->name('monitoring-installation-facility-data');
@@ -298,6 +299,8 @@ Route::middleware(['role:1'])->group(function () {
     Route::get('/monitoring/analysis/data', [MonitoringAnalysis::class, 'analysis_getMonitoringTree'])->name('monitoring-analysis-getMonitoringTree');
     Route::post('/monitoring/analysis/selectdata', [MonitoringAnalysis::class, 'analysis_selectdata'])->name('monitoring-analysis-selectdata');
 
+    Route::get('/monitoring/trend', [MonitoringTrend::class, 'realtime'])->name('monitoring-trend');
+
     Route::get('/monitoring/datalog', [MonitoringDatalog::class, 'index'])->name('monitoring-datalog');
     Route::get('/monitoring/datalog/data', [MonitoringDatalog::class, 'datalog_getMonitoringTree'])->name('monitoring-datalog-getMonitoringTree');
     Route::post('/monitoring/datalog/selectdata', [MonitoringDatalog::class, 'datalog_selectdata'])->name('monitoring-datalog-selectdata');
@@ -310,6 +313,15 @@ Route::middleware(['role:1'])->group(function () {
 
   // TechVault
     Route::get('/techvault/internalwiki', [TechvaultInternalwiki::class, 'index'])->name('techvault-internalwiki');
+
+  // Engineering Wiki (manual routes)
+    Route::get('/techvault/engineering/wiki', [\App\Http\Controllers\techvault\EngineeringWikiController::class, 'index'])->name('techvault-engineeringwiki');
+    Route::get('/techvault/engineering/wiki/create', [\App\Http\Controllers\techvault\EngineeringWikiController::class, 'create'])->name('techvault-engineeringwiki.create');
+    Route::post('/techvault/engineering/wiki', [\App\Http\Controllers\techvault\EngineeringWikiController::class, 'store'])->name('techvault-engineeringwiki.store');
+    Route::get('/techvault/engineering/wiki/{engineeringWiki}', [\App\Http\Controllers\techvault\EngineeringWikiController::class, 'show'])->name('techvault-engineeringwiki.show');
+    Route::get('/techvault/engineering/wiki/{engineeringWiki}/edit', [\App\Http\Controllers\techvault\EngineeringWikiController::class, 'edit'])->name('techvault-engineeringwiki.edit');
+    Route::put('/techvault/engineering/wiki/{engineeringWiki}', [\App\Http\Controllers\techvault\EngineeringWikiController::class, 'update'])->name('techvault-engineeringwiki.update');
+    Route::delete('/techvault/engineering/wiki/{engineeringWiki}', [\App\Http\Controllers\techvault\EngineeringWikiController::class, 'destroy'])->name('techvault-engineeringwiki.destroy');
 
   // Users
     Route::get('/users', [Users::class, 'index'])->name('users');
@@ -604,17 +616,6 @@ Route::middleware(['role:1,2,4,5,45'])->group(function () {
   // Quotation
     Route::get('/crm/quotation', [CrmQuotation::class, 'index'])->name('crm-quotation');
 
-  // Users
-    Route::get('/users', [Users::class, 'index'])->name('users');
-    Route::get('/users/data', [Users::class, 'users_data'])->name('users-data');
-    Route::get('/users/view/{id}', [Users::class, 'users_view'])->name('users-view');
-    Route::get('/users/change/{id}', [Users::class, 'users_change_password'])->name('users-change-password');
-    Route::post('/users/change/{id}', [Users::class, 'users_update_password'])->name('users-update-password');
-    Route::delete('/users/destroy/{id}', [Users::class, 'users_destroy'])->name('users-destroy');
-
-});
-
-Route::middleware(['role:1,6'])->group(function () {
   // Labs Dashboard
     Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');
 
@@ -632,37 +633,12 @@ Route::middleware(['role:1,6'])->group(function () {
     Route::get('/labs/label/view/{id_label}', [LabsLabel::class, 'label_view'])->name('labs-label-view');
     Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
 
-  // Modbus
-    Route::get('/modbus/rish-con-m+', [ModbusRishabh::class, 'rish_con_m_plus'])->name('modbus-rish-con-m+');
-    Route::get('/modbus/AO1', [ModbusRishabh::class, 'AO1'])->name('modbus-ao1');
-    Route::get('/modbus/read/data/{address}/{count}', [ModbusRishabh::class, 'read_data'])->name('modbus-read-data');
-    Route::post('/modbus/write/rish-con-m+', [ModbusRishabh::class, 'rish_con_m_plus_write'])->name('modbus-rish-con-m+-write');
-
-});
-
-Route::middleware(['role:1,21'])->group(function () {
-  // Student
-    Route::get('/student/list', [SchoolStudent::class, 'index'])->name('student-list');
-    Route::get('/student/list/data', [SchoolStudent::class, 'label_data'])->name('student-list-data');
-    Route::post('/student/list/create', [SchoolStudent::class, 'create'])->name('student-list-create');
-    Route::get('/student/list/view/{id_label}', [SchoolStudent::class, 'label_view'])->name('student-list-view');
-    Route::delete('/student/list/destroy/{id_label}', [SchoolStudent::class, 'label_destroy'])->name('student-list-destroy');
-
-  // Teacher
-    Route::get('/teacher/list', [SchoolTeacher::class, 'index'])->name('teacher-list');
-    Route::get('/teacher/list/data', [SchoolTeacher::class, 'label_data'])->name('teacher-list-data');
-    Route::post('/teacher/list/create', [SchoolTeacher::class, 'create'])->name('teacher-list-create');
-    Route::get('/teacher/list/view/{id_label}', [SchoolTeacher::class, 'label_view'])->name('teacher-list-view');
-    Route::delete('/teacher/list/destroy/{id_label}', [SchoolTeacher::class, 'label_destroy'])->name('teacher-list-destroy');
-
-  // Attendance
-    Route::get('/attendance/daily', [SchoolStudent::class, 'index'])->name('attendance-daily');
-});
-
-Route::middleware(['role:1,7'])->group(function () {
   // Monitoring
+
+    Route::resource('/monitoring/home', MonitoringHome::class);
+
     Route::get('/monitoring/dashboard', [MonitoringDashboard::class, 'index'])->name('monitoring-dashboard');
-    // Route::get('/dashboard', [MonitoringDashboard::class, 'dashboard']);
+    Route::get('/dashboard', [MonitoringDashboard::class, 'dashboard']);
 
     Route::get('/monitoring/installation', [MonitoringInstallation::class, 'index'])->name('monitoring-installation');
     Route::get('/monitoring/installation/facility/data', [MonitoringInstallation::class, 'installation_facility_data'])->name('monitoring-installation-facility-data');

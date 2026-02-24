@@ -193,6 +193,8 @@ use App\Http\Controllers\school\SchoolStudent;
 use App\Http\Controllers\school\SchoolTeacher;
 
 use App\Http\Controllers\modbus\ModbusRishabh;
+use App\Http\Controllers\modbus\ModbusAccuenergy;
+use App\Http\Controllers\modbus\ModbusAcuvimL;
 use App\Http\Controllers\techvault\TechvaultInternalwiki;
 
 
@@ -305,11 +307,23 @@ Route::middleware(['role:1'])->group(function () {
     Route::get('/monitoring/datalog/data', [MonitoringDatalog::class, 'datalog_getMonitoringTree'])->name('monitoring-datalog-getMonitoringTree');
     Route::post('/monitoring/datalog/selectdata', [MonitoringDatalog::class, 'datalog_selectdata'])->name('monitoring-datalog-selectdata');
 
-  // Modbus
+  // Modbus Rishabh
     Route::get('/modbus/rish-con-m+', [ModbusRishabh::class, 'rish_con_m_plus'])->name('modbus-rish-con-m+');
     Route::get('/modbus/AO1', [ModbusRishabh::class, 'AO1'])->name('modbus-ao1');
     Route::get('/modbus/read/data/{address}/{count}', [ModbusRishabh::class, 'read_data'])->name('modbus-read-data');
     Route::post('/modbus/write/rish-con-m+', [ModbusRishabh::class, 'rish_con_m_plus_write'])->name('modbus-rish-con-m+-write');
+  
+  // Modbus Accuenergy AcuDC240
+    Route::get('/modbus/acudc240', [ModbusAccuenergy::class, 'accuenergy_read'])->name('modbus-acudc240');
+    Route::get('/modbus/acudc240/read/data/{address}/{count}', [ModbusAccuenergy::class, 'read_data'])->name('modbus-acudc240-read-data');
+    Route::post('/modbus/acudc240/write', [ModbusAccuenergy::class, 'accuenergy_write'])->name('modbus-acudc240-write');
+    Route::post('/modbus/acudc240/sync-time', [ModbusAccuenergy::class, 'sync_time'])->name('modbus-acudc240-sync-time');
+
+  // Modbus Accuenergy Acuvim L-V4
+    Route::get('/modbus/acuviml-v4', [ModbusAcuvimL::class, 'acuviml_read'])->name('modbus-acuviml-v4');
+    Route::get('/modbus/acuviml-v4/read/data/{address}/{count}', [ModbusAcuvimL::class, 'read_data'])->name('modbus-acuviml-v4-read-data');
+    Route::post('/modbus/acuviml-v4/write', [ModbusAcuvimL::class, 'acuviml_write'])->name('modbus-acuviml-v4-write');
+    Route::post('/modbus/acuviml-v4/sync-time', [ModbusAcuvimL::class, 'sync_time'])->name('modbus-acuviml-v4-sync-time');
 
   // TechVault
     Route::get('/techvault/internalwiki', [TechvaultInternalwiki::class, 'index'])->name('techvault-internalwiki');

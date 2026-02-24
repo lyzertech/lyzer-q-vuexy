@@ -124,6 +124,16 @@
           "slug": "modbus-rish-con-m+"
         },
         {
+          "url": "modbus/acudc240",
+          "name": "Accuenergy AcuDC240",
+          "slug": "modbus-acudc240"
+        },
+        {
+          "url": "modbus/acuviml-v4",
+          "name": "Accuenergy Acuvim L-V4",
+          "slug": "modbus-acuviml-v4"
+        },
+        {
           "url": "modbus/label",
           "name": "Label Generator",
           "slug": "modbus-label"

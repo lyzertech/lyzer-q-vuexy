@@ -122,7 +122,7 @@
             }
         </script>
 
-        <div class="flex-grow-1 container-p-y container-fluid" id="printableArea">
+        <div class="flex-grow-1 container-p-y container-fluid pt-0" id="printableArea">
             <div class="row letter-paper">
                 <div class="col-12">
                     <div class="card-widget-separator-wrapper">

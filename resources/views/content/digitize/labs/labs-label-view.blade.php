@@ -144,7 +144,7 @@
                                                                         <p class="mb-0 small-font">TYPE:</p>
                                                                         <p class="mb-0 small-font">SCALE:</p>
                                                                         <p class="mb-0 small-font">
-                                                                            {{ Str::startsWith($Label->type, 'DS')
+                                                                            {{ Str::startsWith($Label->type, ['DS', 'LM'])
                                                                                 ? 'INPUT: '
                                                                                 : (Str::is('*/*A', $Label->input)
                                                                                     ? 'CT RATIO: '
@@ -157,14 +157,19 @@
                                                                         <p class="mb-0 small-font">{{ $Label->type }}</p>
                                                                         <p class="mb-0 small-font">{{ $Label->scale }}</p>
                                                                         <p class="mb-0 small-font">
-                                                                            {{-- AC {{ $Label->input }} --}}
-                                                                            {{ Str::startsWith($Label->type, ['DE', 'RDVP', 'RDFP'])
-                                                                                ? 'AC ' . $Label->input
-                                                                                : (Str::contains($Label->type, 'DS')
-                                                                                    ? 'DC ' . $Label->input
-                                                                                    : ($Label->scale === 'LED DISPLAY'
-                                                                                        ? $Label->input
-                                                                                        : 'INPUT: ')) }}
+                                                                            @if (Str::startsWith($Label->type, ['DE', 'RDVP', 'RDFP']))
+                                                                                AC {{ $Label->input }}
+                                                                            @elseif (Str::contains($Label->type, 'DS'))
+                                                                                DC {{ $Label->input }}
+                                                                            @elseif (Str::contains($Label->type, ['LM', 'LF', 'FM']))
+                                                                                @foreach (array_map('trim', explode(',', $Label->input)) as $part)
+                                                                                    {{ Str::endsWith($part, 'A') ? 'CT' : 'VT' }} {{ $part }}<br>
+                                                                                @endforeach
+                                                                            @elseif ($Label->scale === 'LED DISPLAY')
+                                                                                {{ $Label->input }}
+                                                                            @else
+                                                                                INPUT:
+                                                                            @endif
                                                                         </p>
                                                                     </div>
                                                                 </div>
@@ -175,12 +180,13 @@
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <br>
+                                                {{-- <br> --}}
+                                                {!! in_array($Label->type, ['LM96', 'LF96']) ? '' : '<br>' !!}
                                                 <div class="row">
                                                     <div class="d-flex">
                                                         <div class="col">
                                                             <p class="mb-0 small-font d-flex justify-content-center pb-1">
-                                                                {!! in_array($Label->type, ['DE96', 'DE72', 'DE48']) ? '50/60Hz' : '<br>' !!}
+                                                                {!! in_array($Label->type, ['DE96', 'DE72', 'DE48', 'LM96']) ? '50/60Hz' : '<br>' !!}
                                                             </p>
                                                         </div>
                                                     </div>

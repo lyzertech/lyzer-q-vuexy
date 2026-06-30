@@ -172,6 +172,7 @@ use App\Http\Controllers\crm\CrmVisitReportSep;
 use App\Http\Controllers\crm\CrmCalendar;
 use App\Http\Controllers\crm\CrmProject;
 use App\Http\Controllers\crm\CrmQuotation;
+use App\Http\Controllers\indent\IndentHome;
 use App\Http\Controllers\labs\LabsDashboard;
 use App\Http\Controllers\labs\LabsLabel;
 use App\Http\Controllers\monitoring\MonitoringHome;
@@ -312,7 +313,7 @@ Route::middleware(['role:1'])->group(function () {
     Route::get('/modbus/AO1', [ModbusRishabh::class, 'AO1'])->name('modbus-ao1');
     Route::get('/modbus/read/data/{address}/{count}', [ModbusRishabh::class, 'read_data'])->name('modbus-read-data');
     Route::post('/modbus/write/rish-con-m+', [ModbusRishabh::class, 'rish_con_m_plus_write'])->name('modbus-rish-con-m+-write');
-  
+
   // Modbus Accuenergy AcuDC240
     Route::get('/modbus/acudc240', [ModbusAccuenergy::class, 'accuenergy_read'])->name('modbus-acudc240');
     Route::get('/modbus/acudc240/read/data/{address}/{count}', [ModbusAccuenergy::class, 'read_data'])->name('modbus-acudc240-read-data');
@@ -606,6 +607,22 @@ Route::middleware(['role:1,2,4,5,6,45'])->group(function () {
 
   // Visit Report SEP
     Route::get('/crm/visit-report-sep', [CrmVisitReportSep::class, 'index'])->name('crm-visit-report-sep');
+    Route::get('/crm/visit-report-sep/data', [CrmVisitReportSep::class, 'visit_report_data'])->name('crm-visit-report-sep-data');
+    Route::post('/crm/visit-report-sep/create', [CrmVisitReportSep::class, 'create'])->name('crm-visit-report-sep-create');
+    Route::get('/crm/visit-report-sep/view/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_view'])->name('crm-visit-report-sep-view');
+    Route::post('/crm/visit-report-sep/edit/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_edit'])->name('crm-visit-report-sep-edit');
+    Route::post('/crm/visit-report-sep/submit/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_submit'])->name('crm-visit-report-sep-submit');
+    Route::post('/crm/visit-report-sep/ackmanager/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_ackmanager'])->name('crm-visit-report-sep-ackmanager');
+    Route::post('/crm/visit-report-sep/ackdirector/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_ackdirector'])->name('crm-visit-report-sep-ackdirector');
+    Route::post('/crm/visit-report-sep/ackpresdir/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_ackpresdir'])->name('crm-visit-report-sep-ackpresdir');
+    Route::post('/crm/visit-report-sep/response/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_response'])->name('crm-visit-report-sep-response');
+    Route::post('/crm/visit-report-sep/followup/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_followup'])->name('crm-visit-report-sep-followup');
+    Route::delete('/crm/visit-report-sep/destroy/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_destroy'])->name('crm-visit-report-sep-destroy');
+    Route::post('/crm/visit-report-sep/cancel/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_cancel'])->name('crm-visit-report-sep-cancel');
+    Route::post('/crm/visit-report-sep/delete/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_delete'])->name('crm-visit-report-sep-delete');
+  // Indent
+    Route::get('/indent', [IndentHome::class, 'index'])->name('indent');
+
     Route::get('/crm/visit-report-sep/data', [CrmVisitReportSep::class, 'visit_report_data'])->name('crm-visit-report-sep-data');
     Route::post('/crm/visit-report-sep/create', [CrmVisitReportSep::class, 'create'])->name('crm-visit-report-sep-create');
     Route::get('/crm/visit-report-sep/view/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_view'])->name('crm-visit-report-sep-view');

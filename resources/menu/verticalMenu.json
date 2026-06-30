@@ -32,6 +32,12 @@
       ]
     },
     {
+      "url": "indent",
+      "name": "Indent",
+      "icon": "menu-icon tf-icons ti ti-file-invoice",
+      "slug": "indent"
+    },
+    {
       "url": "users",
       "name": "Users",
       "icon": "menu-icon tf-icons ti ti-user",

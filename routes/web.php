@@ -181,6 +181,19 @@ use App\Http\Controllers\monitoring\MonitoringInstallation;
 use App\Http\Controllers\monitoring\MonitoringAnalysis;
 use App\Http\Controllers\monitoring\MonitoringTrend;
 use App\Http\Controllers\monitoring\MonitoringDatalog;
+
+// Procurement Controllers
+use App\Http\Controllers\procurement\ProcurementRequestController;
+use App\Http\Controllers\procurement\ProcurementDashboardController;
+use App\Http\Controllers\procurement\ProcurementItemController;
+use App\Http\Controllers\procurement\ProcurementCommentController;
+use App\Http\Controllers\procurement\ProcurementAttachmentController;
+use App\Http\Controllers\procurement\ProcurementArrivalController;
+use App\Http\Controllers\procurement\ProcurementPurchaseOrderController;
+use App\Http\Controllers\procurement\ProcurementSupplierController;
+use App\Http\Controllers\procurement\ProcurementCustomerController;
+use App\Http\Controllers\procurement\ProcurementProductController;
+
 use App\Http\Controllers\users\Users;
 use App\Http\Controllers\dev\DevZerotest;
 
@@ -623,20 +636,9 @@ Route::middleware(['role:1,2,4,5,6,45'])->group(function () {
   // Indent
     Route::get('/indent', [IndentHome::class, 'index'])->name('indent');
 
-    Route::get('/crm/visit-report-sep/data', [CrmVisitReportSep::class, 'visit_report_data'])->name('crm-visit-report-sep-data');
-    Route::post('/crm/visit-report-sep/create', [CrmVisitReportSep::class, 'create'])->name('crm-visit-report-sep-create');
-    Route::get('/crm/visit-report-sep/view/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_view'])->name('crm-visit-report-sep-view');
-    Route::post('/crm/visit-report-sep/edit/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_edit'])->name('crm-visit-report-sep-edit');
-    Route::post('/crm/visit-report-sep/submit/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_submit'])->name('crm-visit-report-sep-submit');
-    Route::post('/crm/visit-report-sep/ackmanager/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_ackmanager'])->name('crm-visit-report-sep-ackmanager');
-    Route::post('/crm/visit-report-sep/ackdirector/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_ackdirector'])->name('crm-visit-report-sep-ackdirector');
-    Route::post('/crm/visit-report-sep/ackpresdir/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_ackpresdir'])->name('crm-visit-report-sep-ackpresdir');
-    Route::post('/crm/visit-report-sep/response/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_response'])->name('crm-visit-report-sep-response');
-    Route::post('/crm/visit-report-sep/followup/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_followup'])->name('crm-visit-report-sep-followup');
-    Route::delete('/crm/visit-report-sep/destroy/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_destroy'])->name('crm-visit-report-sep-destroy');
-    Route::post('/crm/visit-report-sep/cancel/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_cancel'])->name('crm-visit-report-sep-cancel');
-    Route::post('/crm/visit-report-sep/delete/{id_visit_report}', [CrmVisitReportSep::class, 'visit_report_delete'])->name('crm-visit-report-sep-delete');
+  // Procurement
 
+  
   // Calendar
     Route::get('/crm/calendar', [CrmCalendar::class, 'calendar_index'])->name('crm-calendar');
     Route::get('/crm/calendar/data', [CrmCalendar::class, 'calendar_data'])->name('crm-calendar');
@@ -665,7 +667,6 @@ Route::middleware(['role:1,2,4,5,6,45'])->group(function () {
     Route::delete('/labs/label/destroy/{id_label}', [LabsLabel::class, 'label_destroy'])->name('labs-label-destroy');
 
   // Monitoring
-
     Route::resource('/monitoring/home', MonitoringHome::class);
 
     Route::get('/monitoring/dashboard', [MonitoringDashboard::class, 'index'])->name('monitoring-dashboard');
@@ -689,6 +690,152 @@ Route::middleware(['role:1,2,4,5,6,45'])->group(function () {
     Route::get('/monitoring/datalog', [MonitoringDatalog::class, 'index'])->name('monitoring-datalog');
     Route::get('/monitoring/datalog/data', [MonitoringDatalog::class, 'datalog_getMonitoringTree'])->name('monitoring-datalog-getMonitoringTree');
     Route::post('/monitoring/datalog/selectdata', [MonitoringDatalog::class, 'datalog_selectdata'])->name('monitoring-datalog-selectdata');
+
+  // ===================================================
+  // PROCUREMENT MANAGEMENT SYSTEM
+  // ===================================================
+  
+  // Procurement Main Route
+    Route::get('/procurement', [ProcurementDashboardController::class, 'index'])->name('procurement.index');
+    
+  // Procurement Routes - Following existing role pattern
+    // Procurement Routes - Individual Routes (without prefix grouping)
+    
+    // Dashboard Routes
+    Route::get('/procurement-dashboard-sales', [ProcurementDashboardController::class, 'sales'])->name('procurement.dashboard.sales');
+    Route::get('/procurement-dashboard-purchasing', [ProcurementDashboardController::class, 'purchasing'])->name('procurement.dashboard.purchasing');
+    Route::get('/procurement-dashboard-manager', [ProcurementDashboardController::class, 'manager'])->name('procurement.dashboard.manager');
+    
+    // Procurement Requests - Resource Routes
+    Route::get('/procurement/requests', [ProcurementRequestController::class, 'index'])->name('procurement.requests.index');
+    Route::get('/procurement/requests/create', [ProcurementRequestController::class, 'create'])->name('procurement.requests.create');
+    Route::post('/procurement/requests', [ProcurementRequestController::class, 'store'])->name('procurement.requests.store');
+    Route::get('/procurement/requests/{request}', [ProcurementRequestController::class, 'show'])->name('procurement.requests.show');
+    Route::get('/procurement/requests/{request}/edit', [ProcurementRequestController::class, 'edit'])->name('procurement.requests.edit');
+    Route::put('/procurement/requests/{request}', [ProcurementRequestController::class, 'update'])->name('procurement.requests.update');
+    Route::delete('/procurement/requests/{request}', [ProcurementRequestController::class, 'destroy'])->name('procurement.requests.destroy');
+    
+    // Procurement Requests - Additional Routes
+    Route::get('/procurement/requests/data', [ProcurementRequestController::class, 'data'])->name('procurement.requests.data');
+    Route::post('/procurement/requests/{request}/submit', [ProcurementRequestController::class, 'submit'])->name('procurement.requests.submit');
+    Route::post('/procurement/requests/{request}/ackmanager', [ProcurementRequestController::class, 'ack_manager'])->name('procurement.requests.ack_manager');
+    Route::post('/procurement/requests/{request}/ackdirector', [ProcurementRequestController::class, 'ack_director'])->name('procurement.requests.ack_director');
+    Route::post('/procurement/requests/{request}/approve', [ProcurementRequestController::class, 'approve'])->name('procurement.requests.approve');
+    Route::post('/procurement/requests/{request}/reject', [ProcurementRequestController::class, 'reject'])->name('procurement.requests.reject');
+    Route::post('/procurement/requests/{request}/cancel', [ProcurementRequestController::class, 'cancel'])->name('procurement.requests.cancel');
+    Route::post('/procurement/requests/{request}/confirm-delivery', [ProcurementRequestController::class, 'confirmDelivery'])->name('procurement.requests.confirm_delivery');
+    Route::post('/procurement/requests/{request}/complete', [ProcurementRequestController::class, 'complete'])->name('procurement.requests.complete');
+    Route::get('/procurement/requests/{request}/export-pdf', [ProcurementRequestController::class, 'exportPdf'])->name('procurement.requests.export_pdf');
+    Route::get('/procurement/requests/export-excel', [ProcurementRequestController::class, 'exportExcel'])->name('procurement.requests.export_excel');
+
+    // Procurement Items Routes
+    Route::get('/procurement/requests/{request}/items', [ProcurementItemController::class, 'index'])->name('procurement.items.index');
+    Route::post('/procurement/requests/{request}/items', [ProcurementItemController::class, 'store'])->name('procurement.items.store');
+    Route::get('/procurement/requests/{request}/items/{item}', [ProcurementItemController::class, 'show'])->name('procurement.items.show');
+    Route::put('/procurement/requests/{request}/items/{item}', [ProcurementItemController::class, 'update'])->name('procurement.items.update');
+    Route::delete('/procurement/requests/{request}/items/{item}', [ProcurementItemController::class, 'destroy'])->name('procurement.items.destroy');
+    Route::post('/procurement/requests/{request}/items/{item}/order', [ProcurementItemController::class, 'markAsOrdered'])->name('procurement.items.order');
+    Route::post('/procurement/requests/{request}/items/{item}/production', [ProcurementItemController::class, 'markAsProduction'])->name('procurement.items.production');
+    Route::post('/procurement/requests/{request}/items/{item}/shipping', [ProcurementItemController::class, 'markAsShipping'])->name('procurement.items.shipping');
+    Route::post('/procurement/requests/{request}/items/{item}/cancel', [ProcurementItemController::class, 'cancel'])->name('procurement.items.cancel');
+
+    // Arrival Management Routes
+    Route::get('/procurement/arrivals', [ProcurementArrivalController::class, 'index'])->name('procurement.arrivals.index');
+    Route::get('/procurement/arrivals/data', [ProcurementArrivalController::class, 'data'])->name('procurement.arrivals.data');
+    Route::post('/procurement/arrivals/record', [ProcurementArrivalController::class, 'record'])->name('procurement.arrivals.record');
+    Route::get('/procurement/arrivals/{arrival}', [ProcurementArrivalController::class, 'show'])->name('procurement.arrivals.show');
+    Route::delete('/procurement/arrivals/{arrival}', [ProcurementArrivalController::class, 'destroy'])->name('procurement.arrivals.destroy');
+    Route::get('/procurement/arrivals/warehouses', [ProcurementArrivalController::class, 'getWarehouses'])->name('procurement.arrivals.warehouses');
+    Route::post('/procurement/arrivals/bulk-record', [ProcurementArrivalController::class, 'bulkRecord'])->name('procurement.arrivals.bulk_record');
+
+    // Purchase Orders - Resource Routes
+    Route::get('/procurement/purchase-orders', [ProcurementPurchaseOrderController::class, 'index'])->name('procurement.po.index');
+    Route::get('/procurement/purchase-orders/create', [ProcurementPurchaseOrderController::class, 'create'])->name('procurement.po.create');
+    Route::post('/procurement/purchase-orders', [ProcurementPurchaseOrderController::class, 'store'])->name('procurement.po.store');
+    Route::get('/procurement/purchase-orders/{purchase_order}', [ProcurementPurchaseOrderController::class, 'show'])->name('procurement.po.show');
+    Route::get('/procurement/purchase-orders/{purchase_order}/edit', [ProcurementPurchaseOrderController::class, 'edit'])->name('procurement.po.edit');
+    Route::put('/procurement/purchase-orders/{purchase_order}', [ProcurementPurchaseOrderController::class, 'update'])->name('procurement.po.update');
+    Route::delete('/procurement/purchase-orders/{purchase_order}', [ProcurementPurchaseOrderController::class, 'destroy'])->name('procurement.po.destroy');
+    
+    // Purchase Orders - Additional Routes
+    Route::get('/procurement/purchase-orders/data', [ProcurementPurchaseOrderController::class, 'data'])->name('procurement.po.data');
+    Route::post('/procurement/purchase-orders/{po}/send', [ProcurementPurchaseOrderController::class, 'send'])->name('procurement.po.send');
+    Route::post('/procurement/purchase-orders/{po}/acknowledge', [ProcurementPurchaseOrderController::class, 'acknowledge'])->name('procurement.po.acknowledge');
+    Route::get('/procurement/purchase-orders/{po}/pdf', [ProcurementPurchaseOrderController::class, 'generatePdf'])->name('procurement.po.pdf');
+    Route::post('/procurement/purchase-orders/bulk-update-status', [ProcurementPurchaseOrderController::class, 'bulkUpdateStatus'])->name('procurement.po.bulk_update_status');
+
+    // Comments & Timeline Routes
+    Route::get('/procurement/requests/{request}/comments', [ProcurementCommentController::class, 'index'])->name('procurement.comments.index');
+    Route::post('/procurement/requests/{request}/comments', [ProcurementCommentController::class, 'store'])->name('procurement.comments.store');
+    Route::put('/procurement/requests/{request}/comments/{comment}', [ProcurementCommentController::class, 'update'])->name('procurement.comments.update');
+    Route::delete('/procurement/requests/{request}/comments/{comment}', [ProcurementCommentController::class, 'destroy'])->name('procurement.comments.destroy');
+    Route::post('/procurement/requests/{request}/comments/{comment}/reply', [ProcurementCommentController::class, 'reply'])->name('procurement.comments.reply');
+    Route::get('/procurement/requests/{request}/comments/{comment}/thread', [ProcurementCommentController::class, 'getThread'])->name('procurement.comments.thread');
+
+    // Attachments Routes
+    Route::post('/procurement/attachments/upload', [ProcurementAttachmentController::class, 'upload'])->name('procurement.attachments.upload');
+    Route::get('/procurement/attachments/{attachment}/download', [ProcurementAttachmentController::class, 'download'])->name('procurement.attachments.download');
+    Route::get('/procurement/attachments/{attachment}/view', [ProcurementAttachmentController::class, 'view'])->name('procurement.attachments.view');
+    Route::delete('/procurement/attachments/{attachment}', [ProcurementAttachmentController::class, 'destroy'])->name('procurement.attachments.destroy');
+    Route::delete('/procurement/attachments/bulk-delete', [ProcurementAttachmentController::class, 'bulkDelete'])->name('procurement.attachments.bulk_delete');
+
+    // Master Data - Suppliers
+    Route::get('/procurement/suppliers', [ProcurementSupplierController::class, 'index'])->name('procurement.suppliers.index');
+    Route::get('/procurement/suppliers/create', [ProcurementSupplierController::class, 'create'])->name('procurement.suppliers.create');
+    Route::post('/procurement/suppliers', [ProcurementSupplierController::class, 'store'])->name('procurement.suppliers.store');
+    Route::get('/procurement/suppliers/{supplier}', [ProcurementSupplierController::class, 'show'])->name('procurement.suppliers.show');
+    Route::get('/procurement/suppliers/{supplier}/edit', [ProcurementSupplierController::class, 'edit'])->name('procurement.suppliers.edit');
+    Route::put('/procurement/suppliers/{supplier}', [ProcurementSupplierController::class, 'update'])->name('procurement.suppliers.update');
+    Route::delete('/procurement/suppliers/{supplier}', [ProcurementSupplierController::class, 'destroy'])->name('procurement.suppliers.destroy');
+    Route::get('/procurement/suppliers/data', [ProcurementSupplierController::class, 'data'])->name('procurement.suppliers.data');
+    Route::post('/procurement/suppliers/{supplier}/toggle-status', [ProcurementSupplierController::class, 'toggleStatus'])->name('procurement.suppliers.toggle_status');
+    Route::get('/procurement/suppliers/search', [ProcurementSupplierController::class, 'search'])->name('procurement.suppliers.search');
+    Route::get('/procurement/suppliers/performance', [ProcurementSupplierController::class, 'performance'])->name('procurement.suppliers.performance');
+    Route::get('/procurement/suppliers/export', [ProcurementSupplierController::class, 'export'])->name('procurement.suppliers.export');
+
+    // Master Data - Customers
+    Route::get('/procurement/customers', [ProcurementCustomerController::class, 'index'])->name('procurement.customers.index');
+    Route::get('/procurement/customers/create', [ProcurementCustomerController::class, 'create'])->name('procurement.customers.create');
+    Route::post('/procurement/customers', [ProcurementCustomerController::class, 'store'])->name('procurement.customers.store');
+    Route::get('/procurement/customers/{customer}', [ProcurementCustomerController::class, 'show'])->name('procurement.customers.show');
+    Route::get('/procurement/customers/{customer}/edit', [ProcurementCustomerController::class, 'edit'])->name('procurement.customers.edit');
+    Route::put('/procurement/customers/{customer}', [ProcurementCustomerController::class, 'update'])->name('procurement.customers.update');
+    Route::delete('/procurement/customers/{customer}', [ProcurementCustomerController::class, 'destroy'])->name('procurement.customers.destroy');
+    Route::get('/procurement/customers/data', [ProcurementCustomerController::class, 'data'])->name('procurement.customers.data');
+    Route::post('/procurement/customers/{customer}/toggle-status', [ProcurementCustomerController::class, 'toggleStatus'])->name('procurement.customers.toggle_status');
+    Route::get('/procurement/customers/search', [ProcurementCustomerController::class, 'search'])->name('procurement.customers.search');
+    Route::get('/procurement/customers/{customer}/requests-history', [ProcurementCustomerController::class, 'requestHistory'])->name('procurement.customers.request_history');
+    Route::get('/procurement/customers/{customer}/analytics', [ProcurementCustomerController::class, 'analytics'])->name('procurement.customers.analytics');
+    Route::get('/procurement/customers/export', [ProcurementCustomerController::class, 'export'])->name('procurement.customers.export');
+    Route::post('/procurement/customers/bulk-import', [ProcurementCustomerController::class, 'bulkImport'])->name('procurement.customers.bulk_import');
+
+    // Master Data - Products
+    Route::get('/procurement/products', [ProcurementProductController::class, 'index'])->name('procurement.products.index');
+    Route::get('/procurement/products/create', [ProcurementProductController::class, 'create'])->name('procurement.products.create');
+    Route::post('/procurement/products', [ProcurementProductController::class, 'store'])->name('procurement.products.store');
+    Route::get('/procurement/products/{product}', [ProcurementProductController::class, 'show'])->name('procurement.products.show');
+    Route::get('/procurement/products/{product}/edit', [ProcurementProductController::class, 'edit'])->name('procurement.products.edit');
+    Route::put('/procurement/products/{product}', [ProcurementProductController::class, 'update'])->name('procurement.products.update');
+    Route::delete('/procurement/products/{product}', [ProcurementProductController::class, 'destroy'])->name('procurement.products.destroy');
+    Route::get('/procurement/products/data', [ProcurementProductController::class, 'data'])->name('procurement.products.data');
+    Route::post('/procurement/products/{product}/toggle-status', [ProcurementProductController::class, 'toggleStatus'])->name('procurement.products.toggle_status');
+    Route::get('/procurement/products/search', [ProcurementProductController::class, 'search'])->name('procurement.products.search');
+    Route::get('/procurement/products/categories', [ProcurementProductController::class, 'categories'])->name('procurement.products.categories');
+    Route::get('/procurement/products/units', [ProcurementProductController::class, 'units'])->name('procurement.products.units');
+    Route::get('/procurement/products/category-analytics', [ProcurementProductController::class, 'categoryAnalytics'])->name('procurement.products.category_analytics');
+    Route::get('/procurement/products/export', [ProcurementProductController::class, 'export'])->name('procurement.products.export');
+    Route::post('/procurement/products/bulk-import', [ProcurementProductController::class, 'bulkImport'])->name('procurement.products.bulk_import');
+    Route::post('/procurement/products/{product}/duplicate', [ProcurementProductController::class, 'duplicate'])->name('procurement.products.duplicate');
+    Route::get('/procurement/products/check-code', [ProcurementProductController::class, 'checkCodeAvailability'])->name('procurement.products.check_code');
+
+    // Reports & Analytics Routes
+    Route::get('/procurement/reports/dashboard-stats', [ProcurementDashboardController::class, 'dashboardStats'])->name('procurement.reports.dashboard_stats');
+
+    // API endpoints for dropdowns and search
+    Route::get('/procurement/items/{item}/arrivals', [ProcurementArrivalController::class, 'getItemArrivals'])->name('procurement.item_arrivals');
+    Route::get('/procurement/requests/{request}/items-list', [ProcurementPurchaseOrderController::class, 'getRequestItems'])->name('procurement.request_items');
+    Route::get('/procurement/requests/{request}/attachments', [ProcurementAttachmentController::class, 'getRequestAttachments'])->name('procurement.request_attachments');
+    Route::get('/procurement/products/search-products', [ProcurementItemController::class, 'getProducts'])->name('procurement.search_products');
 
 
 });

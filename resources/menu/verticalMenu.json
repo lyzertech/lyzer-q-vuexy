@@ -32,6 +32,59 @@
       ]
     },
     {
+      "name": "Procurement",
+      "icon": "menu-icon tf-icons ti ti-shopping-cart",
+      "slug": "procurement",
+      "submenu": [
+        {
+          "name": "Dashboard",
+          "slug": "procurement-dashboard",
+          "submenu": [
+            {
+              "url": "procurement/dashboard/manager",
+              "name": "Manager Dashboard",
+              "slug": "procurement-dashboard-manager"
+            },
+            {
+              "url": "procurement/dashboard/purchasing",
+              "name": "Purchasing Dashboard",
+              "slug": "procurement-dashboard-purchasing"
+            },
+            {
+              "url": "procurement/dashboard/sales",
+              "name": "Sales Dashboard",
+              "slug": "procurement-dashboard-sales"
+            }
+          ]
+        },
+        {
+          "url": "procurement/suppliers",
+          "name": "Suppliers",
+          "slug": "procurement-suppliers"
+        },
+        {
+          "url": "procurement/customers",
+          "name": "Customers",
+          "slug": "procurement-customers"
+        },
+        {
+          "url": "procurement/products",
+          "name": "Products",
+          "slug": "procurement-products"
+        },
+        {
+          "url": "procurement/requests",
+          "name": "Procurement Requests",
+          "slug": "procurement-requests"
+        },
+        {
+          "url": "procurement/purchase-orders",
+          "name": "Purchase Orders",
+          "slug": "procurement-purchase-orders"
+        }
+      ]
+    },
+    {
       "url": "indent",
       "name": "Indent",
       "icon": "menu-icon tf-icons ti ti-file-invoice",

@@ -172,6 +172,7 @@ use App\Http\Controllers\crm\CrmVisitReportSep;
 use App\Http\Controllers\crm\CrmCalendar;
 use App\Http\Controllers\crm\CrmProject;
 use App\Http\Controllers\crm\CrmQuotation;
+use App\Http\Controllers\crm\CrmPurchaseRequest;
 use App\Http\Controllers\indent\IndentHome;
 use App\Http\Controllers\labs\LabsDashboard;
 use App\Http\Controllers\labs\LabsLabel;
@@ -275,6 +276,13 @@ Route::middleware(['role:1'])->group(function () {
 
   // Quotation
     Route::get('/crm/quotation', [CrmQuotation::class, 'index'])->name('crm-quotation');
+
+  // Purchase Request
+    Route::get('/crm/purchase-request', [CrmPurchaseRequest::class, 'index'])->name('crm-purchase-request');
+    Route::get('/crm/purchase-request/data', [CrmPurchaseRequest::class, 'purchase_request_data'])->name('crm-purchase-request-data');
+    Route::post('/crm/purchase-request/create', [CrmPurchaseRequest::class, 'create'])->name('crm-purchase-request-create');
+    Route::get('/crm/purchase-request/view/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_view'])->name('crm-purchase-request-view');
+    Route::post('/crm/purchase-request/edit/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_edit'])->name('crm-purchase-request-edit');
 
   // Labs Dashboard
     Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');
@@ -638,7 +646,7 @@ Route::middleware(['role:1,2,4,5,6,45'])->group(function () {
 
   // Procurement
 
-  
+
   // Calendar
     Route::get('/crm/calendar', [CrmCalendar::class, 'calendar_index'])->name('crm-calendar');
     Route::get('/crm/calendar/data', [CrmCalendar::class, 'calendar_data'])->name('crm-calendar');
@@ -648,6 +656,13 @@ Route::middleware(['role:1,2,4,5,6,45'])->group(function () {
 
   // Quotation
     Route::get('/crm/quotation', [CrmQuotation::class, 'index'])->name('crm-quotation');
+
+  // Purchase Request
+    Route::get('/crm/purchase-request', [CrmPurchaseRequest::class, 'index'])->name('crm-purchase-request');
+    Route::get('/crm/purchase-request/data', [CrmPurchaseRequest::class, 'purchase_request_data'])->name('crm-purchase-request-data');
+    Route::post('/crm/purchase-request/create', [CrmPurchaseRequest::class, 'create'])->name('crm-purchase-request-create');
+    Route::get('/crm/purchase-request/view/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_view'])->name('crm-purchase-request-view');
+    Route::post('/crm/purchase-request/edit/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_edit'])->name('crm-purchase-request-edit');
 
   // Labs Dashboard
     Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');

@@ -536,6 +536,7 @@
                                             5 => 'Sales SEP',
                                             6 => 'Labs',
                                             7 => 'Member',
+                                            8 => 'Purchasing',
                                             11 => 'Familia',
                                             45 => 'Admin',
                                         ];

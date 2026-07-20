@@ -173,6 +173,7 @@ use App\Http\Controllers\crm\CrmCalendar;
 use App\Http\Controllers\crm\CrmProject;
 use App\Http\Controllers\crm\CrmQuotation;
 use App\Http\Controllers\crm\CrmPurchaseRequest;
+use App\Http\Controllers\crm\CrmInquiry;
 use App\Http\Controllers\indent\IndentHome;
 use App\Http\Controllers\labs\LabsDashboard;
 use App\Http\Controllers\labs\LabsLabel;
@@ -283,6 +284,16 @@ Route::middleware(['role:1'])->group(function () {
     Route::post('/crm/purchase-request/create', [CrmPurchaseRequest::class, 'create'])->name('crm-purchase-request-create');
     Route::get('/crm/purchase-request/view/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_view'])->name('crm-purchase-request-view');
     Route::post('/crm/purchase-request/edit/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_edit'])->name('crm-purchase-request-edit');
+
+  // Inquiry
+    Route::get('/crm/inquiry', [CrmInquiry::class, 'index'])->name('crm-inquiry');
+    Route::get('/crm/inquiry/data', [CrmInquiry::class, 'inquiry_data'])->name('crm-inquiry-data');
+    Route::post('/crm/inquiry/create', [CrmInquiry::class, 'create'])->name('crm-inquiry-create');
+    Route::get('/crm/inquiry/view/{id_inquiry}', [CrmInquiry::class, 'inquiry_view'])->name('crm-inquiry-view');
+    Route::post('/crm/inquiry/edit/{id_inquiry}', [CrmInquiry::class, 'inquiry_edit'])->name('crm-inquiry-edit');
+    Route::post('/crm/inquiry/batch-update', [CrmInquiry::class, 'inquiry_batch_update'])->name('crm-inquiry-batch-update');
+    Route::get('/crm/inquiry/projects', [CrmInquiry::class, 'get_inquiry_projects'])->name('crm-inquiry-projects');
+    Route::get('/crm/inquiry/project/{project_title}', [CrmInquiry::class, 'get_inquiry_by_project'])->name('crm-inquiry-by-project');
 
   // Labs Dashboard
     Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');
@@ -598,7 +609,7 @@ Route::middleware(['role:1'])->group(function () {
     Route::resource('/user-list', UserManagement::class);
 });
 
-Route::middleware(['role:1,2,4,5,6,45'])->group(function () {
+Route::middleware(['role:1,2,4,5,6,8,45'])->group(function () {
   // Digitize
     Route::get('/crm/dashboard', [CrmDashboard::class, 'index'])->name('crm-dashboard');
 
@@ -663,6 +674,16 @@ Route::middleware(['role:1,2,4,5,6,45'])->group(function () {
     Route::post('/crm/purchase-request/create', [CrmPurchaseRequest::class, 'create'])->name('crm-purchase-request-create');
     Route::get('/crm/purchase-request/view/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_view'])->name('crm-purchase-request-view');
     Route::post('/crm/purchase-request/edit/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_edit'])->name('crm-purchase-request-edit');
+
+  // Inquiry
+    Route::get('/crm/inquiry', [CrmInquiry::class, 'index'])->name('crm-inquiry');
+    Route::get('/crm/inquiry/data', [CrmInquiry::class, 'inquiry_data'])->name('crm-inquiry-data');
+    Route::post('/crm/inquiry/create', [CrmInquiry::class, 'create'])->name('crm-inquiry-create');
+    Route::get('/crm/inquiry/view/{id_inquiry}', [CrmInquiry::class, 'inquiry_view'])->name('crm-inquiry-view');
+    Route::post('/crm/inquiry/edit/{id_inquiry}', [CrmInquiry::class, 'inquiry_edit'])->name('crm-inquiry-edit');
+    Route::post('/crm/inquiry/batch-update', [CrmInquiry::class, 'inquiry_batch_update'])->name('crm-inquiry-batch-update');
+    Route::get('/crm/inquiry/projects', [CrmInquiry::class, 'get_inquiry_projects'])->name('crm-inquiry-projects');
+    Route::get('/crm/inquiry/project/{project_title}', [CrmInquiry::class, 'get_inquiry_by_project'])->name('crm-inquiry-by-project');
 
   // Labs Dashboard
     Route::get('/labs/dashboard', [LabsDashboard::class, 'index'])->name('labs-dashboard');

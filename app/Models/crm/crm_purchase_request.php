@@ -13,6 +13,16 @@ class crm_purchase_request extends Model
     protected $primaryKey = 'id_purchase_request';
     protected $fillable = [
         'pr_number',
+        'customer_name',
+        'customer_po_number',
+        'project_name',
+        'item_list',
+        'quantity',
+        'selling_price',
+        'supplier_price',
+        'expected_delivery_date',
+        'lead_time',
+        'attachment_customer_po',
         'title',
         'requested_by',
         'department',

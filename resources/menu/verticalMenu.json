@@ -24,6 +24,11 @@
           "slug": "crm-visit-report-sep"
         },
         {
+          "url": "crm/inquiry",
+          "name": "Inquiry",
+          "slug": "crm-inquiry"
+        },
+        {
           "url": "crm/purchase-request",
           "name": "Purchase Request (PR)",
           "slug": "crm-purchase-request"
@@ -33,18 +38,6 @@
           "name": "Calendar",
           "icon": "menu-icon tf-icons ti ti-user",
           "slug": "crm-calendar"
-        }
-      ]
-    },
-    {
-      "name": "Procurement",
-      "icon": "menu-icon tf-icons ti ti-shopping-cart",
-      "slug": "procurement",
-      "submenu": [
-        {
-          "url": "procurement/purchase-orders",
-          "name": "Purchase Orders",
-          "slug": "procurement-purchase-orders"
         }
       ]
     },

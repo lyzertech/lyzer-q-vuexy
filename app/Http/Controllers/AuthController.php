@@ -38,6 +38,7 @@ class AuthController extends Controller
 
                 case 4: // Sales
                 case 5: // Sales
+                case 8: // Purchasing
                     return redirect('/crm/customer');
 
                 case 6: // Labs Team

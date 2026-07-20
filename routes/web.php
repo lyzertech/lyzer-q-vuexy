@@ -730,18 +730,18 @@ Route::middleware(['role:1,2,4,5,6,8,45'])->group(function () {
   // ===================================================
   // PROCUREMENT MANAGEMENT SYSTEM
   // ===================================================
-  
+
   // Procurement Main Route
     Route::get('/procurement', [ProcurementDashboardController::class, 'index'])->name('procurement.index');
-    
+
   // Procurement Routes - Following existing role pattern
     // Procurement Routes - Individual Routes (without prefix grouping)
-    
+
     // Dashboard Routes
     Route::get('/procurement-dashboard-sales', [ProcurementDashboardController::class, 'sales'])->name('procurement.dashboard.sales');
     Route::get('/procurement-dashboard-purchasing', [ProcurementDashboardController::class, 'purchasing'])->name('procurement.dashboard.purchasing');
     Route::get('/procurement-dashboard-manager', [ProcurementDashboardController::class, 'manager'])->name('procurement.dashboard.manager');
-    
+
     // Procurement Requests - Resource Routes
     Route::get('/procurement/requests', [ProcurementRequestController::class, 'index'])->name('procurement.requests.index');
     Route::get('/procurement/requests/create', [ProcurementRequestController::class, 'create'])->name('procurement.requests.create');
@@ -750,7 +750,7 @@ Route::middleware(['role:1,2,4,5,6,8,45'])->group(function () {
     Route::get('/procurement/requests/{request}/edit', [ProcurementRequestController::class, 'edit'])->name('procurement.requests.edit');
     Route::put('/procurement/requests/{request}', [ProcurementRequestController::class, 'update'])->name('procurement.requests.update');
     Route::delete('/procurement/requests/{request}', [ProcurementRequestController::class, 'destroy'])->name('procurement.requests.destroy');
-    
+
     // Procurement Requests - Additional Routes
     Route::get('/procurement/requests/data', [ProcurementRequestController::class, 'data'])->name('procurement.requests.data');
     Route::post('/procurement/requests/{request}/submit', [ProcurementRequestController::class, 'submit'])->name('procurement.requests.submit');
@@ -792,7 +792,7 @@ Route::middleware(['role:1,2,4,5,6,8,45'])->group(function () {
     Route::get('/procurement/purchase-orders/{purchase_order}/edit', [ProcurementPurchaseOrderController::class, 'edit'])->name('procurement.po.edit');
     Route::put('/procurement/purchase-orders/{purchase_order}', [ProcurementPurchaseOrderController::class, 'update'])->name('procurement.po.update');
     Route::delete('/procurement/purchase-orders/{purchase_order}', [ProcurementPurchaseOrderController::class, 'destroy'])->name('procurement.po.destroy');
-    
+
     // Purchase Orders - Additional Routes
     Route::get('/procurement/purchase-orders/data', [ProcurementPurchaseOrderController::class, 'data'])->name('procurement.po.data');
     Route::post('/procurement/purchase-orders/{po}/send', [ProcurementPurchaseOrderController::class, 'send'])->name('procurement.po.send');

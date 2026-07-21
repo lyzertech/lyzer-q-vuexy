@@ -24,11 +24,6 @@
           "slug": "crm-visit-report-sep"
         },
         {
-          "url": "crm/inquiry",
-          "name": "Inquiry",
-          "slug": "crm-inquiry"
-        },
-        {
           "url": "crm/purchase-request",
           "name": "Purchase Request (PR)",
           "slug": "crm-purchase-request"
@@ -86,6 +81,11 @@
           "url": "crm/quotation",
           "name": "Quotation",
           "slug": "crm-quotation"
+        },
+        {
+          "url": "crm/inquiry",
+          "name": "Inquiry",
+          "slug": "crm-inquiry"
         },
         {
           "url": "crm/purchase-request",

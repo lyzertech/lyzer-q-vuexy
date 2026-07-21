@@ -17,10 +17,14 @@ return new class extends Migration
             $table->string('customer_name');
             $table->string('customer_po_number');
             $table->string('project_name');
+            $table->string('term_of_payment');
+            $table->enum('down_payment', ['ON', 'OFF'])->default('OFF');
+            $table->date('dp_received_date')->nullable();
             $table->text('item_list');
             $table->integer('quantity');
             $table->decimal('selling_price', 15, 2);
-            $table->date('expected_delivery_date');
+            $table->string('expected_delivery_date')->default('-');
+            $table->date('principal_delivery_date')->nullable();
             $table->string('lead_time');
             $table->string('attachment_customer_po')->nullable();
             $table->string('status')->default('PR Created');

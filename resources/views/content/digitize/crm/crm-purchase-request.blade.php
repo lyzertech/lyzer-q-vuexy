@@ -241,13 +241,13 @@
                     </div>
                 @endif
 
-                <div class="mb-3 fv-plugins-icon-container">
+                <!-- <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="inquiry-project-select">Select from Inquiry (Optional)</label>
                     <select class="form-control" id="inquiry-project-select">
                         <option value="">-- Select Inquiry Project --</option>
                     </select>
                     <small class="text-muted">Auto-fill form from existing inquiry</small>
-                </div>
+                </div> -->
 
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="customer-name">Customer Name <span class="text-danger">*</span></label>
@@ -274,6 +274,24 @@
                 </div>
 
                 <div class="mb-3 fv-plugins-icon-container">
+                    <label class="form-label" for="term-of-payment">Term of Payment (TOP) <span class="text-danger">*</span></label>
+                    <input required type="text" class="form-control" id="term-of-payment" 
+                        placeholder="e.g., 30 days, Net 60, etc." name="term_of_payment" value="{{ old('term_of_payment') }}">
+                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                    </div>
+                </div>
+
+                <div class="mb-3 fv-plugins-icon-container">
+                    <label class="form-label" for="down-payment">Down Payment (DP) <span class="text-danger">*</span></label>
+                    <select required class="form-control" id="down-payment" name="down_payment">
+                        <option value="OFF" selected>OFF</option>
+                        <option value="ON">ON</option>
+                    </select>
+                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                    </div>
+                </div>
+
+                <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label">Items <span class="text-danger">*</span></label>
                     <div class="table-responsive">
                         <table class="table table-bordered table-sm" id="items-table">
@@ -282,18 +300,27 @@
                                     <th style="width: 25%;">Item Name <span class="text-danger">*</span></th>
                                     <th style="width: 12%;">Quantity <span class="text-danger">*</span></th>
                                     <th style="width: 18%;">Selling Price <span class="text-danger">*</span></th>
-                                    <th style="width: 18%;">Expected Delivery <span class="text-danger">*</span></th>
-                                    <th style="width: 17%;">Lead Time <span class="text-danger">*</span></th>
+                                    <th style="width: 20%;">Lead Time (weeks) <span class="text-danger">*</span></th>
                                     <th style="width: 10%;">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="items-container">
                                 <tr class="item-row">
-                                    <td><input type="text" class="form-control form-control-sm" name="items[0][name]" placeholder="Item name" required></td>
+                                    <td>
+                                        <select class="form-control form-control-sm item-name-select" data-index="0" required>
+                                            <option value="">-- Select Item --</option>
+                                        </select>
+                                        <input type="text" class="form-control form-control-sm item-name-input d-none" name="items[0][name]" placeholder="Enter new item name" required disabled>
+                                    </td>
                                     <td><input type="number" class="form-control form-control-sm" name="items[0][quantity]" placeholder="Qty" min="1" required></td>
                                     <td><input type="text" class="form-control form-control-sm selling-price-input" name="items[0][selling_price]" placeholder="0" required></td>
-                                    <td><input type="date" class="form-control form-control-sm" name="items[0][expected_delivery_date]" required></td>
-                                    <td><input type="text" class="form-control form-control-sm" name="items[0][lead_time]" placeholder="e.g., 2-3 weeks" required></td>
+                                    <td>
+                                        <div class="d-flex gap-1 align-items-center">
+                                            <input type="number" class="form-control form-control-sm" name="items[0][min_lead_time]" placeholder="Min" min="0" required style="width: 45%;">
+                                            <span>-</span>
+                                            <input type="number" class="form-control form-control-sm" name="items[0][max_lead_time]" placeholder="Max" min="0" required style="width: 45%;">
+                                        </div>
+                                    </td>
                                     <td class="text-center">
                                         <button type="button" class="btn btn-sm btn-danger remove-item-btn" disabled>
                                             <i class="ti ti-trash"></i>
@@ -308,14 +335,14 @@
                     </button>
                 </div>
 
-                <div class="mb-3 fv-plugins-icon-container">
+                <!-- <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="attachment-customer-po">Attachment Customer PO</label>
                     <input type="file" class="form-control" id="attachment-customer-po" 
                         name="attachment_customer_po" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
                     <small class="text-muted">Max size: 10MB. Formats: PDF, JPG, PNG, DOC, DOCX</small>
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                     </div>
-                </div>
+                </div> -->
 
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="pr-status">Status <span class="text-danger">*</span></label>
@@ -323,6 +350,11 @@
                         <option value="PR Created" selected>PR Created</option>
                         <option value="Waiting Director Approval">Waiting Director Approval</option>
                         <option value="Approved">Approved</option>
+                        <option value="DP Received">DP Received</option>
+                        <option value="Delay">Delay</option>
+                        <option value="Arrived">Arrived</option>
+                        <option value="Delivered to Customer">Delivered to Customer</option>
+                        <option value="Complete">Complete</option>
                         <option value="Rejected">Rejected</option>
                     </select>
                 </div>
@@ -385,6 +417,11 @@
                                 'PR Created': 'bg-label-info',
                                 'Waiting Director Approval': 'bg-label-warning',
                                 'Approved': 'bg-label-success',
+                                'DP Received': 'bg-label-primary',
+                                'Delay': 'bg-label-danger',
+                                'Arrived': 'bg-label-info',
+                                'Delivered to Customer': 'bg-label-success',
+                                'Complete': 'bg-label-dark',
                                 'Rejected': 'bg-label-danger',
                             };
                             const cls = map[data] || 'bg-label-secondary';
@@ -481,15 +518,93 @@
                 }
             });
 
+            // Load items from database
+            let itemsList = [];
+            function loadItems() {
+                $.ajax({
+                    url: '{{ route('crm-purchase-request-items') }}',
+                    method: 'GET',
+                    success: function(items) {
+                        itemsList = items;
+                        populateItemSelects();
+                    }
+                });
+            }
+
+            // Populate all item selects with options
+            function populateItemSelects() {
+                $('.item-name-select').each(function() {
+                    const currentValue = $(this).val();
+                    $(this).find('option:not(:first)').remove();
+                    
+                    // Add "Add New Item" option first
+                    $(this).append($('<option>', {
+                        value: '__add_new__',
+                        text: '+ Add New Item'
+                    }));
+                    
+                    // Then add existing items
+                    itemsList.forEach(function(item) {
+                        $(this).append($('<option>', {
+                            value: item,
+                            text: item
+                        }));
+                    }.bind(this));
+                    
+                    if (currentValue) {
+                        $(this).val(currentValue);
+                    }
+                });
+            }
+
+            // Handle item select change
+            $(document).on('change', '.item-name-select', function() {
+                const $row = $(this).closest('tr');
+                const $select = $(this);
+                const $input = $row.find('.item-name-input');
+                
+                if ($select.val() === '__add_new__') {
+                    // Show text input for new item
+                    $select.addClass('d-none').prop('required', false).prop('disabled', true);
+                    $input.removeClass('d-none').prop('required', true).prop('disabled', false).val('').focus();
+                }
+            });
+
+            // Handle item input blur - option to go back to select
+            $(document).on('blur', '.item-name-input', function() {
+                const $input = $(this);
+                const $row = $input.closest('tr');
+                const $select = $row.find('.item-name-select');
+                
+                if ($input.val().trim() === '' && !$input.hasClass('d-none')) {
+                    // Allow going back to select if input is empty
+                    $input.addClass('d-none').prop('required', false).prop('disabled', true);
+                    $select.removeClass('d-none').prop('required', true).prop('disabled', false).val('');
+                }
+            });
+
             // Add new item row
             $('#add-item-btn').on('click', function() {
+                const optionsHtml = itemsList.map(item => `<option value="${item}">${item}</option>`).join('');
                 const newRow = `
                     <tr class="item-row">
-                        <td><input type="text" class="form-control form-control-sm" name="items[${itemRowIndex}][name]" placeholder="Item name" required></td>
+                        <td>
+                            <select class="form-control form-control-sm item-name-select" data-index="${itemRowIndex}" required>
+                                <option value="">-- Select Item --</option>
+                                <option value="__add_new__">+ Add New Item</option>
+                                ${optionsHtml}
+                            </select>
+                            <input type="text" class="form-control form-control-sm item-name-input d-none" name="items[${itemRowIndex}][name]" placeholder="Enter new item name" required disabled>
+                        </td>
                         <td><input type="number" class="form-control form-control-sm" name="items[${itemRowIndex}][quantity]" placeholder="Qty" min="1" required></td>
                         <td><input type="text" class="form-control form-control-sm selling-price-input" name="items[${itemRowIndex}][selling_price]" placeholder="0" required></td>
-                        <td><input type="date" class="form-control form-control-sm" name="items[${itemRowIndex}][expected_delivery_date]" required></td>
-                        <td><input type="text" class="form-control form-control-sm" name="items[${itemRowIndex}][lead_time]" placeholder="e.g., 2-3 weeks" required></td>
+                        <td>
+                            <div class="d-flex gap-1 align-items-center">
+                                <input type="number" class="form-control form-control-sm" name="items[${itemRowIndex}][min_lead_time]" placeholder="Min" min="0" required style="width: 45%;">
+                                <span>-</span>
+                                <input type="number" class="form-control form-control-sm" name="items[${itemRowIndex}][max_lead_time]" placeholder="Max" min="0" required style="width: 45%;">
+                            </div>
+                        </td>
                         <td class="text-center">
                             <button type="button" class="btn btn-sm btn-danger remove-item-btn">
                                 <i class="ti ti-trash"></i>
@@ -533,6 +648,30 @@
                 itemRowIndex = $('#items-container tr').length;
             }
 
+            // Load items on page load
+            loadItems();
+
+            // Handle form submission - ensure item names are properly set
+            $('#addNewPRForm').on('submit', function(e) {
+                $('.item-row').each(function(index) {
+                    const $row = $(this);
+                    const $select = $row.find('.item-name-select');
+                    const $input = $row.find('.item-name-input');
+                    
+                    // If select is visible and has a value (not "Add New")
+                    if ($select.is(':visible') && $select.val() && $select.val() !== '__add_new__') {
+                        // Copy select value to input and enable it for submission
+                        $input.val($select.val());
+                        $input.prop('disabled', false);
+                    }
+                    // If input is visible, it already has the value
+                    // Just make sure it's enabled
+                    else if ($input.is(':visible')) {
+                        $input.prop('disabled', false);
+                    }
+                });
+            });
+
             // Load inquiry projects
             $.ajax({
                 url: '{{ route('crm-inquiry-projects') }}',
@@ -570,13 +709,40 @@
 
                         // Create a row for each inquiry
                         inquiries.forEach(function(inquiry, index) {
+                            const optionsHtml = itemsList.map(item => `<option value="${item}">${item}</option>`).join('');
+                            const productType = inquiry.product_type || '';
+                            const isExisting = itemsList.includes(productType);
+                            
+                            // Parse lead time if it exists (e.g., "10-12 weeks" or "2-3 weeks")
+                            let minLeadTime = '';
+                            let maxLeadTime = '';
+                            if (inquiry.lead_time) {
+                                const leadTimeMatch = inquiry.lead_time.match(/(\d+)\s*-\s*(\d+)/);
+                                if (leadTimeMatch) {
+                                    minLeadTime = leadTimeMatch[1];
+                                    maxLeadTime = leadTimeMatch[2];
+                                }
+                            }
+                            
                             const row = `
                                 <tr class="item-row">
-                                    <td><input type="text" class="form-control form-control-sm" name="items[${index}][name]" placeholder="Item name" value="${inquiry.product_type || ''}" required></td>
+                                    <td>
+                                        <select class="form-control form-control-sm item-name-select ${isExisting ? '' : 'd-none'}" data-index="${index}" ${isExisting ? 'required' : 'disabled'}>
+                                            <option value="">-- Select Item --</option>
+                                            <option value="__add_new__">+ Add New Item</option>
+                                            ${optionsHtml}
+                                        </select>
+                                        <input type="text" class="form-control form-control-sm item-name-input ${isExisting ? 'd-none' : ''}" name="items[${index}][name]" placeholder="Enter new item name" value="${productType}" ${isExisting ? 'disabled' : 'required'}>
+                                    </td>
                                     <td><input type="number" class="form-control form-control-sm" name="items[${index}][quantity]" placeholder="Qty" min="1" required></td>
                                     <td><input type="text" class="form-control form-control-sm selling-price-input" name="items[${index}][selling_price]" placeholder="0" required></td>
-                                    <td><input type="date" class="form-control form-control-sm" name="items[${index}][expected_delivery_date]" required></td>
-                                    <td><input type="text" class="form-control form-control-sm" name="items[${index}][lead_time]" placeholder="e.g., 2-3 weeks" value="${inquiry.lead_time || ''}" required></td>
+                                    <td>
+                                        <div class="d-flex gap-1 align-items-center">
+                                            <input type="number" class="form-control form-control-sm" name="items[${index}][min_lead_time]" placeholder="Min" min="0" value="${minLeadTime}" required style="width: 45%;">
+                                            <span>-</span>
+                                            <input type="number" class="form-control form-control-sm" name="items[${index}][max_lead_time]" placeholder="Max" min="0" value="${maxLeadTime}" required style="width: 45%;">
+                                        </div>
+                                    </td>
                                     <td class="text-center">
                                         <button type="button" class="btn btn-sm btn-danger remove-item-btn">
                                             <i class="ti ti-trash"></i>
@@ -585,6 +751,11 @@
                                 </tr>
                             `;
                             $('#items-container').append(row);
+                            
+                            // Set the select value if item exists in list
+                            if (isExisting) {
+                                $(`#items-container tr:last .item-name-select`).val(productType);
+                            }
                         });
 
                         itemRowIndex = inquiries.length;

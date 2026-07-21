@@ -284,6 +284,10 @@ Route::middleware(['role:1'])->group(function () {
     Route::post('/crm/purchase-request/create', [CrmPurchaseRequest::class, 'create'])->name('crm-purchase-request-create');
     Route::get('/crm/purchase-request/view/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_view'])->name('crm-purchase-request-view');
     Route::post('/crm/purchase-request/edit/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_edit'])->name('crm-purchase-request-edit');
+    Route::post('/crm/purchase-request/update-dp-date/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_dp_date'])->name('crm-purchase-request-update-dp-date');
+    Route::post('/crm/purchase-request/update-principal-delivery/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_principal_delivery'])->name('crm-purchase-request-update-principal-delivery');
+    Route::post('/crm/purchase-request/update-status/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_status'])->name('crm-purchase-request-update-status');
+    Route::get('/crm/purchase-request/items', [CrmPurchaseRequest::class, 'get_items'])->name('crm-purchase-request-items');
 
   // Inquiry
     Route::get('/crm/inquiry', [CrmInquiry::class, 'index'])->name('crm-inquiry');
@@ -674,6 +678,10 @@ Route::middleware(['role:1,2,4,5,6,8,45'])->group(function () {
     Route::post('/crm/purchase-request/create', [CrmPurchaseRequest::class, 'create'])->name('crm-purchase-request-create');
     Route::get('/crm/purchase-request/view/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_view'])->name('crm-purchase-request-view');
     Route::post('/crm/purchase-request/edit/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_edit'])->name('crm-purchase-request-edit');
+    Route::post('/crm/purchase-request/update-dp-date/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_dp_date'])->name('crm-purchase-request-update-dp-date');
+    Route::post('/crm/purchase-request/update-principal-delivery/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_principal_delivery'])->name('crm-purchase-request-update-principal-delivery');
+    Route::post('/crm/purchase-request/update-status/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_status'])->name('crm-purchase-request-update-status');
+    Route::get('/crm/purchase-request/items', [CrmPurchaseRequest::class, 'get_items'])->name('crm-purchase-request-items');
 
   // Inquiry
     Route::get('/crm/inquiry', [CrmInquiry::class, 'index'])->name('crm-inquiry');

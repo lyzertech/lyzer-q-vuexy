@@ -13,24 +13,78 @@ class CrmPurchaseRequest extends Controller
 {
     public function index()
     {
-        $total_pr     = crm_purchase_request::count();
-        $total_pr_created = crm_purchase_request::where('status', 'PR Created')->count();
-        $total_waiting_approval = crm_purchase_request::where('status', 'Waiting Director Approval')->count();
-        $total_approved = crm_purchase_request::where('status', 'Approved')->count();
+        $total_pr = crm_purchase_request::count();
+
+        // Purchasing (PR Created, Waiting Approval, Approved, DP Received)
+        $total_purchasing = crm_purchase_request::whereIn('status', [
+            'PR Created',
+            'Waiting Director Approval',
+            'Approved',
+            'DP Received'
+        ])->count();
+
+        // Rejected
         $total_rejected = crm_purchase_request::where('status', 'Rejected')->count();
+
+        // Production (Supplier Production, Goods Ready)
+        $total_production = crm_purchase_request::whereIn('status', [
+            'Supplier Production',
+            'Supplier Inform Goods Ready for Pick Up'
+        ])->count();
+
+        // Shipment (Pick Up, In Transit, Delivery)
+        $total_shipment = crm_purchase_request::whereIn('status', [
+            'Pick Up Arrangement',
+            'In Transit',
+            'Shipment Delivery'
+        ])->count();
+
+        // Customs (All customs related)
+        $total_customs = crm_purchase_request::whereIn('status', [
+            'Customs Clearance',
+            'PIB Draft',
+            'ID Billing Request',
+            'Payment to Kas Negara',
+            'Custom Response (Red/Green/Yellow)',
+            'Shipment Release'
+        ])->count();
+
+        // Internal (Warehouse, Lab Check, Dispatch)
+        $total_internal = crm_purchase_request::whereIn('status', [
+            'Warehouse Received',
+            'Lab Check',
+            'Dispatch to End Customer/Buyer'
+        ])->count();
+
+        // Delays (Delay Production, Delay Shipment)
+        $total_delays = crm_purchase_request::whereIn('status', [
+            'Delay Production',
+            'Delay Shipment'
+        ])->count();
+
+        // Delivered
+        $total_delivered = crm_purchase_request::where('status', 'Delivered')->count();
+
+        // Complete
+        $total_complete = crm_purchase_request::where('status', 'Complete')->count();
 
         return view('content.digitize.crm.crm-purchase-request', compact(
             'total_pr',
-            'total_pr_created',
-            'total_waiting_approval',
-            'total_approved',
-            'total_rejected'
+            'total_purchasing',
+            'total_rejected',
+            'total_production',
+            'total_shipment',
+            'total_customs',
+            'total_internal',
+            'total_delays',
+            'total_delivered',
+            'total_complete'
         ));
     }
 
     public function purchase_request_data()
     {
-        $purchase_requests = crm_purchase_request::orderBy('pr_number', 'desc')->get();
+        $purchase_requests = crm_purchase_request::orderBy('id_purchase_request', 'desc')->get();
 
         return DataTables::of($purchase_requests)
             ->editColumn('created_at', function ($pr) {
@@ -247,16 +301,28 @@ class CrmPurchaseRequest extends Controller
         ]);
 
         $purchase_request = crm_purchase_request::findOrFail($id_purchase_request);
-        
+
         // Get all related PRs with same project and PO
         $related_prs = crm_purchase_request::where('project_name', $purchase_request->project_name)
             ->where('customer_po_number', $purchase_request->customer_po_number)
             ->get();
 
-        // Update all related PRs
+        // Update all related PRs and log status history
         foreach ($related_prs as $pr) {
+            $oldStatus = $pr->status;
+
             $pr->update([
                 'status' => $validatedData['status'],
+            ]);
+
+            // Create status history record
+            \App\Models\StatusHistory::create([
+                'user_id' => auth()->id(),
+                'reference_type' => get_class($pr),
+                'reference_id' => $pr->id_purchase_request,
+                'from_status' => $oldStatus,
+                'to_status' => $validatedData['status'],
+                'comment_id' => null,
             ]);
         }
 
@@ -290,8 +356,60 @@ class CrmPurchaseRequest extends Controller
             ->whereNotNull('item_list')
             ->orderBy('item_list', 'asc')
             ->pluck('item_list');
-        
+
         return response()->json($items);
+    }
+
+    // Add comment to purchase request
+    public function add_comment(Request $request, $id_purchase_request)
+    {
+        $validatedData = $request->validate([
+            'content' => 'required|string',
+            'parent_id' => 'nullable|exists:comments,id',
+        ]);
+
+        $purchase_request = crm_purchase_request::findOrFail($id_purchase_request);
+
+        $comment = \App\Models\Comment::create([
+            'user_id' => auth()->id(),
+            'parent_id' => $validatedData['parent_id'] ?? null,
+            'commentable_type' => get_class($purchase_request),
+            'commentable_id' => $purchase_request->id_purchase_request,
+            'content' => $validatedData['content'],
+            'status' => 'active',
+        ]);
+
+        return redirect()->back()->with('success', 'Comment added successfully!');
+    }
+
+    // Get comments for purchase request
+    public function get_comments($id_purchase_request)
+    {
+        $purchase_request = crm_purchase_request::findOrFail($id_purchase_request);
+
+        $comments = \App\Models\Comment::where('commentable_type', get_class($purchase_request))
+            ->where('commentable_id', $purchase_request->id_purchase_request)
+            ->whereNull('parent_id')
+            ->with(['user', 'replies.user', 'replies.replies'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($comments);
+    }
+
+    // Delete comment (soft delete)
+    public function delete_comment($id_comment)
+    {
+        $comment = \App\Models\Comment::findOrFail($id_comment);
+
+        // Check if user owns the comment
+        if ($comment->user_id !== auth()->id()) {
+            return redirect()->back()->with('error', 'Unauthorized to delete this comment!');
+        }
+
+        $comment->delete();
+
+        return redirect()->back()->with('success', 'Comment deleted successfully!');
     }
 
     public function destroy()

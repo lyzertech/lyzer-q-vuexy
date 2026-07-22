@@ -4,27 +4,12 @@
 
 {{-- Vendor Styles --}}
 @section('vendor-style')
-    @vite([
-        'resources/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.scss',
-        'resources/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.scss',
-        'resources/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.scss',
-        'resources/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.scss',
-        'resources/assets/vendor/libs/flatpickr/flatpickr.scss',
-        'resources/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.scss',
-        'resources/assets/vendor/libs/@form-validation/form-validation.scss',
-    ])
+    @vite(['resources/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.scss', 'resources/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.scss', 'resources/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.scss', 'resources/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.scss', 'resources/assets/vendor/libs/flatpickr/flatpickr.scss', 'resources/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.scss', 'resources/assets/vendor/libs/@form-validation/form-validation.scss'])
 @endsection
 
 {{-- Vendor Scripts --}}
 @section('vendor-script')
-    @vite([
-        'resources/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js',
-        'resources/assets/vendor/libs/moment/moment.js',
-        'resources/assets/vendor/libs/flatpickr/flatpickr.js',
-        'resources/assets/vendor/libs/@form-validation/popular.js',
-        'resources/assets/vendor/libs/@form-validation/bootstrap5.js',
-        'resources/assets/vendor/libs/@form-validation/auto-focus.js',
-    ])
+    @vite(['resources/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js', 'resources/assets/vendor/libs/moment/moment.js', 'resources/assets/vendor/libs/flatpickr/flatpickr.js', 'resources/assets/vendor/libs/@form-validation/popular.js', 'resources/assets/vendor/libs/@form-validation/bootstrap5.js', 'resources/assets/vendor/libs/@form-validation/auto-focus.js'])
 @endsection
 
 @section('content')
@@ -36,7 +21,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     {{-- Summary Cards --}}
-    <div class="row g-6 mb-6">
+    <div class="row g-3 mb-6">
 
         @if (session('success'))
             <div class="col-12">
@@ -57,82 +42,137 @@
         @endif
 
         {{-- Total PR --}}
-        <div class="col-md-3">
+        <div class="col">
             <div class="card h-100">
-                <div class="card-body d-flex align-items-center gap-4">
-                    <div class="badge rounded bg-label-primary p-3">
-                        <i class="ti ti-file-invoice ti-lg"></i>
+                <div class="card-body text-center py-3">
+                    <div class="badge rounded bg-label-dark p-2 mb-2">
+                        <i class="ti ti-file-invoice ti-sm"></i>
                     </div>
-                    <div>
-                        <h2 class="mb-0">{{ $total_pr }}</h2>
-                        <p class="mb-0 text-muted">Total PR</p>
-                    </div>
+                    <h5 class="mb-0">{{ $total_pr }}</h5>
+                    <small class="text-muted">Total PR</small>
                 </div>
             </div>
         </div>
 
-        {{-- PR Created --}}
-        <div class="col-md-3">
+        {{-- Purchasing --}}
+        <div class="col">
             <div class="card h-100">
-                <div class="card-body d-flex align-items-center gap-4">
-                    <div class="badge rounded bg-label-info p-3">
-                        <i class="ti ti-file-check ti-lg"></i>
+                <div class="card-body text-center py-3">
+                    <div class="badge rounded bg-label-info p-2 mb-2">
+                        <i class="ti ti-file-check ti-sm"></i>
                     </div>
-                    <div>
-                        <h2 class="mb-0">{{ $total_pr_created }}</h2>
-                        <p class="mb-0 text-muted">PR Created</p>
-                    </div>
+                    <h5 class="mb-0">{{ $total_purchasing }}</h5>
+                    <small class="text-muted">Purchasing</small>
                 </div>
             </div>
         </div>
 
-        {{-- Waiting Director Approval --}}
-        <div class="col-md-3">
+        {{-- Production --}}
+        <div class="col">
             <div class="card h-100">
-                <div class="card-body d-flex align-items-center gap-4">
-                    <div class="badge rounded bg-label-warning p-3">
-                        <i class="ti ti-clock ti-lg"></i>
+                <div class="card-body text-center py-3">
+                    <div class="badge rounded bg-label-primary p-2 mb-2">
+                        <i class="ti ti-building-factory ti-sm"></i>
                     </div>
-                    <div>
-                        <h2 class="mb-0">{{ $total_waiting_approval }}</h2>
-                        <p class="mb-0 text-muted">Waiting Approval</p>
-                    </div>
+                    <h5 class="mb-0">{{ $total_production }}</h5>
+                    <small class="text-muted">Production</small>
                 </div>
             </div>
         </div>
 
-        {{-- Approved --}}
-        <div class="col-md-3">
+        {{-- Delays --}}
+        <div class="col">
             <div class="card h-100">
-                <div class="card-body d-flex align-items-center gap-4">
-                    <div class="badge rounded bg-label-success p-3">
-                        <i class="ti ti-circle-check ti-lg"></i>
+                <div class="card-body text-center py-3">
+                    <div class="badge rounded bg-label-danger p-2 mb-2">
+                        <i class="ti ti-alert-triangle ti-sm"></i>
                     </div>
-                    <div>
-                        <h2 class="mb-0">{{ $total_approved }}</h2>
-                        <p class="mb-0 text-muted">Approved</p>
+                    <h5 class="mb-0">{{ $total_delays }}</h5>
+                    <small class="text-muted">Delays</small>
+                </div>
+            </div>
+        </div>
+
+        {{-- Shipment --}}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body text-center py-3">
+                    <div class="badge rounded bg-label-primary p-2 mb-2">
+                        <i class="ti ti-truck-delivery ti-sm"></i>
                     </div>
+                    <h5 class="mb-0">{{ $total_shipment }}</h5>
+                    <small class="text-muted">Shipment</small>
+                </div>
+            </div>
+        </div>
+
+        {{-- Customs --}}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body text-center py-3">
+                    <div class="badge rounded bg-label-warning p-2 mb-2">
+                        <i class="ti ti-shield-check ti-sm"></i>
+                    </div>
+                    <h5 class="mb-0">{{ $total_customs }}</h5>
+                    <small class="text-muted">Customs</small>
+                </div>
+            </div>
+        </div>
+
+        {{-- Internal --}}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body text-center py-3">
+                    <div class="badge rounded bg-label-info p-2 mb-2">
+                        <i class="ti ti-building-warehouse ti-sm"></i>
+                    </div>
+                    <h5 class="mb-0">{{ $total_internal }}</h5>
+                    <small class="text-muted">Internal</small>
                 </div>
             </div>
         </div>
 
         {{-- Rejected --}}
-        <div class="col-md-3">
+        <div class="col">
             <div class="card h-100">
-                <div class="card-body d-flex align-items-center gap-4">
-                    <div class="badge rounded bg-label-danger p-3">
-                        <i class="ti ti-circle-x ti-lg"></i>
+                <div class="card-body text-center py-3">
+                    <div class="badge rounded bg-label-danger p-2 mb-2">
+                        <i class="ti ti-circle-x ti-sm"></i>
                     </div>
-                    <div>
-                        <h2 class="mb-0">{{ $total_rejected }}</h2>
-                        <p class="mb-0 text-muted">Rejected</p>
+                    <h5 class="mb-0">{{ $total_rejected }}</h5>
+                    <small class="text-muted">Rejected</small>
+                </div>
+            </div>
+        </div>
+
+        {{-- Delivered --}}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body text-center py-3">
+                    <div class="badge rounded bg-label-success p-2 mb-2">
+                        <i class="ti ti-check ti-sm"></i>
                     </div>
+                    <h5 class="mb-0">{{ $total_delivered }}</h5>
+                    <small class="text-muted">Delivered</small>
+                </div>
+            </div>
+        </div>
+
+        {{-- Complete --}}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body text-center py-3">
+                    <div class="badge rounded bg-label-success p-2 mb-2">
+                        <i class="ti ti-circle-check-filled ti-sm"></i>
+                    </div>
+                    <h5 class="mb-0">{{ $total_complete }}</h5>
+                    <small class="text-muted">Complete</small>
                 </div>
             </div>
         </div>
 
     </div>
-    {{--/ Summary Cards --}}
+    {{-- / Summary Cards --}}
 
     {{-- DataTable --}}
     <div class="card">
@@ -182,9 +222,8 @@
                                 </ul>
                             </div>
 
-                            <button class="btn btn-secondary create-new btn-primary waves-effect waves-light"
-                                type="button" data-bs-toggle="modal" data-bs-target="#AddNewPR"
-                                aria-controls="AddNewPR">
+                            <button class="btn btn-secondary create-new btn-primary waves-effect waves-light" type="button"
+                                data-bs-toggle="modal" data-bs-target="#AddNewPR" aria-controls="AddNewPR">
                                 <span><i class="ti ti-plus me-sm-1"></i>
                                     <span class="d-none d-sm-inline-block">Add New PR</span>
                                 </span>
@@ -215,7 +254,7 @@
             </div>
         </div>
     </div>
-    {{--/ DataTable --}}
+    {{-- / DataTable --}}
 
     {{-- Modal: Add New PR --}}
     <div class="modal fade" tabindex="-1" id="AddNewPR" aria-labelledby="AddNewPRLabel">
@@ -226,154 +265,164 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-            <form method="post" action="{{ route('crm-purchase-request-create') }}" enctype="multipart/form-data"
-                class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewPRForm">
-                @csrf
-                @method('POST')
+                    <form method="post" action="{{ route('crm-purchase-request-create') }}"
+                        enctype="multipart/form-data" class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework"
+                        id="addNewPRForm">
+                        @csrf
+                        @method('POST')
 
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
-                <!-- <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="inquiry-project-select">Select from Inquiry (Optional)</label>
-                    <select class="form-control" id="inquiry-project-select">
-                        <option value="">-- Select Inquiry Project --</option>
-                    </select>
-                    <small class="text-muted">Auto-fill form from existing inquiry</small>
-                </div> -->
+                        <!-- <div class="mb-3 fv-plugins-icon-container">
+                                                        <label class="form-label" for="inquiry-project-select">Select from Inquiry (Optional)</label>
+                                                        <select class="form-control" id="inquiry-project-select">
+                                                            <option value="">-- Select Inquiry Project --</option>
+                                                        </select>
+                                                        <small class="text-muted">Auto-fill form from existing inquiry</small>
+                                                    </div> -->
 
-                <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="customer-name">Customer Name <span class="text-danger">*</span></label>
-                    <input required type="text" class="form-control" id="customer-name" 
-                        placeholder="Enter customer name" name="customer_name" value="{{ old('customer_name') }}">
-                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                    </div>
-                </div>
+                        <div class="mb-3 fv-plugins-icon-container">
+                            <label class="form-label" for="customer-name">Customer Name <span
+                                    class="text-danger">*</span></label>
+                            <input required type="text" class="form-control" id="customer-name"
+                                placeholder="Enter customer name" name="customer_name"
+                                value="{{ old('customer_name') }}">
+                            <div
+                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                            </div>
+                        </div>
 
-                <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="customer-po-number">Customer PO Number <span class="text-danger">*</span></label>
-                    <input required type="text" class="form-control" id="customer-po-number" 
-                        placeholder="Enter PO number" name="customer_po_number" value="{{ old('customer_po_number') }}">
-                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                    </div>
-                </div>
+                        <div class="mb-3 fv-plugins-icon-container">
+                            <label class="form-label" for="customer-po-number">Customer PO Number <span
+                                    class="text-danger">*</span></label>
+                            <input required type="text" class="form-control" id="customer-po-number"
+                                placeholder="Enter PO number" name="customer_po_number"
+                                value="{{ old('customer_po_number') }}">
+                            <div
+                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                            </div>
+                        </div>
 
-                <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="project-name">Project Name <span class="text-danger">*</span></label>
-                    <input required type="text" class="form-control" id="project-name" 
-                        placeholder="Enter project name" name="project_name" value="{{ old('project_name') }}">
-                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                    </div>
-                </div>
+                        <div class="mb-3 fv-plugins-icon-container">
+                            <label class="form-label" for="project-name">Project Name <span
+                                    class="text-danger">*</span></label>
+                            <input required type="text" class="form-control" id="project-name"
+                                placeholder="Enter project name" name="project_name" value="{{ old('project_name') }}">
+                            <div
+                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                            </div>
+                        </div>
 
-                <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="term-of-payment">Term of Payment (TOP) <span class="text-danger">*</span></label>
-                    <input required type="text" class="form-control" id="term-of-payment" 
-                        placeholder="e.g., 30 days, Net 60, etc." name="term_of_payment" value="{{ old('term_of_payment') }}">
-                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                    </div>
-                </div>
+                        <div class="mb-3 fv-plugins-icon-container">
+                            <label class="form-label" for="term-of-payment">Term of Payment (TOP) <span
+                                    class="text-danger">*</span></label>
+                            <input required type="text" class="form-control" id="term-of-payment"
+                                placeholder="e.g., 30 days, Net 60, etc." name="term_of_payment"
+                                value="{{ old('term_of_payment') }}">
+                            <div
+                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                            </div>
+                        </div>
 
-                <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="down-payment">Down Payment (DP) <span class="text-danger">*</span></label>
-                    <select required class="form-control" id="down-payment" name="down_payment">
-                        <option value="OFF" selected>OFF</option>
-                        <option value="ON">ON</option>
-                    </select>
-                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                    </div>
-                </div>
+                        <div class="mb-3 fv-plugins-icon-container">
+                            <label class="form-label" for="down-payment">Down Payment (DP) <span
+                                    class="text-danger">*</span></label>
+                            <select required class="form-control" id="down-payment" name="down_payment">
+                                <option value="OFF" selected>OFF</option>
+                                <option value="ON">ON</option>
+                            </select>
+                            <div
+                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                            </div>
+                        </div>
 
-                <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label">Items <span class="text-danger">*</span></label>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-sm" id="items-table">
-                            <thead class="table-light">
-                                <tr>
-                                    <th style="width: 25%;">Item Name <span class="text-danger">*</span></th>
-                                    <th style="width: 12%;">Quantity <span class="text-danger">*</span></th>
-                                    <th style="width: 18%;">Selling Price <span class="text-danger">*</span></th>
-                                    <th style="width: 20%;">Lead Time (weeks) <span class="text-danger">*</span></th>
-                                    <th style="width: 10%;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="items-container">
-                                <tr class="item-row">
-                                    <td>
-                                        <select class="form-control form-control-sm item-name-select" data-index="0" required>
-                                            <option value="">-- Select Item --</option>
-                                        </select>
-                                        <input type="text" class="form-control form-control-sm item-name-input d-none" name="items[0][name]" placeholder="Enter new item name" required disabled>
-                                    </td>
-                                    <td><input type="number" class="form-control form-control-sm" name="items[0][quantity]" placeholder="Qty" min="1" required></td>
-                                    <td><input type="text" class="form-control form-control-sm selling-price-input" name="items[0][selling_price]" placeholder="0" required></td>
-                                    <td>
-                                        <div class="d-flex gap-1 align-items-center">
-                                            <input type="number" class="form-control form-control-sm" name="items[0][min_lead_time]" placeholder="Min" min="0" required style="width: 45%;">
-                                            <span>-</span>
-                                            <input type="number" class="form-control form-control-sm" name="items[0][max_lead_time]" placeholder="Max" min="0" required style="width: 45%;">
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <button type="button" class="btn btn-sm btn-danger remove-item-btn" disabled>
-                                            <i class="ti ti-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-primary" id="add-item-btn">
-                        <i class="ti ti-plus me-1"></i>Add Item
-                    </button>
-                </div>
+                        <div class="mb-3 fv-plugins-icon-container">
+                            <label class="form-label">Items <span class="text-danger">*</span></label>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-sm" id="items-table">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width: 25%;">Item Name <span class="text-danger">*</span></th>
+                                            <th style="width: 12%;">Quantity <span class="text-danger">*</span></th>
+                                            <th style="width: 18%;">Selling Price <span class="text-danger">*</span></th>
+                                            <th style="width: 20%;">Lead Time (weeks) <span class="text-danger">*</span>
+                                            </th>
+                                            <th style="width: 10%;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="items-container">
+                                        <tr class="item-row">
+                                            <td>
+                                                <select class="form-control form-control-sm item-name-select"
+                                                    data-index="0" required>
+                                                    <option value="">-- Select Item --</option>
+                                                </select>
+                                                <input type="text"
+                                                    class="form-control form-control-sm item-name-input d-none"
+                                                    name="items[0][name]" placeholder="Enter new item name" required
+                                                    disabled>
+                                            </td>
+                                            <td><input type="number" class="form-control form-control-sm"
+                                                    name="items[0][quantity]" placeholder="Qty" min="1" required>
+                                            </td>
+                                            <td><input type="text"
+                                                    class="form-control form-control-sm selling-price-input"
+                                                    name="items[0][selling_price]" placeholder="0" required></td>
+                                            <td>
+                                                <div class="d-flex gap-1 align-items-center">
+                                                    <input type="number" class="form-control form-control-sm"
+                                                        name="items[0][min_lead_time]" placeholder="Min" min="0"
+                                                        required style="width: 45%;">
+                                                    <span>-</span>
+                                                    <input type="number" class="form-control form-control-sm"
+                                                        name="items[0][max_lead_time]" placeholder="Max" min="0"
+                                                        required style="width: 45%;">
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-sm btn-danger remove-item-btn"
+                                                    disabled>
+                                                    <i class="ti ti-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-primary" id="add-item-btn">
+                                <i class="ti ti-plus me-1"></i>Add Item
+                            </button>
+                        </div>
 
-                <!-- <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="attachment-customer-po">Attachment Customer PO</label>
-                    <input type="file" class="form-control" id="attachment-customer-po" 
-                        name="attachment_customer_po" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
-                    <small class="text-muted">Max size: 10MB. Formats: PDF, JPG, PNG, DOC, DOCX</small>
-                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                    </div>
-                </div> -->
+                        <div class="mb-3 fv-plugins-icon-container">
+                            <label class="form-label" for="pr-status">Status <span class="text-danger">*</span></label>
+                            <select required class="form-control" id="pr-status" name="status">
+                                <option value="PR Created" selected>PR Created</option>
+                            </select>
+                        </div>
 
-                <div class="mb-3 fv-plugins-icon-container">
-                    <label class="form-label" for="pr-status">Status <span class="text-danger">*</span></label>
-                    <select required class="form-control" id="pr-status" name="status">
-                        <option value="PR Created" selected>PR Created</option>
-                        <option value="Waiting Director Approval">Waiting Director Approval</option>
-                        <option value="Approved">Approved</option>
-                        <option value="DP Received">DP Received</option>
-                        <option value="Delay">Delay</option>
-                        <option value="Arrived">Arrived</option>
-                        <option value="Delivered to Customer">Delivered to Customer</option>
-                        <option value="Complete">Complete</option>
-                        <option value="Rejected">Rejected</option>
-                    </select>
-                </div>
-
-                <div class="mb-3 fv-plugins-icon-container">
-                        <label class="form-label" for="pr-notes">Notes</label>
-                        <textarea class="form-control" id="pr-notes" name="notes" rows="3"
-                            placeholder="Additional notes...">{{ old('notes') }}</textarea>
-                    </div>
+                        <div class="mb-3 fv-plugins-icon-container">
+                            <label class="form-label" for="pr-notes">Notes</label>
+                            <textarea class="form-control" id="pr-notes" name="notes" rows="3" placeholder="Additional notes...">{{ old('notes') }}</textarea>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-{{--/ Modal --}}
+    {{-- / Modal --}}
 
     {{-- DataTable Script --}}
     <script type="text/javascript">
@@ -385,6 +434,7 @@
             $('#pr-table').DataTable({
                 serverSide: true,
                 ajax: '{{ route('crm-purchase-request-data') }}',
+                order: [[0, 'desc']], // Order by PR Number column (index 0) descending
                 columns: [{
                         data: 'pr_number',
                         name: 'pr_number'
@@ -414,15 +464,42 @@
                         name: 'status',
                         render: function(data, type, row) {
                             const map = {
+                                // Purchasing
                                 'PR Created': 'bg-label-info',
                                 'Waiting Director Approval': 'bg-label-warning',
                                 'Approved': 'bg-label-success',
-                                'DP Received': 'bg-label-primary',
-                                'Delay': 'bg-label-danger',
-                                'Arrived': 'bg-label-info',
-                                'Delivered to Customer': 'bg-label-success',
-                                'Complete': 'bg-label-dark',
                                 'Rejected': 'bg-label-danger',
+                                'DP Received': 'bg-label-primary',
+
+                                // Principal / Supplier
+                                'Supplier Production': 'bg-label-info',
+                                'Delay Production': 'bg-label-danger',
+                                'Supplier Inform Goods Ready for Pick Up': 'bg-label-success',
+
+                                // Shipment
+                                'Pick Up Arrangement': 'bg-label-warning',
+                                'In Transit': 'bg-label-primary',
+                                'Delay Shipment': 'bg-label-danger',
+                                'Shipment Delivery': 'bg-label-primary',
+
+                                // Customs
+                                'Customs Clearance': 'bg-label-warning',
+                                'PIB Draft': 'bg-label-info',
+                                'ID Billing Request': 'bg-label-info',
+                                'Payment to Kas Negara': 'bg-label-warning',
+                                'Custom Response (Red/Green/Yellow)': 'bg-label-warning',
+                                'Shipment Release': 'bg-label-success',
+
+                                // Internal
+                                'Warehouse Received': 'bg-label-info',
+                                'Lab Check': 'bg-label-warning',
+                                'Dispatch to End Customer/Buyer': 'bg-label-primary',
+
+                                // Customer
+                                'Delivered': 'bg-label-success',
+
+                                // Final Status
+                                'Complete': 'bg-label-dark',
                             };
                             const cls = map[data] || 'bg-label-secondary';
                             return `<span class="badge ${cls}">${data}</span>`;
@@ -448,17 +525,23 @@
                 buttons: [{
                         extend: 'print',
                         text: 'Print',
-                        exportOptions: { columns: ':visible' }
+                        exportOptions: {
+                            columns: ':visible'
+                        }
                     },
                     {
                         extend: 'csv',
                         text: 'CSV',
-                        exportOptions: { columns: ':visible' }
+                        exportOptions: {
+                            columns: ':visible'
+                        }
                     },
                     {
                         extend: 'excel',
                         text: 'Excel',
-                        exportOptions: { columns: ':visible' }
+                        exportOptions: {
+                            columns: ':visible'
+                        }
                     },
                     {
                         extend: 'pdf',
@@ -466,21 +549,35 @@
                         title: 'Purchase Request',
                         orientation: 'landscape',
                         pageSize: 'A4',
-                        exportOptions: { columns: ':visible' }
+                        exportOptions: {
+                            columns: ':visible'
+                        }
                     },
                     {
                         extend: 'copy',
                         text: 'Copy',
-                        exportOptions: { columns: ':visible' }
+                        exportOptions: {
+                            columns: ':visible'
+                        }
                     }
                 ]
             });
 
-            $('#exportPrint').click(function() { $('#pr-table').DataTable().button('.buttons-print').trigger(); });
-            $('#exportCsv').click(function() { $('#pr-table').DataTable().button('.buttons-csv').trigger(); });
-            $('#exportExcel').click(function() { $('#pr-table').DataTable().button('.buttons-excel').trigger(); });
-            $('#exportPdf').click(function() { $('#pr-table').DataTable().button('.buttons-pdf').trigger(); });
-            $('#exportCopy').click(function() { $('#pr-table').DataTable().button('.buttons-copy').trigger(); });
+            $('#exportPrint').click(function() {
+                $('#pr-table').DataTable().button('.buttons-print').trigger();
+            });
+            $('#exportCsv').click(function() {
+                $('#pr-table').DataTable().button('.buttons-csv').trigger();
+            });
+            $('#exportExcel').click(function() {
+                $('#pr-table').DataTable().button('.buttons-excel').trigger();
+            });
+            $('#exportPdf').click(function() {
+                $('#pr-table').DataTable().button('.buttons-pdf').trigger();
+            });
+            $('#exportCopy').click(function() {
+                $('#pr-table').DataTable().button('.buttons-copy').trigger();
+            });
 
             // Item row counter
             let itemRowIndex = 1;
@@ -520,6 +617,7 @@
 
             // Load items from database
             let itemsList = [];
+
             function loadItems() {
                 $.ajax({
                     url: '{{ route('crm-purchase-request-items') }}',
@@ -536,13 +634,13 @@
                 $('.item-name-select').each(function() {
                     const currentValue = $(this).val();
                     $(this).find('option:not(:first)').remove();
-                    
+
                     // Add "Add New Item" option first
                     $(this).append($('<option>', {
                         value: '__add_new__',
                         text: '+ Add New Item'
                     }));
-                    
+
                     // Then add existing items
                     itemsList.forEach(function(item) {
                         $(this).append($('<option>', {
@@ -550,7 +648,7 @@
                             text: item
                         }));
                     }.bind(this));
-                    
+
                     if (currentValue) {
                         $(this).val(currentValue);
                     }
@@ -562,11 +660,12 @@
                 const $row = $(this).closest('tr');
                 const $select = $(this);
                 const $input = $row.find('.item-name-input');
-                
+
                 if ($select.val() === '__add_new__') {
                     // Show text input for new item
                     $select.addClass('d-none').prop('required', false).prop('disabled', true);
-                    $input.removeClass('d-none').prop('required', true).prop('disabled', false).val('').focus();
+                    $input.removeClass('d-none').prop('required', true).prop('disabled', false).val('')
+                        .focus();
                 }
             });
 
@@ -575,7 +674,7 @@
                 const $input = $(this);
                 const $row = $input.closest('tr');
                 const $select = $row.find('.item-name-select');
-                
+
                 if ($input.val().trim() === '' && !$input.hasClass('d-none')) {
                     // Allow going back to select if input is empty
                     $input.addClass('d-none').prop('required', false).prop('disabled', true);
@@ -585,7 +684,8 @@
 
             // Add new item row
             $('#add-item-btn').on('click', function() {
-                const optionsHtml = itemsList.map(item => `<option value="${item}">${item}</option>`).join('');
+                const optionsHtml = itemsList.map(item => `<option value="${item}">${item}</option>`).join(
+                    '');
                 const newRow = `
                     <tr class="item-row">
                         <td>
@@ -657,9 +757,10 @@
                     const $row = $(this);
                     const $select = $row.find('.item-name-select');
                     const $input = $row.find('.item-name-input');
-                    
+
                     // If select is visible and has a value (not "Add New")
-                    if ($select.is(':visible') && $select.val() && $select.val() !== '__add_new__') {
+                    if ($select.is(':visible') && $select.val() && $select.val() !==
+                        '__add_new__') {
                         // Copy select value to input and enable it for submission
                         $input.val($select.val());
                         $input.prop('disabled', false);
@@ -690,7 +791,7 @@
             // Handle inquiry project selection
             $('#inquiry-project-select').on('change', function() {
                 const projectTitle = $(this).val();
-                
+
                 if (!projectTitle) {
                     return;
                 }
@@ -709,21 +810,23 @@
 
                         // Create a row for each inquiry
                         inquiries.forEach(function(inquiry, index) {
-                            const optionsHtml = itemsList.map(item => `<option value="${item}">${item}</option>`).join('');
+                            const optionsHtml = itemsList.map(item =>
+                                `<option value="${item}">${item}</option>`).join('');
                             const productType = inquiry.product_type || '';
                             const isExisting = itemsList.includes(productType);
-                            
+
                             // Parse lead time if it exists (e.g., "10-12 weeks" or "2-3 weeks")
                             let minLeadTime = '';
                             let maxLeadTime = '';
                             if (inquiry.lead_time) {
-                                const leadTimeMatch = inquiry.lead_time.match(/(\d+)\s*-\s*(\d+)/);
+                                const leadTimeMatch = inquiry.lead_time.match(
+                                    /(\d+)\s*-\s*(\d+)/);
                                 if (leadTimeMatch) {
                                     minLeadTime = leadTimeMatch[1];
                                     maxLeadTime = leadTimeMatch[2];
                                 }
                             }
-                            
+
                             const row = `
                                 <tr class="item-row">
                                     <td>
@@ -751,10 +854,11 @@
                                 </tr>
                             `;
                             $('#items-container').append(row);
-                            
+
                             // Set the select value if item exists in list
                             if (isExisting) {
-                                $(`#items-container tr:last .item-name-select`).val(productType);
+                                $(`#items-container tr:last .item-name-select`).val(
+                                    productType);
                             }
                         });
 
@@ -766,7 +870,7 @@
                             .filter(inq => inq.notes)
                             .map(inq => `[${inq.product_type}] ${inq.notes}`)
                             .join('\n');
-                        
+
                         if (notes) {
                             $('#pr-notes').val(notes);
                         }

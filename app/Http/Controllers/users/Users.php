@@ -19,7 +19,7 @@ class Users extends Controller
     }
     public function users_data()
     {
-        $users = User::whereIn('role_id', [1, 2, 4, 5, 45])->get();
+        $users = User::whereIn('role_id', [1, 2, 4, 5, 8, 45])->get();
 
         // dd($users);
 

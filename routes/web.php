@@ -173,6 +173,7 @@ use App\Http\Controllers\crm\CrmCalendar;
 use App\Http\Controllers\crm\CrmProject;
 use App\Http\Controllers\crm\CrmQuotation;
 use App\Http\Controllers\crm\CrmPurchaseRequest;
+use App\Http\Controllers\crm\CrmPurchaseOrder;
 use App\Http\Controllers\crm\CrmInquiry;
 use App\Http\Controllers\indent\IndentHome;
 use App\Http\Controllers\labs\LabsDashboard;
@@ -285,12 +286,18 @@ Route::middleware(['role:1'])->group(function () {
     Route::get('/crm/purchase-request/view/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_view'])->name('crm-purchase-request-view');
     Route::post('/crm/purchase-request/edit/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_edit'])->name('crm-purchase-request-edit');
     Route::post('/crm/purchase-request/update-dp-date/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_dp_date'])->name('crm-purchase-request-update-dp-date');
+    Route::post('/crm/purchase-request/update-principal-po/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_principal_po'])->name('crm-purchase-request-update-principal-po');
     Route::post('/crm/purchase-request/update-principal-delivery/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_principal_delivery'])->name('crm-purchase-request-update-principal-delivery');
     Route::post('/crm/purchase-request/update-status/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_status'])->name('crm-purchase-request-update-status');
     Route::get('/crm/purchase-request/items', [CrmPurchaseRequest::class, 'get_items'])->name('crm-purchase-request-items');
+    Route::get('/crm/purchase-request/brands', [CrmPurchaseRequest::class, 'get_brands'])->name('crm-purchase-request-brands');
     Route::post('/crm/purchase-request/add-comment/{id_purchase_request}', [CrmPurchaseRequest::class, 'add_comment'])->name('crm-purchase-request-add-comment');
     Route::get('/crm/purchase-request/get-comments/{id_purchase_request}', [CrmPurchaseRequest::class, 'get_comments'])->name('crm-purchase-request-get-comments');
     Route::delete('/crm/purchase-request/delete-comment/{id_comment}', [CrmPurchaseRequest::class, 'delete_comment'])->name('crm-purchase-request-delete-comment');
+
+  // Purchase Order
+    Route::get('/crm/purchase-order', [CrmPurchaseOrder::class, 'index'])->name('crm-purchase-order');
+    Route::get('/crm/purchase-order/data', [CrmPurchaseOrder::class, 'purchase_order_data'])->name('crm-purchase-order-data');
 
   // Inquiry
     Route::get('/crm/inquiry', [CrmInquiry::class, 'index'])->name('crm-inquiry');
@@ -662,8 +669,13 @@ Route::middleware(['role:1,2,4,5,6,8,45'])->group(function () {
   // Indent
     Route::get('/indent', [IndentHome::class, 'index'])->name('indent');
 
-  // Procurement
-
+  // Users
+    Route::get('/users', [Users::class, 'index'])->name('users');
+    Route::get('/users/data', [Users::class, 'users_data'])->name('users-data');
+    Route::get('/users/view/{id}', [Users::class, 'users_view'])->name('users-view');
+    Route::get('/users/change/{id}', [Users::class, 'users_change_password'])->name('users-change-password');
+    Route::post('/users/change/{id}', [Users::class, 'users_update_password'])->name('users-update-password');
+    Route::delete('/users/destroy/{id}', [Users::class, 'users_destroy'])->name('users-destroy');
 
   // Calendar
     Route::get('/crm/calendar', [CrmCalendar::class, 'calendar_index'])->name('crm-calendar');
@@ -682,12 +694,18 @@ Route::middleware(['role:1,2,4,5,6,8,45'])->group(function () {
     Route::get('/crm/purchase-request/view/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_view'])->name('crm-purchase-request-view');
     Route::post('/crm/purchase-request/edit/{id_purchase_request}', [CrmPurchaseRequest::class, 'purchase_request_edit'])->name('crm-purchase-request-edit');
     Route::post('/crm/purchase-request/update-dp-date/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_dp_date'])->name('crm-purchase-request-update-dp-date');
+    Route::post('/crm/purchase-request/update-principal-po/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_principal_po'])->name('crm-purchase-request-update-principal-po');
     Route::post('/crm/purchase-request/update-principal-delivery/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_principal_delivery'])->name('crm-purchase-request-update-principal-delivery');
     Route::post('/crm/purchase-request/update-status/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_status'])->name('crm-purchase-request-update-status');
     Route::get('/crm/purchase-request/items', [CrmPurchaseRequest::class, 'get_items'])->name('crm-purchase-request-items');
+    Route::get('/crm/purchase-request/brands', [CrmPurchaseRequest::class, 'get_brands'])->name('crm-purchase-request-brands');
     Route::post('/crm/purchase-request/add-comment/{id_purchase_request}', [CrmPurchaseRequest::class, 'add_comment'])->name('crm-purchase-request-add-comment');
     Route::get('/crm/purchase-request/get-comments/{id_purchase_request}', [CrmPurchaseRequest::class, 'get_comments'])->name('crm-purchase-request-get-comments');
     Route::delete('/crm/purchase-request/delete-comment/{id_comment}', [CrmPurchaseRequest::class, 'delete_comment'])->name('crm-purchase-request-delete-comment');
+
+  // Purchase Order
+    Route::get('/crm/purchase-order', [CrmPurchaseOrder::class, 'index'])->name('crm-purchase-order');
+    Route::get('/crm/purchase-order/data', [CrmPurchaseOrder::class, 'purchase_order_data'])->name('crm-purchase-order-data');
 
   // Inquiry
     Route::get('/crm/inquiry', [CrmInquiry::class, 'index'])->name('crm-inquiry');

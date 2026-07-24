@@ -227,6 +227,7 @@
                                 2: 'President Director',
                                 4: 'Sales AII',
                                 5: 'Sales SEP',
+                                8: 'Purchasing',
                                 45: 'Admin'
                             };
                             // Return the role name or a default value

@@ -138,11 +138,11 @@
                                                     <input type="date" class="form-control" id="dp-received-date"
                                                         name="dp_received_date"
                                                         value="{{ $purchase_request->dp_received_date ?? '' }}"
-                                                        {{ $purchase_request->dp_received_date ? 'disabled' : 'required' }}>
+                                                        {{ $purchase_request->dp_received_date || !(auth()->user()->name === 'Elka' && auth()->user()->role_id == 8) ? 'disabled' : 'required' }}>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <button type="submit" class="btn btn-primary"
-                                                        {{ $purchase_request->dp_received_date ? 'disabled' : '' }}>
+                                                        {{ $purchase_request->dp_received_date || !(auth()->user()->name === 'Elka' && auth()->user()->role_id == 8) ? 'disabled' : '' }}>
                                                         <i
                                                             class="ti ti-check me-1"></i>{{ $purchase_request->dp_received_date ? 'DP Date Set' : 'Update DP Date' }}
                                                     </button>
@@ -164,6 +164,48 @@
                         </div>
                     @endif
 
+                    {{-- Principal PO Number Form --}}
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="mb-3">Principal PO Number</h6>
+                                    <form method="POST"
+                                        action="{{ route('crm-purchase-request-update-principal-po', $purchase_request->id_purchase_request) }}">
+                                        @csrf
+                                        <div class="row align-items-end">
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="principal-po-number">Principal PO
+                                                    Number</label>
+                                                <input type="text" class="form-control" id="principal-po-number"
+                                                    name="principal_po_number"
+                                                    value="{{ $purchase_request->principal_po_number ?? '' }}"
+                                                    placeholder="Enter Principal PO Number"
+                                                    {{ $purchase_request->principal_po_number ? 'disabled' : (auth()->user()->name === 'Elka' && auth()->user()->role_id == 8 ? 'required' : 'disabled') }}>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button type="submit" class="btn btn-primary"
+                                                    {{ $purchase_request->principal_po_number || !(auth()->user()->name === 'Elka' && auth()->user()->role_id == 8) ? 'disabled' : '' }}>
+                                                    <i
+                                                        class="ti ti-check me-1"></i>{{ $purchase_request->principal_po_number ? 'PO Number Set' : 'Update PO Number' }}
+                                                </button>
+                                            </div>
+                                            @if ($purchase_request->principal_po_number)
+                                                <div class="col-md-5">
+                                                    <small class="text-success">
+                                                        <i class="ti ti-circle-check me-1"></i>
+                                                        Principal PO Number Recorded:
+                                                        <strong>{{ $purchase_request->principal_po_number }}</strong>
+                                                    </small>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     {{-- Status Update --}}
                     <div class="row mb-4">
                         <div class="col-12">
@@ -176,7 +218,7 @@
                                         <div class="row align-items-end">
                                             <div class="col-md-6">
                                                 <label class="form-label" for="status-select">Select Status</label>
-                                                <select class="form-control" id="status-select" name="status" required>
+                                                <select class="form-control" id="status-select" name="status" required {{ !(auth()->user()->name === 'Elka' && auth()->user()->role_id == 8) ? 'disabled' : '' }}>
                                                     <option value="">-- Choose Status --</option>
                                                     <!-- Purchasing -->
                                                     <optgroup label="Purchasing">
@@ -312,7 +354,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-3">
-                                                <button type="submit" class="btn btn-primary">
+                                                <button type="submit" class="btn btn-primary" {{ !(auth()->user()->name === 'Elka' && auth()->user()->role_id == 8) ? 'disabled' : '' }}>
                                                     <i class="ti ti-check me-1"></i>Update Status
                                                 </button>
                                             </div>
@@ -332,6 +374,7 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>PR Number</th>
+                                            <th>Brand</th>
                                             <th>Item Name</th>
                                             <th>Quantity</th>
                                             <th>Selling Price</th>
@@ -344,6 +387,7 @@
                                         @foreach ($related_prs as $pr)
                                             <tr>
                                                 <td>{{ $pr->pr_number }}</td>
+                                                <td>{{ $pr->brand ?? '-' }}</td>
                                                 <td>{{ $pr->item_list }}</td>
                                                 <td>{{ $pr->quantity }}</td>
                                                 <td>{{ number_format($pr->selling_price, 0, ',', ' ') }}</td>
@@ -364,10 +408,10 @@
                                                         <input type="date" class="form-control form-control-sm"
                                                             name="principal_delivery_date"
                                                             value="{{ $pr->principal_delivery_date ?? '' }}"
-                                                            {{ $pr->principal_delivery_date ? 'disabled' : 'required' }}
+                                                            {{ !(auth()->user()->name === 'Elka' && auth()->user()->role_id == 8) ? 'disabled' : 'required' }}
                                                             style="max-width: 150px;">
                                                         <button type="submit" class="btn btn-sm btn-primary"
-                                                            {{ $pr->principal_delivery_date ? 'disabled' : '' }}>
+                                                            {{ !(auth()->user()->name === 'Elka' && auth()->user()->role_id == 8) ? 'disabled' : '' }}>
                                                             <i class="ti ti-check"></i>
                                                         </button>
                                                         @if ($pr->principal_delivery_date)

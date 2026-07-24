@@ -223,7 +223,8 @@
                             </div>
 
                             <button class="btn btn-secondary create-new btn-primary waves-effect waves-light" type="button"
-                                data-bs-toggle="modal" data-bs-target="#AddNewPR" aria-controls="AddNewPR">
+                                data-bs-toggle="modal" data-bs-target="#AddNewPR" aria-controls="AddNewPR"
+                                @if(!(auth()->user()->name === 'Julia' && auth()->user()->role_id == 4)) disabled @endif>
                                 <span><i class="ti ti-plus me-sm-1"></i>
                                     <span class="d-none d-sm-inline-block">Add New PR</span>
                                 </span>
@@ -238,11 +239,12 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>PR Number</th>
+                                    <th>PO Number</th>
                                     <th>Customer Name</th>
                                     <th>Project Name</th>
                                     <th>Item</th>
-                                    <th>PO Number</th>
                                     <th>Quantity</th>
+                                    <th>Principal PO Number</th>
                                     <th>Status</th>
                                     <th>Date</th>
                                     <th>Actions</th>
@@ -255,6 +257,123 @@
         </div>
     </div>
     {{-- / DataTable --}}
+
+    {{-- Recent Comments Section --}}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Recent Comments</h5>
+                </div>
+                <div class="card-body">
+                    @php
+                        function getAllReplies($comment) {
+                            $replies = \App\Models\Comment::where('parent_id', $comment->id)
+                                ->with('user')
+                                ->orderBy('created_at', 'asc')
+                                ->get();
+
+                            $allReplies = [];
+                            foreach ($replies as $reply) {
+                                $allReplies[] = $reply;
+                                $childReplies = getAllReplies($reply);
+                                $allReplies = array_merge($allReplies, $childReplies);
+                            }
+                            return $allReplies;
+                        }
+
+                        function getLatestReplyDate($comment) {
+                            $allReplies = getAllReplies($comment);
+                            if (empty($allReplies)) {
+                                return $comment->created_at;
+                            }
+                            $latestDate = $comment->created_at;
+                            foreach ($allReplies as $reply) {
+                                if ($reply->created_at > $latestDate) {
+                                    $latestDate = $reply->created_at;
+                                }
+                            }
+                            return $latestDate;
+                        }
+
+                        $recentComments = \App\Models\Comment::where('commentable_type', 'App\Models\crm\crm_purchase_request')
+                            ->with(['user', 'commentable'])
+                            ->whereNull('parent_id')
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+
+                        // Sort by latest reply date (including nested replies)
+                        $recentComments = $recentComments->sortByDesc(function($comment) {
+                            return getLatestReplyDate($comment);
+                        })->take(10);
+                    @endphp
+
+                    @if($recentComments->isEmpty())
+                        <p class="text-muted">No comments yet.</p>
+                    @else
+                        <div class="row">
+                            @foreach($recentComments as $comment)
+                                @php
+                                    $pr = $comment->commentable;
+                                    // Fallback: if commentable is null, try to fetch directly
+                                    if (!$pr && $comment->commentable_id) {
+                                        $pr = \App\Models\crm\crm_purchase_request::find($comment->commentable_id);
+                                    }
+                                    $allReplies = getAllReplies($comment);
+                                    $latestReplyDate = getLatestReplyDate($comment);
+                                @endphp
+                                <div class="col-md-2 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="avatar avatar-xs me-2">
+                                                    <span class="avatar-initial rounded-circle bg-label-primary">
+                                                        <i class="ti ti-user" style="font-size: 0.75rem;"></i>
+                                                    </span>
+                                                </div>
+                                                <small class="fw-semibold">{{ $comment->user->name ?? 'Unknown' }}</small>
+                                            </div>
+                                            <p class="text-muted small mb-2" style="font-size: 0.75rem;">{{ \Illuminate\Support\Str::limit($comment->content, 50) }}</p>
+                                            <small class="text-muted d-block mb-2" style="font-size: 0.7rem;">{{ $comment->created_at->diffForHumans() }}</small>
+
+                                            @if(count($allReplies) > 0)
+                                                <div class="border-top pt-2 mt-2">
+                                                    <small class="text-primary d-block mb-1" style="font-size: 0.7rem;">
+                                                        <i class="ti ti-corner-down-right"></i> {{ count($allReplies) }} {{ count($allReplies) > 1 ? 'Replies' : 'Reply' }}
+                                                    </small>
+                                                    <small class="text-success d-block mb-2" style="font-size: 0.65rem;">
+                                                        <i class="ti ti-clock"></i> Latest: {{ $latestReplyDate->diffForHumans() }}
+                                                    </small>
+                                                    @php
+                                                        // Show only the 2 most recent replies
+                                                        $recentReplies = collect($allReplies)->sortByDesc('created_at')->take(2);
+                                                    @endphp
+                                                    @foreach($recentReplies as $reply)
+                                                        <div class="mb-1 ps-2">
+                                                            <small class="fw-semibold d-block" style="font-size: 0.7rem;">{{ $reply->user->name ?? 'Unknown' }}</small>
+                                                            <small class="text-muted" style="font-size: 0.65rem;">{{ \Illuminate\Support\Str::limit($reply->content, 40) }}</small>
+                                                            <small class="text-muted d-block" style="font-size: 0.6rem;">{{ $reply->created_at->diffForHumans() }}</small>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+
+                                            @if($pr)
+                                                <a href="{{ route('crm-purchase-request-view', $pr->id_purchase_request) }}" class="btn btn-xs btn-label-primary w-100 mt-2">
+                                                    <i class="ti ti-arrow-right me-1"></i>View PR
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- / Recent Comments --}}
 
     {{-- Modal: Add New PR --}}
     <div class="modal fade" tabindex="-1" id="AddNewPR" aria-labelledby="AddNewPRLabel">
@@ -345,12 +464,25 @@
                         </div>
 
                         <div class="mb-3 fv-plugins-icon-container">
+                            <label class="form-label" for="pr-number">PR Number <span
+                                    class="text-danger">*</span></label>
+                            <input required type="text" class="form-control" id="pr-number"
+                                placeholder="Enter PR number (e.g., PR-XX-XX-XXX)" name="pr_number"
+                                value="{{ old('pr_number') }}">
+                            <small class="text-muted">This PR number will be used for all items in this request</small>
+                            <div
+                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 fv-plugins-icon-container">
                             <label class="form-label">Items <span class="text-danger">*</span></label>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-sm" id="items-table">
                                     <thead class="table-light">
                                         <tr>
-                                            <th style="width: 25%;">Item Name <span class="text-danger">*</span></th>
+                                            <th style="width: 20%;">Brand <span class="text-danger">*</span></th>
+                                            <th style="width: 20%;">Item Name <span class="text-danger">*</span></th>
                                             <th style="width: 12%;">Quantity <span class="text-danger">*</span></th>
                                             <th style="width: 18%;">Selling Price <span class="text-danger">*</span></th>
                                             <th style="width: 20%;">Lead Time (weeks) <span class="text-danger">*</span>
@@ -360,6 +492,16 @@
                                     </thead>
                                     <tbody id="items-container">
                                         <tr class="item-row">
+                                            <td>
+                                                <select class="form-control form-control-sm brand-select"
+                                                    data-index="0" required>
+                                                    <option value="">-- Select Brand --</option>
+                                                </select>
+                                                <input type="text"
+                                                    class="form-control form-control-sm brand-input d-none"
+                                                    name="items[0][brand]" placeholder="Enter new brand" required
+                                                    disabled>
+                                            </td>
                                             <td>
                                                 <select class="form-control form-control-sm item-name-select"
                                                     data-index="0" required>
@@ -440,6 +582,10 @@
                         name: 'pr_number'
                     },
                     {
+                        data: 'customer_po_number',
+                        name: 'customer_po_number'
+                    },
+                    {
                         data: 'customer_name',
                         name: 'customer_name'
                     },
@@ -452,12 +598,15 @@
                         name: 'item_list'
                     },
                     {
-                        data: 'customer_po_number',
-                        name: 'customer_po_number'
-                    },
-                    {
                         data: 'quantity',
                         name: 'quantity'
+                    },
+                    {
+                        data: 'principal_po_number',
+                        name: 'principal_po_number',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
                     },
                     {
                         data: 'status',
@@ -617,6 +766,7 @@
 
             // Load items from database
             let itemsList = [];
+            let brandsList = [];
 
             function loadItems() {
                 $.ajax({
@@ -625,6 +775,43 @@
                     success: function(items) {
                         itemsList = items;
                         populateItemSelects();
+                    }
+                });
+            }
+
+            function loadBrands() {
+                $.ajax({
+                    url: '{{ route('crm-purchase-request-brands') }}',
+                    method: 'GET',
+                    success: function(brands) {
+                        brandsList = brands;
+                        populateBrandSelects();
+                    }
+                });
+            }
+
+            // Populate all brand selects with options
+            function populateBrandSelects() {
+                $('.brand-select').each(function() {
+                    const currentValue = $(this).val();
+                    $(this).find('option:not(:first)').remove();
+
+                    // Add "Add New Brand" option first
+                    $(this).append($('<option>', {
+                        value: '__add_new__',
+                        text: '+ Add New Brand'
+                    }));
+
+                    // Then add existing brands
+                    brandsList.forEach(function(brand) {
+                        $(this).append($('<option>', {
+                            value: brand,
+                            text: brand
+                        }));
+                    }.bind(this));
+
+                    if (currentValue) {
+                        $(this).val(currentValue);
                     }
                 });
             }
@@ -655,6 +842,33 @@
                 });
             }
 
+            // Handle brand select change
+            $(document).on('change', '.brand-select', function() {
+                const $row = $(this).closest('tr');
+                const $select = $(this);
+                const $input = $row.find('.brand-input');
+
+                if ($select.val() === '__add_new__') {
+                    // Show text input for new brand
+                    $select.addClass('d-none').prop('required', false).prop('disabled', true);
+                    $input.removeClass('d-none').prop('required', true).prop('disabled', false).val('')
+                        .focus();
+                }
+            });
+
+            // Handle brand input blur
+            $(document).on('blur', '.brand-input', function() {
+                const $input = $(this);
+                const $row = $input.closest('tr');
+                const $select = $row.find('.brand-select');
+
+                if ($input.val().trim() === '' && !$input.hasClass('d-none')) {
+                    // Allow going back to select if input is empty
+                    $input.addClass('d-none').prop('required', false).prop('disabled', true);
+                    $select.removeClass('d-none').prop('required', true).prop('disabled', false).val('');
+                }
+            });
+
             // Handle item select change
             $(document).on('change', '.item-name-select', function() {
                 const $row = $(this).closest('tr');
@@ -684,15 +898,23 @@
 
             // Add new item row
             $('#add-item-btn').on('click', function() {
-                const optionsHtml = itemsList.map(item => `<option value="${item}">${item}</option>`).join(
-                    '');
+                const itemOptionsHtml = itemsList.map(item => `<option value="${item}">${item}</option>`).join('');
+                const brandOptionsHtml = brandsList.map(brand => `<option value="${brand}">${brand}</option>`).join('');
                 const newRow = `
                     <tr class="item-row">
+                        <td>
+                            <select class="form-control form-control-sm brand-select" data-index="${itemRowIndex}" required>
+                                <option value="">-- Select Brand --</option>
+                                <option value="__add_new__">+ Add New Brand</option>
+                                ${brandOptionsHtml}
+                            </select>
+                            <input type="text" class="form-control form-control-sm brand-input d-none" name="items[${itemRowIndex}][brand]" placeholder="Enter new brand" required disabled>
+                        </td>
                         <td>
                             <select class="form-control form-control-sm item-name-select" data-index="${itemRowIndex}" required>
                                 <option value="">-- Select Item --</option>
                                 <option value="__add_new__">+ Add New Item</option>
-                                ${optionsHtml}
+                                ${itemOptionsHtml}
                             </select>
                             <input type="text" class="form-control form-control-sm item-name-input d-none" name="items[${itemRowIndex}][name]" placeholder="Enter new item name" required disabled>
                         </td>
@@ -748,27 +970,35 @@
                 itemRowIndex = $('#items-container tr').length;
             }
 
-            // Load items on page load
+            // Load items and brands on page load
             loadItems();
+            loadBrands();
 
-            // Handle form submission - ensure item names are properly set
+            // Handle form submission - ensure item names and brands are properly set
             $('#addNewPRForm').on('submit', function(e) {
                 $('.item-row').each(function(index) {
                     const $row = $(this);
-                    const $select = $row.find('.item-name-select');
-                    const $input = $row.find('.item-name-input');
 
-                    // If select is visible and has a value (not "Add New")
-                    if ($select.is(':visible') && $select.val() && $select.val() !==
-                        '__add_new__') {
-                        // Copy select value to input and enable it for submission
-                        $input.val($select.val());
-                        $input.prop('disabled', false);
+                    // Handle brand
+                    const $brandSelect = $row.find('.brand-select');
+                    const $brandInput = $row.find('.brand-input');
+
+                    if ($brandSelect.is(':visible') && $brandSelect.val() && $brandSelect.val() !== '__add_new__') {
+                        $brandInput.val($brandSelect.val());
+                        $brandInput.prop('disabled', false);
+                    } else if ($brandInput.is(':visible')) {
+                        $brandInput.prop('disabled', false);
                     }
-                    // If input is visible, it already has the value
-                    // Just make sure it's enabled
-                    else if ($input.is(':visible')) {
-                        $input.prop('disabled', false);
+
+                    // Handle item name
+                    const $itemSelect = $row.find('.item-name-select');
+                    const $itemInput = $row.find('.item-name-input');
+
+                    if ($itemSelect.is(':visible') && $itemSelect.val() && $itemSelect.val() !== '__add_new__') {
+                        $itemInput.val($itemSelect.val());
+                        $itemInput.prop('disabled', false);
+                    } else if ($itemInput.is(':visible')) {
+                        $itemInput.prop('disabled', false);
                     }
                 });
             });

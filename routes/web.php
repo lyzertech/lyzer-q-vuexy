@@ -298,6 +298,9 @@ Route::middleware(['role:1'])->group(function () {
   // Purchase Order
     Route::get('/crm/purchase-order', [CrmPurchaseOrder::class, 'index'])->name('crm-purchase-order');
     Route::get('/crm/purchase-order/data', [CrmPurchaseOrder::class, 'purchase_order_data'])->name('crm-purchase-order-data');
+    Route::post('/crm/purchase-order/update-principal-po', [CrmPurchaseOrder::class, 'update_principal_po'])->name('crm-purchase-order-update-principal-po');
+    Route::post('/crm/purchase-order/update-delivery-date', [CrmPurchaseOrder::class, 'update_delivery_date'])->name('crm-purchase-order-update-delivery-date');
+    Route::post('/crm/purchase-order/update-status', [CrmPurchaseOrder::class, 'update_status'])->name('crm-purchase-order-update-status');
 
   // Inquiry
     Route::get('/crm/inquiry', [CrmInquiry::class, 'index'])->name('crm-inquiry');
@@ -706,6 +709,9 @@ Route::middleware(['role:1,2,4,5,6,8,45'])->group(function () {
   // Purchase Order
     Route::get('/crm/purchase-order', [CrmPurchaseOrder::class, 'index'])->name('crm-purchase-order');
     Route::get('/crm/purchase-order/data', [CrmPurchaseOrder::class, 'purchase_order_data'])->name('crm-purchase-order-data');
+    Route::post('/crm/purchase-order/update-principal-po', [CrmPurchaseOrder::class, 'update_principal_po'])->name('crm-purchase-order-update-principal-po');
+    Route::post('/crm/purchase-order/update-delivery-date', [CrmPurchaseOrder::class, 'update_delivery_date'])->name('crm-purchase-order-update-delivery-date');
+    Route::post('/crm/purchase-order/update-status', [CrmPurchaseOrder::class, 'update_status'])->name('crm-purchase-order-update-status');
 
   // Inquiry
     Route::get('/crm/inquiry', [CrmInquiry::class, 'index'])->name('crm-inquiry');

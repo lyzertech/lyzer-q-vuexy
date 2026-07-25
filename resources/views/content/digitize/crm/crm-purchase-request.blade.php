@@ -239,8 +239,7 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>PR Number</th>
-                                    <th>PO Number</th>
-                                    <th>Customer Name</th>
+                                    <th>Customer Name / PO Number</th>
                                     <th>Project Name</th>
                                     <th>Item</th>
                                     <th>Quantity</th>
@@ -582,12 +581,13 @@
                         name: 'pr_number'
                     },
                     {
-                        data: 'customer_po_number',
-                        name: 'customer_po_number'
-                    },
-                    {
                         data: 'customer_name',
-                        name: 'customer_name'
+                        name: 'customer_name',
+                        render: function(data, type, row) {
+                            const customerName = row.customer_name || '-';
+                            const poNumber = row.customer_po_number || '-';
+                            return `<div><strong>${customerName}</strong><br><small class="text-muted">${poNumber}</small></div>`;
+                        }
                     },
                     {
                         data: 'project_name',

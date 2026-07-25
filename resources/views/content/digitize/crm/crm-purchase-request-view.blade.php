@@ -165,7 +165,7 @@
                     @endif
 
                     {{-- Principal PO Number Form --}}
-                    <div class="row mb-4">
+                    <!-- <div class="row mb-4">
                         <div class="col-12">
                             <div class="card bg-light">
                                 <div class="card-body">
@@ -204,10 +204,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     {{-- Status Update --}}
-                    <div class="row mb-4">
+                    <!-- <div class="row mb-4">
                         <div class="col-12">
                             <div class="card bg-light">
                                 <div class="card-body">
@@ -220,7 +220,7 @@
                                                 <label class="form-label" for="status-select">Select Status</label>
                                                 <select class="form-control" id="status-select" name="status" required {{ !(auth()->user()->name === 'Elka' && auth()->user()->role_id == 8) ? 'disabled' : '' }}>
                                                     <option value="">-- Choose Status --</option>
-                                                    <!-- Purchasing -->
+                                                    
                                                     <optgroup label="Purchasing">
                                                         <option value="PR Created"
                                                             {{ $purchase_request->status == 'PR Created' ? 'selected' : '' }}>
@@ -234,7 +234,6 @@
                                                     </optgroup>
 
 
-                                                    <!-- Principal / Supplier -->
                                                     <optgroup label="Principal / Supplier">
                                                         <option value="Supplier Production"
                                                             {{ $purchase_request->status == 'Supplier Production' ? 'selected' : '' }}>
@@ -253,7 +252,6 @@
                                                     </optgroup>
 
 
-                                                    <!-- Shipment -->
                                                     <optgroup label="Shipment">
                                                         <option value="Pick Up Arrangement"
                                                             {{ $purchase_request->status == 'Pick Up Arrangement' ? 'selected' : '' }}>
@@ -277,7 +275,6 @@
                                                     </optgroup>
 
 
-                                                    <!-- Customs -->
                                                     <optgroup label="Customs">
                                                         <option value="Customs Clearance"
                                                             {{ $purchase_request->status == 'Customs Clearance' ? 'selected' : '' }}>
@@ -311,7 +308,6 @@
                                                     </optgroup>
 
 
-                                                    <!-- Internal -->
                                                     <optgroup label="Internal">
                                                         <option value="Warehouse Received"
                                                             {{ $purchase_request->status == 'Warehouse Received' ? 'selected' : '' }}>
@@ -330,7 +326,6 @@
                                                     </optgroup>
 
 
-                                                    <!-- Customer -->
                                                     <optgroup label="Customer">
                                                         <option value="Delivered"
                                                             {{ $purchase_request->status == 'Delivered' ? 'selected' : '' }}>
@@ -339,7 +334,6 @@
                                                     </optgroup>
 
 
-                                                    <!-- Final Status -->
                                                     <optgroup label="Final Status">
                                                         <option value="Complete"
                                                             {{ $purchase_request->status == 'Complete' ? 'selected' : '' }}>
@@ -363,7 +357,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     {{-- Items Table --}}
                     <div class="row">
@@ -379,6 +373,7 @@
                                             <th>Quantity</th>
                                             <th>Selling Price</th>
                                             <th>Lead Time</th>
+                                            <th>Status</th>
                                             <th>Expected Delivery</th>
                                             <th>Principal Delivery Date</th>
                                         </tr>
@@ -392,6 +387,37 @@
                                                 <td>{{ $pr->quantity }}</td>
                                                 <td>{{ number_format($pr->selling_price, 0, ',', ' ') }}</td>
                                                 <td>{{ $pr->lead_time }}</td>
+                                                <td>
+                                                    @php
+                                                        $statusMap = [
+                                                            'PR Created' => 'bg-label-info',
+                                                            'Waiting Director Approval' => 'bg-label-warning',
+                                                            'Approved' => 'bg-label-success',
+                                                            'Rejected' => 'bg-label-danger',
+                                                            'DP Received' => 'bg-label-primary',
+                                                            'Supplier Production' => 'bg-label-info',
+                                                            'Delay Production' => 'bg-label-danger',
+                                                            'Supplier Inform Goods Ready for Pick Up' => 'bg-label-success',
+                                                            'Pick Up Arrangement' => 'bg-label-warning',
+                                                            'In Transit' => 'bg-label-primary',
+                                                            'Delay Shipment' => 'bg-label-danger',
+                                                            'Shipment Delivery' => 'bg-label-primary',
+                                                            'Customs Clearance' => 'bg-label-warning',
+                                                            'PIB Draft' => 'bg-label-info',
+                                                            'ID Billing Request' => 'bg-label-info',
+                                                            'Payment to Kas Negara' => 'bg-label-warning',
+                                                            'Custom Response (Red/Green/Yellow)' => 'bg-label-warning',
+                                                            'Shipment Release' => 'bg-label-success',
+                                                            'Warehouse Received' => 'bg-label-info',
+                                                            'Lab Check' => 'bg-label-warning',
+                                                            'Dispatch to End Customer/Buyer' => 'bg-label-primary',
+                                                            'Delivered' => 'bg-label-success',
+                                                            'Complete' => 'bg-label-dark',
+                                                        ];
+                                                        $itemStatusCls = $statusMap[$pr->status] ?? 'bg-label-secondary';
+                                                    @endphp
+                                                    <span class="badge {{ $itemStatusCls }}">{{ $pr->status ?? '-' }}</span>
+                                                </td>
                                                 <td>
                                                     @if ($pr->expected_delivery_date !== '-')
                                                         <span

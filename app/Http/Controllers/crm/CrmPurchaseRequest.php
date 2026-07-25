@@ -82,13 +82,32 @@ class CrmPurchaseRequest extends Controller
         ));
     }
 
-    public function purchase_request_data()
+    public function purchase_request_data(Request $request)
     {
-        $purchase_requests = crm_purchase_request::orderBy('id_purchase_request', 'desc')->get();
+        $query = crm_purchase_request::orderBy('id_purchase_request', 'desc');
+        
+        // Filter by principal_po_number if requested
+        if ($request->has('has_principal_po') && $request->has_principal_po) {
+            $query->whereNotNull('principal_po_number')
+                  ->where('principal_po_number', '!=', '');
+        }
+        
+        // Filter for records without principal_po_number
+        if ($request->has('no_principal_po') && $request->no_principal_po) {
+            $query->where(function($q) {
+                $q->whereNull('principal_po_number')
+                  ->orWhere('principal_po_number', '');
+            });
+        }
+        
+        $purchase_requests = $query->get();
 
         return DataTables::of($purchase_requests)
             ->editColumn('created_at', function ($pr) {
                 return $pr->created_at ? $pr->created_at->format('Y-m-d H:i') : '-';
+            })
+            ->addColumn('brand_list', function ($pr) {
+                return $pr->brand ?? '-';
             })
             ->addColumn('action', function ($pr) {
                 $showUrl = route('crm-purchase-request-view', $pr->id_purchase_request);

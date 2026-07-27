@@ -131,8 +131,8 @@ class CrmPurchaseRequest extends Controller
                 'project_name'            => 'required|string|max:255',
                 'term_of_payment'         => 'required|string|max:255',
                 'down_payment'            => 'required|string|in:ON,OFF',
-                'pr_number'               => 'required|string|max:255',
                 'items'                   => 'required|array|min:1',
+                'items.*.pr_number'       => 'required|string|max:255',
                 'items.*.brand'           => 'required|string|max:255',
                 'items.*.name'            => 'required|string|max:255',
                 'items.*.quantity'        => 'required|integer|min:1',
@@ -170,8 +170,8 @@ class CrmPurchaseRequest extends Controller
             ];
 
             foreach ($validatedData['items'] as $item) {
-                // Use PR number from form input (shared by all items)
-                $prNumber = $validatedData['pr_number'];
+                // Use PR number from each item
+                $prNumber = $item['pr_number'];
 
                 // Parse formatted selling price (remove spaces)
                 $sellingPrice = str_replace(' ', '', $item['selling_price']);

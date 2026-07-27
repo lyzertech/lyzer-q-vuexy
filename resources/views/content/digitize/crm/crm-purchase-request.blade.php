@@ -463,27 +463,16 @@
                         </div>
 
                         <div class="mb-3 fv-plugins-icon-container">
-                            <label class="form-label" for="pr-number">PR Number <span
-                                    class="text-danger">*</span></label>
-                            <input required type="text" class="form-control" id="pr-number"
-                                placeholder="Enter PR number (e.g., PR-XX-XX-XXX)" name="pr_number"
-                                value="{{ old('pr_number') }}">
-                            <small class="text-muted">This PR number will be used for all items in this request</small>
-                            <div
-                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                            </div>
-                        </div>
-
-                        <div class="mb-3 fv-plugins-icon-container">
                             <label class="form-label">Items <span class="text-danger">*</span></label>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-sm" id="items-table">
                                     <thead class="table-light">
                                         <tr>
-                                            <th style="width: 20%;">Brand <span class="text-danger">*</span></th>
-                                            <th style="width: 20%;">Item Name <span class="text-danger">*</span></th>
-                                            <th style="width: 12%;">Quantity <span class="text-danger">*</span></th>
-                                            <th style="width: 18%;">Selling Price <span class="text-danger">*</span></th>
+                                            <th style="width: 15%;">PR Number <span class="text-danger">*</span></th>
+                                            <th style="width: 15%;">Brand <span class="text-danger">*</span></th>
+                                            <th style="width: 15%;">Item Name <span class="text-danger">*</span></th>
+                                            <th style="width: 10%;">Quantity <span class="text-danger">*</span></th>
+                                            <th style="width: 15%;">Selling Price <span class="text-danger">*</span></th>
                                             <th style="width: 20%;">Lead Time (weeks) <span class="text-danger">*</span>
                                             </th>
                                             <th style="width: 10%;">Action</th>
@@ -491,6 +480,10 @@
                                     </thead>
                                     <tbody id="items-container">
                                         <tr class="item-row">
+                                            <td>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="items[0][pr_number]" placeholder="PR-XX-XX-XXX" required>
+                                            </td>
                                             <td>
                                                 <select class="form-control form-control-sm brand-select"
                                                     data-index="0" required>
@@ -903,6 +896,9 @@
                 const newRow = `
                     <tr class="item-row">
                         <td>
+                            <input type="text" class="form-control form-control-sm" name="items[${itemRowIndex}][pr_number]" placeholder="PR-XX-XX-XXX" required>
+                        </td>
+                        <td>
                             <select class="form-control form-control-sm brand-select" data-index="${itemRowIndex}" required>
                                 <option value="">-- Select Brand --</option>
                                 <option value="__add_new__">+ Add New Brand</option>
@@ -1059,6 +1055,17 @@
 
                             const row = `
                                 <tr class="item-row">
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" name="items[${index}][pr_number]" placeholder="PR-XX-XX-XXX" required>
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-control-sm brand-select" data-index="${index}" required>
+                                            <option value="">-- Select Brand --</option>
+                                            <option value="__add_new__">+ Add New Brand</option>
+                                            ${brandsList.map(b => `<option value="${b}">${b}</option>`).join('')}
+                                        </select>
+                                        <input type="text" class="form-control form-control-sm brand-input d-none" name="items[${index}][brand]" placeholder="Enter new brand" required disabled>
+                                    </td>
                                     <td>
                                         <select class="form-control form-control-sm item-name-select ${isExisting ? '' : 'd-none'}" data-index="${index}" ${isExisting ? 'required' : 'disabled'}>
                                             <option value="">-- Select Item --</option>

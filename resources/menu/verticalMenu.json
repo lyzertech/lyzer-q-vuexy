@@ -29,15 +29,38 @@
           "slug": "crm-purchase-request"
         },
         {
-          "url": "crm/purchase-order",
-          "name": "Purchase Order (PO)",
-          "slug": "crm-purchase-order"
-        },
-        {
           "url": "crm/calendar",
           "name": "Calendar",
           "icon": "menu-icon tf-icons ti ti-user",
           "slug": "crm-calendar"
+        }
+      ]
+    },
+    {
+      "url": "users",
+      "name": "Users",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "users"
+    }
+  ],
+  "purchasing": [
+    {
+      "menuHeader": "Digitize"
+    },
+    {
+      "name": "CRM",
+      "icon": "menu-icon tf-icons ti ti-home-dollar",
+      "slug": "crm",
+      "submenu": [
+        {
+          "url": "crm/purchase-request",
+          "name": "Purchase Request (PR)",
+          "slug": "crm-purchase-request"
+        },
+        {
+          "url": "crm/purchase-order",
+          "name": "Purchase Order (PO)",
+          "slug": "crm-purchase-order"
         }
       ]
     },

@@ -86,12 +86,27 @@ class CrmPurchaseRequest extends Controller
     {
         $query = crm_purchase_request::orderBy('id_purchase_request', 'desc');
         
-        // Filter by principal_po_number if requested
+        // Filter by principal_po_number if requested (without delivery date)
         if ($request->has('has_principal_po') && $request->has_principal_po) {
+            $query->whereNotNull('principal_po_number')
+                  ->where('principal_po_number', '!=', '')
+                  ->whereNull('principal_delivery_date');
+        }
+
+        // Filter for ALL records with principal_po_number (regardless of delivery date)
+        if ($request->has('has_principal_po_all') && $request->has_principal_po_all) {
             $query->whereNotNull('principal_po_number')
                   ->where('principal_po_number', '!=', '');
         }
-        
+
+        // Filter for records with both principal_po_number and principal_delivery_date
+        if ($request->has('has_both_po_and_date') && $request->has_both_po_and_date) {
+            $query->whereNotNull('principal_po_number')
+                  ->where('principal_po_number', '!=', '')
+                  ->whereNotNull('principal_delivery_date')
+                  ->where('principal_delivery_date', '!=', '');
+        }
+
         // Filter for records without principal_po_number
         if ($request->has('no_principal_po') && $request->no_principal_po) {
             $query->where(function($q) {

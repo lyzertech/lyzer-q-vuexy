@@ -301,6 +301,7 @@ Route::middleware(['role:1'])->group(function () {
     Route::post('/crm/purchase-order/update-principal-po', [CrmPurchaseOrder::class, 'update_principal_po'])->name('crm-purchase-order-update-principal-po');
     Route::post('/crm/purchase-order/update-delivery-date', [CrmPurchaseOrder::class, 'update_delivery_date'])->name('crm-purchase-order-update-delivery-date');
     Route::post('/crm/purchase-order/update-status', [CrmPurchaseOrder::class, 'update_status'])->name('crm-purchase-order-update-status');
+    Route::post('/crm/purchase-order/update-status-bulk', [CrmPurchaseOrder::class, 'update_status_bulk'])->name('crm-purchase-order-update-status-bulk');
 
   // Inquiry
     Route::get('/crm/inquiry', [CrmInquiry::class, 'index'])->name('crm-inquiry');
@@ -712,6 +713,7 @@ Route::middleware(['role:1,2,4,5,6,8,45'])->group(function () {
     Route::post('/crm/purchase-order/update-principal-po', [CrmPurchaseOrder::class, 'update_principal_po'])->name('crm-purchase-order-update-principal-po');
     Route::post('/crm/purchase-order/update-delivery-date', [CrmPurchaseOrder::class, 'update_delivery_date'])->name('crm-purchase-order-update-delivery-date');
     Route::post('/crm/purchase-order/update-status', [CrmPurchaseOrder::class, 'update_status'])->name('crm-purchase-order-update-status');
+    Route::post('/crm/purchase-order/update-status-bulk', [CrmPurchaseOrder::class, 'update_status_bulk'])->name('crm-purchase-order-update-status-bulk');
 
   // Inquiry
     Route::get('/crm/inquiry', [CrmInquiry::class, 'index'])->name('crm-inquiry');

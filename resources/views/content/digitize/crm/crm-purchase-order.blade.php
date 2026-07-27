@@ -102,6 +102,7 @@
                                     <th>Packing List</th>
                                     <th>Item</th>
                                     <th>Customer Name / PO Number</th>
+                                    <th>Expected Delivery Date</th>
                                     <th>Principal Delivery Date</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -344,6 +345,13 @@
                         }
                     },
                     {
+                        data: 'expected_delivery_date',
+                        name: 'expected_delivery_date',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        }
+                    },
+                    {
                         data: 'principal_delivery_date',
                         name: 'principal_delivery_date',
                         render: function(data, type, row) {
@@ -407,8 +415,8 @@
                         }
                     }
                 ],
-                displayLength: 7,
-                lengthMenu: [7, 10, 25, 50, 75, 100],
+                displayLength: 15,
+                lengthMenu: [7, 10, 15, 25, 50, 75, 100],
                 buttons: [{
                         extend: 'print',
                         text: 'Print',
@@ -849,7 +857,7 @@
                     ajax: {
                         url: '{{ route('crm-purchase-request-data') }}',
                         data: function(d) {
-                            d.has_principal_po = true;
+                            d.has_principal_po_all = true;
                         }
                     },
                     order: [[1, 'desc']],
@@ -936,7 +944,8 @@
                             orderable: false,
                             searchable: false,
                             render: function(data, type, row) {
-                                return data && data !== '-' ? data : '-';
+                                const existingDate = data && data !== '-' ? data : '';
+                                return `<input type="date" class="form-control form-control-sm us-delivery-date" data-id="${row.id_purchase_request}" value="${existingDate}">`;
                             }
                         }
                     ],
@@ -981,7 +990,7 @@
                 // Handle submit button
                 $('#us-submit-btn').off('click').on('click', function() {
                     const selectedStatus = $('#us-status-select').val();
-                    const selectedIds = [];
+                    const selectedData = [];
 
                     if (!selectedStatus) {
                         alert('Please select a status to update');
@@ -989,10 +998,17 @@
                     }
 
                     $('.us-pr-checkbox:checked').each(function() {
-                        selectedIds.push($(this).data('id'));
+                        const prId = $(this).data('id');
+                        const dateInput = $(this).closest('tr').find('.us-delivery-date');
+                        const deliveryDate = dateInput.val();
+
+                        selectedData.push({
+                            id: prId,
+                            delivery_date: deliveryDate || null
+                        });
                     });
 
-                    if (selectedIds.length === 0) {
+                    if (selectedData.length === 0) {
                         alert('Please select at least one purchase request');
                         return;
                     }
@@ -1004,7 +1020,7 @@
                         data: {
                             _token: '{{ csrf_token() }}',
                             status: selectedStatus,
-                            pr_ids: selectedIds
+                            items: selectedData
                         },
                         success: function(response) {
                             alert('Status updated successfully!');

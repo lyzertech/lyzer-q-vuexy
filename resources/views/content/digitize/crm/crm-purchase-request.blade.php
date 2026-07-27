@@ -243,9 +243,8 @@
                                     <th>Project Name</th>
                                     <th>Item</th>
                                     <th>Quantity</th>
-                                    <th>Principal PO Number</th>
                                     <th>Status</th>
-                                    <th>Date</th>
+                                    <th>Expected Delivery Date</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -595,13 +594,6 @@
                         name: 'quantity'
                     },
                     {
-                        data: 'principal_po_number',
-                        name: 'principal_po_number',
-                        render: function(data, type, row) {
-                            return data ? data : '-';
-                        }
-                    },
-                    {
                         data: 'status',
                         name: 'status',
                         render: function(data, type, row) {
@@ -648,8 +640,8 @@
                         }
                     },
                     {
-                        data: 'created_at',
-                        name: 'created_at'
+                        data: 'expected_delivery_date',
+                        name: 'expected_delivery_date'
                     },
                     {
                         data: 'action',
@@ -662,8 +654,8 @@
                         }
                     }
                 ],
-                displayLength: 7,
-                lengthMenu: [7, 10, 25, 50, 75, 100],
+                displayLength: 15,
+                lengthMenu: [7, 10, 15, 25, 50, 75, 100],
                 buttons: [{
                         extend: 'print',
                         text: 'Print',

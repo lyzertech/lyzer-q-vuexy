@@ -69,11 +69,22 @@ class CrmPurchaseOrder extends Controller
 
         try {
             foreach ($validatedData['items'] as $item) {
-                crm_purchase_request::where('id_purchase_request', $item['id'])
-                    ->update([
-                        'principal_delivery_date' => $item['delivery_date'],
-                        'status' => 'Supplier Production'
-                    ]);
+                $pr = crm_purchase_request::findOrFail($item['id']);
+                $oldStatus = $pr->status;
+
+                $pr->update([
+                    'principal_delivery_date' => $item['delivery_date'],
+                    'status' => 'Supplier Production'
+                ]);
+
+                \App\Models\StatusHistory::create([
+                    'user_id' => auth()->id(),
+                    'reference_type' => get_class($pr),
+                    'reference_id' => $pr->id_purchase_request,
+                    'from_status' => $oldStatus,
+                    'to_status' => 'Supplier Production',
+                    'comment_id' => null,
+                ]);
             }
 
             return response()->json([
@@ -92,25 +103,74 @@ class CrmPurchaseOrder extends Controller
     {
         $validatedData = $request->validate([
             'status' => 'required|string',
-            'pr_ids' => 'required|array|min:1',
-            'pr_ids.*' => 'required|exists:crm_purchase_request,id_purchase_request',
+            'items' => 'required|array|min:1',
+            'items.*.id' => 'required|exists:crm_purchase_request,id_purchase_request',
+            'items.*.delivery_date' => 'nullable|date',
         ]);
 
         try {
-            foreach ($validatedData['pr_ids'] as $pr_id) {
-                $pr = crm_purchase_request::findOrFail($pr_id);
+            foreach ($validatedData['items'] as $item) {
+                $pr = crm_purchase_request::findOrFail($item['id']);
                 $oldStatus = $pr->status;
 
-                // Update the status
-                $pr->update(['status' => $validatedData['status']]);
+                $updateData = ['status' => $validatedData['status']];
 
-                // Create status history record
+                if (!empty($item['delivery_date'])) {
+                    $updateData['principal_delivery_date'] = $item['delivery_date'];
+                }
+
+                $pr->update($updateData);
+
                 \App\Models\StatusHistory::create([
                     'user_id' => auth()->id(),
                     'reference_type' => get_class($pr),
                     'reference_id' => $pr->id_purchase_request,
                     'from_status' => $oldStatus,
                     'to_status' => $validatedData['status'],
+                    'comment_id' => null,
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Status updated successfully!'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function update_status_bulk(Request $request)
+    {
+        $validatedData = $request->validate([
+            'updates' => 'required|array|min:1',
+            'updates.*.id' => 'required|exists:crm_purchase_request,id_purchase_request',
+            'updates.*.status' => 'required|string',
+            'updates.*.delivery_date' => 'nullable|date',
+        ]);
+
+        try {
+            foreach ($validatedData['updates'] as $update) {
+                $pr = crm_purchase_request::findOrFail($update['id']);
+                $oldStatus = $pr->status;
+
+                $updateData = ['status' => $update['status']];
+
+                if (!empty($update['delivery_date'])) {
+                    $updateData['principal_delivery_date'] = $update['delivery_date'];
+                }
+
+                $pr->update($updateData);
+
+                \App\Models\StatusHistory::create([
+                    'user_id' => auth()->id(),
+                    'reference_type' => get_class($pr),
+                    'reference_id' => $pr->id_purchase_request,
+                    'from_status' => $oldStatus,
+                    'to_status' => $update['status'],
                     'comment_id' => null,
                 ]);
             }

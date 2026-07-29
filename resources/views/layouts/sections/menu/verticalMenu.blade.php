@@ -42,6 +42,8 @@
                 $menusToDisplay = $menuData[0]->menuFamilia;
             } elseif (auth()->user()->role_id == '21') {
                 $menusToDisplay = $menuData[0]->menuSchTeacher;
+            } elseif (in_array(strtolower(auth()->user()->name), ['dika', 'heri'])) {
+                $menusToDisplay = $menuData[0]->HeriDika;
             } else {
                 $menusToDisplay = $menuData[0]->menu;
             }

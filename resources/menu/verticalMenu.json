@@ -43,6 +43,45 @@
       "slug": "users"
     }
   ],
+  "HeriDika": [
+    {
+      "menuHeader": "Digitize"
+    },
+    {
+      "name": "CRM",
+      "icon": "menu-icon tf-icons ti ti-home-dollar",
+      "slug": "crm",
+      "submenu": [
+        {
+          "url": "crm/customer",
+          "name": "Customer",
+          "slug": "crm-customer"
+        },
+        {
+          "url": "crm/visit-report",
+          "name": "Visit Report AII",
+          "slug": "crm-visit-report"
+        },
+        {
+          "url": "crm/visit-report-sep",
+          "name": "Visit Report SEP",
+          "slug": "crm-visit-report-sep"
+        },
+        {
+          "url": "crm/calendar",
+          "name": "Calendar",
+          "icon": "menu-icon tf-icons ti ti-user",
+          "slug": "crm-calendar"
+        }
+      ]
+    },
+    {
+      "url": "users",
+      "name": "Users",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "users"
+    }
+  ],
   "purchasing": [
     {
       "menuHeader": "Digitize"

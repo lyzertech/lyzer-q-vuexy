@@ -116,6 +116,123 @@
     </div>
     {{-- / DataTable --}}
 
+    {{-- Recent Comments Section --}}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Recent Comments</h5>
+                </div>
+                <div class="card-body">
+                    @php
+                        function getAllRepliesPO($comment) {
+                            $replies = \App\Models\Comment::where('parent_id', $comment->id)
+                                ->with('user')
+                                ->orderBy('created_at', 'asc')
+                                ->get();
+
+                            $allReplies = [];
+                            foreach ($replies as $reply) {
+                                $allReplies[] = $reply;
+                                $childReplies = getAllRepliesPO($reply);
+                                $allReplies = array_merge($allReplies, $childReplies);
+                            }
+                            return $allReplies;
+                        }
+
+                        function getLatestReplyDatePO($comment) {
+                            $allReplies = getAllRepliesPO($comment);
+                            if (empty($allReplies)) {
+                                return $comment->created_at;
+                            }
+                            $latestDate = $comment->created_at;
+                            foreach ($allReplies as $reply) {
+                                if ($reply->created_at > $latestDate) {
+                                    $latestDate = $reply->created_at;
+                                }
+                            }
+                            return $latestDate;
+                        }
+
+                        $recentComments = \App\Models\Comment::where('commentable_type', 'App\Models\crm\crm_purchase_request')
+                            ->with(['user', 'commentable'])
+                            ->whereNull('parent_id')
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+
+                        // Sort by latest reply date (including nested replies)
+                        $recentComments = $recentComments->sortByDesc(function($comment) {
+                            return getLatestReplyDatePO($comment);
+                        })->take(10);
+                    @endphp
+
+                    @if($recentComments->isEmpty())
+                        <p class="text-muted">No comments yet.</p>
+                    @else
+                        <div class="row">
+                            @foreach($recentComments as $comment)
+                                @php
+                                    $pr = $comment->commentable;
+                                    // Fallback: if commentable is null, try to fetch directly
+                                    if (!$pr && $comment->commentable_id) {
+                                        $pr = \App\Models\crm\crm_purchase_request::find($comment->commentable_id);
+                                    }
+                                    $allReplies = getAllRepliesPO($comment);
+                                    $latestReplyDate = getLatestReplyDatePO($comment);
+                                @endphp
+                                <div class="col-md-2 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="avatar avatar-xs me-2">
+                                                    <span class="avatar-initial rounded-circle bg-label-primary">
+                                                        <i class="ti ti-user" style="font-size: 0.75rem;"></i>
+                                                    </span>
+                                                </div>
+                                                <small class="fw-semibold">{{ $comment->user->name ?? 'Unknown' }}</small>
+                                            </div>
+                                            <p class="text-muted small mb-2" style="font-size: 0.75rem;">{{ \Illuminate\Support\Str::limit($comment->content, 50) }}</p>
+                                            <small class="text-muted d-block mb-2" style="font-size: 0.7rem;">{{ $comment->created_at->diffForHumans() }}</small>
+
+                                            @if(count($allReplies) > 0)
+                                                <div class="border-top pt-2 mt-2">
+                                                    <small class="text-primary d-block mb-1" style="font-size: 0.7rem;">
+                                                        <i class="ti ti-corner-down-right"></i> {{ count($allReplies) }} {{ count($allReplies) > 1 ? 'Replies' : 'Reply' }}
+                                                    </small>
+                                                    <small class="text-success d-block mb-2" style="font-size: 0.65rem;">
+                                                        <i class="ti ti-clock"></i> Latest: {{ $latestReplyDate->diffForHumans() }}
+                                                    </small>
+                                                    @php
+                                                        // Show only the 2 most recent replies
+                                                        $recentReplies = collect($allReplies)->sortByDesc('created_at')->take(2);
+                                                    @endphp
+                                                    @foreach($recentReplies as $reply)
+                                                        <div class="mb-1 ps-2">
+                                                            <small class="fw-semibold d-block" style="font-size: 0.7rem;">{{ $reply->user->name ?? 'Unknown' }}</small>
+                                                            <small class="text-muted" style="font-size: 0.65rem;">{{ \Illuminate\Support\Str::limit($reply->content, 40) }}</small>
+                                                            <small class="text-muted d-block" style="font-size: 0.6rem;">{{ $reply->created_at->diffForHumans() }}</small>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+
+                                            @if($pr)
+                                                <a href="{{ route('crm-purchase-request-view', $pr->id_purchase_request) }}" class="btn btn-xs btn-label-primary w-100 mt-2">
+                                                    <i class="ti ti-arrow-right me-1"></i>View PR
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- / Recent Comments --}}
+
     {{-- Modal: Add New PO --}}
     <div class="modal fade" tabindex="-1" id="AddNewPO" aria-labelledby="AddNewPOLabel">
         <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">

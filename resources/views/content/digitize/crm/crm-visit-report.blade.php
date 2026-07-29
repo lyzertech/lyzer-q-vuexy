@@ -992,8 +992,8 @@
                 order: [
                     [3, 'dsc']
                 ],
-                displayLength: 7,
-                lengthMenu: [7, 10, 25, 50, 75, 100],
+                displayLength: 15,
+                lengthMenu: [7, 10, 15, 25, 50, 75, 100],
                 // dom: 'Bfrtip',  // Define placement for buttons
                 buttons: [{
                         extend: 'print',

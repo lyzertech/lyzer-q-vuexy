@@ -260,9 +260,16 @@
                                         </div>
                                     @endforeach
 
-                                    @if ($labs_label->first()?->customer === 'Schneider Indonesia')
+                                    @php
+                                        // Filter only Schneider Indonesia items
+                                        $schneiderItems = $labs_label->filter(function($item) {
+                                            return $item->customer === 'Schneider Indonesia';
+                                        });
+                                    @endphp
+
+                                    @if ($schneiderItems->isNotEmpty())
                                         @php
-                                            $chunks = $labs_label->chunk(6); // Split the labels into chunks of 6
+                                            $chunks = $schneiderItems->chunk(6); // Split the labels into chunks of 6
                                         @endphp
 
                                         @foreach ($chunks as $chunk)

@@ -133,11 +133,22 @@ class LabsLabel extends Controller
     }
     public function label_view($created_at)
     {
-        // Convert string to Carbon instance
-        $created_at = Carbon::parse($created_at)->format('Y-m-d H:i');
+        // Check if multiple dates are passed (separated by |)
+        if (strpos($created_at, '|') !== false) {
+            $dates = explode('|', $created_at);
 
-        // Fetch all records with the given timestamp
-        $labs_label = labs_label::whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') = ?", [$created_at])->get();
+            // Fetch all records with the given timestamps
+            $labs_label = labs_label::where(function($query) use ($dates) {
+                foreach ($dates as $date) {
+                    $formattedDate = Carbon::parse($date)->format('Y-m-d H:i');
+                    $query->orWhereRaw("DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') = ?", [$formattedDate]);
+                }
+            })->get();
+        } else {
+            // Single date - existing logic
+            $created_at = Carbon::parse($created_at)->format('Y-m-d H:i');
+            $labs_label = labs_label::whereRaw("DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') = ?", [$created_at])->get();
+        }
 
         return view('content.digitize.labs.labs-label-view', compact('labs_label'));
     }

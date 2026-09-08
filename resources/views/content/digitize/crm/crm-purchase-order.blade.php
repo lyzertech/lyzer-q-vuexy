@@ -975,6 +975,7 @@
                         url: '{{ route('crm-purchase-request-data') }}',
                         data: function(d) {
                             d.has_principal_po_all = true;
+                            d.exclude_warehouse_received = true;
                         }
                     },
                     order: [[1, 'desc']],

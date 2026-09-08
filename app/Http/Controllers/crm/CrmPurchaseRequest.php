@@ -114,7 +114,12 @@ class CrmPurchaseRequest extends Controller
                   ->orWhere('principal_po_number', '');
             });
         }
-        
+
+        // Exclude records with 'Warehouse Received' status
+        if ($request->has('exclude_warehouse_received') && $request->exclude_warehouse_received) {
+            $query->where('status', '!=', 'Warehouse Received');
+        }
+
         $purchase_requests = $query->get();
 
         return DataTables::of($purchase_requests)

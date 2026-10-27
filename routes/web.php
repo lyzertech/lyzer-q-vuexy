@@ -294,6 +294,8 @@ Route::middleware(['role:1'])->group(function () {
     Route::post('/crm/purchase-request/add-comment/{id_purchase_request}', [CrmPurchaseRequest::class, 'add_comment'])->name('crm-purchase-request-add-comment');
     Route::get('/crm/purchase-request/get-comments/{id_purchase_request}', [CrmPurchaseRequest::class, 'get_comments'])->name('crm-purchase-request-get-comments');
     Route::delete('/crm/purchase-request/delete-comment/{id_comment}', [CrmPurchaseRequest::class, 'delete_comment'])->name('crm-purchase-request-delete-comment');
+    Route::post('/crm/purchase-request/update-item/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_item'])->name('crm-purchase-request-update-item');
+    Route::delete('/crm/purchase-request/delete/{id_purchase_request}', [CrmPurchaseRequest::class, 'destroy'])->name('crm-purchase-request-delete');
 
   // Purchase Order
     Route::get('/crm/purchase-order', [CrmPurchaseOrder::class, 'index'])->name('crm-purchase-order');
@@ -706,6 +708,8 @@ Route::middleware(['role:1,2,4,5,6,8,45'])->group(function () {
     Route::post('/crm/purchase-request/add-comment/{id_purchase_request}', [CrmPurchaseRequest::class, 'add_comment'])->name('crm-purchase-request-add-comment');
     Route::get('/crm/purchase-request/get-comments/{id_purchase_request}', [CrmPurchaseRequest::class, 'get_comments'])->name('crm-purchase-request-get-comments');
     Route::delete('/crm/purchase-request/delete-comment/{id_comment}', [CrmPurchaseRequest::class, 'delete_comment'])->name('crm-purchase-request-delete-comment');
+    Route::post('/crm/purchase-request/update-item/{id_purchase_request}', [CrmPurchaseRequest::class, 'update_item'])->name('crm-purchase-request-update-item');
+    Route::delete('/crm/purchase-request/delete/{id_purchase_request}', [CrmPurchaseRequest::class, 'destroy'])->name('crm-purchase-request-delete');
 
   // Purchase Order
     Route::get('/crm/purchase-order', [CrmPurchaseOrder::class, 'index'])->name('crm-purchase-order');

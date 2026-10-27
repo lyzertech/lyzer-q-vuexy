@@ -131,11 +131,18 @@ class CrmPurchaseRequest extends Controller
             })
             ->addColumn('action', function ($pr) {
                 $showUrl = route('crm-purchase-request-view', $pr->id_purchase_request);
+                $deleteUrl = route('crm-purchase-request-delete', $pr->id_purchase_request);
+                $isElka = auth()->user()->name === 'Elka';
+                $disabled = $isElka ? '' : 'disabled';
+                $opacity = $isElka ? '' : 'opacity-50';
 
                 return '
                 <a href="' . $showUrl . '" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit">
                     <i class="ti ti-eye ti-md"></i>
                 </a>
+                <button type="button" class="btn btn-sm btn-text-danger rounded-pill btn-icon delete-record ' . $opacity . '" data-id="' . $pr->id_purchase_request . '" data-url="' . $deleteUrl . '" ' . $disabled . '>
+                    <i class="ti ti-trash ti-md"></i>
+                </button>
                 ';
             })
             ->rawColumns(['action'])
@@ -518,8 +525,75 @@ class CrmPurchaseRequest extends Controller
         return redirect()->back()->with('success', 'Comment deleted successfully!');
     }
 
-    public function destroy()
+    public function update_item(Request $request, $id_purchase_request)
     {
-        //
+        try {
+            // Check if user is Julia
+            if (auth()->user()->name !== 'Julia' || auth()->user()->role_id != 4) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized. Only Julia can edit items.'
+                ], 403);
+            }
+
+            $validatedData = $request->validate([
+                'pr_number' => 'required|string|max:255',
+                'quantity' => 'required|integer|min:1',
+                'selling_price' => 'required|string',
+                'min_lead_time' => 'required|integer|min:0',
+                'max_lead_time' => 'required|integer|min:0',
+            ]);
+
+            $purchase_request = crm_purchase_request::findOrFail($id_purchase_request);
+
+            // Parse selling price (remove spaces if any)
+            $sellingPrice = str_replace(' ', '', $validatedData['selling_price']);
+
+            // Format lead time
+            $leadTime = $validatedData['min_lead_time'] . '-' . $validatedData['max_lead_time'] . ' weeks';
+
+            $purchase_request->update([
+                'pr_number' => $validatedData['pr_number'],
+                'quantity' => $validatedData['quantity'],
+                'selling_price' => $sellingPrice,
+                'lead_time' => $leadTime,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Item updated successfully!'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error updating item: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function destroy($id_purchase_request)
+    {
+        try {
+            // Check if user is Elka
+            if (auth()->user()->name !== 'Elka') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized. Only Elka can delete Purchase Requests.'
+                ], 403);
+            }
+
+            $purchase_request = crm_purchase_request::findOrFail($id_purchase_request);
+            $purchase_request->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Purchase Request deleted successfully!'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting Purchase Request: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

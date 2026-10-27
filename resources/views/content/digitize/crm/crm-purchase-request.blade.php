@@ -962,6 +962,33 @@
             loadItems();
             loadBrands();
 
+            // Handle delete button click
+            $(document).on('click', '.delete-record', function() {
+                const id = $(this).data('id');
+                const url = $(this).data('url');
+
+                if (confirm('Are you sure you want to delete this Purchase Request?')) {
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                $('#pr-table').DataTable().ajax.reload();
+                                alert(response.message);
+                            } else {
+                                alert('Error: ' + response.message);
+                            }
+                        },
+                        error: function(xhr) {
+                            alert('Error deleting Purchase Request: ' + xhr.responseText);
+                        }
+                    });
+                }
+            });
+
             // Handle form submission - ensure item names and brands are properly set
             $('#addNewPRForm').on('submit', function(e) {
                 $('.item-row').each(function(index) {

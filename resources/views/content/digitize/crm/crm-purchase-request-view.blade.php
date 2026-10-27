@@ -367,6 +367,7 @@
                                 <table class="table table-bordered">
                                     <thead class="table-light">
                                         <tr>
+                                            <th width="50px">Action</th>
                                             <th>PR Number</th>
                                             <th>Brand</th>
                                             <th>Item Name</th>
@@ -380,13 +381,54 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($related_prs as $pr)
-                                            <tr>
-                                                <td>{{ $pr->pr_number }}</td>
+                                            <tr data-pr-id="{{ $pr->id_purchase_request }}">
+                                                <td class="text-center">
+                                                    @if(auth()->user()->name === 'Julia' && auth()->user()->role_id == 4)
+                                                        <button type="button" class="btn btn-sm btn-text-primary btn-icon edit-item-btn" data-pr-id="{{ $pr->id_purchase_request }}">
+                                                            <i class="ti ti-pencil ti-sm"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm btn-text-success btn-icon save-item-btn d-none" data-pr-id="{{ $pr->id_purchase_request }}">
+                                                            <i class="ti ti-check ti-sm"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm btn-text-secondary btn-icon cancel-item-btn d-none" data-pr-id="{{ $pr->id_purchase_request }}">
+                                                            <i class="ti ti-x ti-sm"></i>
+                                                        </button>
+                                                    @else
+                                                        <button type="button" class="btn btn-sm btn-text-secondary btn-icon opacity-50" disabled>
+                                                            <i class="ti ti-pencil ti-sm"></i>
+                                                        </button>
+                                                    @endif
+                                                </td>
+                                                <td class="pr-number-cell">
+                                                    <span class="view-mode">{{ $pr->pr_number }}</span>
+                                                    <input type="text" class="form-control form-control-sm edit-mode d-none" name="pr_number" value="{{ $pr->pr_number }}" required>
+                                                </td>
                                                 <td>{{ $pr->brand ?? '-' }}</td>
                                                 <td>{{ $pr->item_list }}</td>
-                                                <td>{{ $pr->quantity }}</td>
-                                                <td>{{ number_format($pr->selling_price, 0, ',', ' ') }}</td>
-                                                <td>{{ $pr->lead_time }}</td>
+                                                <td class="quantity-cell">
+                                                    <span class="view-mode">{{ $pr->quantity }}</span>
+                                                    <input type="number" class="form-control form-control-sm edit-mode d-none" name="quantity" value="{{ $pr->quantity }}" min="1" required>
+                                                </td>
+                                                <td class="selling-price-cell">
+                                                    <span class="view-mode">{{ number_format($pr->selling_price, 0, ',', ' ') }}</span>
+                                                    <input type="text" class="form-control form-control-sm edit-mode d-none selling-price-input" name="selling_price" value="{{ number_format($pr->selling_price, 0, ',', ' ') }}" required>
+                                                </td>
+                                                <td class="lead-time-cell">
+                                                    <span class="view-mode">{{ $pr->lead_time }}</span>
+                                                    <div class="edit-mode d-none">
+                                                        <div class="d-flex gap-1 align-items-center">
+                                                            @php
+                                                                preg_match('/(\d+)\s*-\s*(\d+)/', $pr->lead_time, $matches);
+                                                                $minLeadTime = $matches[1] ?? '';
+                                                                $maxLeadTime = $matches[2] ?? '';
+                                                            @endphp
+                                                            <input type="number" class="form-control form-control-sm" name="min_lead_time" value="{{ $minLeadTime }}" placeholder="Min" min="0" required style="width: 60px;">
+                                                            <span>-</span>
+                                                            <input type="number" class="form-control form-control-sm" name="max_lead_time" value="{{ $maxLeadTime }}" placeholder="Max" min="0" required style="width: 60px;">
+                                                            <span class="small">weeks</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td>
                                                     @php
                                                         $statusMap = [
@@ -603,6 +645,137 @@
                     const replyForm = document.getElementById('reply-form-' + commentId);
                     replyForm.style.display = 'none';
                     replyForm.querySelector('textarea').value = '';
+                });
+            });
+
+            // Handle Edit Item Button
+            document.querySelectorAll('.edit-item-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const prId = this.getAttribute('data-pr-id');
+                    const row = document.querySelector('tr[data-pr-id="' + prId + '"]');
+
+                    // Toggle to edit mode
+                    row.querySelectorAll('.view-mode').forEach(el => el.classList.add('d-none'));
+                    row.querySelectorAll('.edit-mode').forEach(el => el.classList.remove('d-none'));
+
+                    // Toggle buttons
+                    row.querySelector('.edit-item-btn').classList.add('d-none');
+                    row.querySelector('.save-item-btn').classList.remove('d-none');
+                    row.querySelector('.cancel-item-btn').classList.remove('d-none');
+                });
+            });
+
+            // Handle Cancel Edit Button
+            document.querySelectorAll('.cancel-item-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const prId = this.getAttribute('data-pr-id');
+                    const row = document.querySelector('tr[data-pr-id="' + prId + '"]');
+
+                    // Toggle back to view mode
+                    row.querySelectorAll('.view-mode').forEach(el => el.classList.remove('d-none'));
+                    row.querySelectorAll('.edit-mode').forEach(el => el.classList.add('d-none'));
+
+                    // Toggle buttons
+                    row.querySelector('.edit-item-btn').classList.remove('d-none');
+                    row.querySelector('.save-item-btn').classList.add('d-none');
+                    row.querySelector('.cancel-item-btn').classList.add('d-none');
+                });
+            });
+
+            // Handle Save Item Button
+            document.querySelectorAll('.save-item-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const prId = this.getAttribute('data-pr-id');
+                    const row = document.querySelector('tr[data-pr-id="' + prId + '"]');
+
+                    // Get values
+                    const prNumber = row.querySelector('input[name="pr_number"]').value;
+                    const quantity = row.querySelector('input[name="quantity"]').value;
+                    const sellingPriceRaw = row.querySelector('input[name="selling_price"]').value;
+                    const minLeadTime = row.querySelector('input[name="min_lead_time"]').value;
+                    const maxLeadTime = row.querySelector('input[name="max_lead_time"]').value;
+
+                    // Remove spaces from selling price for sending to server
+                    const sellingPrice = sellingPriceRaw.replace(/\s/g, '');
+
+                    // Validate
+                    if (!prNumber || !quantity || !sellingPrice || !minLeadTime || !maxLeadTime) {
+                        alert('Please fill in all fields');
+                        return;
+                    }
+
+                    // Send AJAX request
+                    fetch('/crm/purchase-request/update-item/' + prId, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({
+                            pr_number: prNumber,
+                            quantity: quantity,
+                            selling_price: sellingPrice,
+                            min_lead_time: minLeadTime,
+                            max_lead_time: maxLeadTime
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update view mode with new values
+                            row.querySelector('.pr-number-cell .view-mode').textContent = prNumber;
+                            row.querySelector('.quantity-cell .view-mode').textContent = quantity;
+                            row.querySelector('.selling-price-cell .view-mode').textContent = formatNumber(sellingPrice);
+                            row.querySelector('.lead-time-cell .view-mode').textContent = minLeadTime + '-' + maxLeadTime + ' weeks';
+
+                            // Toggle back to view mode
+                            row.querySelectorAll('.view-mode').forEach(el => el.classList.remove('d-none'));
+                            row.querySelectorAll('.edit-mode').forEach(el => el.classList.add('d-none'));
+
+                            // Toggle buttons
+                            row.querySelector('.edit-item-btn').classList.remove('d-none');
+                            row.querySelector('.save-item-btn').classList.add('d-none');
+                            row.querySelector('.cancel-item-btn').classList.add('d-none');
+
+                            alert(data.message);
+                        } else {
+                            alert('Error: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error updating item');
+                    });
+                });
+            });
+
+            // Format number with space separator
+            function formatNumber(num) {
+                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            }
+
+            // Handle selling price input formatting
+            document.querySelectorAll('.selling-price-input').forEach(function(input) {
+                input.addEventListener('input', function() {
+                    let value = this.value;
+                    // Remove all spaces
+                    value = value.replace(/\s/g, '');
+                    // Remove non-numeric characters except decimal point
+                    value = value.replace(/[^\d.]/g, '');
+                    // Ensure only one decimal point
+                    const parts = value.split('.');
+                    if (parts.length > 2) {
+                        value = parts[0] + '.' + parts.slice(1).join('');
+                    }
+                    // Format with space separator
+                    if (value) {
+                        const [intPart, decPart] = value.split('.');
+                        let formatted = formatNumber(intPart);
+                        if (decPart !== undefined) {
+                            formatted += '.' + decPart;
+                        }
+                        this.value = formatted;
+                    }
                 });
             });
         });

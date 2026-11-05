@@ -68,12 +68,12 @@
                                                     'Waiting Director Approval' => 'bg-label-warning',
                                                     'Approved' => 'bg-label-success',
                                                     'Rejected' => 'bg-label-danger',
-                                                    'DP Received' => 'bg-label-primary',
+                                                    'DP Received' => 'bg-label-warning',
 
                                                     // Principal / Supplier
-                                                    'Supplier Production' => 'bg-label-info',
+                                                    'Supplier Production' => 'bg-label-secondary',
                                                     'Delay Production' => 'bg-label-danger',
-                                                    'Supplier Inform Goods Ready for Pick Up' => 'bg-label-success',
+                                                    'Supplier Inform Goods Ready for Pick Up' => 'bg-label-secondary',
 
                                                     // Shipment
                                                     'Pick Up Arrangement' => 'bg-label-warning',
@@ -87,10 +87,11 @@
                                                     'ID Billing Request' => 'bg-label-info',
                                                     'Payment to Kas Negara' => 'bg-label-warning',
                                                     'Custom Response (Red/Green/Yellow)' => 'bg-label-warning',
+                                                    'Custom Response Red' => 'bg-label-danger',
                                                     'Shipment Release' => 'bg-label-success',
 
                                                     // Internal
-                                                    'Warehouse Received' => 'bg-label-info',
+                                                    'Warehouse Received' => 'bg-label-success',
                                                     'Lab Check' => 'bg-label-warning',
                                                     'Dispatch to End Customer/Buyer' => 'bg-label-primary',
 
@@ -371,10 +372,10 @@
                                             <th>PR Number</th>
                                             <th>Brand</th>
                                             <th>Item Name</th>
-                                            <th>Quantity</th>
-                                            <th>Selling Price</th>
+                                            <th>Qty</th>
                                             <th>Lead Time</th>
                                             <th>Status</th>
+                                            <th>Principal PO Number</th>
                                             <th>Expected Delivery</th>
                                             <th>Principal Delivery Date</th>
                                         </tr>
@@ -409,10 +410,6 @@
                                                     <span class="view-mode">{{ $pr->quantity }}</span>
                                                     <input type="number" class="form-control form-control-sm edit-mode d-none" name="quantity" value="{{ $pr->quantity }}" min="1" required>
                                                 </td>
-                                                <td class="selling-price-cell">
-                                                    <span class="view-mode">{{ number_format($pr->selling_price, 0, ',', ' ') }}</span>
-                                                    <input type="text" class="form-control form-control-sm edit-mode d-none selling-price-input" name="selling_price" value="{{ number_format($pr->selling_price, 0, ',', ' ') }}" required>
-                                                </td>
                                                 <td class="lead-time-cell">
                                                     <span class="view-mode">{{ $pr->lead_time }}</span>
                                                     <div class="edit-mode d-none">
@@ -436,10 +433,10 @@
                                                             'Waiting Director Approval' => 'bg-label-warning',
                                                             'Approved' => 'bg-label-success',
                                                             'Rejected' => 'bg-label-danger',
-                                                            'DP Received' => 'bg-label-primary',
-                                                            'Supplier Production' => 'bg-label-info',
+                                                            'DP Received' => 'bg-label-warning',
+                                                            'Supplier Production' => 'bg-label-secondary',
                                                             'Delay Production' => 'bg-label-danger',
-                                                            'Supplier Inform Goods Ready for Pick Up' => 'bg-label-success',
+                                                            'Supplier Inform Goods Ready for Pick Up' => 'bg-label-secondary',
                                                             'Pick Up Arrangement' => 'bg-label-warning',
                                                             'In Transit' => 'bg-label-primary',
                                                             'Delay Shipment' => 'bg-label-danger',
@@ -449,8 +446,9 @@
                                                             'ID Billing Request' => 'bg-label-info',
                                                             'Payment to Kas Negara' => 'bg-label-warning',
                                                             'Custom Response (Red/Green/Yellow)' => 'bg-label-warning',
+                                                            'Custom Response Red' => 'bg-label-danger',
                                                             'Shipment Release' => 'bg-label-success',
-                                                            'Warehouse Received' => 'bg-label-info',
+                                                            'Warehouse Received' => 'bg-label-success',
                                                             'Lab Check' => 'bg-label-warning',
                                                             'Dispatch to End Customer/Buyer' => 'bg-label-primary',
                                                             'Delivered' => 'bg-label-success',
@@ -460,6 +458,7 @@
                                                     @endphp
                                                     <span class="badge {{ $itemStatusCls }}">{{ $pr->status ?? '-' }}</span>
                                                 </td>
+                                                <td>{{ $pr->principal_po_number ?? '-' }}</td>
                                                 <td>
                                                     @if ($pr->expected_delivery_date !== '-')
                                                         <span

@@ -15,45 +15,16 @@ class CrmPurchaseRequest extends Controller
     {
         $total_pr = crm_purchase_request::count();
 
-        // Purchasing (PR Created, Waiting Approval, Approved, DP Received)
+        // Purchasing (PR Created, DP Received)
         $total_purchasing = crm_purchase_request::whereIn('status', [
             'PR Created',
-            'Waiting Director Approval',
-            'Approved',
             'DP Received'
         ])->count();
 
-        // Rejected
-        $total_rejected = crm_purchase_request::where('status', 'Rejected')->count();
-
-        // Production (Supplier Production, Goods Ready)
+        // Production (Supplier Production, Supplier Inform Goods Ready for Pick Up)
         $total_production = crm_purchase_request::whereIn('status', [
             'Supplier Production',
             'Supplier Inform Goods Ready for Pick Up'
-        ])->count();
-
-        // Shipment (Pick Up, In Transit, Delivery)
-        $total_shipment = crm_purchase_request::whereIn('status', [
-            'Pick Up Arrangement',
-            'In Transit',
-            'Shipment Delivery'
-        ])->count();
-
-        // Customs (All customs related)
-        $total_customs = crm_purchase_request::whereIn('status', [
-            'Customs Clearance',
-            'PIB Draft',
-            'ID Billing Request',
-            'Payment to Kas Negara',
-            'Custom Response (Red/Green/Yellow)',
-            'Shipment Release'
-        ])->count();
-
-        // Internal (Warehouse, Lab Check, Dispatch)
-        $total_internal = crm_purchase_request::whereIn('status', [
-            'Warehouse Received',
-            'Lab Check',
-            'Dispatch to End Customer/Buyer'
         ])->count();
 
         // Delays (Delay Production, Delay Shipment)
@@ -62,23 +33,19 @@ class CrmPurchaseRequest extends Controller
             'Delay Shipment'
         ])->count();
 
-        // Delivered
-        $total_delivered = crm_purchase_request::where('status', 'Delivered')->count();
+        // Custom Response Red
+        $total_customs_red = crm_purchase_request::where('status', 'Custom Response Red')->count();
 
-        // Complete
-        $total_complete = crm_purchase_request::where('status', 'Complete')->count();
+        // Warehouse Received
+        $total_warehouse = crm_purchase_request::where('status', 'Warehouse Received')->count();
 
         return view('content.digitize.crm.crm-purchase-request', compact(
             'total_pr',
             'total_purchasing',
-            'total_rejected',
             'total_production',
-            'total_shipment',
-            'total_customs',
-            'total_internal',
             'total_delays',
-            'total_delivered',
-            'total_complete'
+            'total_customs_red',
+            'total_warehouse'
         ));
     }
 

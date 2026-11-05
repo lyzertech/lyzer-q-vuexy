@@ -71,7 +71,7 @@
         <div class="col">
             <div class="card h-100">
                 <div class="card-body text-center py-3">
-                    <div class="badge rounded bg-label-primary p-2 mb-2">
+                    <div class="badge rounded bg-label-secondary p-2 mb-2">
                         <i class="ti ti-building-factory ti-sm"></i>
                     </div>
                     <h5 class="mb-0">{{ $total_production }}</h5>
@@ -80,93 +80,39 @@
             </div>
         </div>
 
-        {{-- Delays --}}
+        {{-- Delays & Customs Red (Side by Side) --}}
         <div class="col">
             <div class="card h-100">
-                <div class="card-body text-center py-3">
-                    <div class="badge rounded bg-label-danger p-2 mb-2">
-                        <i class="ti ti-alert-triangle ti-sm"></i>
+                <div class="card-body py-3">
+                    <div class="row g-0">
+                        <div class="col-6 text-center border-end">
+                            <div class="badge rounded bg-label-danger p-2 mb-2">
+                                <i class="ti ti-alert-triangle ti-sm"></i>
+                            </div>
+                            <h5 class="mb-0">{{ $total_delays }}</h5>
+                            <small class="text-muted">Delays</small>
+                        </div>
+                        <div class="col-6 text-center">
+                            <div class="badge rounded bg-label-danger p-2 mb-2">
+                                <i class="ti ti-alert-circle ti-sm"></i>
+                            </div>
+                            <h5 class="mb-0">{{ $total_customs_red }}</h5>
+                            <small class="text-muted">Customs Red</small>
+                        </div>
                     </div>
-                    <h5 class="mb-0">{{ $total_delays }}</h5>
-                    <small class="text-muted">Delays</small>
                 </div>
             </div>
         </div>
 
-        {{-- Shipment --}}
+        {{-- Warehouse --}}
         <div class="col">
             <div class="card h-100">
                 <div class="card-body text-center py-3">
-                    <div class="badge rounded bg-label-primary p-2 mb-2">
-                        <i class="ti ti-truck-delivery ti-sm"></i>
-                    </div>
-                    <h5 class="mb-0">{{ $total_shipment }}</h5>
-                    <small class="text-muted">Shipment</small>
-                </div>
-            </div>
-        </div>
-
-        {{-- Customs --}}
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body text-center py-3">
-                    <div class="badge rounded bg-label-warning p-2 mb-2">
-                        <i class="ti ti-shield-check ti-sm"></i>
-                    </div>
-                    <h5 class="mb-0">{{ $total_customs }}</h5>
-                    <small class="text-muted">Customs</small>
-                </div>
-            </div>
-        </div>
-
-        {{-- Internal --}}
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body text-center py-3">
-                    <div class="badge rounded bg-label-info p-2 mb-2">
+                    <div class="badge rounded bg-label-success p-2 mb-2">
                         <i class="ti ti-building-warehouse ti-sm"></i>
                     </div>
-                    <h5 class="mb-0">{{ $total_internal }}</h5>
-                    <small class="text-muted">Internal</small>
-                </div>
-            </div>
-        </div>
-
-        {{-- Rejected --}}
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body text-center py-3">
-                    <div class="badge rounded bg-label-danger p-2 mb-2">
-                        <i class="ti ti-circle-x ti-sm"></i>
-                    </div>
-                    <h5 class="mb-0">{{ $total_rejected }}</h5>
-                    <small class="text-muted">Rejected</small>
-                </div>
-            </div>
-        </div>
-
-        {{-- Delivered --}}
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body text-center py-3">
-                    <div class="badge rounded bg-label-success p-2 mb-2">
-                        <i class="ti ti-check ti-sm"></i>
-                    </div>
-                    <h5 class="mb-0">{{ $total_delivered }}</h5>
-                    <small class="text-muted">Delivered</small>
-                </div>
-            </div>
-        </div>
-
-        {{-- Complete --}}
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body text-center py-3">
-                    <div class="badge rounded bg-label-success p-2 mb-2">
-                        <i class="ti ti-circle-check-filled ti-sm"></i>
-                    </div>
-                    <h5 class="mb-0">{{ $total_complete }}</h5>
-                    <small class="text-muted">Complete</small>
+                    <h5 class="mb-0">{{ $total_warehouse }}</h5>
+                    <small class="text-muted">Warehouse</small>
                 </div>
             </div>
         </div>
@@ -603,12 +549,12 @@
                                 'Waiting Director Approval': 'bg-label-warning',
                                 'Approved': 'bg-label-success',
                                 'Rejected': 'bg-label-danger',
-                                'DP Received': 'bg-label-primary',
+                                'DP Received': 'bg-label-warning',
 
                                 // Principal / Supplier
-                                'Supplier Production': 'bg-label-info',
+                                'Supplier Production': 'bg-label-secondary',
                                 'Delay Production': 'bg-label-danger',
-                                'Supplier Inform Goods Ready for Pick Up': 'bg-label-success',
+                                'Supplier Inform Goods Ready for Pick Up': 'bg-label-secondary',
 
                                 // Shipment
                                 'Pick Up Arrangement': 'bg-label-warning',
@@ -622,10 +568,11 @@
                                 'ID Billing Request': 'bg-label-info',
                                 'Payment to Kas Negara': 'bg-label-warning',
                                 'Custom Response (Red/Green/Yellow)': 'bg-label-warning',
+                                'Custom Response Red': 'bg-label-danger',
                                 'Shipment Release': 'bg-label-success',
 
                                 // Internal
-                                'Warehouse Received': 'bg-label-info',
+                                'Warehouse Received': 'bg-label-success',
                                 'Lab Check': 'bg-label-warning',
                                 'Dispatch to End Customer/Buyer': 'bg-label-primary',
 

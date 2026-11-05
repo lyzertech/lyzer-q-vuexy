@@ -348,38 +348,17 @@
 
                             <!-- Shipment -->
                             <optgroup label="Shipment">
-                                <option value="Pick Up Arrangement">Pick Up Arrangement</option>
-                                <option value="In Transit">In Transit</option>
                                 <option value="Delay Shipment">Delay Shipment</option>
-                                <option value="Shipment Delivery">Shipment Delivery</option>
                             </optgroup>
 
                             <!-- Customs -->
                             <optgroup label="Customs">
-                                <option value="Customs Clearance">Customs Clearance</option>
-                                <option value="PIB Draft">PIB Draft</option>
-                                <option value="ID Billing Request">ID Billing Request</option>
-                                <option value="Payment to Kas Negara">Payment to Kas Negara</option>
-                                <option value="Custom Response (Red/Green/Yellow)">Custom Response (Red/Green/Yellow)</option>
-                                <option value="Shipment Release">Shipment Release</option>
+                                <option value="Custom Response Red">Custom Response Red</option>
                             </optgroup>
 
                             <!-- Internal -->
                             <optgroup label="Internal">
                                 <option value="Warehouse Received">Warehouse Received</option>
-                                <option value="Lab Check">Lab Check</option>
-                                <option value="Dispatch to End Customer/Buyer">Dispatch to End Customer/Buyer</option>
-                            </optgroup>
-
-                            <!-- Customer -->
-                            <optgroup label="Customer">
-                                <option value="Delivered">Delivered</option>
-                            </optgroup>
-
-                            <!-- Final Status -->
-                            <optgroup label="Final Status">
-                                <option value="Complete">Complete</option>
-                                <option value="Rejected">Rejected</option>
                             </optgroup>
                         </select>
                     </div>
@@ -485,12 +464,12 @@
                                 'Waiting Director Approval': 'bg-label-warning',
                                 'Approved': 'bg-label-success',
                                 'Rejected': 'bg-label-danger',
-                                'DP Received': 'bg-label-primary',
+                                'DP Received': 'bg-label-warning',
 
                                 // Principal / Supplier
-                                'Supplier Production': 'bg-label-info',
+                                'Supplier Production': 'bg-label-secondary',
                                 'Delay Production': 'bg-label-danger',
-                                'Supplier Inform Goods Ready for Pick Up': 'bg-label-success',
+                                'Supplier Inform Goods Ready for Pick Up': 'bg-label-secondary',
 
                                 // Shipment
                                 'Pick Up Arrangement': 'bg-label-warning',
@@ -504,10 +483,11 @@
                                 'ID Billing Request': 'bg-label-info',
                                 'Payment to Kas Negara': 'bg-label-warning',
                                 'Custom Response (Red/Green/Yellow)': 'bg-label-warning',
+                                'Custom Response Red': 'bg-label-danger',
                                 'Shipment Release': 'bg-label-success',
 
                                 // Internal
-                                'Warehouse Received': 'bg-label-info',
+                                'Warehouse Received': 'bg-label-success',
                                 'Lab Check': 'bg-label-warning',
                                 'Dispatch to End Customer/Buyer': 'bg-label-primary',
 
@@ -652,10 +632,10 @@
                                     'Waiting Director Approval': 'bg-label-warning',
                                     'Approved': 'bg-label-success',
                                     'Rejected': 'bg-label-danger',
-                                    'DP Received': 'bg-label-primary',
-                                    'Supplier Production': 'bg-label-info',
+                                    'DP Received': 'bg-label-warning',
+                                    'Supplier Production': 'bg-label-secondary',
                                     'Delay Production': 'bg-label-danger',
-                                    'Supplier Inform Goods Ready for Pick Up': 'bg-label-success',
+                                    'Supplier Inform Goods Ready for Pick Up': 'bg-label-secondary',
                                     'Pick Up Arrangement': 'bg-label-warning',
                                     'In Transit': 'bg-label-primary',
                                     'Delay Shipment': 'bg-label-danger',
@@ -665,8 +645,9 @@
                                     'ID Billing Request': 'bg-label-info',
                                     'Payment to Kas Negara': 'bg-label-warning',
                                     'Custom Response (Red/Green/Yellow)': 'bg-label-warning',
+                                    'Custom Response Red': 'bg-label-danger',
                                     'Shipment Release': 'bg-label-success',
-                                    'Warehouse Received': 'bg-label-info',
+                                    'Warehouse Received': 'bg-label-success',
                                     'Lab Check': 'bg-label-warning',
                                     'Dispatch to End Customer/Buyer': 'bg-label-primary',
                                     'Delivered': 'bg-label-success',
@@ -834,10 +815,10 @@
                                     'Waiting Director Approval': 'bg-label-warning',
                                     'Approved': 'bg-label-success',
                                     'Rejected': 'bg-label-danger',
-                                    'DP Received': 'bg-label-primary',
-                                    'Supplier Production': 'bg-label-info',
+                                    'DP Received': 'bg-label-warning',
+                                    'Supplier Production': 'bg-label-secondary',
                                     'Delay Production': 'bg-label-danger',
-                                    'Supplier Inform Goods Ready for Pick Up': 'bg-label-success',
+                                    'Supplier Inform Goods Ready for Pick Up': 'bg-label-secondary',
                                     'Pick Up Arrangement': 'bg-label-warning',
                                     'In Transit': 'bg-label-primary',
                                     'Delay Shipment': 'bg-label-danger',
@@ -847,8 +828,9 @@
                                     'ID Billing Request': 'bg-label-info',
                                     'Payment to Kas Negara': 'bg-label-warning',
                                     'Custom Response (Red/Green/Yellow)': 'bg-label-warning',
+                                    'Custom Response Red': 'bg-label-danger',
                                     'Shipment Release': 'bg-label-success',
-                                    'Warehouse Received': 'bg-label-info',
+                                    'Warehouse Received': 'bg-label-success',
                                     'Lab Check': 'bg-label-warning',
                                     'Dispatch to End Customer/Buyer': 'bg-label-primary',
                                     'Delivered': 'bg-label-success',
@@ -1032,10 +1014,10 @@
                                     'Waiting Director Approval': 'bg-label-warning',
                                     'Approved': 'bg-label-success',
                                     'Rejected': 'bg-label-danger',
-                                    'DP Received': 'bg-label-primary',
-                                    'Supplier Production': 'bg-label-info',
+                                    'DP Received': 'bg-label-warning',
+                                    'Supplier Production': 'bg-label-secondary',
                                     'Delay Production': 'bg-label-danger',
-                                    'Supplier Inform Goods Ready for Pick Up': 'bg-label-success',
+                                    'Supplier Inform Goods Ready for Pick Up': 'bg-label-secondary',
                                     'Pick Up Arrangement': 'bg-label-warning',
                                     'In Transit': 'bg-label-primary',
                                     'Delay Shipment': 'bg-label-danger',
@@ -1045,8 +1027,9 @@
                                     'ID Billing Request': 'bg-label-info',
                                     'Payment to Kas Negara': 'bg-label-warning',
                                     'Custom Response (Red/Green/Yellow)': 'bg-label-warning',
+                                    'Custom Response Red': 'bg-label-danger',
                                     'Shipment Release': 'bg-label-success',
-                                    'Warehouse Received': 'bg-label-info',
+                                    'Warehouse Received': 'bg-label-success',
                                     'Lab Check': 'bg-label-warning',
                                     'Dispatch to End Customer/Buyer': 'bg-label-primary',
                                     'Delivered': 'bg-label-success',

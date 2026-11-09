@@ -545,16 +545,16 @@
                         render: function(data, type, row) {
                             const map = {
                                 // Purchasing
-                                'PR Created': 'bg-label-info',
+                                'PR Created': 'bg-label-secondary',
                                 'Waiting Director Approval': 'bg-label-warning',
                                 'Approved': 'bg-label-success',
                                 'Rejected': 'bg-label-danger',
                                 'DP Received': 'bg-label-warning',
 
                                 // Principal / Supplier
-                                'Supplier Production': 'bg-label-secondary',
+                                'Supplier Production': 'bg-label-primary',
                                 'Delay Production': 'bg-label-danger',
-                                'Supplier Inform Goods Ready for Pick Up': 'bg-label-secondary',
+                                'Supplier Inform Goods Ready for Pick Up': 'bg-label-primary',
 
                                 // Shipment
                                 'Pick Up Arrangement': 'bg-label-warning',

@@ -376,8 +376,8 @@
                                             <th>Lead Time</th>
                                             <th>Status</th>
                                             <th>Principal PO Number</th>
-                                            <th>Expected Delivery</th>
-                                            <th>Principal Delivery Date</th>
+                                            <th>Customer Delivery</th>
+                                            <th>Principal Dispatch</th>
                                         </tr>
                                     </thead>
                                     <tbody>

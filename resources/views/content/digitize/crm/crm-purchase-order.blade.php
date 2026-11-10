@@ -102,8 +102,8 @@
                                     <th>Packing List</th>
                                     <th>Item</th>
                                     <th>Customer Name / PO Number</th>
-                                    <th>Expected Delivery Date</th>
-                                    <th>Principal Delivery Date</th>
+                                    <th>Customer Delivery</th>
+                                    <th>Principal Dispatch</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -305,7 +305,7 @@
                                     <th>Item</th>
                                     <th>Quantity</th>
                                     <th>Status</th>
-                                    <th>Principal Delivery Date</th>
+                                    <th>Principal Dispatch</th>
                                 </tr>
                             </thead>
                         </table>
@@ -380,7 +380,7 @@
                                     <th>Item</th>
                                     <th>Quantity</th>
                                     <th>Status</th>
-                                    <th>Principal Delivery Date</th>
+                                    <th>Principal Dispatch</th>
                                 </tr>
                             </thead>
                         </table>
@@ -924,7 +924,7 @@
                             items: selectedData
                         },
                         success: function(response) {
-                            alert('Principal Delivery Date updated successfully!');
+                            alert('Principal Dispatch updated successfully!');
                             $('#OCPrincipal').modal('hide');
                             $('#po-table').DataTable().ajax.reload();
                         },

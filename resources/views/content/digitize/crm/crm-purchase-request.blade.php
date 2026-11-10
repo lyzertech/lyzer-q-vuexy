@@ -190,7 +190,7 @@
                                     <th>Item</th>
                                     <th>Quantity</th>
                                     <th>Status</th>
-                                    <th>Expected Delivery Date</th>
+                                    <th>Customer Delivery</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>

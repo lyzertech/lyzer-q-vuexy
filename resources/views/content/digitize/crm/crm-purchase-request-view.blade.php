@@ -436,7 +436,7 @@
                                                 <td>
                                                     @php
                                                         $statusMap = [
-                                                            'PR Created' => 'bg-label-info',
+                                                            'PR Created' => 'bg-label-secondary',
                                                             'Waiting Director Approval' => 'bg-label-warning',
                                                             'Approved' => 'bg-label-success',
                                                             'Rejected' => 'bg-label-danger',

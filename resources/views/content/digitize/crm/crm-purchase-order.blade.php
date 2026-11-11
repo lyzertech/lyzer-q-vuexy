@@ -343,7 +343,7 @@
                             <optgroup label="Principal / Supplier">
                                 <option value="Supplier Production">Supplier Production</option>
                                 <option value="Delay Production">Delay Production</option>
-                                <option value="Supplier Inform Goods Ready for Pick Up">Supplier Inform Goods Ready for Pick Up</option>
+                                <option value="Ready in Factory">Ready in Factory</option>
                             </optgroup>
 
                             <!-- Shipment -->
@@ -467,9 +467,10 @@
                                 'DP Received': 'bg-label-warning',
 
                                 // Principal / Supplier
-                                'Supplier Production': 'bg-label-primary',
+                                'Supplier Production': 'bg-label-info',
                                 'Delay Production': 'bg-label-danger',
-                                'Supplier Inform Goods Ready for Pick Up': 'bg-label-primary',
+                                'Ready in Factory': 'bg-label-info',
+                                'Supplier Inform Goods Ready for Pick Up': 'bg-label-info', // Legacy
 
                                 // Shipment
                                 'Pick Up Arrangement': 'bg-label-warning',
@@ -498,7 +499,14 @@
                                 'Complete': 'bg-label-dark',
                             };
                             const cls = map[data] || 'bg-label-secondary';
-                            return `<span class="badge ${cls}">${data}</span>`;
+
+                            // Map legacy status to new display text
+                            let displayStatus = data;
+                            if (displayStatus === 'Supplier Inform Goods Ready for Pick Up') {
+                                displayStatus = 'Ready in Factory';
+                            }
+
+                            return `<span class="badge ${cls}">${displayStatus}</span>`;
                         }
                     },
                     {
@@ -633,9 +641,10 @@
                                     'Approved': 'bg-label-success',
                                     'Rejected': 'bg-label-danger',
                                     'DP Received': 'bg-label-warning',
-                                    'Supplier Production': 'bg-label-primary',
+                                    'Supplier Production': 'bg-label-info',
                                     'Delay Production': 'bg-label-danger',
-                                    'Supplier Inform Goods Ready for Pick Up': 'bg-label-primary',
+                                    'Ready in Factory': 'bg-label-info',
+                                    'Supplier Inform Goods Ready for Pick Up': 'bg-label-info', // Legacy
                                     'Pick Up Arrangement': 'bg-label-warning',
                                     'In Transit': 'bg-label-primary',
                                     'Delay Shipment': 'bg-label-danger',
@@ -654,7 +663,14 @@
                                     'Complete': 'bg-label-dark',
                                 };
                                 const cls = map[data] || 'bg-label-secondary';
-                                return `<span class="badge ${cls}">${data}</span>`;
+
+                                // Map legacy status to new display text
+                                let displayStatus = data;
+                                if (displayStatus === 'Supplier Inform Goods Ready for Pick Up') {
+                                    displayStatus = 'Ready in Factory';
+                                }
+
+                                return `<span class="badge ${cls}">${displayStatus}</span>`;
                             }
                         }
                     ],
@@ -816,9 +832,10 @@
                                     'Approved': 'bg-label-success',
                                     'Rejected': 'bg-label-danger',
                                     'DP Received': 'bg-label-warning',
-                                    'Supplier Production': 'bg-label-primary',
+                                    'Supplier Production': 'bg-label-info',
                                     'Delay Production': 'bg-label-danger',
-                                    'Supplier Inform Goods Ready for Pick Up': 'bg-label-primary',
+                                    'Ready in Factory': 'bg-label-info',
+                                    'Supplier Inform Goods Ready for Pick Up': 'bg-label-info', // Legacy
                                     'Pick Up Arrangement': 'bg-label-warning',
                                     'In Transit': 'bg-label-primary',
                                     'Delay Shipment': 'bg-label-danger',
@@ -837,7 +854,14 @@
                                     'Complete': 'bg-label-dark',
                                 };
                                 const cls = map[data] || 'bg-label-secondary';
-                                return `<span class="badge ${cls}">${data}</span>`;
+
+                                // Map legacy status to new display text
+                                let displayStatus = data;
+                                if (displayStatus === 'Supplier Inform Goods Ready for Pick Up') {
+                                    displayStatus = 'Ready in Factory';
+                                }
+
+                                return `<span class="badge ${cls}">${displayStatus}</span>`;
                             }
                         },
                         {
@@ -1015,9 +1039,10 @@
                                     'Approved': 'bg-label-success',
                                     'Rejected': 'bg-label-danger',
                                     'DP Received': 'bg-label-warning',
-                                    'Supplier Production': 'bg-label-primary',
+                                    'Supplier Production': 'bg-label-info',
                                     'Delay Production': 'bg-label-danger',
-                                    'Supplier Inform Goods Ready for Pick Up': 'bg-label-primary',
+                                    'Ready in Factory': 'bg-label-info',
+                                    'Supplier Inform Goods Ready for Pick Up': 'bg-label-info', // Legacy
                                     'Pick Up Arrangement': 'bg-label-warning',
                                     'In Transit': 'bg-label-primary',
                                     'Delay Shipment': 'bg-label-danger',
@@ -1036,7 +1061,14 @@
                                     'Complete': 'bg-label-dark',
                                 };
                                 const cls = map[data] || 'bg-label-secondary';
-                                return `<span class="badge ${cls}">${data}</span>`;
+
+                                // Map legacy status to new display text
+                                let displayStatus = data;
+                                if (displayStatus === 'Supplier Inform Goods Ready for Pick Up') {
+                                    displayStatus = 'Ready in Factory';
+                                }
+
+                                return `<span class="badge ${cls}">${displayStatus}</span>`;
                             }
                         },
                         {

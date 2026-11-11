@@ -71,9 +71,10 @@
                                                     'DP Received' => 'bg-label-warning',
 
                                                     // Principal / Supplier
-                                                    'Supplier Production' => 'bg-label-primary',
+                                                    'Supplier Production' => 'bg-label-info',
                                                     'Delay Production' => 'bg-label-danger',
-                                                    'Supplier Inform Goods Ready for Pick Up' => 'bg-label-primary',
+                                                    'Ready in Factory' => 'bg-label-info',
+                                                    'Supplier Inform Goods Ready for Pick Up' => 'bg-label-info', // Legacy
 
                                                     // Shipment
                                                     'Pick Up Arrangement' => 'bg-label-warning',
@@ -103,9 +104,15 @@
                                                 ];
                                                 $statusCls =
                                                     $statusMap[$purchase_request->status] ?? 'bg-label-secondary';
+
+                                                // Map legacy status to new display text
+                                                $displayStatus = $purchase_request->status;
+                                                if ($displayStatus === 'Supplier Inform Goods Ready for Pick Up') {
+                                                    $displayStatus = 'Ready in Factory';
+                                                }
                                             @endphp
                                             <span
-                                                class="badge {{ $statusCls }}">{{ $purchase_request->status ?? '-' }}</span>
+                                                class="badge {{ $statusCls }}">{{ $displayStatus ?? '-' }}</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -248,7 +255,7 @@
 
                                                         <option value="Supplier Inform Goods Ready for Pick Up"
                                                             {{ $purchase_request->status == 'Supplier Inform Goods Ready for Pick Up' ? 'selected' : '' }}>
-                                                            Supplier Inform Goods Ready for Pick Up
+                                                            Ready in Factory
                                                         </option>
                                                     </optgroup>
 
@@ -434,9 +441,10 @@
                                                             'Approved' => 'bg-label-success',
                                                             'Rejected' => 'bg-label-danger',
                                                             'DP Received' => 'bg-label-warning',
-                                                            'Supplier Production' => 'bg-label-secondary',
+                                                            'Supplier Production' => 'bg-label-info',
                                                             'Delay Production' => 'bg-label-danger',
-                                                            'Supplier Inform Goods Ready for Pick Up' => 'bg-label-secondary',
+                                                            'Ready in Factory' => 'bg-label-info',
+                                                            'Supplier Inform Goods Ready for Pick Up' => 'bg-label-info', // Legacy
                                                             'Pick Up Arrangement' => 'bg-label-warning',
                                                             'In Transit' => 'bg-label-primary',
                                                             'Delay Shipment' => 'bg-label-danger',
@@ -455,8 +463,14 @@
                                                             'Complete' => 'bg-label-dark',
                                                         ];
                                                         $itemStatusCls = $statusMap[$pr->status] ?? 'bg-label-secondary';
+
+                                                        // Map legacy status to new display text
+                                                        $itemDisplayStatus = $pr->status;
+                                                        if ($itemDisplayStatus === 'Supplier Inform Goods Ready for Pick Up') {
+                                                            $itemDisplayStatus = 'Ready in Factory';
+                                                        }
                                                     @endphp
-                                                    <span class="badge {{ $itemStatusCls }}">{{ $pr->status ?? '-' }}</span>
+                                                    <span class="badge {{ $itemStatusCls }}">{{ $itemDisplayStatus ?? '-' }}</span>
                                                 </td>
                                                 <td>{{ $pr->principal_po_number ?? '-' }}</td>
                                                 <td>

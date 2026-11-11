@@ -45,7 +45,7 @@
         <div class="col">
             <div class="card h-100">
                 <div class="card-body text-center py-3">
-                    <div class="badge rounded bg-label-dark p-2 mb-2">
+                    <div class="badge rounded bg-label-primary p-2 mb-2">
                         <i class="ti ti-file-invoice ti-sm"></i>
                     </div>
                     <h5 class="mb-0">{{ $total_pr }}</h5>
@@ -58,7 +58,7 @@
         <div class="col">
             <div class="card h-100">
                 <div class="card-body text-center py-3">
-                    <div class="badge rounded bg-label-info p-2 mb-2">
+                    <div class="badge rounded bg-label-secondary p-2 mb-2">
                         <i class="ti ti-file-check ti-sm"></i>
                     </div>
                     <h5 class="mb-0">{{ $total_purchasing }}</h5>
@@ -71,7 +71,7 @@
         <div class="col">
             <div class="card h-100">
                 <div class="card-body text-center py-3">
-                    <div class="badge rounded bg-label-secondary p-2 mb-2">
+                    <div class="badge rounded bg-label-info p-2 mb-2">
                         <i class="ti ti-building-factory ti-sm"></i>
                     </div>
                     <h5 class="mb-0">{{ $total_production }}</h5>
@@ -552,9 +552,10 @@
                                 'DP Received': 'bg-label-warning',
 
                                 // Principal / Supplier
-                                'Supplier Production': 'bg-label-primary',
+                                'Supplier Production': 'bg-label-info',
                                 'Delay Production': 'bg-label-danger',
-                                'Supplier Inform Goods Ready for Pick Up': 'bg-label-primary',
+                                'Ready in Factory': 'bg-label-info',
+                                'Supplier Inform Goods Ready for Pick Up': 'bg-label-info', // Legacy
 
                                 // Shipment
                                 'Pick Up Arrangement': 'bg-label-warning',
@@ -583,7 +584,14 @@
                                 'Complete': 'bg-label-dark',
                             };
                             const cls = map[data] || 'bg-label-secondary';
-                            return `<span class="badge ${cls}">${data}</span>`;
+
+                            // Map legacy status to new display text
+                            let displayStatus = data;
+                            if (displayStatus === 'Supplier Inform Goods Ready for Pick Up') {
+                                displayStatus = 'Ready in Factory';
+                            }
+
+                            return `<span class="badge ${cls}">${displayStatus}</span>`;
                         }
                     },
                     {

@@ -21,10 +21,11 @@ class CrmPurchaseRequest extends Controller
             'DP Received'
         ])->count();
 
-        // Production (Supplier Production, Supplier Inform Goods Ready for Pick Up)
+        // Production (Supplier Production, Ready in Factory, Supplier Inform Goods Ready for Pick Up [Legacy])
         $total_production = crm_purchase_request::whereIn('status', [
             'Supplier Production',
-            'Supplier Inform Goods Ready for Pick Up'
+            'Ready in Factory',
+            'Supplier Inform Goods Ready for Pick Up' // Legacy support
         ])->count();
 
         // Delays (Delay Production, Delay Shipment)

@@ -78,7 +78,7 @@
 
                                                     // Shipment
                                                     'Pick Up Arrangement' => 'bg-label-warning',
-                                                    'In Transit' => 'bg-label-primary',
+                                                    'In Transit' => 'bg-label-info',
                                                     'Delay Shipment' => 'bg-label-danger',
                                                     'Shipment Delivery' => 'bg-label-primary',
 
@@ -446,7 +446,7 @@
                                                             'Ready in Factory' => 'bg-label-info',
                                                             'Supplier Inform Goods Ready for Pick Up' => 'bg-label-info', // Legacy
                                                             'Pick Up Arrangement' => 'bg-label-warning',
-                                                            'In Transit' => 'bg-label-primary',
+                                                            'In Transit' => 'bg-label-info',
                                                             'Delay Shipment' => 'bg-label-danger',
                                                             'Shipment Delivery' => 'bg-label-primary',
                                                             'Customs Clearance' => 'bg-label-warning',
@@ -704,15 +704,11 @@
                     // Get values
                     const prNumber = row.querySelector('input[name="pr_number"]').value;
                     const quantity = row.querySelector('input[name="quantity"]').value;
-                    const sellingPriceRaw = row.querySelector('input[name="selling_price"]').value;
                     const minLeadTime = row.querySelector('input[name="min_lead_time"]').value;
                     const maxLeadTime = row.querySelector('input[name="max_lead_time"]').value;
 
-                    // Remove spaces from selling price for sending to server
-                    const sellingPrice = sellingPriceRaw.replace(/\s/g, '');
-
                     // Validate
-                    if (!prNumber || !quantity || !sellingPrice || !minLeadTime || !maxLeadTime) {
+                    if (!prNumber || !quantity || !minLeadTime || !maxLeadTime) {
                         alert('Please fill in all fields');
                         return;
                     }
@@ -727,7 +723,6 @@
                         body: JSON.stringify({
                             pr_number: prNumber,
                             quantity: quantity,
-                            selling_price: sellingPrice,
                             min_lead_time: minLeadTime,
                             max_lead_time: maxLeadTime
                         })
@@ -738,8 +733,13 @@
                             // Update view mode with new values
                             row.querySelector('.pr-number-cell .view-mode').textContent = prNumber;
                             row.querySelector('.quantity-cell .view-mode').textContent = quantity;
-                            row.querySelector('.selling-price-cell .view-mode').textContent = formatNumber(sellingPrice);
                             row.querySelector('.lead-time-cell .view-mode').textContent = minLeadTime + '-' + maxLeadTime + ' weeks';
+
+                            // Keep the hidden inputs in sync with the saved values
+                            row.querySelector('input[name="pr_number"]').value = prNumber;
+                            row.querySelector('input[name="quantity"]').value = quantity;
+                            row.querySelector('input[name="min_lead_time"]').value = minLeadTime;
+                            row.querySelector('input[name="max_lead_time"]').value = maxLeadTime;
 
                             // Toggle back to view mode
                             row.querySelectorAll('.view-mode').forEach(el => el.classList.remove('d-none'));
@@ -762,35 +762,6 @@
                 });
             });
 
-            // Format number with space separator
-            function formatNumber(num) {
-                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-            }
-
-            // Handle selling price input formatting
-            document.querySelectorAll('.selling-price-input').forEach(function(input) {
-                input.addEventListener('input', function() {
-                    let value = this.value;
-                    // Remove all spaces
-                    value = value.replace(/\s/g, '');
-                    // Remove non-numeric characters except decimal point
-                    value = value.replace(/[^\d.]/g, '');
-                    // Ensure only one decimal point
-                    const parts = value.split('.');
-                    if (parts.length > 2) {
-                        value = parts[0] + '.' + parts.slice(1).join('');
-                    }
-                    // Format with space separator
-                    if (value) {
-                        const [intPart, decPart] = value.split('.');
-                        let formatted = formatNumber(intPart);
-                        if (decPart !== undefined) {
-                            formatted += '.' + decPart;
-                        }
-                        this.value = formatted;
-                    }
-                });
-            });
         });
     </script>
 

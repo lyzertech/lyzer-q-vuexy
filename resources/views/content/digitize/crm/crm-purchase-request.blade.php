@@ -559,7 +559,7 @@
 
                                 // Shipment
                                 'Pick Up Arrangement': 'bg-label-warning',
-                                'In Transit': 'bg-label-primary',
+                                'In Transit': 'bg-label-info',
                                 'Delay Shipment': 'bg-label-danger',
                                 'Shipment Delivery': 'bg-label-primary',
 

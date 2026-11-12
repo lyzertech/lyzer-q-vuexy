@@ -21,10 +21,11 @@ class CrmPurchaseRequest extends Controller
             'DP Received'
         ])->count();
 
-        // Production (Supplier Production, Ready in Factory, Supplier Inform Goods Ready for Pick Up [Legacy])
+        // Production (Supplier Production, Ready in Factory, In Transit, Supplier Inform Goods Ready for Pick Up [Legacy])
         $total_production = crm_purchase_request::whereIn('status', [
             'Supplier Production',
             'Ready in Factory',
+            'In Transit',
             'Supplier Inform Goods Ready for Pick Up' // Legacy support
         ])->count();
 
@@ -507,15 +508,11 @@ class CrmPurchaseRequest extends Controller
             $validatedData = $request->validate([
                 'pr_number' => 'required|string|max:255',
                 'quantity' => 'required|integer|min:1',
-                'selling_price' => 'required|string',
                 'min_lead_time' => 'required|integer|min:0',
                 'max_lead_time' => 'required|integer|min:0',
             ]);
 
             $purchase_request = crm_purchase_request::findOrFail($id_purchase_request);
-
-            // Parse selling price (remove spaces if any)
-            $sellingPrice = str_replace(' ', '', $validatedData['selling_price']);
 
             // Format lead time
             $leadTime = $validatedData['min_lead_time'] . '-' . $validatedData['max_lead_time'] . ' weeks';
@@ -523,7 +520,6 @@ class CrmPurchaseRequest extends Controller
             $purchase_request->update([
                 'pr_number' => $validatedData['pr_number'],
                 'quantity' => $validatedData['quantity'],
-                'selling_price' => $sellingPrice,
                 'lead_time' => $leadTime,
             ]);
 

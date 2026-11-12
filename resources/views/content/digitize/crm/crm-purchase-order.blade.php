@@ -349,6 +349,7 @@
                             <!-- Shipment -->
                             <optgroup label="Shipment">
                                 <option value="Delay Shipment">Delay Shipment</option>
+                                <option value="In Transit">In Transit</option>
                             </optgroup>
 
                             <!-- Customs -->
@@ -474,7 +475,7 @@
 
                                 // Shipment
                                 'Pick Up Arrangement': 'bg-label-warning',
-                                'In Transit': 'bg-label-primary',
+                                'In Transit': 'bg-label-info',
                                 'Delay Shipment': 'bg-label-danger',
                                 'Shipment Delivery': 'bg-label-primary',
 
@@ -646,7 +647,7 @@
                                     'Ready in Factory': 'bg-label-info',
                                     'Supplier Inform Goods Ready for Pick Up': 'bg-label-info', // Legacy
                                     'Pick Up Arrangement': 'bg-label-warning',
-                                    'In Transit': 'bg-label-primary',
+                                    'In Transit': 'bg-label-info',
                                     'Delay Shipment': 'bg-label-danger',
                                     'Shipment Delivery': 'bg-label-primary',
                                     'Customs Clearance': 'bg-label-warning',
@@ -837,7 +838,7 @@
                                     'Ready in Factory': 'bg-label-info',
                                     'Supplier Inform Goods Ready for Pick Up': 'bg-label-info', // Legacy
                                     'Pick Up Arrangement': 'bg-label-warning',
-                                    'In Transit': 'bg-label-primary',
+                                    'In Transit': 'bg-label-info',
                                     'Delay Shipment': 'bg-label-danger',
                                     'Shipment Delivery': 'bg-label-primary',
                                     'Customs Clearance': 'bg-label-warning',
@@ -1044,7 +1045,7 @@
                                     'Ready in Factory': 'bg-label-info',
                                     'Supplier Inform Goods Ready for Pick Up': 'bg-label-info', // Legacy
                                     'Pick Up Arrangement': 'bg-label-warning',
-                                    'In Transit': 'bg-label-primary',
+                                    'In Transit': 'bg-label-info',
                                     'Delay Shipment': 'bg-label-danger',
                                     'Shipment Delivery': 'bg-label-primary',
                                     'Customs Clearance': 'bg-label-warning',

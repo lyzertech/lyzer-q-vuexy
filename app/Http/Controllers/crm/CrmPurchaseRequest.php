@@ -101,9 +101,9 @@ class CrmPurchaseRequest extends Controller
             ->addColumn('action', function ($pr) {
                 $showUrl = route('crm-purchase-request-view', $pr->id_purchase_request);
                 $deleteUrl = route('crm-purchase-request-delete', $pr->id_purchase_request);
-                $isElka = auth()->user()->name === 'Elka';
-                $disabled = $isElka ? '' : 'disabled';
-                $opacity = $isElka ? '' : 'opacity-50';
+                $isJulia = auth()->user()->name === 'Julia';
+                $disabled = $isJulia ? '' : 'disabled';
+                $opacity = $isJulia ? '' : 'opacity-50';
 
                 return '
                 <a href="' . $showUrl . '" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit">
@@ -132,7 +132,6 @@ class CrmPurchaseRequest extends Controller
                 'items.*.brand'           => 'required|string|max:255',
                 'items.*.name'            => 'required|string|max:255',
                 'items.*.quantity'        => 'required|integer|min:1',
-                'items.*.selling_price'   => 'required|string',
                 'items.*.min_lead_time'   => 'required|integer|min:0',
                 'items.*.max_lead_time'   => 'required|integer|min:0',
                 'attachment_customer_po'  => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:10240',
@@ -169,8 +168,7 @@ class CrmPurchaseRequest extends Controller
                 // Use PR number from each item
                 $prNumber = $item['pr_number'];
 
-                // Parse formatted selling price (remove spaces)
-                $sellingPrice = str_replace(' ', '', $item['selling_price']);
+                $sellingPrice = '0';
 
                 // Combine min and max lead time
                 $leadTime = $item['min_lead_time'] . '-' . $item['max_lead_time'] . ' weeks';
@@ -422,11 +420,13 @@ class CrmPurchaseRequest extends Controller
 
     public function get_items()
     {
-        $items = crm_purchase_request::select('item_list')
+        $items = crm_purchase_request::select('brand', 'item_list')
             ->distinct()
+            ->whereNotNull('brand')
             ->whereNotNull('item_list')
+            ->orderBy('brand', 'asc')
             ->orderBy('item_list', 'asc')
-            ->pluck('item_list');
+            ->get();
 
         return response()->json($items);
     }
@@ -514,18 +514,29 @@ class CrmPurchaseRequest extends Controller
 
             $purchase_request = crm_purchase_request::findOrFail($id_purchase_request);
 
-            // Format lead time
+            // Format lead time and recalculate expected delivery from DP date or PR creation date
             $leadTime = $validatedData['min_lead_time'] . '-' . $validatedData['max_lead_time'] . ' weeks';
+            $baseDate = $purchase_request->dp_received_date ?: $purchase_request->created_at;
+            $expectedDelivery = '-';
+
+            if ($baseDate) {
+                $baseDate = Carbon::parse($baseDate);
+                $minDate = $baseDate->copy()->addWeeks((int) $validatedData['min_lead_time']);
+                $maxDate = $baseDate->copy()->addWeeks((int) $validatedData['max_lead_time']);
+                $expectedDelivery = $minDate->format('j M') . ' - ' . $maxDate->format('j M Y');
+            }
 
             $purchase_request->update([
                 'pr_number' => $validatedData['pr_number'],
                 'quantity' => $validatedData['quantity'],
                 'lead_time' => $leadTime,
+                'expected_delivery_date' => $expectedDelivery,
             ]);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Item updated successfully!'
+                'message' => 'Item updated successfully!',
+                'expected_delivery_date' => $expectedDelivery
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -538,11 +549,11 @@ class CrmPurchaseRequest extends Controller
     public function destroy($id_purchase_request)
     {
         try {
-            // Check if user is Elka
-            if (auth()->user()->name !== 'Elka') {
+            // Check if user is Julia
+            if (auth()->user()->name !== 'Julia') {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Unauthorized. Only Elka can delete Purchase Requests.'
+                    'message' => 'Unauthorized. Only Julia can delete Purchase Requests.'
                 ], 403);
             }
 

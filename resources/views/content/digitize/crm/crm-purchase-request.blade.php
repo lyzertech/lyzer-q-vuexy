@@ -417,7 +417,6 @@
                                             <th style="width: 15%;">Brand <span class="text-danger">*</span></th>
                                             <th style="width: 15%;">Item Name <span class="text-danger">*</span></th>
                                             <th style="width: 10%;">Quantity <span class="text-danger">*</span></th>
-                                            <th style="width: 15%;">Selling Price <span class="text-danger">*</span></th>
                                             <th style="width: 20%;">Lead Time (weeks) <span class="text-danger">*</span>
                                             </th>
                                             <th style="width: 10%;">Action</th>
@@ -452,9 +451,6 @@
                                             <td><input type="number" class="form-control form-control-sm"
                                                     name="items[0][quantity]" placeholder="Qty" min="1" required>
                                             </td>
-                                            <td><input type="text"
-                                                    class="form-control form-control-sm selling-price-input"
-                                                    name="items[0][selling_price]" placeholder="0" required></td>
                                             <td>
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input type="number" class="form-control form-control-sm"
@@ -708,6 +704,12 @@
             let itemsList = [];
             let brandsList = [];
 
+            function getItemsForBrand(brand) {
+                return itemsList
+                    .filter(item => item.brand === brand)
+                    .map(item => item.item_list);
+            }
+
             function loadItems() {
                 $.ajax({
                     url: '{{ route('crm-purchase-request-items') }}',
@@ -756,26 +758,25 @@
                 });
             }
 
+            function populateItemSelect($select, brand) {
+                $select.find('option:not(:first)').remove();
+                $select.append($('<option>', {
+                    value: '__add_new__',
+                    text: '+ Add New Item'
+                }));
+                getItemsForBrand(brand).forEach(function(item) {
+                    $select.append($('<option>', {
+                        value: item,
+                        text: item
+                    }));
+                });
+            }
+
             // Populate all item selects with options
             function populateItemSelects() {
                 $('.item-name-select').each(function() {
                     const currentValue = $(this).val();
-                    $(this).find('option:not(:first)').remove();
-
-                    // Add "Add New Item" option first
-                    $(this).append($('<option>', {
-                        value: '__add_new__',
-                        text: '+ Add New Item'
-                    }));
-
-                    // Then add existing items
-                    itemsList.forEach(function(item) {
-                        $(this).append($('<option>', {
-                            value: item,
-                            text: item
-                        }));
-                    }.bind(this));
-
+                    populateItemSelect($(this), $(this).closest('tr').find('.brand-select').val());
                     if (currentValue) {
                         $(this).val(currentValue);
                     }
@@ -787,6 +788,10 @@
                 const $row = $(this).closest('tr');
                 const $select = $(this);
                 const $input = $row.find('.brand-input');
+                const $itemSelect = $row.find('.item-name-select');
+
+                populateItemSelect($itemSelect, $select.val());
+                $itemSelect.val('');
 
                 if ($select.val() === '__add_new__') {
                     // Show text input for new brand
@@ -838,8 +843,7 @@
 
             // Add new item row
             $('#add-item-btn').on('click', function() {
-                const itemOptionsHtml = itemsList.map(item => `<option value="${item}">${item}</option>`).join('');
-                const brandOptionsHtml = brandsList.map(brand => `<option value="${brand}">${brand}</option>`).join('');
+                const brandOptionsHtml = `<option value="__add_new__">+ Add New Brand</option>${brandsList.map(brand => `<option value="${brand}">${brand}</option>`).join('')}`;
                 const newRow = `
                     <tr class="item-row">
                         <td>
@@ -848,7 +852,6 @@
                         <td>
                             <select class="form-control form-control-sm brand-select" data-index="${itemRowIndex}" required>
                                 <option value="">-- Select Brand --</option>
-                                <option value="__add_new__">+ Add New Brand</option>
                                 ${brandOptionsHtml}
                             </select>
                             <input type="text" class="form-control form-control-sm brand-input d-none" name="items[${itemRowIndex}][brand]" placeholder="Enter new brand" required disabled>
@@ -857,12 +860,10 @@
                             <select class="form-control form-control-sm item-name-select" data-index="${itemRowIndex}" required>
                                 <option value="">-- Select Item --</option>
                                 <option value="__add_new__">+ Add New Item</option>
-                                ${itemOptionsHtml}
                             </select>
                             <input type="text" class="form-control form-control-sm item-name-input d-none" name="items[${itemRowIndex}][name]" placeholder="Enter new item name" required disabled>
                         </td>
                         <td><input type="number" class="form-control form-control-sm" name="items[${itemRowIndex}][quantity]" placeholder="Qty" min="1" required></td>
-                        <td><input type="text" class="form-control form-control-sm selling-price-input" name="items[${itemRowIndex}][selling_price]" placeholder="0" required></td>
                         <td>
                             <div class="d-flex gap-1 align-items-center">
                                 <input type="number" class="form-control form-control-sm" name="items[${itemRowIndex}][min_lead_time]" placeholder="Min" min="0" required style="width: 45%;">
@@ -1010,10 +1011,11 @@
 
                         // Create a row for each inquiry
                         inquiries.forEach(function(inquiry, index) {
-                            const optionsHtml = itemsList.map(item =>
-                                `<option value="${item}">${item}</option>`).join('');
                             const productType = inquiry.product_type || '';
-                            const isExisting = itemsList.includes(productType);
+                            const inquiryBrand = inquiry.brand || '';
+                            const optionsHtml = getItemsForBrand(inquiryBrand)
+                                .map(item => `<option value="${item}">${item}</option>`).join('');
+                            const isExisting = getItemsForBrand(inquiryBrand).includes(productType);
 
                             // Parse lead time if it exists (e.g., "10-12 weeks" or "2-3 weeks")
                             let minLeadTime = '';
@@ -1049,7 +1051,6 @@
                                         <input type="text" class="form-control form-control-sm item-name-input ${isExisting ? 'd-none' : ''}" name="items[${index}][name]" placeholder="Enter new item name" value="${productType}" ${isExisting ? 'disabled' : 'required'}>
                                     </td>
                                     <td><input type="number" class="form-control form-control-sm" name="items[${index}][quantity]" placeholder="Qty" min="1" required></td>
-                                    <td><input type="text" class="form-control form-control-sm selling-price-input" name="items[${index}][selling_price]" placeholder="0" required></td>
                                     <td>
                                         <div class="d-flex gap-1 align-items-center">
                                             <input type="number" class="form-control form-control-sm" name="items[${index}][min_lead_time]" placeholder="Min" min="0" value="${minLeadTime}" required style="width: 45%;">

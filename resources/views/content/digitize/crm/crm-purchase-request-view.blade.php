@@ -734,6 +734,13 @@
                             row.querySelector('.pr-number-cell .view-mode').textContent = prNumber;
                             row.querySelector('.quantity-cell .view-mode').textContent = quantity;
                             row.querySelector('.lead-time-cell .view-mode').textContent = minLeadTime + '-' + maxLeadTime + ' weeks';
+                            if (data.expected_delivery_date) {
+                                const deliveryCell = row.querySelector('td:nth-child(9)');
+                                const deliveryBadge = deliveryCell.querySelector('.badge');
+                                deliveryBadge.textContent = data.expected_delivery_date;
+                                deliveryBadge.classList.toggle('bg-label-secondary', data.expected_delivery_date === '-');
+                                deliveryBadge.classList.toggle('bg-label-success', data.expected_delivery_date !== '-');
+                            }
 
                             // Keep the hidden inputs in sync with the saved values
                             row.querySelector('input[name="pr_number"]').value = prNumber;
